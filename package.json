@@ -1,0 +1,28 @@
+{
+  "name": "mern-ct550",
+  "version": "1.0.0",
+  "description": "",
+  "main": "backend/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nhuttruong61/MERN-CT550.git"
+  },
+  "author": "Nhut Truong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nhuttruong61/MERN-CT550/issues"
+  },
+  "homepage": "https://github.com/Nhuttruong61/MERN-CT550#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
+    "jsonwebtoken": "^9.0.1",
+    "mongose": "^0.0.2-security",
+    "nodemailer": "^6.9.4",
+    "nodemon": "^3.0.1"
+  }
+}
