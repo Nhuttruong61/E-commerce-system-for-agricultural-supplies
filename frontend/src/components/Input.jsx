@@ -3,7 +3,6 @@ function Input(props) {
   const { name, value, placeholder, type } = props;
   const handleOnchangeInput = (e) => {
     props.onChange(e.target.value);
-    console.log(e.target.value);
   };
   return (
     <div>

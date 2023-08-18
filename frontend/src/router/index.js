@@ -1,3 +1,4 @@
+import Activation from "../pages/Activation";
 import Login from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 
@@ -10,6 +11,11 @@ const routers = [
   {
     path: "/register",
     page: RegisterPage,
+    isShowHeader: false,
+  },
+  {
+    path: "/activation/:accessToken",
+    page: Activation,
     isShowHeader: false,
   }
 ];

@@ -51,12 +51,19 @@ function LoginPage() {
             </div>
             <div className="flex items-center my-2">
               <p className="text-[14px]">Bạn chưa có tài khoản?</p>
-              <Link className="text-orange-400 mx-[2px]" to="/register">Đăng ký</Link>
+              <Link className="text-orange-400 mx-[2px]" to="/register">
+                Đăng ký
+              </Link>
             </div>
           </div>
-          <div className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-700">
-            <button type="submit" ddisabled={!email || !password}>Đăng Nhập</button>
-          </div>
+
+          <button
+            className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-700"
+            type="submit"
+            disabled={!email || !password}
+          >
+            Đăng Nhập
+          </button>
         </form>
       </Login>
     </div>

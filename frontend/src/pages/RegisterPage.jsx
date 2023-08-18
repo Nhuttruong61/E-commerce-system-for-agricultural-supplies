@@ -2,15 +2,20 @@ import { useState } from "react";
 import Login from "../components/FormInput";
 import Input from "../components/Input";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import * as Userservice from "../service/userService";
 function RegisterPage() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [forGotPassword, setForGotPassword] = useState("");
 
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowForGotPassword, setIsShowForGotPassword] = useState(false);
-
+  const handleOnchanName = (value) => {
+    setName(value);
+  };
   const handleOnchanEmail = (value) => {
     setEmail(value);
   };
@@ -20,23 +25,50 @@ function RegisterPage() {
   const handleOnchanForgotPassword = (value) => {
     setForGotPassword(value);
   };
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== forGotPassword) {
-      console.log("Mật khẩu nhập lại không khớp");
+
+    if (!name || !email || !password || !forGotPassword) {
+      toast.warning("Vui lòng điền đầy đủ thông tin");
       return;
     }
-    console.log("Email:", email);
-    console.log("Mật khẩu:", password);
+
+    if (password !== forGotPassword) {
+      toast.error("Mật khẩu không khớp vui lòng nhập lại");
+      return;
+    }
+    const newUser = {
+      name: name,
+      email: email,
+      password: password,
+    };
+    console.log(newUser);
+
+    try {
+      const response = await Userservice.RegisterService(newUser);
+
+      if (response.success === true) {
+        toast.success("Vui lòng kiểm tra email để kích hoạt tài khoản!");
+      }
+    } catch (error) {
+      // toast.warning("Email đã tồn tại");
+    }
   };
   return (
     <div>
       <Login title="Đăng Ký">
         <form onSubmit={handleSubmit}>
           <Input
+            name="Tên đăng nhập"
+            value={name}
+            placeholder="Nhập tên đăng nhập"
+            onChange={handleOnchanName}
+          />
+          <Input
             name="Tên tài khoản hoặc địa chỉ email"
             value={email}
-            placeholder="Email"
+            placeholder="Nhập email"
             onChange={handleOnchanEmail}
           />
 
@@ -50,7 +82,7 @@ function RegisterPage() {
             <Input
               name="Mật khẩu"
               value={password}
-              placeholder="Password"
+              placeholder="Mật khẩu"
               onChange={handleOnchanPassword}
               type={isShowPassword ? "text" : "password"}
             />
@@ -64,9 +96,9 @@ function RegisterPage() {
               <Input
                 name="Nhập lại mật khẩu"
                 value={forGotPassword}
-                placeholder="Password"
+                placeholder="Nhập lại mật khẩu"
                 onChange={handleOnchanForgotPassword}
-                type={isShowForGotPassword? "text" : "password"}
+                type={isShowForGotPassword ? "text" : "password"}
               />
             </div>
           </div>
@@ -78,11 +110,14 @@ function RegisterPage() {
               </Link>
             </div>
           </div>
-          <div className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-700">
-            <button type="submit" ddisabled={!email || !password}>
-              Đăng Ký
-            </button>
-          </div>
+
+          <button
+            className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-700"
+            type="submit"
+            disabled={!email || !password}
+          >
+            Đăng Ký
+          </button>
         </form>
       </Login>
     </div>
