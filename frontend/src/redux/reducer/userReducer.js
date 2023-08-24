@@ -7,7 +7,6 @@ const initialState = {
 
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case Type.LOG_USER:
     case Type.LOG_USER_SUCCESS:
       return {
         ...state,

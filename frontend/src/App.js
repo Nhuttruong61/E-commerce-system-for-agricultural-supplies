@@ -1,5 +1,5 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Đã chỉnh sửa thành BrowserRouter và thêm React
+import React, { Fragment, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import routers from "./router";
@@ -18,7 +18,7 @@ function App() {
           {routers.map((route) => {
             const Page = route.page;
             const isShowHeader = route.isShowHeader;
-            const Layout = route.isShowHeader ? Default : Fragment;
+            const Layout = isShowHeader ? Default : Fragment;
 
             return (
               <Route

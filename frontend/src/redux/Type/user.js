@@ -1,3 +1,3 @@
-export const LOG_USER = "LOGIN_USER";
-export const LOG_USER_SUCCESS = "LOGIN_USER_SUCCESS";
-export const LOG_USER_ERROR = "LOGIN_USER_ERROR";
+export const LOG_USER = "LOG_USER";
+export const LOG_USER_SUCCESS = "LOG_USER_SUCCESS";
+export const LOG_USER_ERROR = "LOG_USER_ERROR";

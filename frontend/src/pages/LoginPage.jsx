@@ -2,21 +2,26 @@ import { useState } from "react";
 import Login from "../components/FormInput";
 import Input from "../components/Input";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Userservice from "../service/userService";
 import { toast } from "react-toastify";
+import Loading from "../components/Loading";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const handleOnchanEmail = (value) => {
     setEmail(value);
   };
   const handleOnchanPassword = (value) => {
     setPassword(value);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const user = {
       email: email,
       password: password,
@@ -25,59 +30,64 @@ function LoginPage() {
       const response = await Userservice.LoginService(user);
       if (response.success === true) {
         toast.success("Đăng nhập thành công");
+        navigate("/");
       }
     } catch (err) {
       toast.error("Tài khoản hoặc mật khẩu không chính xác");
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
     <div>
-      <Login title="Đăng Nhập">
-        <form onSubmit={handleSubmit}>
-          <Input
-            name="Tên tài khoản hoặc địa chỉ email"
-            value={email}
-            placeholder="Email"
-            onChange={handleOnchanEmail}
-          />
-
-          <div className="relative">
-            <span
-              onClick={() => setIsShowPassword(!isShowPassword)}
-              className="z-10 absolute right-2 top-6"
-            >
-              {isShowPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
-            </span>
+      <Loading isLoading={isLoading}>
+        <Login title="Đăng Nhập">
+          <form onSubmit={handleSubmit}>
             <Input
-              name="Mật khẩu của bạn"
-              value={password}
-              placeholder="Password"
-              onChange={handleOnchanPassword}
-              type={isShowPassword ? "text" : "password"}
+              name="Tên tài khoản hoặc địa chỉ email"
+              value={email}
+              placeholder="Email"
+              onChange={handleOnchanEmail}
             />
-          </div>
-          <div className="flex justify-between">
-            <div className="flex items-center my-2">
-              <input type="checkbox" />
-              <p className="text-[14px]"> Ghi nhớ mật khẩu</p>
-            </div>
-            <div className="flex items-center my-2">
-              <p className="text-[14px]">Bạn chưa có tài khoản?</p>
-              <Link className="text-orange-400 mx-[2px]" to="/register">
-                Đăng ký
-              </Link>
-            </div>
-          </div>
 
-          <button
-            className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-700"
-            type="submit"
-            disabled={!email || !password}
-          >
-            Đăng Nhập
-          </button>
-        </form>
-      </Login>
+            <div className="relative">
+              <span
+                onClick={() => setIsShowPassword(!isShowPassword)}
+                className="z-10 absolute right-2 top-6"
+              >
+                {isShowPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
+              </span>
+              <Input
+                name="Mật khẩu của bạn"
+                value={password}
+                placeholder="Password"
+                onChange={handleOnchanPassword}
+                type={isShowPassword ? "text" : "password"}
+              />
+            </div>
+            <div className="flex justify-between">
+              <div className="flex items-center my-2">
+                <input type="checkbox" />
+                <p className="text-[14px]"> Ghi nhớ mật khẩu</p>
+              </div>
+              <div className="flex items-center my-2">
+                <p className="text-[14px]">Bạn chưa có tài khoản?</p>
+                <Link className="text-orange-400 mx-[2px]" to="/register">
+                  Đăng ký
+                </Link>
+              </div>
+            </div>
+
+            <button
+              className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-700"
+              type="submit"
+              disabled={!email || !password}
+            >
+              Đăng Nhập
+            </button>
+          </form>
+        </Login>
+      </Loading>
     </div>
   );
 }
