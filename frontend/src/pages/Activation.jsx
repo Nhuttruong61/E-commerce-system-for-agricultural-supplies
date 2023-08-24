@@ -3,21 +3,21 @@ import { useParams } from "react-router-dom";
 import * as Userservice from "../service/userService";
 function Activation() {
   const { accessToken } = useParams();
-  console.log("accessToken", accessToken);
+  // console.log("accessToken", accessToken);
   const [error, setError] = useState(false);
   useEffect(() => {
     const ActivetionToken = async () => {
       try {
         const res = await Userservice.Activation_token(accessToken);
+        setError(false);
       } catch (e) {
         setError(true);
-        console.log("error", e);
       }
     };
     ActivetionToken();
   }, [accessToken]);
   const mesage = error
-    ? "xác nhận thất bại vui lòng kiểm tra lại!"
+    ? "Xác nhận thất bại vui lòng kiểm tra lại!"
     : "Xác nhận thành công !";
   return (
     <div className="flex justify-center h-screen items-center">

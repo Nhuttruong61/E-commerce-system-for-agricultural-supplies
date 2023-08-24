@@ -3,6 +3,8 @@ import Login from "../components/FormInput";
 import Input from "../components/Input";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import * as Userservice from "../service/userService";
+import { toast } from "react-toastify";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,10 +15,20 @@ function LoginPage() {
   const handleOnchanPassword = (value) => {
     setPassword(value);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Mật khẩu:", password);
+    const user = {
+      email: email,
+      password: password,
+    };
+    try {
+      const response = await Userservice.LoginService(user);
+      if (response.success === true) {
+        toast.success("Đăng nhập thành công");
+      }
+    } catch (err) {
+      toast.error("Tài khoản hoặc mật khẩu không chính xác");
+    }
   };
   return (
     <div>
