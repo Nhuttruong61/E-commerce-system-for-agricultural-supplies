@@ -121,4 +121,60 @@ router.get(
   })
 );
 
+//logout user
+router.get(
+  "/logout",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      res.cookie("token", null, {
+        express: new Date(Date.now()),
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      });
+      res.status(201).json({
+        success: true,
+        message: "Logout successfully",
+      });
+    } catch (err) {
+      return next(new ErrorHandler(err.message, 500));
+    }
+  })
+);
+
+//update user
+router.put(
+  "/update-user",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const { name, email, password, phoneNumber } = req.body;
+      const user = await User.findOne({ email }).select("+ password");
+      if (!user) {
+        return next(
+          new ErrorHandler(" Please provide enough information", 400)
+        );
+      }
+      const isPasswordValid = await user.comparePassword(password);
+      if (!isPasswordValid) {
+        return next(
+          new ErrorHandler("Please provide the correct information", 400)
+        );
+      }
+      user.name = name;
+      user.email = email;
+      user.password = password;
+      user.phoneNumber = phoneNumber;
+
+      await user.save();
+      res.status(201).json({
+        success: true,
+        user,
+      });
+    } catch (err) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
 module.exports = router;
