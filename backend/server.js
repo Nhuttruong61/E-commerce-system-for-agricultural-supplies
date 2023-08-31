@@ -1,6 +1,6 @@
 const app = require("./app");
 const connectMONGO = require("./db/Database");
-
+const cloudinary = require("cloudinary");
 //handling uncaught exceptions
 
 process.on("uncaughtException", (err) => {
@@ -16,7 +16,15 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
   });
 }
 // connect mongo
-connectMONGO()
+connectMONGO();
+
+//connect cloudinary
+cloudinary.config({
+  cloud_name: "dnicqkz3v",
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 // create server
 
 const server = app.listen(process.env.PORT, () => {

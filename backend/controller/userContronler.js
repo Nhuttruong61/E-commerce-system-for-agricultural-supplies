@@ -1,12 +1,13 @@
 const express = require("express");
 const User = require("../model/user");
 const jwt = require("jsonwebtoken");
+const cloudinary = require("cloudinary");
 const router = express.Router();
 const sendMail = require("../utils/sendMail");
 const ErrorHandler = require("../utils/ErrorHandler");
 const sendToken = require("../utils/jwtToken");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-const { isAuthenticated } = require("../middleware/auth");
+const { isAuthenticated, isAdmin } = require("../middleware/auth");
 router.post("/create-user", async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
@@ -103,7 +104,7 @@ router.post(
 
 //load user
 router.get(
-  "/getUser",
+  "/get-user",
   isAuthenticated,
   catchAsyncErrors(async (req, res, next) => {
     try {
@@ -148,23 +149,23 @@ router.put(
   isAuthenticated,
   catchAsyncErrors(async (req, res, next) => {
     try {
-      const { name, email, password, phoneNumber } = req.body;
+      const { name, email, phoneNumber, avatar } = req.body;
       const user = await User.findOne({ email }).select("+ password");
       if (!user) {
         return next(
           new ErrorHandler(" Please provide enough information", 400)
         );
       }
-      const isPasswordValid = await user.comparePassword(password);
-      if (!isPasswordValid) {
-        return next(
-          new ErrorHandler("Please provide the correct information", 400)
-        );
-      }
+      const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+        folder: "avatars",
+      });
       user.name = name;
       user.email = email;
-      user.password = password;
       user.phoneNumber = phoneNumber;
+      user.avatar = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      };
 
       await user.save();
       res.status(201).json({
@@ -172,7 +173,165 @@ router.put(
         user,
       });
     } catch (err) {
-      return next(new ErrorHandler(error.message, 500));
+      return next(new ErrorHandler(err.message, 500));
+    }
+  })
+);
+//change password
+router.put(
+  "/change-password",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const { password, newPassword } = req.body;
+      const user = await User.findById(req.user.id).select("+password");
+      if (!user) {
+        return next(new ErrorHandler("User not found", 404));
+      }
+      const isPasswordValid = await user.comparePassword(password);
+      if (!isPasswordValid) {
+        return next(new ErrorHandler("Current password is incorrect", 400));
+      }
+
+      user.password = newPassword;
+
+      await user.save();
+
+      res.status(200).json({
+        success: true,
+        message: "Password changed successfully",
+      });
+    } catch (e) {
+      return next(new ErrorHandler(e.message, 500));
+    }
+  })
+);
+// get all users
+router.get(
+  "/get-all-users",
+  isAuthenticated,
+  isAdmin("admin"),
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const users = await User.find();
+      res.status(200).json({
+        success: true,
+        users: users,
+      });
+    } catch (e) {
+      return next(new ErrorHandler(e.message, 500));
+    }
+  })
+);
+// get user by id
+router.get(
+  "/get-user/:id",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const user = await User.findById(req.params.id);
+      if (!user) {
+        return next(new ErrorHandler("User not found", 404));
+      }
+      res.status(200).json({
+        success: true,
+        user: user,
+      });
+    } catch (e) {
+      return next(new ErrorHandler(e.message, 500));
+    }
+  })
+);
+//delete user by id
+router.delete(
+  "/delete/:id",
+  isAuthenticated,
+  isAdmin("admin"),
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const user = await User.findById(req.params.id);
+      if (!user) {
+        return next(new ErrorHandler("User not found", 404));
+      }
+
+      if (user.avatar && user.avatar.public_id) {
+        await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+      }
+
+      await User.findByIdAndDelete(req.params.id);
+      res.status(201).json({
+        success: true,
+        message: "User deleted successfully!",
+      });
+    } catch (e) {
+      return next(new ErrorHandler(e.message, 500));
+    }
+  })
+);
+// update address
+router.put(
+  "/update-address",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const userId = req.user.id;
+      const user = await User.findById(userId);
+
+      if (!user) {
+        return next(new ErrorHandler("User not found", 404));
+      }
+      const typeAddress = user.addresses.find(
+        (address) => address.addressType === req.body.addressType
+      );
+
+      if (typeAddress) {
+        return next(
+          new ErrorHandler(`${req.body.addressType} address already exists`)
+        );
+      }
+      const existsAddress = user.addresses.find(
+        (addr) => addr._id === req.body._id
+      );
+
+      if (existsAddress) {
+        Object.assign(existsAddress, req.body);
+      } else {
+        user.addresses.push(req.body);
+      }
+
+      await user.save();
+
+      res.status(200).json({
+        success: true,
+        user,
+      });
+    } catch (e) {
+      return next(new ErrorHandler(e.message, 500));
+    }
+  })
+);
+// delete address
+router.delete(
+  "/delete-address/:id",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const userId = req.user._id;
+      const addressId = req.params.id;
+
+      const user = await User.findByIdAndUpdate(
+        userId,
+        { $pull: { addresses: { _id: addressId } } },
+        { new: true }
+      );
+
+      if (!user) {
+        return next(new ErrorHandler("User not found", 404));
+      }
+
+      res.status(200).json({ success: true, user });
+    } catch (e) {
+      return next(new ErrorHandler(e.message, 500));
     }
   })
 );
