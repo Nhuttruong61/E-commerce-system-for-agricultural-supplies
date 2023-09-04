@@ -25,7 +25,9 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 
 // import routes
 const userRouter = require("./controller/userContronler");
+const productRouter = require("./controller/productControler")
 
 app.use("/api/v2/user", userRouter);
+app.use("/api/v2/product", productRouter);
 app.use(ErrorHandler);
 module.exports = app;
