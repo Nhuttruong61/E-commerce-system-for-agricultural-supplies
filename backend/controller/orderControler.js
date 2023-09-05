@@ -139,6 +139,28 @@ router.put(
 );
 
 //delete order cancel and Delivered
-
+router.delete(
+  "/delete-order/:id",
+  isAuthenticated,
+  isAdmin("admin"),
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const order = await Order.findById(req.params.id);
+      if (!order) {
+        return next(new ErrorHandler("Order not found with this id", 400));
+      }
+      if (order.status === "Transferred") {
+        return next(new ErrorHandler("This order cannot be deleted"));
+      }
+      await Order.findByIdAndDelete(req.params.id);
+      res.status(201).json({
+        success: true,
+        message: "Order deleted successfully!",
+      });
+    } catch (err) {
+      return next(new ErrorHandler(err.message, 400));
+    }
+  })
+);
 
 module.exports = router;
