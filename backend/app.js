@@ -27,9 +27,11 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 const userRouter = require("./controller/userContronler");
 const productRouter = require("./controller/productControler");
 const orderRouter = require("./controller/orderControler");
+const eventRouter = require("./controller/eventControler");
 
 app.use("/api/v2/user", userRouter);
 app.use("/api/v2/product", productRouter);
 app.use("/api/v2/order", orderRouter);
+app.use("/api/v2/event", eventRouter);
 app.use(ErrorHandler);
 module.exports = app;
