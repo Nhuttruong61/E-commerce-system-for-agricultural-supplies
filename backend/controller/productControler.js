@@ -5,6 +5,7 @@ const router = express.Router();
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
+const Order = require("../model/order");
 
 //create product
 router.post(
@@ -176,17 +177,52 @@ router.delete(
 );
 
 // review for a product
-
 router.put(
   "/create-review",
   isAuthenticated,
   catchAsyncErrors(async (req, res, next) => {
     try {
-      const {  } = req.body
+      const { user, comment, rating, ratings } = req.body;
+      const orderId = await req.body._id;
+      const productIds = req.body.cart.map((cartItem) => cartItem._id);
+      const order = await Order.findById(orderId);
+      if (!order) {
+        return next(new ErrorHandler("Order not found with this id", 400));
+      }
+      for (const ProductId of productIds) {
+        const product = await Product.findById(ProductId);
+        if (!product) {
+          return next(new ErrorHandler("Product not found with this id", 400));
+        }
+        const isReview = product.reviews.find((review) => review.user === user);
+        if (isReview) {
+          isReview.rating = rating;
+          isReview.comment = comment;
+          await isReview.save();
+        } else {
+          const newReview = {
+            user,
+            rating,
+            comment,
+          };
+          product.reviews.push(newReview);
+        }
+        let totalRating = 0;
+        product.reviews.forEach((review) => {
+          totalRating += review.rating;
+        });
+        product.ratings = totalRating / product.reviews.length;
+        await product.save();
+      }
+      res.status(200).json({
+        success: true,
+        message: "Review created successfully!",
+      });
     } catch (err) {
       return next(new ErrorHandler(err.message, 500));
     }
   })
 );
+
 
 module.exports = router;
