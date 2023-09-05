@@ -24,10 +24,10 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 }
 
 // import routes
-const userRouter = require("./controller/userContronler");
-const productRouter = require("./controller/productControler");
-const orderRouter = require("./controller/orderControler");
-const eventRouter = require("./controller/eventControler");
+const userRouter = require("./router/user");
+const productRouter = require("./router/product");
+const orderRouter = require("./router/order");
+const eventRouter = require("./router/event");
 
 app.use("/api/v2/user", userRouter);
 app.use("/api/v2/product", productRouter);
