@@ -1,13 +1,10 @@
-const express = require("express");
 const User = require("../model/user");
 const jwt = require("jsonwebtoken");
 const cloudinary = require("cloudinary");
-const router = express.Router();
 const sendMail = require("../utils/sendMail");
 const ErrorHandler = require("../utils/ErrorHandler");
 const sendToken = require("../utils/jwtToken");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-const { isAuthenticated, isAdmin } = require("../middleware/auth");
 const createUser = catchAsyncErrors(async (req, res, next) => {
   try {
     const { name, email, password } = req.body;

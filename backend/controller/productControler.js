@@ -1,8 +1,5 @@
-const express = require("express");
 const Product = require("../model/product");
 const cloudinary = require("cloudinary");
-const router = express.Router();
-const { isAuthenticated, isAdmin } = require("../middleware/auth");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 const Order = require("../model/order");

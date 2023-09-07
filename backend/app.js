@@ -10,12 +10,11 @@ const corsOptions = {
   preflightContinue: false,
   optionsSuccessStatus: 204,
 };
+app.use(cors(corsOptions));
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors(corsOptions));
-app.use("/", express.static("uploads"));
-app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
-
 //config
 if (process.env.NODE_ENV !== "PRODUCTION") {
   require("dotenv").config({
@@ -34,6 +33,6 @@ app.use("/api/v2/user", userRouter);
 app.use("/api/v2/product", productRouter);
 app.use("/api/v2/order", orderRouter);
 app.use("/api/v2/event", eventRouter);
-app.use("/api/v2/question", questionRouter)
+app.use("/api/v2/question", questionRouter);
 app.use(ErrorHandler);
 module.exports = app;
