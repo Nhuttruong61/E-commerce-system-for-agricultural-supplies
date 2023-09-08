@@ -218,11 +218,9 @@ const deleteUser = catchAsyncErrors(async (req, res, next) => {
     if (!user) {
       return next(new ErrorHandler("User not found", 404));
     }
-
-    if (user.avatar && user.avatar.public_id) {
+    if (user.avatar.public_id) {
       await cloudinary.v2.uploader.destroy(user.avatar.public_id);
     }
-
     await User.findByIdAndDelete(req.params.id);
     res.status(201).json({
       success: true,
@@ -236,33 +234,28 @@ const deleteUser = catchAsyncErrors(async (req, res, next) => {
 // update address
 const updateAddress = catchAsyncErrors(async (req, res, next) => {
   try {
+    const { country, city, address, addressType } = req.body;
     const userId = req.user.id;
     const user = await User.findById(userId);
 
     if (!user) {
       return next(new ErrorHandler("User not found", 404));
     }
-    const typeAddress = user.addresses.find(
-      (address) => address.addressType === req.body.addressType
-    );
-
-    if (typeAddress) {
-      return next(
-        new ErrorHandler(`${req.body.addressType} address already exists`)
-      );
-    }
-    const existsAddress = user.addresses.find(
-      (addr) => addr._id === req.body._id
-    );
-
-    if (existsAddress) {
-      Object.assign(existsAddress, req.body);
+    if (user.addresses.length === 0) {
+      user.addresses.push({
+        country: country,
+        city: city,
+        address: address,
+        addressType: addressType,
+      });
     } else {
-      user.addresses.push(req.body);
+      const firstAddress = user.addresses[0];
+      firstAddress.country = country;
+      firstAddress.city = city;
+      firstAddress.address = address;
+      firstAddress.addressType = addressType;
     }
-
     await user.save();
-
     res.status(200).json({
       success: true,
       user,

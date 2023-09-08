@@ -82,8 +82,8 @@ const deleteEvent = catchAsyncErrors(async (req, res, next) => {
     if (!event) {
       return next(new ErrorHandler("Event does not exist", 404));
     }
-    if (event.images.public_id) {
-      await cloudinary.v2.uploader.destroy(event.images.public_id);
+    if (event.images[0].public_id) {
+      await cloudinary.v2.uploader.destroy(event.images[0].public_id);
       console.log(event.images.public_id);
     }
     await Event.findByIdAndDelete(event);

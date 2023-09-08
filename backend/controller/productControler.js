@@ -138,7 +138,8 @@ const deleteProduct = catchAsyncErrors(async (req, res, next) => {
     if (!product) {
       return next(new ErrorHandler("Product does not exist", 404));
     }
-    if (product.images && product.images.public_id) {
+    console.log("product", product);
+    if (product.images.public_id) {
       await cloudinary.v2.uploader.destroy(product.images.public_id);
     }
     await Product.findByIdAndDelete(req.params.id);
@@ -201,5 +202,5 @@ module.exports = {
   getaProduct,
   updateProduct,
   deleteProduct,
-  reviewProduct
+  reviewProduct,
 };
