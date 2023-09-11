@@ -53,6 +53,7 @@ function RegisterPage() {
 
       if (response.success === true) {
         toast.success("Vui lòng kiểm tra email để kích hoạt tài khoản!");
+        navigate("/login");
       }
     } catch (error) {
       toast.warning("Email đã tồn tại");
@@ -66,7 +67,7 @@ function RegisterPage() {
         <Login title="Đăng Ký">
           <form onSubmit={handleSubmit}>
             <Input
-              name="Tên đăng nhập"
+              name="Tên người dùng"
               value={name}
               placeholder="Nhập tên đăng nhập"
               onChange={handleOnchanName}

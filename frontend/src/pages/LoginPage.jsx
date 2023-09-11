@@ -31,6 +31,7 @@ function LoginPage() {
       if (response.success === true) {
         toast.success("Đăng nhập thành công");
         navigate("/");
+        window.location.reload(true);
       }
     } catch (err) {
       toast.error("Tài khoản hoặc mật khẩu không chính xác");
