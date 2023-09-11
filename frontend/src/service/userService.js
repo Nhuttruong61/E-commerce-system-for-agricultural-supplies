@@ -14,6 +14,25 @@ export const LoginService = async (user) => {
   return res;
 };
 export const getUser = async () => {
-  const res = await axios.get("user/getUser", { withCredentials: true });
+  const res = await axios.get("/user/get-user", { withCredentials: true });
+  return res;
+};
+
+export const Logout = async () => {
+  const res = await axios.get("/user/logout", { withCredentials: true });
+  return res;
+};
+
+export const updateAUser = async (user) => {
+  const res = await axios.put("/user/update-user", user, {
+    withCredentials: true,
+  });
+  return res;
+};
+
+export const updateAddress = async (address) => {
+  const res = await axios.put("/user/update-address", address, {
+    withCredentials: true,
+  });
   return res;
 };

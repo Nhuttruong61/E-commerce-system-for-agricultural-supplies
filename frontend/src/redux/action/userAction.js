@@ -17,3 +17,36 @@ export const getUser = () => async (dispatch) => {
     });
   }
 };
+export const updateUser = (data) => async (dispatch) => {
+  try {
+    dispatch({
+      type: Type.UPDATE_USER,
+    });
+    dispatch({
+      type: Type.UPDATE_USER_SUCCESS,
+      data: data,
+    });
+  } catch (e) {
+    dispatch({
+      type: Type.UPDATE_USER_ERROR,
+      data: null,
+    });
+  }
+};
+
+export const LogoutUser = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: Type.LOGOUT_USER,
+    });
+    const res = await UserService.Logout();
+    dispatch({
+      type: Type.LOG_OUT_USER_SUCCESS,
+      data: null,
+    });
+  } catch (err) {
+    dispatch({
+      type: Type.LOG_OUT_USER_ERROR,
+    });
+  }
+};

@@ -1,8 +1,11 @@
 import React from 'react'
+import SliderComponet from '../components/Slider'
 
 function HomePage() {
   return (
-    <div>HomePage</div>
+    <div className="bg-[#3e3e3f]">
+    <SliderComponet/>
+    </div>
   )
 }
 
