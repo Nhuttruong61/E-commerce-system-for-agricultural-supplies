@@ -3,6 +3,7 @@ const cloudinary = require("cloudinary");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 const Order = require("../model/order");
+const Category = require("../model/categories");
 
 //create product
 const createProduct = catchAsyncErrors(async (req, res, next) => {
@@ -31,13 +32,17 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
         new ErrorHandler("Please provide complete product informations", 400)
       );
     }
+    const categoryid = await Category.findById(category);
+    if (!categoryid) {
+      return next(new ErrorHandler("Category not found", 404));
+    }
     const myCloud = await cloudinary.v2.uploader.upload(images, {
       folder: "imgProducts",
     });
     const product = await Product.create({
       name,
       description,
-      category,
+      category: categoryid,
       tags,
       originPrice,
       distCount,

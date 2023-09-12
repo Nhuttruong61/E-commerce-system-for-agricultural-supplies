@@ -24,6 +24,7 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 
 // import routes
 const userRouter = require("./router/user");
+const categoriesRouter = require("./router/categories");
 const productRouter = require("./router/product");
 const orderRouter = require("./router/order");
 const eventRouter = require("./router/event");
@@ -31,6 +32,7 @@ const questionRouter = require("./router/question");
 const sliderRouter = require("./router/slider");
 
 app.use("/api/v2/user", userRouter);
+app.use("/api/v2/category", categoriesRouter);
 app.use("/api/v2/product", productRouter);
 app.use("/api/v2/order", orderRouter);
 app.use("/api/v2/event", eventRouter);
