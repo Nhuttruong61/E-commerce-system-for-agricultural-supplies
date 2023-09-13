@@ -195,10 +195,7 @@ function Header() {
       </div>
       <div className="bg-white relative w-full mt-0 shadow-md h-[60px] flex  items-center ">
         <div className="  h-full  flex items-center pl-o sm:pl-[10%] w-[10%] sm:w-[30%] ">
-          <DropdownComponet
-            Text="Doanh mục"
-            items={categoriesData}
-          ></DropdownComponet>
+          <DropdownComponet Text="Doanh mục"></DropdownComponet>
         </div>
         <Navbar />
       </div>
