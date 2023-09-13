@@ -9,6 +9,7 @@ import BestSelling from "../pages/BestSelling";
 import Product from "../pages/Product";
 import Event from "../pages/Event";
 import FAQ from "../pages/FAQ";
+import ProductDetailPage from "../pages/ProductDetailPage";
 
 const routers = [
   {
@@ -59,6 +60,11 @@ const routers = [
   {
     path: "/address",
     page: Address,
+    isShowHeader: true,
+  },
+  {
+    path: "/product/details/:id",
+    page: ProductDetailPage,
     isShowHeader: true,
   },
   {
