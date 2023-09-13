@@ -114,6 +114,9 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
     if (!productId) {
       return next(new ErrorHandler("Product does not exists", 400));
     }
+    if (product?.images[0]?.public_id) {
+      await cloudinary.v2.uploader.destroy(product.images[0].public_id);
+    }
     if (newImage) {
       const myCloud = await cloudinary.v2.uploader.upload(newImage, {
         folder: "imgProducts",
@@ -122,10 +125,8 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
         public_id: myCloud.public_id,
         url: myCloud.secure_url,
       };
-      if (product.images.public_id) {
-        await cloudinary.v2.uploader.destroy(product.images.public_id);
-      }
     }
+
     product.name = name;
     product.description = description;
     product.category = category;
@@ -151,9 +152,9 @@ const deleteProduct = catchAsyncErrors(async (req, res, next) => {
     if (!product) {
       return next(new ErrorHandler("Product does not exist", 404));
     }
-    console.log("product", product);
-    if (product.images.public_id) {
-      await cloudinary.v2.uploader.destroy(product.images.public_id);
+    console.log("product", product.images[0].public_id);
+    if (product.images[0].public_id) {
+      await cloudinary.v2.uploader.destroy(product.images[0].public_id);
     }
     await Product.findByIdAndDelete(req.params.id);
     res.status(201).json({
