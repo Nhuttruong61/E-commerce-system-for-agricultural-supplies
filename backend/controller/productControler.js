@@ -42,7 +42,7 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
     const product = await Product.create({
       name,
       description,
-      category: categoryid,
+      category: categoryid.name,
       tags,
       originPrice,
       distCount,
@@ -65,10 +65,18 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
 //get all products
 const getAllProducts = catchAsyncErrors(async (req, res, next) => {
   try {
-    const product = await Product.find();
+    const { category } = req.query;
+    let products;
+    if (category) {
+      products = await Product.find({
+        "category.name": { $regex: new RegExp(category, "i") },
+      });
+    } else {
+      products = await Product.find();
+    }
     res.status(200).json({
       success: true,
-      product: product,
+      product: products,
     });
   } catch (err) {
     return next(new ErrorHandler(err.message, 400));
