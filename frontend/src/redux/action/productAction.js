@@ -7,7 +7,7 @@ export const getAllProductRd = (data) => async (dispatch) => {
     });
     dispatch({
       type: Type.GET_PRODUCT_SUCCESS,
-      data: data,
+      data: data.product,
     });
   } catch (e) {
     dispatch({

@@ -14,6 +14,6 @@ export const ProductRenderer = (state = initialState, action) => {
     case Type.GET_PRODUCT_ERROR:
       return null;
     default:
-      return null;
+      return state;
   }
 };
