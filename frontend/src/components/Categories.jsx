@@ -6,10 +6,12 @@ function Categories() {
   const categories = useSelector((state) => state?.category.data);
   const navigate = useNavigate();
   return (
-    <div className=" text-white  p-6 rounded-lg mb-12  md:px-[10%]">
-      <p className=" flex justify-center my-8 font-[700] md:text-[32px] text-[20px]">
-        Loại sản phẩm
-      </p>
+    <div className="  p-6 rounded-lg mb-12  md:px-[10%]">
+      <div className=" flex justify-center text-center items-center">
+        <p className="  my-8 font-[700] md:text-[32px] text-[20px] border px-6 bg-[#4b8600] text-white rounded-[20px]">
+          Loại sản phẩm
+        </p>
+      </div>
       <div className="grid grid-cols-1 gap-[5px] md:grid-cols-2 md:gap-[10px] lg:grid-cols-4 lg:gap-[20px] xl:grid-cols-5 xl:gap-[30px] ">
         {categories &&
           categories?.categories.map((i) => {
@@ -19,7 +21,7 @@ function Categories() {
 
             return (
               <div
-                className="w-full h-auto flex items-center justify-center cursor-pointer overflow-hidden bg-[#323232] p-2 rounded-[4px] shadow hover:shadow-[#5b5959]"
+                className="w-full h-auto flex items-center justify-center cursor-pointer overflow-hidden  p-2 rounded-[4px] shadow hover:shadow-[#5b5959]"
                 key={i._id}
                 onClick={() => handleSubmit(i)}
               >

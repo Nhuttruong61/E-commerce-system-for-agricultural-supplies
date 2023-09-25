@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import routers from "./router";
 import Default from "./components/Default";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./redux/action/userAction";
 function App() {
   const dispatch = useDispatch();
@@ -19,8 +19,7 @@ function App() {
             const Page = route.page;
             const isShowHeader = route.isShowHeader;
             const Layout = isShowHeader ? Default : Fragment;
-
-            return (
+            return  (
               <Route
                 key={route.path}
                 path={route.path}
@@ -30,10 +29,11 @@ function App() {
                   </Layout>
                 }
               />
-            );
+            ) ;
           })}
         </Routes>
       </Router>
+      
       <ToastContainer
         position="top-right"
         autoClose={5000}

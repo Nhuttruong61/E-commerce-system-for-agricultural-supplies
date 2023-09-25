@@ -6,24 +6,27 @@ import {
   CloseOutlined,
   DropboxOutlined,
   HomeOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LogoutUser } from "../redux/action/userAction";
-import { categoriesData, productData } from "../static/data";
 import DropdownComponet from "./Dropdown";
 import Navbar from "./Navbar";
-
+import { useQueryClient } from "@tanstack/react-query";
+import logo from "../assets/logo/logo.png";
 function Header() {
+  const queryClient = useQueryClient();
+  const user = useSelector((state) => state.user);
+  const products = queryClient.getQueryData(["products"]);
   const [show, setShow] = useState(true);
+  const [productData, setProductData] = useState([]);
   const [search, setSearch] = useState("");
+  const [active, setActive] = useState(false);
   const [searchData, setSearchData] = useState(null);
-  // const [productData, setProductData] = useState([]);
   const [ishownInUser, setIsShownInUser] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     const handleResize = () => {
@@ -38,15 +41,27 @@ function Header() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  useEffect(() => {
+    if (products?.success === true) {
+      let res = products.product;
+      setProductData(res);
+    }
+  }, [products]);
   const handleSearch = (e) => {
     const searchItem = e.target.value;
     setSearch(searchItem);
-    const filterSearch = productData.filter((product) =>
-      product.name.toLowerCase().includes(searchItem.toLowerCase())
-    );
-    setSearchData(filterSearch);
+    if (productData && productData.length > 0) {
+      const filterSearch =
+        productData &&
+        productData.filter((product) => {
+          return product.name.toLowerCase().includes(searchItem.toLowerCase());
+        });
+      setSearchData(filterSearch);
+    }
   };
-
+  const handleSubmitSearch = () => {
+    navigate(`/products?name=${search}`);
+  };
   const handleLogout = () => {
     dispatch(LogoutUser());
     setIsShownInUser(false);
@@ -57,23 +72,36 @@ function Header() {
     navigate("/profile");
   };
   const handleOnchangeAddress = () => {
-    navigate("/address");
     setIsShownInUser(false);
+    navigate("/address");
   };
+  const handleNavigateAdmin = () => {
+    setIsShownInUser(false);
+    navigate("/system/admin");
+  };
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 70) {
+      setActive(true);
+    } else {
+      setActive(false);
+    }
+  });
   return (
     <div>
-      <div className="bg-[#101010] flex justify-between h-[74px] items-center px-8 w-full">
-        <Link
-          to="/"
-          className="text-xs md:text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-red-700 w-[25%]"
-        >
-          Spot Technology
+      <div className=" flex justify-between h-[74px] items-center md:px-8 w-full px-1">
+        <Link to="/" className=" w-[25%] flex items-center">
+          <img src={logo} alt="" className="md:w-[16%] w-[50%]" />
+          {show && (
+            <p className="text-xs md:text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#4b8600] to-[#e49200]">
+              Nông Nghiệp Xanh
+            </p>
+          )}
         </Link>
         <div
           className={
             show
-              ? "h-[30px] md:h-[42px] bg-[white] items-center flex  w-[50%]   rounded-[8px]"
-              : "h-[30px] md:h-[42px] bg-[white] items-center flex  w-[50%]   rounded-[8px]"
+              ? "h-[30px] md:h-[42px] border bg-[white] items-center flex  w-[50%]   rounded-[8px]"
+              : "h-[30px] md:h-[42px] border bg-[white] items-center flex  w-[50%]   rounded-[8px]"
           }
         >
           <input
@@ -82,16 +110,18 @@ function Header() {
             value={search}
             onChange={handleSearch}
           />
-          {searchData && searchData?.length !== 0 && search !== "" ? (
+          {searchData && searchData.length !== 0 && search !== "" ? (
             <div className="absolute min-h-[30vh] w-[48%] top-[10%] mt-2 bg-white shadow-md border rounded overflow-y-auto z-20 text-[80%] md:text-[100%]">
               {searchData.map((item, index) => {
-                const res = item.name;
-                const productName = res.replace(/\s+/g, "_");
                 return (
-                  <Link to={`/product/${productName}`} key={index}>
+                  <Link
+                    to={`/product/details/${item._id}`}
+                    key={index}
+                    onClick={() => setSearch("")}
+                  >
                     <div className="w-full flex items-start py-3">
                       <img
-                        src={item.image_Url[0].url}
+                        src={item.images[0].url}
                         alt=""
                         className="w-[40px] h-[40px] mr-[10px]"
                       />
@@ -103,20 +133,23 @@ function Header() {
             </div>
           ) : null}
 
-          <div className="h-full items-center flex justify-center w-[10%]  bg-[#5e5e60] hover:bg-[#525254] rounded-r-[8px] cursor-pointer">
-            <SearchOutlined className=" text-white" />
+          <div className="h-full items-center flex justify-center w-[10%]  bg-[#73c509] hover:bg-[#4d8208] rounded-r-[8px] cursor-pointer">
+            <SearchOutlined
+              className=" text-white text-[12px] md:text-[24px]"
+              onClick={handleSubmitSearch}
+            />
           </div>
         </div>
         <div
           className={
             show
-              ? "text-white flex justify-between items-center w-[25%]"
-              : "text-white flex justify-between items-center w-[40%]"
+              ? " flex justify-between items-center w-[25%]"
+              : " flex justify-between items-center w-[40%]"
           }
         >
           <div className="flex justify-center items-center px-4">
             {show ? (
-              <div className="border border-[white] rounded-full mx-2 ">
+              <div className="border border-[#73c509] rounded-full mx-2 ">
                 {user?.account?.avatar ? (
                   <img
                     className="w-[40px] h-[40px] object-cover rounded-full"
@@ -124,11 +157,11 @@ function Header() {
                     alt=""
                   />
                 ) : (
-                  <UserOutlined className="text-[24px] p-2" />
+                  <UserOutlined className="text-[24px] p-2 text-[#73C509]" />
                 )}
               </div>
             ) : null}
-            <div className="relative z-10 text-[80%] md:text-[100%]">
+            <div className="relative z-10 text-[50%] md:text-[100%] font-[600]">
               {user?.isAuthenticated ? (
                 <div
                   className="cursor-pointer "
@@ -137,9 +170,9 @@ function Header() {
                   <p>{user.account.name}</p>
                 </div>
               ) : (
-                <div className="text-[0.8rem]">
+                <div className="md:text-[0.8rem]  ">
                   <p
-                    className="hover:text-red-500 cursor-pointer"
+                    className="hover:text-red-500 cursor-pointer font-[600]"
                     onClick={() => {
                       navigate("/login");
                     }}
@@ -147,7 +180,7 @@ function Header() {
                     Đăng nhập
                   </p>
                   <p
-                    className="hover:text-red-500 cursor-pointer"
+                    className="hover:text-red-500 cursor-pointer font-[600]"
                     onClick={() => {
                       navigate("/register");
                     }}
@@ -157,25 +190,34 @@ function Header() {
                 </div>
               )}
               {ishownInUser && (
-                <div className="absolute h-auto w-[120px] bg-[#111111] rounded-[4px]">
+                <div className="absolute h-auto w-[120px] bg-white rounded-[4px]">
                   <div
-                    className="hover:bg-gray-700 cursor-pointer p-2 flex items-center"
+                    className="hover:bg-[#4B8600] cursor-pointer p-2 flex items-center"
                     onClick={handleNavigateProfile}
                   >
                     <UserOutlined />
                     <p className="ml-1">Tài khoản</p>
                   </div>
-                  <div className="hover:bg-gray-700 cursor-pointer p-2 flex items-center">
+                  <div className="hover:bg-[#4B8600] cursor-pointer p-2 flex items-center">
                     <DropboxOutlined />
                     <p className="ml-1">Đơn hàng</p>
                   </div>
-                  <div className="hover:bg-gray-700 cursor-pointer p-2 flex items-center">
+                  <div className="hover:bg-[#4B8600] cursor-pointer p-2 flex items-center">
                     <HomeOutlined />
                     <p className="ml-1" onClick={handleOnchangeAddress}>
                       Địa chỉ
                     </p>
                   </div>
-                  <div className="hover:bg-gray-700 cursor-pointer p-2 flex items-center">
+                  {user?.account?.role === "admin" && (
+                    <div className="hover:bg-[#4B8600] cursor-pointer p-2 flex items-center">
+                      <SettingOutlined />
+                      <p className="ml-1" onClick={handleNavigateAdmin}>
+                        Quản lý
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="hover:bg-[#4B8600] cursor-pointer p-2 flex items-center">
                     <CloseOutlined />
                     <p className="ml-1" onClick={handleLogout}>
                       Thoát
@@ -187,17 +229,23 @@ function Header() {
           </div>
           <div className="relative cursor-pointer">
             <ShoppingCartOutlined className="text-[24px] mx-2 " />
-            <div className="absolute border border-[white] rounded-[50%] right-[-4px] top-0 bg-white">
+            <div className="absolute border border-[#e49200] rounded-[50%] right-[-4px] top-0 bg-[#e49200]">
               <p className="text-[12px] px-[5px] text-red-600 font-[800]">1</p>
             </div>
           </div>
         </div>
       </div>
-      <div className="bg-white relative w-full mt-0 shadow-md h-[60px] flex  items-center ">
-        <div className="  h-full  flex items-center pl-o sm:pl-[10%] w-[10%] sm:w-[30%] ">
-          <DropdownComponet Text="Doanh mục"></DropdownComponet>
+      <div
+        className={`${
+          active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
+        } transition 800px:flex items-center justify-between w-full`}
+      >
+        <div className="bg-[#73c509] relative w-full mt-0 shadow-md h-[60px] flex  items-center  ">
+          <div className="  h-full  flex items-center pl-o sm:pl-[10%] w-[10%] sm:w-[30%] ">
+            <DropdownComponet Text="Doanh mục"></DropdownComponet>
+          </div>
+          <Navbar />
         </div>
-        <Navbar />
       </div>
     </div>
   );

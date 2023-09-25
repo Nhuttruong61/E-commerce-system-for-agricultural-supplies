@@ -15,7 +15,6 @@ const Dropdown = ({ Text, items }) => {
   const handleSelect = (item) => {
     setSelectedItem(item);
     setOpen(false);
-    console.log(item.name);
     navigate(`/products?category=${item.name}`);
   };
   useEffect(() => {
@@ -40,12 +39,12 @@ const Dropdown = ({ Text, items }) => {
   return (
     <div className="relative z-20 px-1">
       <span
-        className="cursor-pointer h-[100%] w-auto flex justify-between items-center pl-4  font-[600] select-none rounded-t-md"
+        className="cursor-pointer h-[100%] w-auto flex justify-between items-center pl-4  font-[600] select-none rounded-t-md text-white"
         onClick={() => setOpen(!open)}
       >
         <MenuOutlined style={{ fontSize: "20px" }} className="px-1" />
         {showText ? (
-          <div className=" flex items-center justify-center text-[80%] md:text-[100%]">
+          <div className=" flex items-center justify-center text-[80%] md:text-[100%] ">
             {selectedItem ? selectedItem.name : Text}
             <DownOutlined className="text-[80%] mt-1 mx-2" />
           </div>

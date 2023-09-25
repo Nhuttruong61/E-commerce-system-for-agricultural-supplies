@@ -13,8 +13,8 @@ function Popular() {
     dispatch(getAllProductRd(res));
     return res;
   };
-  const { isLoading, data: productData } = useQuery({
-    queryKey: ["product"],
+  const { data: productData } = useQuery({
+    queryKey: ["products"],
     queryFn: getAllProduct,
   });
 
@@ -25,14 +25,17 @@ function Popular() {
     setDataSort(data);
   }, [productData]);
   return (
-    <div className="text-white  p-6 rounded-lg mb-12  md:px-[10%]">
-      <p className=" flex justify-center my-8 font-[700] md:text-[32px] text-[20px]">
-        Phổ biến
-      </p>
-      <div className="grid gap-[5px] mx-1 grid-cols-4 md:gap-[10px] lg:grid-cols-5 lg:gap-[20px]  xl:gap-[30px]">
+    <div className=" p-6 rounded-lg mb-12  md:px-[10%]">
+      <div className=" flex justify-center text-center items-center">
+        <p className="  my-8 font-[700] md:text-[32px] text-[20px] border px-6 bg-[#4b8600] text-white rounded-[20px]">
+          Phổ biến
+        </p>
+      </div>
+      <div className="grid gap-[5px] mx-1 md:grid-cols-4 grid-cols-2  md:gap-[10px] lg:grid-cols-5 lg:gap-[20px]  xl:gap-[30px]">
         {dataSort && dataSort.length !== 0 && (
           <>
-            {dataSort && dataSort.map((i, index) => <ProductCart item={i} />)}
+            {dataSort &&
+              dataSort.map((i, index) => <ProductCart key={index} item={i} />)}
           </>
         )}
       </div>
