@@ -1,10 +1,10 @@
-import * as Type from "../Type/productType";
+import * as Type from "../Type/product";
 
 const initialState = {
   data: null,
 };
 
-export const ProductRenderer = (state = initialState, action) => {
+export const productReducer = (state = initialState, action) => {
   switch (action.type) {
     case Type.GET_PRODUCT_SUCCESS:
       return {

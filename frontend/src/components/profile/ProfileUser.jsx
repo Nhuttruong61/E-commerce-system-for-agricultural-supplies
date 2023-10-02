@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { UserOutlined } from "@ant-design/icons";
-import { updateAUser } from "../service/userService";
-import { getUser, updateUser } from "../redux/action/userAction";
-import Loading from "../components/Loading";
+import { updateAUser } from "../../service/userService";
+import { getUser, updateUser } from "../../redux/action/userAction";
+import Loading from "../Loading";
 import imageCompression from "browser-image-compression";
 import { toast } from "react-toastify";
 function Profile() {
@@ -59,16 +59,16 @@ function Profile() {
       phoneNumber: phoneNumber,
       avatar: selectedImage,
     };
-  
+
     try {
       setIsLoading(true);
       const response = await updateAUser(user);
       if (response.success) {
         dispatch(updateUser(response));
-        toast.success("Thay đổi thành công")
+        toast.success("Thay đổi thành công");
       }
     } catch (error) {
-      toast.success("Đã xãy ra lỗi vui lòng thử lại sao", error)
+      toast.success("Đã xãy ra lỗi vui lòng thử lại sao", error);
       console.error(error);
     } finally {
       dispatch(getUser());
@@ -78,8 +78,8 @@ function Profile() {
 
   return (
     <Loading isLoading={isLoading}>
-      <div className="w-full bg-[#3E3E3F] h-auto p-5 md:p-10 lg:p-20 xl:p-20">
-        <div className="px-5 md:px-10 lg:px-20 text-white bg-[#3E3E3F]">
+      <div className="w-full  h-auto bg-white rounded-[10px] ">
+        <div className="px-5 md:px-10 lg:px-20 ">
           <h1 className="font-[600] text-[18px] md:text-[24px] lg:text-[24px] xl:text-[24px]">
             Tài khoản cá nhân
           </h1>
@@ -87,8 +87,11 @@ function Profile() {
             Tài khoản
           </p>
         </div>
-        <div className="flex bg-white px-5 md:px-20 py-5 md:py-10">
-          <form className="w-full text-[80%] md:text-[100%]" onSubmit={handleSubmit}>
+        <div className="flex  px-5 md:px-20 py-5 md:py-10 shadow-2xl">
+          <form
+            className="w-full text-[80%] md:text-[100%]"
+            onSubmit={handleSubmit}
+          >
             <label className="flex items-center my-2 justify-between ">
               <p className="md:w-[30%] xl:w-[10%]  font-[600] ">
                 Tên người dùng:
@@ -124,7 +127,7 @@ function Profile() {
             <label className="flex items-center my-8 xl:w-[20%] md:w-[100]">
               <label
                 htmlFor="inport"
-                className="bg-[#101010] text-white font-[500] hover:bg-[#333232] p-1 rounded-[4px] mx-2"
+                className="bg-[#4b8600] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2"
               >
                 Chọn ảnh
               </label>
@@ -151,11 +154,13 @@ function Profile() {
                 <UserOutlined className="text-[24px] p-2" />
               )}
             </label>
-            <label className="flex flex-row-reverse font-[500] ">
-              <button className="bg-black text-white px-4 py-2  rounded-[4px]">
-                Thay đổi
-              </button>
-            </label>
+            <div className="flex flex-row-reverse">
+              <label className="flex flex-row-reverse font-[500] md:w-[120px]">
+                <button className="bg-[#4b8600] text-white px-4 py-2  rounded-[4px] ">
+                  Thay đổi
+                </button>
+              </label>
+            </div>
           </form>
         </div>
       </div>

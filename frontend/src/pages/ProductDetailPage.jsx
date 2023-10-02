@@ -1,12 +1,13 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import ProductDetail from "../components/ProductDetail.jsx";
+import ProductDetail from "../components/Product/ProductDetail";
+import Footer from "../components/Footer.jsx";
 function ProductDetailPage() {
   const { id } = useParams();
   return (
-    <div className="md:px-[10%]  h-full ">
-      <p className="text-[80%] md:text-[100%] font-[600]">Sản phẩm</p>
+    <div className=" h-full ">
       <ProductDetail id={id} />
+      <Footer />
     </div>
   );
 }

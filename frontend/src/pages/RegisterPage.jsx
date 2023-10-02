@@ -119,7 +119,7 @@ function RegisterPage() {
             </div>
 
             <button
-              className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-700"
+              className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#4b8600] hover:bg-[#345409]"
               type="submit"
               disabled={!email || !password}
             >

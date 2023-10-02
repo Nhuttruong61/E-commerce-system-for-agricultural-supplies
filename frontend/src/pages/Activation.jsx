@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import * as Userservice from "../service/userService";
 function Activation() {
   const { accessToken } = useParams();
-  // console.log("accessToken", accessToken);
   const [error, setError] = useState(false);
   useEffect(() => {
     const ActivetionToken = async () => {

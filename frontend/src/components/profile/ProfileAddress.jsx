@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateAddress } from "../service/userService";
-import { getUser} from "../redux/action/userAction";
-import Loading from "../components/Loading";
+import { updateAddress } from "../../service/userService";
+import { getUser } from "../../redux/action/userAction";
+import Loading from "../Loading";
 import { toast } from "react-toastify";
 
 function Address() {
@@ -49,7 +49,6 @@ function Address() {
       setIsLoading(true);
       const update = await updateAddress(addressUser);
       if (update.success) {
-       
         toast.success("Thay đổi địa chỉ thành công");
       }
     } catch (error) {
@@ -62,8 +61,8 @@ function Address() {
   };
   return (
     <Loading isLoading={isLoading}>
-      <div className="w-full bg-[#3E3E3F] h-auto p-5 md:p-10 lg:p-20 xl:p-20">
-        <div className="px-5 md:px-10 lg:px-20 text-white bg-[#3E3E3F]">
+      <div className="w-full  h-auto bg-white rounded-[10px]">
+        <div className="px-5 md:px-10 lg:px-20 ">
           <h1 className="font-[600] text-[18px] md:text-[24px] lg:text-[24px] xl:text-[24px]">
             Tài khoản cá nhân
           </h1>
@@ -71,7 +70,7 @@ function Address() {
             Tài khoản
           </p>
         </div>
-        <div className="flex bg-white px-5 md:px-20 py-5 md:py-10">
+        <div className="flex px-5 md:px-20 py-5 md:py-10 shadow-2xl">
           <form
             className="w-full text-[80%] md:text-[100%]"
             onSubmit={handleSubmit}
@@ -134,11 +133,13 @@ function Address() {
               </div>
             )}
 
-            <label className="flex flex-row-reverse font-[500] ">
-              <button className="bg-black text-white px-4 py-2  rounded-[4px]">
-                Thay đổi
-              </button>
-            </label>
+            <div className="flex flex-row-reverse">
+              <label className="flex flex-row-reverse font-[500] md:w-[120px]">
+                <button className="bg-[#4b8600] text-white px-4 py-2  rounded-[4px]">
+                  Thay đổi
+                </button>
+              </label>
+            </div>
           </form>
         </div>
       </div>
