@@ -8,6 +8,8 @@ import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "antd";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { createQuestionRd } from "../redux/action/questionAction";
 export default function FAQ() {
   const [dataQuetion, setDataQuetion] = useState(null);
   const [data, setData] = useState(null);
@@ -16,6 +18,7 @@ export default function FAQ() {
   const [questionTitle, setQuestionTitle] = useState("");
   const [questionContent, setQuestionContent] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const getData = async () => {
     const res = await questionService.getAllQuestion();
     return res;
@@ -65,6 +68,7 @@ export default function FAQ() {
     getData();
     setIsModalAdd(false);
     if (res?.success) {
+      dispatch(createQuestionRd(res));
       toast.success("Xin chờ admin kiểm duyệt");
     }
     return res;
@@ -106,8 +110,7 @@ export default function FAQ() {
                 placeholder="Tiêu đề"
                 className="w-full md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
               />
-              <input
-                type="text"
+              <textarea
                 value={questionContent}
                 placeholder="Nội dung"
                 onChange={handleOnchageContent}

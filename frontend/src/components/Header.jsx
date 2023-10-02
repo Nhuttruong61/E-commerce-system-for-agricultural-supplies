@@ -4,8 +4,6 @@ import {
   UserOutlined,
   ShoppingCartOutlined,
   CloseOutlined,
-  DropboxOutlined,
-  HomeOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
 import { useNavigate, Link } from "react-router-dom";
@@ -15,6 +13,8 @@ import DropdownComponet from "./Dropdown";
 import Navbar from "./Navbar";
 import { useQueryClient } from "@tanstack/react-query";
 import logo from "../assets/logo/logo.png";
+import Cart from "./Cart/Cart";
+
 function Header() {
   const queryClient = useQueryClient();
   const user = useSelector((state) => state.user);
@@ -25,6 +25,7 @@ function Header() {
   const [active, setActive] = useState(false);
   const [searchData, setSearchData] = useState(null);
   const [ishownInUser, setIsShownInUser] = useState(false);
+  const [openCart, setOpenCart] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -61,6 +62,7 @@ function Header() {
   };
   const handleSubmitSearch = () => {
     navigate(`/products?name=${search}`);
+    setSearch("");
   };
   const handleLogout = () => {
     dispatch(LogoutUser());
@@ -71,10 +73,7 @@ function Header() {
     setIsShownInUser(false);
     navigate("/profile");
   };
-  const handleOnchangeAddress = () => {
-    setIsShownInUser(false);
-    navigate("/address");
-  };
+
   const handleNavigateAdmin = () => {
     setIsShownInUser(false);
     navigate("/system/admin");
@@ -86,11 +85,12 @@ function Header() {
       setActive(false);
     }
   });
+
   return (
     <div>
       <div className=" flex justify-between h-[74px] items-center md:px-8 w-full px-1">
         <Link to="/" className=" w-[25%] flex items-center">
-          <img src={logo} alt="" className="md:w-[16%] w-[50%]" />
+          <img src={logo} alt="" className=" md:w-[10%] w-[40%]" />
           {show && (
             <p className="text-xs md:text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#4b8600] to-[#e49200]">
               Nông Nghiệp Xanh
@@ -192,24 +192,15 @@ function Header() {
               {ishownInUser && (
                 <div className="absolute h-auto w-[120px] bg-white rounded-[4px]">
                   <div
-                    className="hover:bg-[#4B8600] cursor-pointer p-2 flex items-center"
+                    className="hover:bg-[#4B8600] hover:text-white cursor-pointer p-2 flex items-center"
                     onClick={handleNavigateProfile}
                   >
                     <UserOutlined />
                     <p className="ml-1">Tài khoản</p>
                   </div>
-                  <div className="hover:bg-[#4B8600] cursor-pointer p-2 flex items-center">
-                    <DropboxOutlined />
-                    <p className="ml-1">Đơn hàng</p>
-                  </div>
-                  <div className="hover:bg-[#4B8600] cursor-pointer p-2 flex items-center">
-                    <HomeOutlined />
-                    <p className="ml-1" onClick={handleOnchangeAddress}>
-                      Địa chỉ
-                    </p>
-                  </div>
+
                   {user?.account?.role === "admin" && (
-                    <div className="hover:bg-[#4B8600] cursor-pointer p-2 flex items-center">
+                    <div className="hover:bg-[#4B8600] hover:text-white cursor-pointer p-2 flex items-center">
                       <SettingOutlined />
                       <p className="ml-1" onClick={handleNavigateAdmin}>
                         Quản lý
@@ -217,7 +208,7 @@ function Header() {
                     </div>
                   )}
 
-                  <div className="hover:bg-[#4B8600] cursor-pointer p-2 flex items-center">
+                  <div className="hover:bg-[#4B8600] cursor-pointer hover:text-white p-2 flex items-center">
                     <CloseOutlined />
                     <p className="ml-1" onClick={handleLogout}>
                       Thoát
@@ -227,12 +218,16 @@ function Header() {
               )}
             </div>
           </div>
-          <div className="relative cursor-pointer">
+          <div
+            className="relative cursor-pointer"
+            onClick={() => setOpenCart(!openCart)}
+          >
             <ShoppingCartOutlined className="text-[24px] mx-2 " />
-            <div className="absolute border border-[#e49200] rounded-[50%] right-[-4px] top-0 bg-[#e49200]">
-              <p className="text-[12px] px-[5px] text-red-600 font-[800]">1</p>
+            <div className="absolute border border-[#ccc] rounded-[50%] right-[-4px] top-0 bg-[#73c509]">
+              <p className="text-[12px] px-[5px] text-white font-[800]">1</p>
             </div>
           </div>
+          {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
         </div>
       </div>
       <div
@@ -242,7 +237,7 @@ function Header() {
       >
         <div className="bg-[#73c509] relative w-full mt-0 shadow-md h-[60px] flex  items-center  ">
           <div className="  h-full  flex items-center pl-o sm:pl-[10%] w-[10%] sm:w-[30%] ">
-            <DropdownComponet Text="Doanh mục"></DropdownComponet>
+            <DropdownComponet Text="Danh mục"></DropdownComponet>
           </div>
           <Navbar />
         </div>

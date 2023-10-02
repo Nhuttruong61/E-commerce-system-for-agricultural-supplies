@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import ProductCart from "./ProductCart";
+import ProductCart from "./Product/ProductCart";
 
 function Newproduct() {
   const products = useSelector((state) => state.product);

@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { getAllProducts } from "../service/productService";
 import { getAllProductRd } from "../redux/action/productAction";
 import { useQuery } from "@tanstack/react-query";
-import ProductCart from "./ProductCart";
+import ProductCart from "./Product/ProductCart";
 
 function Popular() {
   const dispatch = useDispatch();

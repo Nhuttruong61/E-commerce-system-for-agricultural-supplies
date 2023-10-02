@@ -36,3 +36,17 @@ export const updateAddress = async (address) => {
   });
   return res;
 };
+
+export const getAllUser = async () => {
+  const res = await axios.get("/user/get-all-users", {
+    withCredentials: true,
+  });
+  return res;
+};
+
+export const deleteUser = async (id) => {
+  const res = await axios.delete(`/user/delete/${id}`, {
+    withCredentials: true,
+  });
+  return res;
+};

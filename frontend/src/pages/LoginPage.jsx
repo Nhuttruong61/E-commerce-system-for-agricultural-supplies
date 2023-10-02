@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Login from "../components/FormInput";
 import Input from "../components/Input";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
@@ -6,7 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
 import * as Userservice from "../service/userService";
 import { toast } from "react-toastify";
 import Loading from "../components/Loading";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../redux/action/userAction";
 function LoginPage() {
+  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((state) => state.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -29,16 +33,20 @@ function LoginPage() {
     try {
       const response = await Userservice.LoginService(user);
       if (response.success === true) {
-        toast.success("Đăng nhập thành công");
         navigate("/");
-        window.location.reload(true);
+        dispatch(getUser());
       }
     } catch (err) {
-      toast.error("Tài khoản hoặc mật khẩu không chính xác");
+      toast.error("Tài khoản hoặc mật khẩu không chính xác!");
     } finally {
       setIsLoading(false);
     }
   };
+  useEffect(() => {
+    if (isAuthenticated === true) {
+      navigate("/");
+    }
+  }, []);
   return (
     <div>
       <Loading isLoading={isLoading}>
@@ -80,7 +88,7 @@ function LoginPage() {
             </div>
 
             <button
-              className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-700"
+              className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#4b8600] hover:bg-[#345409]"
               type="submit"
               disabled={!email || !password}
             >

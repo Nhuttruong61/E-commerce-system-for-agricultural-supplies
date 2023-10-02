@@ -12,11 +12,11 @@ export const categoryReducer = (state = initialState, action) => {
         data: action.data,
       };
 
-    case Type.GET_CATEGORY_ERROR: {
+    case Type.GET_CATEGORY_ERROR:
       return {
         data: null,
       };
-    }
+
     default:
       return state;
   }

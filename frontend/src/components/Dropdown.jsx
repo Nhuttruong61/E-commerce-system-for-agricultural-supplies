@@ -37,7 +37,7 @@ const Dropdown = ({ Text, items }) => {
     queryFn: getDataCategory,
   });
   return (
-    <div className="relative z-20 px-1">
+    <div className="relative z-10 px-1">
       <span
         className="cursor-pointer h-[100%] w-auto flex justify-between items-center pl-4  font-[600] select-none rounded-t-md text-white"
         onClick={() => setOpen(!open)}

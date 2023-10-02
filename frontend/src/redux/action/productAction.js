@@ -1,4 +1,4 @@
-import * as Type from "../Type/productType";
+import * as Type from "../Type/product";
 
 export const getAllProductRd = (data) => async (dispatch) => {
   try {

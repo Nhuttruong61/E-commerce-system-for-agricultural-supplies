@@ -5,7 +5,10 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { userReducer } from "./reducer/userReducer";
 import { categoryReducer } from "./reducer/categoryReducer";
-import { ProductRenderer } from "./reducer/productReducer";
+import { productReducer } from "./reducer/productReducer";
+import { questionReducer } from "./reducer/questionsReducer";
+import { eventReducer } from "./reducer/eventReducer";
+import { orderReducer } from "./reducer/orderReducer";
 
 const persistConfig = {
   key: "root",
@@ -16,7 +19,10 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user: userReducer,
   category: categoryReducer,
-  product: ProductRenderer
+  product: productReducer,
+  question: questionReducer,
+  event: eventReducer,
+  order: orderReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

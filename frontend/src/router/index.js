@@ -2,15 +2,19 @@ import Activation from "../pages/Activation";
 import HomePage from "../pages/HomePage";
 import Login from "../pages/LoginPage";
 import NotFoundPage from "../pages/NotFoundPage";
-import Profile from "../pages/ProfileUser";
-import Address from "../pages/ProfileAddress";
+// import Profile from "../pages/ProfileUser";
+// import Address from "../pages/ProfileAddress";
 import RegisterPage from "../pages/RegisterPage";
 import BestSelling from "../pages/BestSelling";
 import Product from "../pages/Product";
-import Event from "../pages/Event";
 import FAQ from "../pages/FAQ";
 import ProductDetailPage from "../pages/ProductDetailPage";
-
+import AdminPage from "../pages/AdminPage";
+import EventPage from "../pages/EventPage";
+import FAQInfomation from "../pages/FAQInfomation";
+import Profile from "../pages/Profile";
+import InfomationOrder from "../pages/InfomationOrder";
+import OrderSuccessPage from "../pages/OrderSuccessPage";
 const routers = [
   {
     path: "/login",
@@ -44,7 +48,7 @@ const routers = [
   },
   {
     path: "/events",
-    page: Event,
+    page: EventPage,
     isShowHeader: true,
   },
   {
@@ -53,13 +57,23 @@ const routers = [
     isShowHeader: true,
   },
   {
-    path: "/profile",
-    page: Profile,
+    path: "/information/order/:id",
+    page: InfomationOrder,
     isShowHeader: true,
   },
   {
-    path: "/address",
-    page: Address,
+    path: "/order/seccess",
+    page: OrderSuccessPage,
+    isShowHeader: true,
+  },
+  {
+    path: "/faq/:id",
+    page: FAQInfomation,
+    isShowHeader: true,
+  },
+  {
+    path: "/profile",
+    page: Profile,
     isShowHeader: true,
   },
   {
@@ -67,10 +81,17 @@ const routers = [
     page: ProductDetailPage,
     isShowHeader: true,
   },
+
   {
     path: "*",
     page: NotFoundPage,
     isShowHeader: false,
+  },
+  {
+    path: "/system/admin",
+    page: AdminPage,
+    isShowHeader: false,
+    isPrivate: true,
   },
 ];
 export default routers;

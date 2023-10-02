@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import * as questionService from "../service/questionService";
 import { format } from "date-fns";
 import { useSelector } from "react-redux";
-import { Modal } from "antd";
+import { Modal} from "antd";
 import Loading from "../components/Loading";
 import { UserOutlined } from "@ant-design/icons";
 import { BsThreeDots } from "react-icons/bs";
@@ -152,6 +152,7 @@ function FAQInfomation() {
       };
       const res = await questionService.createComment(idQuestion, data);
       getAdata();
+      setNewComment("");
       return res;
     }
     navigate("/login");
@@ -215,13 +216,13 @@ function FAQInfomation() {
                               type="text"
                               value={questionTitle}
                               onChange={handleOnchageTitle}
-                              className="w-full md:px-4  h-auto py-2 border-[2px] sm:px-0 rounded-[4px] my-2"
+                              className="w-full md:px-4 h-auto py-2 border-[2px] sm:px-0 rounded-[4px] my-2 break-words"
                             />
-                            <input
+                            <textarea
                               type="text"
                               value={questionContent}
                               onChange={handleOnchageContent}
-                              className="w-full md:px-4  h-auto py-2 border-[2px] sm:px-0 rounded-[4px]"
+                              className="w-full md:px-4 h-auto py-2 border-[2px] sm:px-0 rounded-[4px] break-words"
                             />
                           </Modal>
                         </div>
@@ -308,8 +309,7 @@ function FAQInfomation() {
                                 okButtonProps={okButtonEdit}
                                 okType="none"
                               >
-                                <input
-                                  type="text"
+                                <textarea
                                   value={comment}
                                   onChange={handleOnchageEdit}
                                   className="w-full md:px-4  h-auto py-2 border-[2px] sm:px-0 rounded-[4px]"

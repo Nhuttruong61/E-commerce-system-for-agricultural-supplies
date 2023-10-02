@@ -5,7 +5,6 @@ import Popular from "../components/Popular";
 import Newproduct from "../components/Newproduct";
 import Event from "../components/Events/Event";
 import Footer from "../components/Footer";
-import Header from "../components/Header";
 
 function HomePage() {
   return (

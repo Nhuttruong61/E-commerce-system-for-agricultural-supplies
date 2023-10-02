@@ -1,7 +1,9 @@
 import React from "react";
 import EventCard from "./EventCard";
+import { useSelector } from "react-redux";
 
 function Event() {
+  const { data } = useSelector((state) => state.event);
   return (
     <div className=" p-6 rounded-lg mb-12  md:px-[10%] ">
       <div className=" flex justify-center text-center items-center">
@@ -10,7 +12,8 @@ function Event() {
         </p>
       </div>
       <div className="w-full grid shadow-lg">
-        <EventCard />
+        {data &&
+          data.map((item, index) => <EventCard data={item} key={index} />)}
       </div>
     </div>
   );
