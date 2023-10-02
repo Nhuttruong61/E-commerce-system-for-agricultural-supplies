@@ -9,7 +9,7 @@ router.post(
   questionControler.createQuestion
 );
 router.get("/get-all-questions", questionControler.getAllQuestions);
-router.get("/get-question/:id", questionControler.getAllQuestions);
+router.get("/get-question/:id", questionControler.getaQuestion);
 router.put(
   "/confirm-question/:id",
   isAuthenticated,
@@ -38,7 +38,11 @@ router.post(
   isAuthenticated,
   questionControler.createComment
 );
-
+router.get(
+  "/get-comment/:questionId/comment/:commentId",
+  isAuthenticated,
+  questionControler.getComment
+);
 router.put(
   "/edit-comment/:questionId/comment/:commentId",
   isAuthenticated,

@@ -49,6 +49,11 @@ const eventSchema = new mongoose.Schema({
       },
     },
   ],
+  product: {
+    type: Array,
+    required: true,
+  },
+
   sold_out: {
     type: Number,
     default: 0,

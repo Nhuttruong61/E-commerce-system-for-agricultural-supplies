@@ -2,7 +2,6 @@ const Question = require("../model/question");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 const User = require("../model/user");
-const question = require("../model/question");
 
 //create question
 const createQuestion = catchAsyncErrors(async (req, res, next) => {
@@ -41,7 +40,7 @@ const confirmQuestionAdmin = catchAsyncErrors(async (req, res, next) => {
       return next(new ErrorHandler("question not found ", 400));
     }
     if (question.status === "Prossing") {
-      question.status = " Confirm";
+      question.status = "Confirm";
     }
     await question.save();
     res.status(201).json({
@@ -180,6 +179,26 @@ const createComment = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(err.message, 400));
   }
 });
+
+// get a comment
+const getComment = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { questionId, commentId } = req.params;
+
+    const question = await Question.findById(questionId);
+    if (!question) {
+      return next(new ErrorHandler("Question not found", 404));
+    }
+    const comment = await question.comments.id(commentId);
+    res.status(200).json({
+      success: true,
+      comment,
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err.message, 400));
+  }
+});
+
 // edit comment
 const editComment = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -200,6 +219,7 @@ const editComment = catchAsyncErrors(async (req, res, next) => {
       );
     }
     comment.content = content;
+    await question.save();
     res.status(200).json({
       success: true,
       message: "Comment edited successfully",
@@ -255,6 +275,7 @@ module.exports = {
   getAllQuestions,
   getaQuestion,
   createComment,
+  getComment,
   editComment,
   deleteComment,
 };

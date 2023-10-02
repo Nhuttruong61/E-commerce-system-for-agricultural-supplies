@@ -49,6 +49,22 @@ const getOrderUser = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+//get order by id
+const getOrder = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      return next(new ErrorHandler("Order not found with this id", 400));
+    }
+    res.status(200).json({
+      success: true,
+      order: order,
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err.message, 400));
+  }
+});
+
 // get all orders
 const getAllOrder = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -90,7 +106,6 @@ const updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
     }
     if (req.body.status === "Transferred") {
       for (const item of order.cart) {
-        console.log(item);
         await updateProductQuantity(item._id, item.quantity);
       }
     }
@@ -140,8 +155,9 @@ const deleteOrder = catchAsyncErrors(async (req, res, next) => {
 module.exports = {
   createOrder,
   getOrderUser,
+  getOrder,
   getAllOrder,
   cancelOrder,
   updateOrderStatus,
-  deleteOrder 
+  deleteOrder,
 };

@@ -9,12 +9,7 @@ router.post(
   isAdmin("admin"),
   productControler.createProduct
 );
-router.get(
-  "/get-all-products",
-  isAuthenticated,
-  isAdmin("admin"),
-  productControler.getAllProducts
-);
+router.get("/get-all-products", productControler.getAllProducts);
 router.get("/get-products/:id", productControler.getaProduct);
 router.put(
   "/update-product/:id",

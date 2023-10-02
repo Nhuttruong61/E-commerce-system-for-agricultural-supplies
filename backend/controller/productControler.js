@@ -4,6 +4,7 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 const Order = require("../model/order");
 const Category = require("../model/categories");
+const product = require("../model/product");
 
 //create product
 const createProduct = catchAsyncErrors(async (req, res, next) => {
@@ -34,7 +35,7 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
     }
     const categoryid = await Category.findById(category);
     if (!categoryid) {
-      return next(new ErrorHandler("Category not found", 404));
+      return next(new ErrorHandler("category not found", 404));
     }
     const myCloud = await cloudinary.v2.uploader.upload(images, {
       folder: "imgProducts",
@@ -62,18 +63,27 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-//get all products
 const getAllProducts = catchAsyncErrors(async (req, res, next) => {
   try {
-    const { category } = req.query;
+    const { category, name } = req.query;
     let products;
+
     if (category) {
       products = await Product.find({
-        "category.name": { $regex: new RegExp(category, "i") },
+        category: { $regex: new RegExp(category, "i") },
       });
-    } else {
+    }
+
+    if (name) {
+      products = await Product.find({
+        name: { $regex: new RegExp(name, "i") },
+      });
+    }
+
+    if (!category && !name) {
       products = await Product.find();
     }
+
     res.status(200).json({
       success: true,
       product: products,
@@ -114,6 +124,12 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
     if (!productId) {
       return next(new ErrorHandler("Product does not exists", 400));
     }
+    const categoryid = await category.findById(category);
+
+    if (!categoryid) {
+      return next(new ErrorHandler("category not found", 404));
+    }
+    console.log("categoryid", categoryid);
     if (product?.images[0]?.public_id) {
       await cloudinary.v2.uploader.destroy(product.images[0].public_id);
     }
@@ -129,7 +145,7 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
 
     product.name = name;
     product.description = description;
-    product.category = category;
+    product.category = categoryid.name;
     product.tags = tags;
     product.originPrice = originPrice;
     product.distCount = distCount;

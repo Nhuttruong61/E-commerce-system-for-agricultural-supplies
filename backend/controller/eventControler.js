@@ -1,26 +1,43 @@
 const Event = require("../model/event");
+const Product = require("../model/product");
 const cloudinary = require("cloudinary");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 
 //create event
 const createEvent = catchAsyncErrors(async (req, res, next) => {
+  const {
+    name,
+    description,
+    categories,
+    product,
+    start,
+    finish,
+    originalPrice,
+    discountPrice,
+    quantity,
+    images,
+  } = req.body;
+
+  if (
+    !name ||
+    !description ||
+    !categories ||
+    !product ||
+    !start ||
+    !finish ||
+    !images
+  ) {
+    return next(
+      new ErrorHandler("Please provide complete event information", 400)
+    );
+  }
+
   try {
-    const {
-      name,
-      description,
-      categories,
-      start,
-      finish,
-      originalPrice,
-      discountPrice,
-      quantity,
-      images,
-    } = req.body;
-    if (!name || !description || !categories || !start || !finish || !images) {
-      return next(
-        new ErrorHandler("Please provide complete event informations", 400)
-      );
+    const products = await Product.findById(product);
+
+    if (!products) {
+      return next(new ErrorHandler("Product does not exist", 404));
     }
     const myCloud = await cloudinary.v2.uploader.upload(images, {
       folder: "imgEvents",
@@ -29,6 +46,7 @@ const createEvent = catchAsyncErrors(async (req, res, next) => {
       name,
       description,
       categories,
+      product: products,
       start,
       finish,
       originalPrice,
@@ -39,12 +57,13 @@ const createEvent = catchAsyncErrors(async (req, res, next) => {
         url: myCloud.secure_url,
       },
     });
+
     res.status(201).json({
       success: true,
       event,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -84,7 +103,6 @@ const deleteEvent = catchAsyncErrors(async (req, res, next) => {
     }
     if (event.images[0].public_id) {
       await cloudinary.v2.uploader.destroy(event.images[0].public_id);
-      console.log(event.images.public_id);
     }
     await Event.findByIdAndDelete(event);
     res.status(201).json({
