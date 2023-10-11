@@ -4,7 +4,6 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 const Order = require("../model/order");
 const Category = require("../model/categories");
-const product = require("../model/product");
 
 //create product
 const createProduct = catchAsyncErrors(async (req, res, next) => {
@@ -25,7 +24,6 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
       !category ||
       !tags ||
       !originPrice ||
-      !distCount ||
       !quantity ||
       !images
     ) {
@@ -43,7 +41,10 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
     const product = await Product.create({
       name,
       description,
-      category: categoryid.name,
+      category: {
+        categoryid,
+        name: categoryid.name,
+      },
       tags,
       originPrice,
       distCount,
@@ -124,12 +125,10 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
     if (!productId) {
       return next(new ErrorHandler("Product does not exists", 400));
     }
-    const categoryid = await category.findById(category);
-
+    const categoryid = await Category.findById(category);
     if (!categoryid) {
       return next(new ErrorHandler("category not found", 404));
     }
-    console.log("categoryid", categoryid);
     if (product?.images[0]?.public_id) {
       await cloudinary.v2.uploader.destroy(product.images[0].public_id);
     }
@@ -145,7 +144,10 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
 
     product.name = name;
     product.description = description;
-    product.category = categoryid.name;
+    product.category = {
+      categoryid,
+      name: categoryid.name,
+    };
     product.tags = tags;
     product.originPrice = originPrice;
     product.distCount = distCount;
@@ -168,7 +170,6 @@ const deleteProduct = catchAsyncErrors(async (req, res, next) => {
     if (!product) {
       return next(new ErrorHandler("Product does not exist", 404));
     }
-    console.log("product", product.images[0].public_id);
     if (product.images[0].public_id) {
       await cloudinary.v2.uploader.destroy(product.images[0].public_id);
     }

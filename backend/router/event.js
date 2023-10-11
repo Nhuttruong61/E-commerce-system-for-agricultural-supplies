@@ -10,7 +10,7 @@ router.post(
 );
 router.get("/get-all-events", eventControler.getAllEvent);
 router.get("/get-event/:id", eventControler.getaEvent);
-router.get(
+router.delete(
   "/delete-event/:id",
   isAuthenticated,
   isAdmin("admin"),

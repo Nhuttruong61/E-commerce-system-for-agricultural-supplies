@@ -9,10 +9,6 @@ const eventSchema = new mongoose.Schema({
     type: String,
     require: [true, "Please enter your event description"],
   },
-  categories: {
-    type: String,
-    require: [true, "Please enter your event categories"],
-  },
   start: {
     type: Date,
     require: [true, "Please enter your event start"],
@@ -28,27 +24,21 @@ const eventSchema = new mongoose.Schema({
   tags: {
     type: String,
   },
-  originalPrice: {
+  discount: {
     type: Number,
   },
-  discountPrice: {
-    type: Number,
-  },
-  quantity: {
-    type: Number,
-  },
-  images: [
-    {
-      public_id: {
-        type: String,
-        required: true,
-      },
-      url: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
+  // images: [
+  //   {
+  //     public_id: {
+  //       type: String,
+  //       required: true,
+  //     },
+  //     url: {
+  //       type: String,
+  //       required: true,
+  //     },
+  //   },
+  // ],
   product: {
     type: Array,
     required: true,

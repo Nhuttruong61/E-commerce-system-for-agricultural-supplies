@@ -6,7 +6,7 @@ const productSchema = new mongoose.Schema({
     required: [true, "Please enter your product name"],
   },
   description: {
-    type: String,
+    type: Array,
     required: [true, "Please enter your product description"],
   },
   category: {
@@ -21,6 +21,7 @@ const productSchema = new mongoose.Schema({
   },
   distCount: {
     type: Number,
+    default: 0,
   },
   quantity: {
     type: Number,

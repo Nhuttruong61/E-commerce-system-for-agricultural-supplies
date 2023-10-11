@@ -82,10 +82,11 @@ const getAllOrder = catchAsyncErrors(async (req, res, next) => {
 const cancelOrder = catchAsyncErrors(async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.id);
+    const { status } = req.body;
     if (!order || order.status != "Processing") {
       return next(new ErrorHandler("This order cannot be canceled", 400));
     }
-    order.status = "Canceled";
+    order.status = status;
     await order.save({ validateBeforeSave: false });
     res.status(201).json({
       success: true,

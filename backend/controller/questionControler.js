@@ -36,16 +36,14 @@ const createQuestion = catchAsyncErrors(async (req, res, next) => {
 const confirmQuestionAdmin = catchAsyncErrors(async (req, res, next) => {
   try {
     const question = await Question.findById(req.params.id);
+    const { status } = req.body;
     if (!question) {
       return next(new ErrorHandler("question not found ", 400));
     }
-    if (question.status === "Prossing") {
-      question.status = "Confirm";
-    }
+    question.status = status;
     await question.save();
     res.status(201).json({
       success: true,
-      message: "Question confirm successfully",
       question,
     });
   } catch (err) {
