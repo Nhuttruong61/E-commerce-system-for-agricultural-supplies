@@ -7,10 +7,12 @@ import {
   AiOutlineMessage,
   AiOutlineGift,
   AiOutlineUser,
+  AiOutlineQuestionCircle,
 } from "react-icons/ai";
+import { BiCategory } from "react-icons/bi";
 function SideBarAdmin({ active, setActive }) {
   return (
-    <div className="w-full h-[89vh] shadow overflow-y-auto sticky top-0 left-0 z-10">
+    <div className="w-full h-[92vh] shadow overflow-y-auto sticky top-0 left-0 z-10">
       <div className="flex w-full items-center p-4">
         <div className="flex w-full items-center" onClick={() => setActive(1)}>
           <AiOutlineUser
@@ -27,12 +29,9 @@ function SideBarAdmin({ active, setActive }) {
           </p>
         </div>
       </div>
-      <div
-        className="flex w-full items-center p-4"
-        onClick={() => setActive(2)}
-      >
-        <div className="flex w-full items-center">
-          <AiOutlineShop
+      <div className="flex w-full items-center p-4">
+        <div className="flex w-full items-center" onClick={() => setActive(2)}>
+          <BiCategory
             className={` text-[24px]  ${
               active === 2 ? "text-[#4b8600]" : "text-black"
             }`}
@@ -42,7 +41,7 @@ function SideBarAdmin({ active, setActive }) {
               active === 2 ? "text-[#4b8600]" : "text-black"
             }`}
           >
-            Products
+            Category
           </p>
         </div>
       </div>
@@ -51,7 +50,7 @@ function SideBarAdmin({ active, setActive }) {
         onClick={() => setActive(3)}
       >
         <div className="flex w-full items-center">
-          <AiOutlineInbox
+          <AiOutlineShop
             className={` text-[24px]  ${
               active === 3 ? "text-[#4b8600]" : "text-black"
             }`}
@@ -61,7 +60,7 @@ function SideBarAdmin({ active, setActive }) {
               active === 3 ? "text-[#4b8600]" : "text-black"
             }`}
           >
-            Orders
+            Products
           </p>
         </div>
       </div>
@@ -70,7 +69,7 @@ function SideBarAdmin({ active, setActive }) {
         onClick={() => setActive(4)}
       >
         <div className="flex w-full items-center">
-          <AiOutlineTags
+          <AiOutlineInbox
             className={` text-[24px]  ${
               active === 4 ? "text-[#4b8600]" : "text-black"
             }`}
@@ -80,7 +79,7 @@ function SideBarAdmin({ active, setActive }) {
               active === 4 ? "text-[#4b8600]" : "text-black"
             }`}
           >
-            Event
+            Orders
           </p>
         </div>
       </div>
@@ -89,7 +88,7 @@ function SideBarAdmin({ active, setActive }) {
         onClick={() => setActive(5)}
       >
         <div className="flex w-full items-center">
-          <AiOutlineMessage
+          <AiOutlineTags
             className={` text-[24px]  ${
               active === 5 ? "text-[#4b8600]" : "text-black"
             }`}
@@ -99,7 +98,7 @@ function SideBarAdmin({ active, setActive }) {
               active === 5 ? "text-[#4b8600]" : "text-black"
             }`}
           >
-            Inbox
+            Event
           </p>
         </div>
       </div>
@@ -108,7 +107,7 @@ function SideBarAdmin({ active, setActive }) {
         onClick={() => setActive(6)}
       >
         <div className="flex w-full items-center">
-          <AiOutlineGift
+          <AiOutlineMessage
             className={` text-[24px]  ${
               active === 6 ? "text-[#4b8600]" : "text-black"
             }`}
@@ -118,7 +117,27 @@ function SideBarAdmin({ active, setActive }) {
               active === 6 ? "text-[#4b8600]" : "text-black"
             }`}
           >
-            Coupons
+            Inbox
+          </p>
+        </div>
+      </div>
+
+      <div
+        className="flex w-full items-center p-4"
+        onClick={() => setActive(7)}
+      >
+        <div className="flex w-full items-center">
+          <AiOutlineQuestionCircle
+            className={` text-[24px]  ${
+              active === 7 ? "text-[#4b8600]" : "text-black"
+            }`}
+          />
+          <p
+            className={`800px:block hidden pl-2 text-[18px] font-[500] ${
+              active === 7 ? "text-[#4b8600]" : "text-black"
+            }`}
+          >
+            FAQ
           </p>
         </div>
       </div>

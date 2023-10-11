@@ -5,15 +5,13 @@ import logo from "../../assets/logo/logo.png";
 function HeaderAdmin() {
   const user = useSelector((state) => state.user);
   return (
-    <div className="w-full h-[80px] shadow sticky top-0 left-0 flex items-center justify-between">
-      <div>
-        <Link to="/system/admin" className="w-full flex items-center">
-          <img src={logo} alt="" className=" w-[12%]" />
-          <p className=" text-xs md:text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#4b8600] to-[#e49200]">
-            Nông Nghiệp Xanh
-          </p>
-        </Link>
-      </div>
+    <div className="flex justify-between h-[74px] items-center md:px-8 w-full px-1 bg-white z-20 shadow">
+      <Link to="/" className=" w-[25%] flex items-center">
+        <img src={logo} alt="" className=" md:w-[12.5%] w-[40%]" />
+        <p className="text-xs md:text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#4b8600] to-[#e49200]">
+          Nông Nghiệp Xanh
+        </p>
+      </Link>
       <div className="flex items-center w-full flex-row-reverse mr-4">
         <div className="flex items-center ">
           <img

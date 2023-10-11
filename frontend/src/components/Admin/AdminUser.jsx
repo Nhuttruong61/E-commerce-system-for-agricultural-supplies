@@ -2,8 +2,16 @@ import React, { useEffect, useRef, useState } from "react";
 import * as UserSerVice from "../../service/userService";
 import TableComponent from "../Table";
 import { Button, Modal, Space } from "antd";
-import { SearchOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  DeleteOutlined,
+  EyeOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { useDispatch } from "react-redux";
+import { CSVLink } from "react-csv";
+import { CiExport } from "react-icons/ci";
+import { toast } from "react-toastify";
 function AdminUser() {
   const [dataUser, setDataUser] = useState([]);
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -11,6 +19,8 @@ function AdminUser() {
   const [idUser, setIdUser] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showModalReview, setShowModalReview] = useState(false);
+  const [infoUser, setInfoUser] = useState(null);
   const dispatch = useDispatch();
   const getAllUsers = async () => {
     setIsLoading(true);
@@ -38,6 +48,19 @@ function AdminUser() {
         }}
       >
         <DeleteOutlined className="text-red-600 border border-[red] py-2 px-1 rounded-[4px]" />
+      </div>
+    );
+  };
+  const renderReview = (text, item) => {
+    return (
+      <div
+        className="cursor-pointer"
+        onClick={() => {
+          setShowModalReview(true);
+          setInfoUser(item.review);
+        }}
+      >
+        <EyeOutlined className="text-blue-600 border border-[blue] py-2 px-1 rounded-[4px]" />
       </div>
     );
   };
@@ -150,6 +173,11 @@ function AdminUser() {
       dataIndex: "isAdmin",
     },
     {
+      title: "Info",
+      dataIndex: "review",
+      render: renderReview,
+    },
+    {
       title: "Action",
       dataIndex: "action",
       render: renderAction,
@@ -165,12 +193,16 @@ function AdminUser() {
         name: user.name,
         phone: user?.phoneNumber ? user.phoneNumber : "No information yet",
         isAdmin: user.role,
+        review: {
+          ...user,
+        },
       };
     });
   }
 
   const handleCancel = () => {
     setShowModal(false);
+    setShowModalReview(false);
   };
   const okButtonDelete = {
     style: {
@@ -180,37 +212,100 @@ function AdminUser() {
   };
   const handleDeleteUser = async () => {
     setIsLoading(true);
-
-    try {
-      const res = await UserSerVice.deleteUser(idUser);
-      setShowModal(false);
-      if (res.success) {
-        dispatch(getAllUsers());
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setIsLoading(false);
+    setShowModal(false);
+    const res = await UserSerVice.deleteUser(idUser);
+    setShowModal(false);
+    if (res.success) {
+      dispatch(getAllUsers());
+      toast.success(res.message);
+    } else {
+      toast.error(res.message);
     }
+    setIsLoading(false);
   };
-
+  const handleReview = () => {
+    setShowModalReview(false);
+  };
   return (
-    <div className="w-full justify-center items-center">
-      <TableComponent
-        columns={columns}
-        data={dataTable}
-        isLoading={isLoading}
-      />
-      <Modal
-        title="Xóa"
-        open={showModal}
-        onOk={handleDeleteUser}
-        onCancel={handleCancel}
-        okButtonProps={okButtonDelete}
-        okType="none"
-      >
-        <p>{`Bạn có chắc muốn xóa người dùng này!`} </p>
-      </Modal>
+    <div className="w-full">
+      <div className="flex flex-row-reverse p-2 ">
+        <CSVLink
+          filename="user.csv"
+          className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-[#73c509]  text-white"
+          data={dataTable}
+        >
+          <CiExport className="md:text-[30px] text-[20px] " />
+          <h2 className="font-[600] px-1">Export</h2>
+        </CSVLink>
+      </div>
+      <div className="w-full justify-center items-center">
+        <TableComponent
+          columns={columns}
+          data={dataTable}
+          isLoading={isLoading}
+        />
+        <Modal
+          title="Delete"
+          open={showModal}
+          onOk={handleDeleteUser}
+          onCancel={handleCancel}
+          okButtonProps={okButtonDelete}
+          okType="none"
+        >
+          <p>{`Are you sure you want to delete this user?`} </p>
+        </Modal>
+        <Modal
+          title="Information user"
+          open={showModalReview}
+          onOk={handleReview}
+          onCancel={handleCancel}
+          okButtonProps={okButtonDelete}
+          okType="none"
+          cancelButtonProps={{ style: { display: "none" } }}
+          width={600}
+        >
+          <div className="flex items-center">
+            <div className="w-[30%]">
+              {infoUser?.avatar ? (
+                <img
+                  src={infoUser.avatar.url}
+                  alt=""
+                  className="w-[80px] h-[80px] rounded-full"
+                />
+              ) : (
+                <UserOutlined style={{ width: "80px", height: "80px" }} />
+              )}
+            </div>
+            <div className="w-[70%]">
+              <label className="flex  items-center">
+                <p className=" font-[500]">Name:</p>
+                <p className="pl-2">{infoUser?.name}</p>
+              </label>
+              <label className="flex items-center">
+                <p className=" font-[500]">Email:</p>
+                <p className="pl-2">{infoUser?.email}</p>
+              </label>
+              <label className="flex items-center">
+                <p className=" font-[500]">Number:</p>
+                <p className="pl-2">{infoUser?.phoneNumber}</p>
+              </label>
+              <label className="flex items-center">
+                <p className=" font-[500]">Role:</p>
+                <p className="pl-2">{infoUser?.role}</p>
+              </label>
+
+              <label className="flex  items-center">
+                <p className=" font-[500]">Address:</p>
+                {infoUser?.addresses.length > 0 ? (
+                  <p className="pl-2">{infoUser?.addresses[0].address}</p>
+                ) : (
+                  <p className="pl-2">No information yet</p>
+                )}
+              </label>
+            </div>
+          </div>
+        </Modal>
+      </div>
     </div>
   );
 }
