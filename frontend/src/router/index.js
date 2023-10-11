@@ -2,8 +2,6 @@ import Activation from "../pages/Activation";
 import HomePage from "../pages/HomePage";
 import Login from "../pages/LoginPage";
 import NotFoundPage from "../pages/NotFoundPage";
-// import Profile from "../pages/ProfileUser";
-// import Address from "../pages/ProfileAddress";
 import RegisterPage from "../pages/RegisterPage";
 import BestSelling from "../pages/BestSelling";
 import Product from "../pages/Product";
@@ -15,6 +13,7 @@ import FAQInfomation from "../pages/FAQInfomation";
 import Profile from "../pages/Profile";
 import InfomationOrder from "../pages/InfomationOrder";
 import OrderSuccessPage from "../pages/OrderSuccessPage";
+import CheckoutPage from "../pages/CheckoutPage";
 const routers = [
   {
     path: "/login",
@@ -59,6 +58,11 @@ const routers = [
   {
     path: "/information/order/:id",
     page: InfomationOrder,
+    isShowHeader: true,
+  },
+  {
+    path: "/checkout",
+    page: CheckoutPage,
     isShowHeader: true,
   },
   {

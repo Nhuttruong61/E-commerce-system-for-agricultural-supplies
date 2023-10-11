@@ -5,7 +5,7 @@ export const navItems = [
     url: "/",
   },
   {
-    title: "Bán chạy",
+    title: "Phổ biến",
     url: "/best-selling",
   },
 
@@ -407,10 +407,8 @@ export const footerProductLinks = [
   },
   {
     name: "Địa chỉ",
-  }
+  },
 ];
-
-
 
 export const footerSupportLinks = [
   {

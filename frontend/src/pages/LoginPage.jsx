@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import Loading from "../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../redux/action/userAction";
+
 function LoginPage() {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.user);

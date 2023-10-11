@@ -4,8 +4,10 @@ import ProductCart from "./Product/ProductCart";
 
 function Newproduct() {
   const products = useSelector((state) => state.product);
+  const { data } = useSelector((state) => state.event);
   const [productData, setProductData] = useState(null);
-  const [data, setData] = useState([]);
+  const [dataSort, setDataSort] = useState([]);
+  const [dataNewProduct, setDataNewProduct] = useState([]);
 
   useEffect(() => {
     if (products) {
@@ -21,12 +23,33 @@ function Newproduct() {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
         const res = sortedProduct?.slice(0, 5);
-        setData(res);
+        setDataSort(res);
       }
     };
     filterProduct();
   }, [productData]);
+  useEffect(() => {
+    const eventId = data.map((item) => {
+      return {
+        idProductEvent: item.product[0]._id,
+        discount: item.discount,
+      };
+    });
+    const updatedDataSort = dataSort.map((item) => {
+      const event = eventId.find(
+        (eventItem) => eventItem.idProductEvent === item._id
+      );
+      if (event) {
+        return {
+          ...item,
+          distCount: item.distCount + event.discount,
+        };
+      }
+      return item;
+    });
 
+    setDataNewProduct(updatedDataSort);
+  }, [dataSort]);
   return (
     <div className=" p-6 rounded-lg mb-12  md:px-[10%]">
       <div className=" flex justify-center text-center items-center">
@@ -35,10 +58,12 @@ function Newproduct() {
         </p>
       </div>
       <div className="grid gap-[5px] mx-1 grid-cols-4 md:gap-[10px] lg:grid-cols-5 lg:gap-[20px]  xl:gap-[30px]">
-        {data && data.length !== 0 && (
+        {dataNewProduct && dataNewProduct.length !== 0 && (
           <>
-            {data &&
-              data.map((i, index) => <ProductCart key={index} item={i} />)}
+            {dataNewProduct &&
+              dataNewProduct.map((i, index) => (
+                <ProductCart key={index} item={i} />
+              ))}
           </>
         )}
       </div>

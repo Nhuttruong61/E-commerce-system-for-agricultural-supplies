@@ -1,13 +1,15 @@
+import { getAllProducts } from "../../service/productService";
 import * as Type from "../Type/product";
 
-export const getAllProductRd = (data) => async (dispatch) => {
+export const getAllProductRd = () => async (dispatch) => {
   try {
     dispatch({
       type: Type.GET_PRODUCT,
     });
+    const res = await getAllProducts();
     dispatch({
       type: Type.GET_PRODUCT_SUCCESS,
-      data: data.product,
+      data: res.product,
     });
   } catch (e) {
     dispatch({

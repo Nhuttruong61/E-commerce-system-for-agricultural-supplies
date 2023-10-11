@@ -9,6 +9,7 @@ import { productReducer } from "./reducer/productReducer";
 import { questionReducer } from "./reducer/questionsReducer";
 import { eventReducer } from "./reducer/eventReducer";
 import { orderReducer } from "./reducer/orderReducer";
+import { cartReducer } from "./reducer/cartReducer";
 
 const persistConfig = {
   key: "root",
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   product: productReducer,
   question: questionReducer,
   event: eventReducer,
+  cart: cartReducer,
   order: orderReducer,
 });
 

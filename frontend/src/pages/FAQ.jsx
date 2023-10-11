@@ -8,9 +8,11 @@ import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "antd";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
-import { createQuestionRd } from "../redux/action/questionAction";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllQuestionRd } from "../redux/action/questionAction";
+
 export default function FAQ() {
+  const questionData = useSelector((state) => state.question);
   const [dataQuetion, setDataQuetion] = useState(null);
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -19,25 +21,17 @@ export default function FAQ() {
   const [questionContent, setQuestionContent] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const getData = async () => {
-    const res = await questionService.getAllQuestion();
-    return res;
-  };
 
-  const { data: questionData } = useQuery({
-    queryKey: ["question"],
-    queryFn: getData,
-  });
+  useEffect(() => {
+    dispatch(getAllQuestionRd());
+  }, []);
   useEffect(() => {
     setIsLoading(true);
-    const delay = 300;
-    setTimeout(() => {
-      if (questionData && questionData.success) {
-        const res = questionData.question;
-        setDataQuetion(res);
-      }
-      setIsLoading(false);
-    }, delay);
+    if (questionData && questionData.data.length > 0) {
+      const res = questionData.data;
+      setDataQuetion(res);
+    }
+    setIsLoading(false);
   }, [questionData]);
   useEffect(() => {
     if (dataQuetion && dataQuetion.length > 0) {
@@ -59,20 +53,20 @@ export default function FAQ() {
   const handleOnchageContent = (e) => {
     setQuestionContent(e.target.value);
   };
-  const handleAdd = () => {
+  const handleAdd = async () => {
     const data = {
       title: questionTitle,
       content: questionContent,
     };
-    const res = questionService.createQuestion(data);
-    getData();
-    setIsModalAdd(false);
+    const res = await questionService.createQuestion(data);
     if (res?.success) {
-      dispatch(createQuestionRd(res));
+      dispatch(getAllQuestionRd());
       toast.success("Xin chờ admin kiểm duyệt");
     }
+    setIsModalAdd(false);
     return res;
   };
+
   const handleCancel = () => {
     setIsModalAdd(false);
   };

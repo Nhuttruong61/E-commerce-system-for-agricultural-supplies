@@ -1,12 +1,14 @@
+import { getAllCategory } from "../../service/categoryService";
 import * as Type from "../Type/category";
-export const getCaterogy = (data) => async (dispatch) => {
+export const getCaterogy = () => async (dispatch) => {
   try {
     dispatch({
       type: Type.GET_CATEGORY,
     });
+    const res = await getAllCategory();
     dispatch({
       type: Type.GET_CATEGORY_SUCCESS,
-      data: data,
+      data: res,
     });
   } catch (e) {
     dispatch({

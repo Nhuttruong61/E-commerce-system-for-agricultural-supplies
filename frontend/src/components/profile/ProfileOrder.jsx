@@ -45,7 +45,7 @@ function ProfileOrder() {
   ];
 
   let dataTable = [];
-  if (orders && orders.data.length > 0) {
+  if (orders && orders.data?.length > 0) {
     dataTable = orders?.data.map((order) => {
       return {
         ...order,

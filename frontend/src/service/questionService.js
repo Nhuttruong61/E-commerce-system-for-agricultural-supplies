@@ -66,3 +66,15 @@ export const editComment = async (questionid, commentId, data) => {
   );
   return res;
 };
+export const confirmQuestion = async (id, data) => {
+  const res = await axios.put(`/question/confirm-question/${id}`, data, {
+    withCredentials: true,
+  });
+  return res;
+};
+export const deleteQuestionAdmin = async (id) => {
+  const res = await axios.delete(`/question/delete-question-admin/${id}`, {
+    withCredentials: true,
+  });
+  return res;
+};

@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as questionService from "../service/questionService";
 import { format } from "date-fns";
-import { useSelector } from "react-redux";
-import { Modal} from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { Modal } from "antd";
 import Loading from "../components/Loading";
 import { UserOutlined } from "@ant-design/icons";
 import { BsThreeDots } from "react-icons/bs";
-
+import { getAllQuestionRd } from "../redux/action/questionAction";
+import { toast } from "react-toastify";
+import { AiOutlineSend } from "react-icons/ai";
 function FAQInfomation() {
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const { id } = useParams();
   const [data, setData] = useState([]);
   const [commentData, setCommentData] = useState(null);
@@ -29,9 +32,7 @@ function FAQInfomation() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const getAdata = async () => {
-    setIsLoading(true);
     const res = await questionService.getAQuestion(id);
-    console.log(res);
     if (res.success) {
       setData(res);
       setQuestionTitle(res.question.title);
@@ -40,7 +41,6 @@ function FAQInfomation() {
       setCommentData(res?.question?.comments);
       setIdQuestionUser(res?.question?.author._id);
     }
-    setIsLoading(false);
   };
   useEffect(() => {
     getAdata();
@@ -116,9 +116,16 @@ function FAQInfomation() {
     return res;
   };
   const handleDeleteQuestion = async () => {
-    const res = await questionService.deleteQuestion(idQuestion);
-    setIsModalDeleteQuetion(false);
     setIsShow(false);
+    setIsLoading(true);
+    const res = await questionService.deleteQuestion(idQuestion);
+    if (res.success) {
+      dispatch(getAllQuestionRd());
+      toast.success("Xóa bài đăng thành công");
+    } else {
+      toast.error("Có lỗi xãy ra");
+    }
+    setIsModalDeleteQuetion(false);
     navigate("/faq");
     return res;
   };
@@ -265,7 +272,7 @@ function FAQInfomation() {
                         alt=""
                         className="md:w-[40px] md:h-[40px] w-[30px] h-[30px] rounded-[50%]"
                       />
-                      <div className="ml-4 shadow-md p-4 w-full border rounded">
+                      <div className="ml-4 shadow-md px-2 py-1 w-full border rounded">
                         <p className="font-[600] text-[50%]  md:text-[100%]">
                           {item?.author.name}
                         </p>
@@ -352,7 +359,7 @@ function FAQInfomation() {
                   disabled={newComment.length === 0}
                   onClick={handleSubmitCommmet}
                 >
-                  Gửi
+                  <AiOutlineSend />
                 </button>
               </div>
             </div>

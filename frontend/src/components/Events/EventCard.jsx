@@ -1,17 +1,24 @@
 import React from "react";
 import CountDown from "./CountDown";
-
+import { useNavigate } from "react-router-dom";
 function EventCard(item) {
-  console.log(item);
+  const navigate = useNavigate();
   const productPrice =
     item?.data?.product[0]?.originPrice *
-    (1 - item?.data?.product[0]?.distCount / 100);
+    (1 - (item?.data?.product[0]?.distCount / 100 + item?.data.discount / 100));
+
+  const handleNavigate = (item) => {
+    navigate(`/product/details/${item.data.product[0]._id}`);
+  };
   return (
-    <div className="w-full rounded-lg md:flex p-2 shadow-lg ">
+    <div
+      className="w-full rounded-lg md:flex p-2 shadow-lg cursor-pointer"
+      onClick={() => handleNavigate(item)}
+    >
       <div className="w-full md:w-[50%] m-auto justify-center items-center flex">
         <img
           className="w-[120px] md:w-[280px]"
-          src={item?.data?.images[0].url}
+          src={item?.data?.product[0].images[0].url}
           alt=""
         />
       </div>
@@ -31,7 +38,7 @@ function EventCard(item) {
             {item?.data?.product[0]?.sold_out} Đã bán
           </span>
         </div>
-        <CountDown />
+        <CountDown item={item} />
       </div>
     </div>
   );

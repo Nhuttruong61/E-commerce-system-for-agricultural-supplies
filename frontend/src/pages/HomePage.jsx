@@ -5,6 +5,7 @@ import Popular from "../components/Popular";
 import Newproduct from "../components/Newproduct";
 import Event from "../components/Events/Event";
 import Footer from "../components/Footer";
+import Outstanding from "../components/Discount";
 
 function HomePage() {
   return (
@@ -14,6 +15,7 @@ function HomePage() {
       <Popular />
       <Newproduct />
       <Event />
+      <Outstanding />
       <Footer />
     </div>
   );

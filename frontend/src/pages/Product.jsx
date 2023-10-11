@@ -12,10 +12,13 @@ function Product() {
   const categoryParam = searchParams.get("category");
   const nameParam = searchParams.get("name");
   const products = useSelector((state) => state.product);
+  const { data } = useSelector((state) => state.event);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
+  const [dataProduct, setDataProduct] = useState([]);
+  const [productData, setProductData] = useState(null);
+  const [dataProductEvent, setDataProductEvent] = useState([]);
   useEffect(() => {
     let delay = 300;
     setTimeout(() => {
@@ -27,14 +30,12 @@ function Product() {
     }, delay);
   }, [products]);
 
-  const [productData, setProductData] = useState(null);
-
   useEffect(() => {
     if (!productData) return;
     let filteredData = productData;
     if (categoryParam) {
       filteredData = productData.filter(
-        (item) => item.category === categoryParam
+        (item) => item.category.categoryid.name === categoryParam
       );
     }
     if (nameParam) {
@@ -42,20 +43,42 @@ function Product() {
         item.name.toLowerCase().includes(nameParam.toLowerCase())
       );
     }
-    setData(filteredData);
+    setDataProduct(filteredData);
     setCurrentPage(1);
   }, [categoryParam, productData, nameParam]);
 
-  const [data, setData] = useState([]);
-
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = dataProductEvent.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+  useEffect(() => {
+    const eventId = data.map((item) => {
+      return {
+        idProductEvent: item.product[0]._id,
+        discount: item.discount,
+      };
+    });
+    const updatedDataSort = dataProduct.map((item) => {
+      const event = eventId.find(
+        (eventItem) => eventItem.idProductEvent === item._id
+      );
+      if (event) {
+        return {
+          ...item,
+          distCount: item.distCount + event.discount,
+        };
+      }
+      return item;
+    });
 
+    setDataProductEvent(updatedDataSort);
+  }, [dataProduct]);
   return (
     <Loading isLoading={isLoading}>
       <div className="bg-[#f4f1f4] md:min-h-[100vh]">
@@ -74,7 +97,7 @@ function Product() {
           <div className="grid grid-cols-1 justify-center items-center text-center py-4">
             <Pagination
               current={currentPage}
-              total={data.length}
+              total={dataProduct.length}
               pageSize={itemsPerPage}
               onChange={handlePageChange}
             />

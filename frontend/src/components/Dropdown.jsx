@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DownOutlined, MenuOutlined } from "@ant-design/icons";
-import { getAllCategory } from "../service/categoryService";
-import { useQuery } from "@tanstack/react-query";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getCaterogy } from "../redux/action/cateroryAction.js";
 const Dropdown = ({ Text, items }) => {
   const [open, setOpen] = useState(false);
@@ -11,7 +9,7 @@ const Dropdown = ({ Text, items }) => {
   const [showText, setShowText] = useState(window.innerWidth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const dataCategory = useSelector((state) => state.category);
   const handleSelect = (item) => {
     setSelectedItem(item);
     setOpen(false);
@@ -28,14 +26,11 @@ const Dropdown = ({ Text, items }) => {
     };
   }, []);
   const getDataCategory = async () => {
-    const res = await getAllCategory();
-    dispatch(getCaterogy(res));
-    return res;
+    dispatch(getCaterogy());
   };
-  const { data: dataCategory } = useQuery({
-    queryKey: ["category"],
-    queryFn: getDataCategory,
-  });
+  useEffect(() => {
+    getDataCategory();
+  }, []);
   return (
     <div className="relative z-10 px-1">
       <span
@@ -52,8 +47,8 @@ const Dropdown = ({ Text, items }) => {
       </span>
       {open && (
         <div className="absolute bg-white border rounded shadow-md mt-2">
-          <ul className="py-2 px-2">
-            {dataCategory?.categories?.map((item) => (
+          <ul>
+            {dataCategory?.data?.categories?.map((item) => (
               <li
                 key={item._id}
                 className="px-4 py-2 cursor-pointer hover:bg-gray-200 flex items-center "

@@ -11,14 +11,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { LogoutUser } from "../redux/action/userAction";
 import DropdownComponet from "./Dropdown";
 import Navbar from "./Navbar";
-import { useQueryClient } from "@tanstack/react-query";
 import logo from "../assets/logo/logo.png";
 import Cart from "./Cart/Cart";
 
 function Header() {
-  const queryClient = useQueryClient();
   const user = useSelector((state) => state.user);
-  const products = queryClient.getQueryData(["products"]);
+  const { cart } = useSelector((state) => state.cart);
+  const products = useSelector((state) => state.product);
   const [show, setShow] = useState(true);
   const [productData, setProductData] = useState([]);
   const [search, setSearch] = useState("");
@@ -43,8 +42,8 @@ function Header() {
     };
   }, []);
   useEffect(() => {
-    if (products?.success === true) {
-      let res = products.product;
+    if (products && products.data.length > 0) {
+      let res = products.data;
       setProductData(res);
     }
   }, [products]);
@@ -224,7 +223,9 @@ function Header() {
           >
             <ShoppingCartOutlined className="text-[24px] mx-2 " />
             <div className="absolute border border-[#ccc] rounded-[50%] right-[-4px] top-0 bg-[#73c509]">
-              <p className="text-[12px] px-[5px] text-white font-[800]">1</p>
+              <p className="text-[12px] px-[5px] text-white font-[800]">
+                {cart.length ? cart.length : "0"}
+              </p>
             </div>
           </div>
           {openCart ? <Cart setOpenCart={setOpenCart} /> : null}

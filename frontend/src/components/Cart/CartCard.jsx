@@ -1,15 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import {
+  decreaseQuantity,
+  increaseQuantity,
+} from "../../redux/action/cartAction";
 function CartCard({ item }) {
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(item.quantity);
   const [totalPrice, setTotalPrice] = useState(null);
+  const dispatch = useDispatch();
   const handleIncreate = (item) => {
-    console.log(item);
     setValue((pre) => pre + 1);
+    dispatch(
+      increaseQuantity({
+        ...item,
+        quantity: item.quantity + (1 - item.quantity),
+      })
+    );
   };
   const handleDecrease = (item) => {
-    console.log(item);
     setValue((pre) => pre - 1);
+    dispatch(
+      decreaseQuantity({
+        ...item,
+        quantity: item.quantity - (item.quantity - 1),
+      })
+    );
   };
   useEffect(() => {
     const res = item.price * value;
@@ -25,10 +41,10 @@ function CartCard({ item }) {
               <p className="font-[600]">{item.name}</p>
               <div className="flex justify-between">
                 <p>{totalPrice?.toLocaleString()} đ</p>
-                <div className="flex items-center justify-center border rounded">
+                <div className="flex items-center justify-center border rounded ml-2">
                   <button
                     className="flex items-center px-1 bg-[#4b8600] h-full"
-                    disabled={value <= 1}
+                    disabled={value <= 0}
                     onClick={() => {
                       handleDecrease(item);
                     }}
@@ -38,6 +54,7 @@ function CartCard({ item }) {
                   <p className="px-2">{value}</p>
                   <button
                     className="flex items-center px-1 h-full bg-[#4b8600]"
+                    disabled={value >= item.quantityProduct}
                     onClick={() => {
                       handleIncreate(item);
                     }}

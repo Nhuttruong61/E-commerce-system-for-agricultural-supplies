@@ -1,17 +1,29 @@
 import React, { useEffect, useState } from "react";
-
-function CountDown() {
+import * as EventService from "../../service/eventService";
+import { getAllEvents } from "../../redux/action/eventAction";
+import { useDispatch } from "react-redux";
+function CountDown({ item }) {
+  const dispatch = useDispatch();
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
-
+    if (
+      typeof timeLeft.Ngày === "undefined" &&
+      typeof timeLeft.giờ === "undefined" &&
+      typeof timeLeft.phút === "undefined" &&
+      typeof timeLeft.giây === "undefined"
+    ) {
+      const res = EventService.deleteEvent(item.data._id);
+      if (res.success) {
+        dispatch(getAllEvents());
+      }
+    }
     return () => clearTimeout(timer);
   });
   function calculateTimeLeft() {
-    const difference = +new Date("2023-10-20") - +new Date();
+    const difference = +new Date(item.data.finish) - +new Date();
     let timeLeft = {};
     if (difference > 0) {
       timeLeft = {
