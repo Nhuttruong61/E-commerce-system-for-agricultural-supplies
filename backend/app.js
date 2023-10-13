@@ -30,6 +30,7 @@ const orderRouter = require("./router/order");
 const eventRouter = require("./router/event");
 const questionRouter = require("./router/question");
 const sliderRouter = require("./router/slider");
+const transportFeeRouter = require("./router/transportfee");
 
 app.use("/api/v2/user", userRouter);
 app.use("/api/v2/category", categoriesRouter);
@@ -38,5 +39,7 @@ app.use("/api/v2/order", orderRouter);
 app.use("/api/v2/event", eventRouter);
 app.use("/api/v2/question", questionRouter);
 app.use("/api/v2/slider", sliderRouter);
+app.use("/api/v2/transportfee", transportFeeRouter);
+
 app.use(ErrorHandler);
 module.exports = app;

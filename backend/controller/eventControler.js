@@ -1,6 +1,5 @@
 const Event = require("../model/event");
 const Product = require("../model/product");
-const cloudinary = require("cloudinary");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 

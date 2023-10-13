@@ -186,9 +186,9 @@ const deleteProduct = catchAsyncErrors(async (req, res, next) => {
 // review for a product
 const reviewProduct = catchAsyncErrors(async (req, res, next) => {
   try {
-    const { user, comment, rating, ratings } = req.body;
+    const { user, comment, rating, cart } = req.body;
     const orderId = await req.body._id;
-    const productIds = req.body.cart.map((cartItem) => cartItem._id);
+    const productIds = cart.map((cartItem) => cartItem._id);
     const order = await Order.findById(orderId);
     if (!order) {
       return next(new ErrorHandler("Order not found with this id", 400));

@@ -23,5 +23,5 @@ router.delete(
   isAdmin("admin"),
   productControler.deleteProduct
 );
-router.put("/create-review", isAuthenticated, productControler.reviewProduct);
+router.post("/create-review", isAuthenticated, productControler.reviewProduct);
 module.exports = router;

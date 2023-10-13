@@ -27,18 +27,6 @@ const eventSchema = new mongoose.Schema({
   discount: {
     type: Number,
   },
-  // images: [
-  //   {
-  //     public_id: {
-  //       type: String,
-  //       required: true,
-  //     },
-  //     url: {
-  //       type: String,
-  //       required: true,
-  //     },
-  //   },
-  // ],
   product: {
     type: Array,
     required: true,

@@ -13,16 +13,15 @@ const createOrder = catchAsyncErrors(async (req, res, next) => {
       );
     }
     const orders = [];
-    for (const product of cart) {
-      const order = await Order.create({
-        cart: [product],
-        shippingAddress,
-        user,
-        totalPrice,
-        paymentInfo,
-      });
-      orders.push(order);
-    }
+
+    const order = await Order.create({
+      cart,
+      shippingAddress,
+      user,
+      totalPrice,
+      paymentInfo,
+    });
+    orders.push(order);
 
     res.status(201).json({
       success: true,
