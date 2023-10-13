@@ -43,6 +43,12 @@ export const cartReducer = (state = initialState, action) => {
         return state;
       }
     }
+    case Type.CLEAR_QUALTTY_CART: {
+      return {
+        ...state,
+        cart: [],
+      };
+    }
     default:
       return state;
   }

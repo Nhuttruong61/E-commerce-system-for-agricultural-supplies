@@ -84,7 +84,7 @@ function ProductDetail(id) {
             quantity,
           })
         );
-        toast.success("Đã thêm sản phảm vào giỏ hàng");
+        toast.success("Đã thêm sản phẩm vào giỏ hàng");
       }
     }
   };

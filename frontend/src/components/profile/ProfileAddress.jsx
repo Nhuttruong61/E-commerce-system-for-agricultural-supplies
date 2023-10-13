@@ -38,24 +38,25 @@ function Address() {
     e.preventDefault();
     const finalAddressType =
       addressType === "other" ? newAddressType : addressType;
-    const addressUser = {
-      country: country,
-      city: city,
-      address: address,
-      addressType: finalAddressType,
-    };
-
-    try {
-      setIsLoading(true);
-      const update = await updateAddress(addressUser);
-      if (update.success) {
-        toast.success("Thay đổi địa chỉ thành công");
+    if (!country || !city || !address) {
+      toast.warning("Vui lòng nhập đầy đủ thông tin!");
+    } else {
+      const addressUser = {
+        country: country,
+        city: city,
+        address: address,
+        addressType: finalAddressType,
+      };
+      try {
+        setIsLoading(true);
+        const update = await updateAddress(addressUser);
+        if (update.success) {
+          dispatch(getUser());
+          toast.success("Thay đổi địa chỉ thành công");
+        }
+      } catch (error) {
+        toast.error("Đã có lỗi xãy ra vui lòng thử lại sao", error);
       }
-    } catch (error) {
-      toast.error("Đã có lỗi xãy ra vui lòng thử lại sao", error);
-      console.log(e);
-    } finally {
-      dispatch(getUser());
       setIsLoading(false);
     }
   };
@@ -79,7 +80,6 @@ function Address() {
               <p className="md:w-[30%] xl:w-[10%]  font-[600] ">Quốc Gia</p>
               <input
                 type="text"
-                name="name"
                 placeholder="Nhập tên quốc gia"
                 value={country}
                 className="w-[70%] md:px-4 xl:w-[85%] h-auto py-2 border-[2px] sm:px-0 rounded-[4px]"
@@ -90,7 +90,6 @@ function Address() {
               <p className="md:w-[30%] xl:w-[10%] font-[600]">Thành Phố:</p>
               <input
                 type="text"
-                name="email"
                 placeholder="Nhập địa chỉ thành phố"
                 value={city}
                 onChange={handleOnchangeCity}
@@ -103,7 +102,6 @@ function Address() {
                 type="text"
                 placeholder="Nhập địa chỉ cụ thế"
                 value={address}
-                name="phone"
                 className="w-[70%] md:px-4 xl:w-[85%] h-auto py-2 border-[2px] sm:px-0 rounded-[4px]"
                 onChange={handleOnchangeAddress}
               />

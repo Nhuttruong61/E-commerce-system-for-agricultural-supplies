@@ -13,3 +13,10 @@ export const decreaseQuantity = (data) => async (dispatch) => {
     data: data,
   });
 };
+
+export const clearQuantity = () => async (dispatch) => {
+  dispatch({
+    type: Type.CLEAR_QUALTTY_CART,
+    data: [],
+  });
+};

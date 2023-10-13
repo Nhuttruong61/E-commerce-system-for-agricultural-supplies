@@ -33,3 +33,10 @@ export const deleteProduct = async (id) => {
   });
   return res;
 };
+
+export const reviewProduct = async (data) => {
+  const res = axios.post("/product/create-review", data, {
+    withCredentials: true,
+  });
+  return res;
+};

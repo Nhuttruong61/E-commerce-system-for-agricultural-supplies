@@ -46,16 +46,30 @@ function ProfileOrder() {
 
   let dataTable = [];
   if (orders && orders.data?.length > 0) {
-    dataTable = orders?.data.map((order) => {
-      return {
-        ...order,
-        name: order?.cart[0].name,
-        quality: order?.cart?.length,
-        status:
-          order?.status === "Transferred" ? "Đang vận chuyển" : "Chờ xử lý",
-      };
-    });
+    dataTable = orders?.data
+      .map((order) => {
+        if (order.status === "Cancel") {
+          return null;
+        } else {
+          let statusText = "";
+          if (order.status === "Transferred") {
+            statusText = "Đang vận chuyển";
+          } else if (order.status === "Processing") {
+            statusText = "Chờ xử lý";
+          } else if (order.status === "Delivered") {
+            statusText = "Đã giao hàng";
+          }
+          return {
+            ...order,
+            name: order?.cart[0].name,
+            quality: order?.cart?.length,
+            status: statusText,
+          };
+        }
+      })
+      .filter((order) => order !== null);
   }
+
   const handleDetail = (item) => {
     navigate(`/information/order/${item._id}`);
   };

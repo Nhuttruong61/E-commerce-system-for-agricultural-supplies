@@ -46,7 +46,7 @@ function ProductCart(item) {
               : item.item.name}{" "}
           </p>
         </div>
-        <Rating ratting={item.item?.ratings} />
+        <Rating rating={item?.item.ratings} />
 
         <div className="flex justify-between font-[500]  text-[10%] md:text-[80%] md:px-[4%]">
           <div className="flex">

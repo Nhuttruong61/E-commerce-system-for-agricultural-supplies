@@ -8,6 +8,14 @@ function Discount() {
   const [productData, setProductData] = useState([]);
   const [dataSort, setDataSort] = useState([]);
   const [dataProduct, setDataProduct] = useState([]);
+  const [dataEvent, setDataEvent] = useState([]);
+  useEffect(() => {
+    if (data) {
+      setDataEvent(data);
+    } else {
+      setDataEvent([]);
+    }
+  }, [data]);
   useEffect(() => {
     if (products) {
       let res = products.data;
@@ -16,7 +24,7 @@ function Discount() {
   }, [products]);
 
   useEffect(() => {
-    const eventId = data.map((item) => {
+    const eventId = dataEvent.map((item) => {
       return {
         idProductEvent: item.product[0]._id,
         discount: item.discount,
@@ -36,7 +44,7 @@ function Discount() {
     });
 
     setDataProduct(updatedDataSort);
-  }, [productData, data]);
+  }, [productData, dataEvent]);
   useEffect(() => {
     const fillterDiscount = () => {
       if (dataProduct) {

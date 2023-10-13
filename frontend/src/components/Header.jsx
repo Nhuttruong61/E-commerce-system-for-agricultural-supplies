@@ -6,6 +6,7 @@ import {
   CloseOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
+import { BsBox } from "react-icons/bs";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LogoutUser } from "../redux/action/userAction";
@@ -13,6 +14,7 @@ import DropdownComponet from "./Dropdown";
 import Navbar from "./Navbar";
 import logo from "../assets/logo/logo.png";
 import Cart from "./Cart/Cart";
+import { clearQuantity } from "../redux/action/cartAction";
 
 function Header() {
   const user = useSelector((state) => state.user);
@@ -65,6 +67,7 @@ function Header() {
   };
   const handleLogout = () => {
     dispatch(LogoutUser());
+    dispatch(clearQuantity());
     setIsShownInUser(false);
     navigate("/login");
   };
@@ -206,7 +209,12 @@ function Header() {
                       </p>
                     </div>
                   )}
-
+                  <div className="hover:bg-[#4B8600] cursor-pointer hover:text-white p-2 flex items-center">
+                    <BsBox />
+                    <p className="ml-1" onClick={handleNavigateProfile}>
+                      Đơn hàng
+                    </p>
+                  </div>
                   <div className="hover:bg-[#4B8600] cursor-pointer hover:text-white p-2 flex items-center">
                     <CloseOutlined />
                     <p className="ml-1" onClick={handleLogout}>

@@ -1,11 +1,12 @@
 import React from "react";
 import Footer from "../components/Footer";
-
+import CheckoutSteps from "../components/Checkout/CheckoutSteps";
 import Lottie from "react-lottie";
-import *as Animation from "../assets/animation/animation.json"
+import * as Animation from "../assets/animation/animation.json";
 const OrderSuccessPage = () => {
   return (
     <div>
+      <CheckoutSteps current={3} />
       <Success />
       <Footer />
     </div>

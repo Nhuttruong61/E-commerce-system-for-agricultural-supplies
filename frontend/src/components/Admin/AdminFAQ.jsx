@@ -12,8 +12,6 @@ function AdminFAQ() {
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [idquestion, setIdQuestion] = useState("");
-  const [showModalAdd, setShowModalAdd] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [idDelete, setIdDelete] = useState("");
   useEffect(() => {
@@ -198,7 +196,6 @@ function AdminFAQ() {
     });
   }
   const handleCancel = () => {
-    setShowModalAdd(false);
     setShowModalDelete(false);
   };
   const handleDelete = async () => {

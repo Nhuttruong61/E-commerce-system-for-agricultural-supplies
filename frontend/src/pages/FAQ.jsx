@@ -78,7 +78,7 @@ export default function FAQ() {
   };
   return (
     <Loading isLoading={isLoading}>
-      <div className="grid-cols-1 min-h-[100vh] ">
+      <div className="grid-cols-1 min-h-[100vh] bg-[#f4f1f4f4]">
         <div className="flex justify-between md:px-[10%] py-4 items-center px-4 text-[50%] md:text-[100%] shadow">
           <h1 className="font-[600]">Diễn đàn nông nghiệp</h1>
 

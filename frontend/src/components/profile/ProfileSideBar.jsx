@@ -1,18 +1,16 @@
 import React from "react";
-import {
-  UserOutlined,
-  HomeOutlined,
-  DropboxOutlined,
-  CloseOutlined,
-} from "@ant-design/icons";
+import { UserOutlined, HomeOutlined, CloseOutlined } from "@ant-design/icons";
+import { BsBox } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { LogoutUser } from "../../redux/action/userAction";
 import { useNavigate } from "react-router-dom";
+import { clearQuantity } from "../../redux/action/cartAction";
 function ProfileSideBar({ setActive, active }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(LogoutUser());
+    dispatch(clearQuantity());
     navigate("/login");
   };
   return (
@@ -34,7 +32,7 @@ function ProfileSideBar({ setActive, active }) {
         className="flex items-center cursor-pointer w-full mb-8"
         onClick={() => setActive(2)}
       >
-        <DropboxOutlined style={{ color: active === 2 ? "#4b8600" : "" }} />
+        <BsBox style={{ color: active === 2 ? "#4b8600" : "" }} />
         <span
           className={`pl-3 ${
             active === 2 ? "text-[#4b8600]" : ""

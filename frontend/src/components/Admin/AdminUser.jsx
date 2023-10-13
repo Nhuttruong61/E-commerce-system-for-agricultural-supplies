@@ -166,7 +166,6 @@ function AdminUser() {
     {
       title: "Phone",
       dataIndex: "phone",
-      sorter: (a, b) => a.quality - b.quality,
     },
     {
       title: "Admin",

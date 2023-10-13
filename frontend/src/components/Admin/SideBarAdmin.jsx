@@ -5,10 +5,10 @@ import {
   AiOutlineTags,
   AiOutlineInbox,
   AiOutlineMessage,
-  AiOutlineGift,
   AiOutlineUser,
   AiOutlineQuestionCircle,
 } from "react-icons/ai";
+import { LiaShippingFastSolid } from "react-icons/lia";
 import { BiCategory } from "react-icons/bi";
 function SideBarAdmin({ active, setActive }) {
   return (
@@ -138,6 +138,25 @@ function SideBarAdmin({ active, setActive }) {
             }`}
           >
             FAQ
+          </p>
+        </div>
+      </div>
+      <div
+        className="flex w-full items-center p-4"
+        onClick={() => setActive(8)}
+      >
+        <div className="flex w-full items-center">
+          <LiaShippingFastSolid
+            className={` text-[24px]  ${
+              active === 8 ? "text-[#4b8600]" : "text-black"
+            }`}
+          />
+          <p
+            className={`800px:block hidden pl-2 text-[18px] font-[500] ${
+              active === 8 ? "text-[#4b8600]" : "text-black"
+            }`}
+          >
+            Fee Strasport
           </p>
         </div>
       </div>

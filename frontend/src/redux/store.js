@@ -10,6 +10,7 @@ import { questionReducer } from "./reducer/questionsReducer";
 import { eventReducer } from "./reducer/eventReducer";
 import { orderReducer } from "./reducer/orderReducer";
 import { cartReducer } from "./reducer/cartReducer";
+import { feeReducer } from "./reducer/feeReducer";
 
 const persistConfig = {
   key: "root",
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   event: eventReducer,
   cart: cartReducer,
   order: orderReducer,
+  fee: feeReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

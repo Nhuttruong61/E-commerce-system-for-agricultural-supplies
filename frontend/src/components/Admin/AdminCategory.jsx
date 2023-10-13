@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TableComponent from "../Table";
 import { Button, Modal, Space } from "antd";
@@ -226,7 +226,9 @@ function AdminCategory() {
       border: "1px solid #ccc",
     },
   };
-
+  useEffect(() => {
+    dispatch(getCaterogy());
+  }, []);
   return (
     <div className="w-full flex flex-col">
       <div

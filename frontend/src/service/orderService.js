@@ -33,3 +33,16 @@ export const cancelOrder = async (id, data) => {
   });
   return res;
 };
+
+export const updateOrderStatus = async (id, status) => {
+  const res = await axios.put(`/order/update-order-status/${id}`, status, {
+    withCredentials: true,
+  });
+  return res;
+};
+export const deleteOrder = async (id) => {
+  const res = await axios.delete(`/order/delete-order/${id}`, {
+    withCredentials: true,
+  });
+  return res;
+};

@@ -8,6 +8,14 @@ function Popular() {
   const { data } = useSelector((state) => state.event);
   const [dataSort, setDataSort] = useState([]);
   const [dataPopular, setDataPopular] = useState([]);
+  const [dataEvent, setDataEvent] = useState([]);
+  useEffect(() => {
+    if (data) {
+      setDataEvent(data);
+    } else {
+      setDataEvent([]);
+    }
+  }, [data]);
   const getAllProduct = async () => {
     dispatch(getAllProductRd());
   };
@@ -22,7 +30,7 @@ function Popular() {
     setDataSort(data);
   }, []);
   useEffect(() => {
-    const eventId = data.map((item) => {
+    const eventId = dataEvent.map((item) => {
       return {
         idProductEvent: item.product[0]._id,
         discount: item.discount,
@@ -42,7 +50,7 @@ function Popular() {
     });
 
     setDataPopular(updatedDataSort);
-  }, [dataSort]);
+  }, [dataEvent, dataSort]);
   return (
     <div className=" p-6 rounded-lg mb-12  md:px-[10%]">
       <div className=" flex justify-center text-center items-center">

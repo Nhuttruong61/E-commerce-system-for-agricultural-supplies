@@ -8,7 +8,14 @@ function Newproduct() {
   const [productData, setProductData] = useState(null);
   const [dataSort, setDataSort] = useState([]);
   const [dataNewProduct, setDataNewProduct] = useState([]);
-
+  const [dataEvent, setDataEvent] = useState([]);
+  useEffect(() => {
+    if (data) {
+      setDataEvent(data);
+    } else {
+      setDataEvent([]);
+    }
+  }, [data]);
   useEffect(() => {
     if (products) {
       let res = products.data;
@@ -29,7 +36,7 @@ function Newproduct() {
     filterProduct();
   }, [productData]);
   useEffect(() => {
-    const eventId = data.map((item) => {
+    const eventId = dataEvent.map((item) => {
       return {
         idProductEvent: item.product[0]._id,
         discount: item.discount,
@@ -49,7 +56,7 @@ function Newproduct() {
     });
 
     setDataNewProduct(updatedDataSort);
-  }, [dataSort]);
+  }, [dataSort, dataEvent]);
   return (
     <div className=" p-6 rounded-lg mb-12  md:px-[10%]">
       <div className=" flex justify-center text-center items-center">

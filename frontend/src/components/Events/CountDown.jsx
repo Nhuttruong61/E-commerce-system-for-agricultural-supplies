@@ -9,19 +9,32 @@ function CountDown({ item }) {
     const timer = setTimeout(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
+
     if (
       typeof timeLeft.Ngày === "undefined" &&
       typeof timeLeft.giờ === "undefined" &&
       typeof timeLeft.phút === "undefined" &&
       typeof timeLeft.giây === "undefined"
     ) {
-      const res = EventService.deleteEvent(item.data._id);
-      if (res.success) {
-        dispatch(getAllEvents());
-      }
+      const deleteEventAsync = async () => {
+        try {
+          const res = await EventService.deleteEvent(item.data._id);
+          if (res.success) {
+            dispatch(getAllEvents());
+          } else {
+            console.error("Xóa sự kiện không thành công");
+          }
+        } catch (error) {
+          console.error("Lỗi khi xóa sự kiện:", error);
+        }
+      };
+
+      deleteEventAsync();
     }
+
     return () => clearTimeout(timer);
   });
+
   function calculateTimeLeft() {
     const difference = +new Date(item.data.finish) - +new Date();
     let timeLeft = {};

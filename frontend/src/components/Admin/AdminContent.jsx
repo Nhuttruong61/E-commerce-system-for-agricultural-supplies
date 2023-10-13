@@ -6,6 +6,7 @@ import AdminEvent from "./AdminEvent";
 import AdminInbox from "./AdminInbox";
 import AdminCategory from "./AdminCategory";
 import AdminFAQ from "./AdminFAQ";
+import AdminFeeTransport from "./AdminFeeTransport";
 
 function AdminContent({ active }) {
   let content = null;
@@ -23,6 +24,8 @@ function AdminContent({ active }) {
     content = <AdminInbox />;
   } else if (active === 7) {
     content = <AdminFAQ />;
+  } else if (active === 8) {
+    content = <AdminFeeTransport />;
   }
   return <div className="flex w-full overflow-x-auto">{content}</div>;
 }

@@ -223,6 +223,9 @@ function Adminproduct() {
       render: renderAction,
     },
   ];
+  useEffect(() => {
+    dispatch(getAllProductRd());
+  }, []);
   let dataTable = [];
   if (product?.data && product.data.length > 0) {
     dataTable = product.data.map((item) => {
@@ -381,7 +384,6 @@ function Adminproduct() {
   const handleReviewProduct = () => {
     setShowModalInfor(false);
   };
-  console.log("inforProduct", inforProduct);
   return (
     <div className="w-full flex flex-col">
       <div className="flex  md:flex-row m-2 justify-between">

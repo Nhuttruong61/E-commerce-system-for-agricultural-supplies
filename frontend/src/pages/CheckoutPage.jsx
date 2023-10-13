@@ -5,7 +5,7 @@ import CheckOutContent from "../components/Checkout/CheckOutContent";
 
 function CheckoutPage() {
   return (
-    <div>
+    <div className="bg-[#f4f1f4]">
       <CheckoutSteps current={1} />
       <CheckOutContent />
       <Footer />
