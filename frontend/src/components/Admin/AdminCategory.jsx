@@ -63,7 +63,7 @@ function AdminCategory() {
               width: 90,
             }}
           >
-            Search
+            Tìm kiếm
           </Button>
           <Button
             onClick={() => clearFilters && handleReset(clearFilters)}
@@ -72,7 +72,7 @@ function AdminCategory() {
               width: 90,
             }}
           >
-            Reset
+            Tải lại
           </Button>
           <Button
             type="link"
@@ -81,7 +81,7 @@ function AdminCategory() {
               close();
             }}
           >
-            close
+            Đóng
           </Button>
         </Space>
       </div>
@@ -127,7 +127,7 @@ function AdminCategory() {
     },
 
     {
-      title: "Image",
+      title: "Ảnh",
       dataIndex: "image",
       render: (text, record) => (
         <img
@@ -138,12 +138,12 @@ function AdminCategory() {
       ),
     },
     {
-      title: "Name",
+      title: "Tên sản phẩm",
       dataIndex: "name",
       ...getColumnSearchProps("name"),
     },
     {
-      title: "Action",
+      title: "Hành động",
       dataIndex: "action",
       render: renderAction,
     },
@@ -178,7 +178,7 @@ function AdminCategory() {
   };
   const handleAddCategory = async () => {
     if (!name || !selectedImage) {
-      toast.warning("Please enter full information");
+      toast.warning("Xin hãy nhập đầy đủ thông tin");
     } else {
       setIsLoading(true);
       setShowModalAdd(false);
@@ -237,7 +237,7 @@ function AdminCategory() {
       >
         <span className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-red-500  text-white">
           <AiOutlineCloudUpload className="md:text-[30px] text-[20px]" />
-          <h2 className="font-[600] px-1 ">Import</h2>
+          <h2 className="font-[600] px-1 ">Tạo mới</h2>
         </span>
       </div>
 
@@ -247,7 +247,7 @@ function AdminCategory() {
         isLoading={isLoading}
       />
       <Modal
-        title="Add new categories"
+        title="Thêm danh mục"
         open={showModalAdd}
         onOk={handleAddCategory}
         onCancel={handleCancel}
@@ -255,12 +255,12 @@ function AdminCategory() {
         okType="none"
       >
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Name</p>
+          <p className="w-[20%] font-[500]">Tên</p>
           <input
             value={name}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter a category name..."
+            placeholder="Nhập tên danh mục..."
           />
         </label>
 
@@ -269,7 +269,7 @@ function AdminCategory() {
             htmlFor="inport"
             className="bg-[#4b8600] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2"
           >
-            Image
+            Ảnh
           </label>
           <input
             id="inport"
@@ -288,14 +288,14 @@ function AdminCategory() {
         </label>
       </Modal>
       <Modal
-        title="Delete"
+        title="Xóa danh mục"
         open={showModalDelete}
         onOk={handleDelete}
         onCancel={handleCancel}
         okButtonProps={okButtonDelete}
         okType="none"
       >
-        <p>{`Are you sure you want to delete this category?`} </p>
+        <p>{`Bnaj có muốn chăc xóa danh mục này?`} </p>
       </Modal>
     </div>
   );

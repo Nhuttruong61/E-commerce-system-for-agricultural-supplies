@@ -25,7 +25,7 @@ function SideBarAdmin({ active, setActive }) {
               active === 1 ? "text-[#4b8600]" : "text-black"
             }`}
           >
-            User
+            Quản lý người dùng
           </p>
         </div>
       </div>
@@ -41,7 +41,7 @@ function SideBarAdmin({ active, setActive }) {
               active === 2 ? "text-[#4b8600]" : "text-black"
             }`}
           >
-            Category
+            Danh mục hàng hóa
           </p>
         </div>
       </div>
@@ -60,7 +60,7 @@ function SideBarAdmin({ active, setActive }) {
               active === 3 ? "text-[#4b8600]" : "text-black"
             }`}
           >
-            Products
+            Quản lý sản phẩm
           </p>
         </div>
       </div>
@@ -79,7 +79,7 @@ function SideBarAdmin({ active, setActive }) {
               active === 4 ? "text-[#4b8600]" : "text-black"
             }`}
           >
-            Orders
+            Quản lý đơn hàng
           </p>
         </div>
       </div>
@@ -98,7 +98,7 @@ function SideBarAdmin({ active, setActive }) {
               active === 5 ? "text-[#4b8600]" : "text-black"
             }`}
           >
-            Event
+            Quản lý sự kiện
           </p>
         </div>
       </div>
@@ -137,7 +137,7 @@ function SideBarAdmin({ active, setActive }) {
               active === 7 ? "text-[#4b8600]" : "text-black"
             }`}
           >
-            FAQ
+            Quản lý bài đăng
           </p>
         </div>
       </div>
@@ -156,7 +156,7 @@ function SideBarAdmin({ active, setActive }) {
               active === 8 ? "text-[#4b8600]" : "text-black"
             }`}
           >
-            Fee Strasport
+            Chi phí vận chuyển
           </p>
         </div>
       </div>

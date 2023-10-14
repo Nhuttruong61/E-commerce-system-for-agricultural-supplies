@@ -13,6 +13,8 @@ import { getUser } from "../../redux/action/userAction";
 import { getAllFee } from "../../redux/action/feeAction";
 import Loading from "../Loading";
 import * as OrderService from "../../service/orderService";
+import * as PaymentService from "../../service/payment";
+
 import { useNavigate } from "react-router-dom";
 function CheckOutContent() {
   const { cart } = useSelector((state) => state.cart);
@@ -30,6 +32,11 @@ function CheckOutContent() {
   const [Paymentethods, setPaymentMethod] = useState("paymentDelivery");
   const [price, setPrice] = useState();
   const [shipCost, setShipCost] = useState(0);
+
+  const queryString = window.location.search;
+  const queryParams = new URLSearchParams(queryString);
+  const encodedParams = queryParams.toString();
+
   const navigate = useNavigate();
   const handleIncreate = (item) => {
     dispatch(
@@ -139,7 +146,7 @@ function CheckOutContent() {
         },
         paymentInfo: {
           type: Paymentethods,
-          status: "",
+          status: "Chưa thanh toán",
         },
       };
       if (order.paymentInfo.type === "") {
@@ -153,6 +160,48 @@ function CheckOutContent() {
       }
     }
   };
+  const handlePayment = async () => {
+    const order = {
+      amount: totalPrice,
+    };
+    const res = await PaymentService.payment(order);
+    if (res.success) {
+      window.location.href = res.paymentUrl;
+    }
+  };
+  const handleOrderPayment = async () => {
+    const res = await PaymentService.peymentReturn(encodedParams);
+    if (res.Message === "Success" && res.RspCode === "00") {
+      if (account?.addresses.length !== 0 && totalPrice !== 0) {
+        const order = {
+          cart,
+          user: account,
+          totalPrice: totalPrice,
+          shippingAddress: {
+            country: account?.addresses[0].country,
+            city: account?.addresses[0].city,
+            address: account?.addresses[0].address,
+            addressType: account?.addresses[0].addressType,
+          },
+          paymentInfo: {
+            type: Paymentethods,
+            status: "Đã thanh toán",
+          },
+        };
+        console.log("order", order);
+        const res = await OrderService.createOrder(order);
+        if (res.success) {
+          navigate("/order/seccess");
+          dispatch(clearQuantity());
+        }
+      }
+    }
+  };
+  useEffect(() => {
+    if (account?.addresses.length !== 0) {
+      handleOrderPayment();
+    }
+  }, [encodedParams, account]);
   return (
     <Loading isLoading={isLoading}>
       <div>
@@ -241,56 +290,91 @@ function CheckOutContent() {
             onChange={(e) => setPaymentMethod(e.target.value)}
           >
             <option value="paymentDelivery">Thanh toán khi nhận hàng</option>
-            <option value="onlinePayment">Thanh toán qua momo</option>
+            <option value="onlinePayment">Thanh toán qua VNPAY</option>
           </select>
-          {Paymentethods === "onlinePayment" ? <p>tess</p> : null}
         </div>
-
-        <div className="flex flex-row-reverse md:px-8 w-full shadow shadow-black bottom-[41%] py-2 bg-white items-center">
-          <div className="flex flex-col ">
-            <p className="text-[50%] md:text-[100%] font-[600] ">
-              Chi tiết thanh toán:{" "}
-            </p>
-            <span className="flex">
-              <p className="text-[50%] md:text-[90%] font-[600]">
-                Tổng tiền hàng:{" "}
+        {Paymentethods === "paymentDelivery" && (
+          <div className="flex flex-row-reverse md:px-8 w-full shadow shadow-black bottom-[41%] py-2 bg-white items-center">
+            <div className="flex flex-col ">
+              <p className="text-[50%] md:text-[100%] font-[600] ">
+                Chi tiết thanh toán:{" "}
               </p>
-              <p className="text-[50%] md:text-[90%] pl-2">
-                {price?.toLocaleString()}đ
-              </p>
-            </span>
-            <span className="flex">
-              <p className="text-[50%] md:text-[90%] font-[600]">
-                Tổng phí vận chuyển:{" "}
-              </p>
-              <p className="text-[50%] md:text-[90%] pl-2">
-                {shipCost?.toLocaleString()}đ
-              </p>
-            </span>
-            <span className="flex">
-              <p className="text-[50%] md:text-[90%] font-[600]">
-                Tổng thanh toán:{" "}
-              </p>
-              <p className="text-[50%] md:text-[90%] pl-2">
-                {totalPrice.toLocaleString()}đ
-              </p>
-            </span>
+              <span className="flex">
+                <p className="text-[50%] md:text-[90%] font-[600]">
+                  Tổng tiền hàng:{" "}
+                </p>
+                <p className="text-[50%] md:text-[90%] pl-2">
+                  {price?.toLocaleString()}đ
+                </p>
+              </span>
+              <span className="flex">
+                <p className="text-[50%] md:text-[90%] font-[600]">
+                  Tổng phí vận chuyển:{" "}
+                </p>
+                <p className="text-[50%] md:text-[90%] pl-2">
+                  {shipCost?.toLocaleString()}đ
+                </p>
+              </span>
+              <span className="flex">
+                <p className="text-[50%] md:text-[90%] font-[600]">
+                  Tổng thanh toán:{" "}
+                </p>
+                <p className="text-[50%] md:text-[90%] pl-2">
+                  {totalPrice.toLocaleString()}đ
+                </p>
+              </span>
+            </div>
           </div>
-        </div>
-        <div className="flex flex-row-reverse md:px-8 w-full shadow shadow-black bottom-[41%] py-2 bg-white items-center">
-          <button
-            className="bg-[#4b8600] text-white px-2 font-[600] py-1 rounded"
-            onClick={handleOrder}
-          >
-            Đặt hàng
-          </button>
-          <p className="px-2 text-[50%] md:text-[100%] font-[600] text-red-600">
-            {totalPrice.toLocaleString()} đ
-          </p>
-          <p className="text-[50%] md:text-[100%] font-[600] ">
-            Tổng số tiền:{" "}
-          </p>
-        </div>
+        )}
+        {Paymentethods === "paymentDelivery" && (
+          <div className="flex flex-row-reverse md:px-8 w-full shadow shadow-black bottom-[41%] py-2 bg-white items-center">
+            <button
+              className="bg-[#4b8600] text-white px-2 font-[600] py-1 rounded"
+              onClick={handleOrder}
+            >
+              Đặt hàng
+            </button>
+
+            <p className="px-2 text-[50%] md:text-[100%] font-[600] text-red-600">
+              {totalPrice.toLocaleString()} đ
+            </p>
+            <p className="text-[50%] md:text-[100%] font-[600] ">
+              Tổng số tiền:{" "}
+            </p>
+          </div>
+        )}
+        {Paymentethods === "onlinePayment" && (
+          <div className="w-auto  items-center bg-white px-[10%] my-1">
+            <h1 className="font-[600] md:text-[1.6rem]">
+              Thông tin thanh toán
+            </h1>
+            <label className="items-center">
+              <p className="w-[20%] font-[400]">Loại thanh toán</p>
+              <input
+                type="text"
+                value="Thanh toán hóa đơn"
+                readOnly={true}
+                className="w-full md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px] outline-none"
+              />
+            </label>
+
+            <label className="items-center">
+              <p className="w-[20%] font-[400]">Số tiền</p>
+              <input
+                type="text"
+                value={totalPrice}
+                readOnly={true}
+                className="w-full md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px] outline-none"
+              />
+            </label>
+            <button
+              className="bg-[#005baa] px-2 py-1 rounded font-[600] text-white my-2"
+              onClick={handlePayment}
+            >
+              Thanh toán
+            </button>
+          </div>
+        )}
         <Modal
           title="Địa chỉ"
           open={showModalAddress}
@@ -301,7 +385,7 @@ function CheckOutContent() {
           width={600}
         >
           <label className="flex items-center my-2 justify-between ">
-            <p className="md:w-[30%] xl:w-[10%]  font-[600] ">Quốc Gia</p>
+            <p className="md:w-[30%] xl:w-[20%]  font-[600] ">Quốc Gia</p>
             <input
               type="text"
               placeholder="Nhập tên quốc gia"
@@ -311,7 +395,7 @@ function CheckOutContent() {
             />
           </label>
           <label className="flex items-center my-2 justify-between">
-            <p className="md:w-[30%] xl:w-[10%] font-[600]">Thành Phố:</p>
+            <p className="md:w-[30%] xl:w-[20%] font-[600]">Thành Phố:</p>
             <input
               type="text"
               placeholder="Nhập địa chỉ thành phố"
@@ -321,7 +405,7 @@ function CheckOutContent() {
             />
           </label>
           <label className="flex items-center my-2 justify-between">
-            <p className="md:w-[30%] xl:w-[10%] font-[600]">Địa chỉ:</p>
+            <p className="md:w-[30%] xl:w-[20%] font-[600]">Địa chỉ:</p>
             <input
               type="text"
               placeholder="Nhập địa chỉ cụ thế"
@@ -331,7 +415,7 @@ function CheckOutContent() {
             />
           </label>
           <label className="flex items-center my-2 justify-between">
-            <p className="md:w-[30%] xl:w-[10%] font-[600]">Loại địa chỉ:</p>
+            <p className="md:w-[30%] xl:w-[20%] font-[600]">Loại địa chỉ:</p>
             <select
               value={addressType}
               onChange={handleOnchangaAddressType}

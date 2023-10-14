@@ -53,8 +53,8 @@ function AdminFAQ() {
           value={item.status}
           onChange={(value) => handleStatusChange(value, item._id)}
         >
-          <Select.Option value="Prossing">Prossing</Select.Option>
-          <Select.Option value="Confirm">Confirm</Select.Option>
+          <Select.Option value="Prossing">Chờ xử lý</Select.Option>
+          <Select.Option value="Confirm">Đã xữ lý</Select.Option>
         </Select>
       );
     } else {
@@ -105,7 +105,7 @@ function AdminFAQ() {
               width: 90,
             }}
           >
-            Search
+            Tìm kiếm
           </Button>
           <Button
             onClick={() => clearFilters && handleReset(clearFilters)}
@@ -114,7 +114,7 @@ function AdminFAQ() {
               width: 90,
             }}
           >
-            Reset
+            Tải lại
           </Button>
           <Button
             type="link"
@@ -123,7 +123,7 @@ function AdminFAQ() {
               close();
             }}
           >
-            close
+            Đóng
           </Button>
         </Space>
       </div>
@@ -153,17 +153,17 @@ function AdminFAQ() {
       dataIndex: "_id",
     },
     {
-      title: "Author",
+      title: "Người đăng",
       dataIndex: "author",
       ...getColumnSearchProps("author"),
     },
     {
-      title: "Title",
+      title: "Tiêu đề",
       dataIndex: "title",
       ...getColumnSearchProps("title"),
     },
     {
-      title: "Content",
+      title: "Nội dung",
       dataIndex: "content",
       render: (text, record) => (
         <textarea
@@ -175,13 +175,13 @@ function AdminFAQ() {
       ),
     },
     {
-      title: "Status",
+      title: "Trạng thái",
       dataIndex: "status",
       render: handleRenderStatus,
     },
 
     {
-      title: "Action",
+      title: "Hành động",
       dataIndex: "action",
       render: renderAction,
     },
@@ -204,9 +204,9 @@ function AdminFAQ() {
     const res = await QuestionService.deleteQuestionAdmin(idDelete);
     if (res.success) {
       dispatch(getAllQuestionRd());
-      toast.success("Question deleted successfully");
+      toast.success("Xóa bài đăng thành công");
     } else {
-      toast.error("An error occurred");
+      toast.error("Đã có lỗi xảy ra");
     }
     setIsLoading(false);
   };
@@ -224,14 +224,14 @@ function AdminFAQ() {
         isLoading={isLoading}
       />
       <Modal
-        title="Delete"
+        title="Xóa bài đăng"
         open={showModalDelete}
         onOk={handleDelete}
         onCancel={handleCancel}
         okButtonProps={okButtonDelete}
         okType="none"
       >
-        <p>{`Are you sure you want to delete this question?`} </p>
+        <p>{`bạn có muốn chắc xóa bài đăng?`} </p>
       </Modal>
     </div>
   );

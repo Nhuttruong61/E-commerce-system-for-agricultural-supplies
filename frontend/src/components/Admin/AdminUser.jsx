@@ -107,7 +107,7 @@ function AdminUser() {
               width: 90,
             }}
           >
-            Search
+            Tìm kiếm
           </Button>
           <Button
             onClick={() => clearFilters && handleReset(clearFilters)}
@@ -116,7 +116,7 @@ function AdminUser() {
               width: 90,
             }}
           >
-            Reset
+            Tải lại
           </Button>
           <Button
             type="link"
@@ -125,7 +125,7 @@ function AdminUser() {
               close();
             }}
           >
-            close
+            Đóng
           </Button>
         </Space>
       </div>
@@ -159,25 +159,25 @@ function AdminUser() {
       dataIndex: "email",
     },
     {
-      title: "Name",
+      title: "Tên",
       dataIndex: "name",
       ...getColumnSearchProps("name"),
     },
     {
-      title: "Phone",
+      title: "Điện thoại",
       dataIndex: "phone",
     },
     {
-      title: "Admin",
+      title: "Vai trò",
       dataIndex: "isAdmin",
     },
     {
-      title: "Info",
+      title: "Xem thêm",
       dataIndex: "review",
       render: renderReview,
     },
     {
-      title: "Action",
+      title: "Hành động",
       dataIndex: "action",
       render: renderAction,
     },
@@ -190,7 +190,7 @@ function AdminUser() {
         id: user._id,
         email: user.email,
         name: user.name,
-        phone: user?.phoneNumber ? user.phoneNumber : "No information yet",
+        phone: user?.phoneNumber ? user.phoneNumber : "Chưa có thông tin",
         isAdmin: user.role,
         review: {
           ...user,
@@ -244,17 +244,17 @@ function AdminUser() {
           isLoading={isLoading}
         />
         <Modal
-          title="Delete"
+          title="Xóa người dùng"
           open={showModal}
           onOk={handleDeleteUser}
           onCancel={handleCancel}
           okButtonProps={okButtonDelete}
           okType="none"
         >
-          <p>{`Are you sure you want to delete this user?`} </p>
+          <p>{`Bạn có muốn chắc xóa người dùng này?`} </p>
         </Modal>
         <Modal
-          title="Information user"
+          title="Thông tin người dùng"
           open={showModalReview}
           onOk={handleReview}
           onCancel={handleCancel}
@@ -277,7 +277,7 @@ function AdminUser() {
             </div>
             <div className="w-[70%]">
               <label className="flex  items-center">
-                <p className=" font-[500]">Name:</p>
+                <p className=" font-[500]">Tên:</p>
                 <p className="pl-2">{infoUser?.name}</p>
               </label>
               <label className="flex items-center">
@@ -285,16 +285,16 @@ function AdminUser() {
                 <p className="pl-2">{infoUser?.email}</p>
               </label>
               <label className="flex items-center">
-                <p className=" font-[500]">Number:</p>
+                <p className=" font-[500]">Điện thoại:</p>
                 <p className="pl-2">{infoUser?.phoneNumber}</p>
               </label>
               <label className="flex items-center">
-                <p className=" font-[500]">Role:</p>
+                <p className=" font-[500]">Vai trò:</p>
                 <p className="pl-2">{infoUser?.role}</p>
               </label>
 
               <label className="flex  items-center">
-                <p className=" font-[500]">Address:</p>
+                <p className=" font-[500]">Địa chỉ:</p>
                 {infoUser?.addresses.length > 0 ? (
                   <p className="pl-2">{infoUser?.addresses[0].address}</p>
                 ) : (

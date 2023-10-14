@@ -77,7 +77,7 @@ function Address() {
             onSubmit={handleSubmit}
           >
             <label className="flex items-center my-2 justify-between ">
-              <p className="md:w-[30%] xl:w-[10%]  font-[600] ">Quốc Gia</p>
+              <p className="md:w-[30%] xl:w-[20%]  font-[600] ">Quốc Gia</p>
               <input
                 type="text"
                 placeholder="Nhập tên quốc gia"
@@ -87,7 +87,7 @@ function Address() {
               />
             </label>
             <label className="flex items-center my-2 justify-between">
-              <p className="md:w-[30%] xl:w-[10%] font-[600]">Thành Phố:</p>
+              <p className="md:w-[30%] xl:w-[20%] font-[600]">Thành Phố:</p>
               <input
                 type="text"
                 placeholder="Nhập địa chỉ thành phố"
@@ -97,7 +97,7 @@ function Address() {
               />
             </label>
             <label className="flex items-center my-2 justify-between">
-              <p className="md:w-[30%] xl:w-[10%] font-[600]">Địa chỉ:</p>
+              <p className="md:w-[30%] xl:w-[20%] font-[600]">Địa chỉ:</p>
               <input
                 type="text"
                 placeholder="Nhập địa chỉ cụ thế"
@@ -107,7 +107,7 @@ function Address() {
               />
             </label>
             <label className="flex items-center my-2 justify-between">
-              <p className="md:w-[30%] xl:w-[10%] font-[600]">Loại địa chỉ:</p>
+              <p className="md:w-[30%] xl:w-[20%] font-[600]">Loại địa chỉ:</p>
               <select
                 value={addressType}
                 onChange={handleOnchangaAddressType}

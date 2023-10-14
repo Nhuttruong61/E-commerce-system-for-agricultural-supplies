@@ -10,8 +10,16 @@ function EventPage() {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.event);
   return (
-    <div className="min-h-[100vh] md:px-[4%] px-2">
-      {data && data.map((item, index) => <EventCard data={item} key={index} />)}
+    <div>
+      <div className="min-h-[100vh] md:px-[4%] px-2">
+        {data && data.length > 0 ? (
+          data.map((item, index) => <EventCard data={item} key={index} />)
+        ) : (
+          <p className="text-center text-gray-500">
+            Tạm thời không có sự kiện!
+          </p>
+        )}
+      </div>
       <Footer />
     </div>
   );

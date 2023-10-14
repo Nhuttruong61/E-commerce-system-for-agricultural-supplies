@@ -3,14 +3,12 @@ import * as OrderSerVice from "../../service/orderService";
 import TableComponent from "../Table";
 import { Button, Modal, Select, Space } from "antd";
 import { SearchOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
 import { CSVLink } from "react-csv";
 import { CiExport } from "react-icons/ci";
 import { toast } from "react-toastify";
 
 function AdminOrder() {
   const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useDispatch();
   const [dataOrder, setDataOrder] = useState([]);
   const [idOrder, setIdOrder] = useState("");
   const [showModalDelete, setshowModalDelete] = useState(false);
@@ -63,7 +61,7 @@ function AdminOrder() {
     };
     const res = await OrderSerVice.updateOrderStatus(id, status);
     if (res.success) {
-      toast.success("Updated order status successfully");
+      toast.success("Cập nhật trạng thái thành công");
       getAllOrders();
     }
     setIsLoading(false);
@@ -136,7 +134,7 @@ function AdminOrder() {
               width: 90,
             }}
           >
-            Search
+            Tìm kiếm
           </Button>
           <Button
             onClick={() => clearFilters && handleReset(clearFilters)}
@@ -145,7 +143,7 @@ function AdminOrder() {
               width: 90,
             }}
           >
-            Reset
+            Tải lại
           </Button>
           <Button
             type="link"
@@ -154,7 +152,7 @@ function AdminOrder() {
               close();
             }}
           >
-            close
+            Thoát
           </Button>
         </Space>
       </div>
@@ -184,20 +182,20 @@ function AdminOrder() {
       dataIndex: "id",
     },
     {
-      title: "User",
+      title: "Người dùng",
       dataIndex: "name",
       ...getColumnSearchProps("name"),
     },
     {
-      title: "Phone",
+      title: "Điện thoại",
       dataIndex: "phone",
     },
     {
-      title: "address",
+      title: "Địa chỉ",
       dataIndex: "address",
     },
     {
-      title: "Product",
+      title: "Sản phẩm",
       dataIndex: "product",
       render: (product) => {
         const productName = product.map((item) => item.name).join(", ");
@@ -205,26 +203,30 @@ function AdminOrder() {
       },
     },
     {
-      title: "Payment",
+      title: "Loại thanh toán",
       dataIndex: "paymentInfo",
     },
     {
-      title: "Price",
+      title: "Thanh toán",
+      dataIndex: "paymentInfoStatus",
+    },
+    {
+      title: "Tổng giá",
       dataIndex: "totalPrice",
       sorter: (a, b) => a.totalPrice - b.totalPrice,
     },
     {
-      title: "Status",
+      title: "Trạng thái",
       dataIndex: "status",
       render: handleRenderStatus,
     },
     {
-      title: "More",
+      title: "Xem thêm",
       dataIndex: "more",
       render: renderSeeMore,
     },
     {
-      title: "Action",
+      title: "Hành động",
       dataIndex: "action",
       render: renderAction,
     },
@@ -239,6 +241,7 @@ function AdminOrder() {
         phone: order.user.phoneNumber,
         product: order.cart,
         paymentInfo: order.paymentInfo.type,
+        paymentInfoStatus: order.paymentInfo.status,
         address: order.shippingAddress.address,
         totalPrice: order.totalPrice,
         status: order.status,
@@ -260,7 +263,7 @@ function AdminOrder() {
     setIsLoading(true);
     const res = await OrderSerVice.deleteOrder(idOrder);
     if (res.success) {
-      toast.success("Order deleted successfully");
+      toast.success("Xóa đơn hàng hành công");
       getAllOrders();
     }
   };
@@ -314,7 +317,7 @@ function AdminOrder() {
         />
       </div>
       <Modal
-        title="Information order"
+        title="Thông tin đơn hàng"
         open={showModalSeeMore}
         onOk={handleSeeMore}
         onCancel={handleCancel}
@@ -375,7 +378,7 @@ function AdminOrder() {
                 <div>
                   <div className="flex">
                     <p className="text-[50%] md:text-[100%] font-[600] pr-2">
-                      Name:
+                      Tên:
                     </p>
                     <p className="text-[50%] md:text-[100%]">
                       {dataSeeMore?.user.name}
@@ -391,7 +394,7 @@ function AdminOrder() {
                   </div>
                   <div className="flex">
                     <p className="text-[50%] md:text-[100%] font-[600] pr-2">
-                      Phone:
+                      Điện thoại:
                     </p>
                     <p className="text-[50%] md:text-[100%]">
                       {dataSeeMore?.user.phoneNumber}
@@ -409,7 +412,7 @@ function AdminOrder() {
                   </div>
                   <div className="flex">
                     <p className="text-[50%] md:text-[100%] font-[600] pr-2">
-                      city:
+                      Thành phố:
                     </p>
                     <p className="text-[50%] md:text-[100%]">
                       {dataSeeMore?.shippingAddress.city}
@@ -417,7 +420,7 @@ function AdminOrder() {
                   </div>
                   <div className="flex">
                     <p className="text-[50%] md:text-[100%] font-[600] pr-2">
-                      address:
+                      Địa chỉ:
                     </p>
                     <p className="text-[50%] md:text-[100%]">
                       {dataSeeMore?.shippingAddress.address}
@@ -425,7 +428,7 @@ function AdminOrder() {
                   </div>
                   <div className="flex">
                     <p className="text-[50%] md:text-[100%] font-[600] pr-2">
-                      addressType:
+                      Loại địa chỉ:
                     </p>
                     <p className="text-[50%] md:text-[100%]">
                       {dataSeeMore?.shippingAddress.addressType}
@@ -438,7 +441,7 @@ function AdminOrder() {
           <div className="w-auto  items-center bg-white px-[10%] my-1  md:flex md:justify-between">
             <div>
               <p className="text-[50%] md:text-[100%] font-[600] pt-2 ">
-                Total payment
+                Tổng thanh toán
               </p>
               <p className="text-[50%] md:text-[100%] font-[600] pt-2 text-red-600">
                 {dataSeeMore?.totalPrice.toLocaleString()} đ
@@ -448,14 +451,14 @@ function AdminOrder() {
         </div>
       </Modal>
       <Modal
-        title="Delete"
+        title="Xóa sản đơn hàng"
         open={showModalDelete}
         onOk={handleDeleteOrder}
         onCancel={handleCancel}
         okButtonProps={okButtonDelete}
         okType="none"
       >
-        <p>{`Are you sure you want to delete this order?`} </p>
+        <p>{`Bạn có muốn chăc xóa đơn hàng này?`} </p>
       </Modal>
     </div>
   );

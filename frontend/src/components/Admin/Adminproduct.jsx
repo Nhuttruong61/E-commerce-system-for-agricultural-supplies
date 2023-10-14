@@ -28,7 +28,6 @@ function Adminproduct() {
   const [description, setDescription] = useState([]);
   const [newDescription, setNewDescription] = useState("");
   const [category, setCategory] = useState(data.categories[0]._id);
-  const [tags, setTags] = useState("");
   const [originPrice, setOriginPrice] = useState("");
   const [distCount, setdistCount] = useState(0);
   const [quantity, setQuantity] = useState("");
@@ -38,7 +37,6 @@ function Adminproduct() {
     name: "",
     description: [],
     category,
-    tags: "",
     originPrice: "",
     distCount: "",
     quantity: "",
@@ -92,7 +90,7 @@ function Adminproduct() {
               width: 90,
             }}
           >
-            Search
+            Tìm kiếm
           </Button>
           <Button
             onClick={() => clearFilters && handleReset(clearFilters)}
@@ -101,7 +99,7 @@ function Adminproduct() {
               width: 90,
             }}
           >
-            Reset
+            Tải lại
           </Button>
           <Button
             type="link"
@@ -110,7 +108,7 @@ function Adminproduct() {
               close();
             }}
           >
-            close
+            Thoát
           </Button>
         </Space>
       </div>
@@ -190,35 +188,35 @@ function Adminproduct() {
       dataIndex: "id",
     },
     {
-      title: "Name",
+      title: "Tiêu đề",
       dataIndex: "name",
       ...getColumnSearchProps("name"),
     },
     {
-      title: "Category",
+      title: "Loại sản phẩm",
       dataIndex: "categoryName",
     },
     {
-      title: "Price",
+      title: "Giá",
       dataIndex: "originPrice",
     },
     {
-      title: "Quantity",
+      title: "Số lượng",
       dataIndex: "quantity",
       sorter: (a, b) => a.quantity - b.quantity,
     },
     {
-      title: "Sold Out",
+      title: "Đã bán",
       dataIndex: "sold_out",
       sorter: (a, b) => a.sold_out - b.sold_out,
     },
     {
-      title: "Info",
+      title: "Xen thêm",
       dataIndex: "review",
       render: renderInfor,
     },
     {
-      title: "Action",
+      title: "Hành động",
       dataIndex: "action",
       render: renderAction,
     },
@@ -272,7 +270,7 @@ function Adminproduct() {
   };
   const handleAddProduct = async () => {
     if (!name || !description || !category || !originPrice || !quantity) {
-      toast.warning("Please enter full product information");
+      toast.warning("Xin nhập đầy đủ thông tin");
     } else {
       setShowModalAdd(false);
       setIsLoading(true);
@@ -282,7 +280,7 @@ function Adminproduct() {
         category: {
           _id: category,
         },
-        tags,
+
         originPrice,
         distCount,
         quantity,
@@ -290,17 +288,16 @@ function Adminproduct() {
       };
       const res = await ProductService.createProduct(product);
       if (res.success) {
-        toast.success("Successful product addition");
+        toast.success("Thêm sản phẩm thành công");
         dispatch(getAllProductRd());
         setName("");
         setDescription([]);
         setNewDescription("");
-        setTags("");
         setOriginPrice("");
         setQuantity("");
         setSelectedImage(null);
       } else {
-        toast.error("An error occurred");
+        toast.error("Đã xảy ra lỗi");
       }
       setIsLoading(false);
     }
@@ -345,7 +342,7 @@ function Adminproduct() {
     setIsLoading(false);
     if (res.success) {
       dispatch(getAllProductRd());
-      toast.success("Product update successful");
+      toast.success("Cập nhật sản phẩm thành công");
     }
   };
   const handleDelete = async () => {
@@ -354,7 +351,7 @@ function Adminproduct() {
     setShowModalDelete(false);
     if (res.success) {
       dispatch(getAllProductRd());
-      toast.success("Product deletion successful");
+      toast.success("Xóa sản phẩm thành công");
     }
     setIsLoading(false);
   };
@@ -392,7 +389,7 @@ function Adminproduct() {
           onClick={() => setShowModalAdd(true)}
         >
           <AiOutlineCloudUpload className="md:text-[30px] text-[20px]" />
-          <h2 className="font-[600] px-1 ">Import</h2>
+          <h2 className="font-[600] px-1 ">Tạo mới</h2>
         </span>
         <CSVLink
           filename="products.csv"
@@ -411,7 +408,7 @@ function Adminproduct() {
         isLoading={isLoading}
       />
       <Modal
-        title="Add new product"
+        title="Thêm mới sản phẩm"
         open={showModalAdd}
         onOk={handleAddProduct}
         onCancel={handleCancel}
@@ -419,16 +416,16 @@ function Adminproduct() {
         okType="none"
       >
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Name</p>
+          <p className="w-[20%] font-[500]">Tên</p>
           <input
             value={name}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
             onChange={(e) => setName(e.target.value)}
-            placeholder="Add product name"
+            placeholder="Tên sản phảm"
           />
         </label>
         <label className="flex justify-center items-center">
-          <p className="w-[20%] font-[500]">Description</p>
+          <p className="w-[20%] font-[500]">Mô tả</p>
           <div className="flex flex-col w-[80%]">
             {description?.length > 0 && (
               <div className="flex flex-col">
@@ -460,7 +457,7 @@ function Adminproduct() {
           </div>
         </label>
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Category</p>
+          <p className="w-[20%] font-[500]">Loại</p>
           <select
             value={category}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
@@ -477,40 +474,32 @@ function Adminproduct() {
               : null}
           </select>
         </label>
+
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Tags</p>
-          <input
-            value={tags}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) => setTags(e.target.value)}
-            placeholder="Add event name"
-          />
-        </label>
-        <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Price</p>
+          <p className="w-[20%] font-[500]">Giá</p>
           <input
             value={originPrice}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
             onChange={(e) => setOriginPrice(e.target.value)}
-            placeholder="Extra price"
+            placeholder="Giá sản phẩm"
           />
         </label>
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Dist Count</p>
+          <p className="w-[20%] font-[500]">Giảm giá</p>
           <input
             value={distCount}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
             onChange={(e) => setdistCount(e.target.value)}
-            placeholder="Add percentage discount"
+            placeholder="Phầm trăm giảm giá"
           />
         </label>
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Quantity</p>
+          <p className="w-[20%] font-[500]">Số lượng</p>
           <input
             value={quantity}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
             onChange={(e) => setQuantity(e.target.value)}
-            placeholder="Add product quantity"
+            placeholder="Số lượng sản phẩm"
           />
         </label>
         <label className="flex items-center my-8 w-[30%] ">
@@ -537,7 +526,7 @@ function Adminproduct() {
         </label>
       </Modal>
       <Modal
-        title="Update product"
+        title="Cạp nhật sản phẩm"
         open={showModalEdit}
         onOk={handleEditProduct}
         onCancel={handleCancel}
@@ -545,7 +534,7 @@ function Adminproduct() {
         okType="none"
       >
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Name</p>
+          <p className="w-[20%] font-[500]">Tên</p>
           <input
             value={editProduct.name}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
@@ -555,7 +544,7 @@ function Adminproduct() {
           />
         </label>
         <label className="flex justify-center items-center">
-          <p className="w-[20%] font-[500]">Description</p>
+          <p className="w-[20%] font-[500]">Mô tả</p>
           <textarea
             value={editProduct.description.join("\n")}
             className="w-[80%] md:px-4 h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
@@ -568,7 +557,7 @@ function Adminproduct() {
           />
         </label>
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Category</p>
+          <p className="w-[20%] font-[500]">Loại</p>
           <select
             value={editProduct.category._id}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
@@ -588,18 +577,7 @@ function Adminproduct() {
           </select>
         </label>
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Tags</p>
-          <input
-            value={editProduct.tags}
-            required={true}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) =>
-              setEditProduct({ ...editProduct, tags: e.target.value })
-            }
-          />
-        </label>
-        <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Price</p>
+          <p className="w-[20%] font-[500]">Giá</p>
           <input
             value={editProduct.originPrice}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
@@ -609,7 +587,7 @@ function Adminproduct() {
           />
         </label>
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Dist Count</p>
+          <p className="w-[20%] font-[500]">Giảm giá</p>
           <input
             value={editProduct.distCount}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
@@ -619,7 +597,7 @@ function Adminproduct() {
           />
         </label>
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Quantity</p>
+          <p className="w-[20%] font-[500]">Số lượng</p>
           <input
             value={editProduct.quantity}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
@@ -657,17 +635,17 @@ function Adminproduct() {
         </label>
       </Modal>
       <Modal
-        title="Delete"
+        title="Xóa sản phảm"
         open={showModalDelete}
         onOk={handleDelete}
         onCancel={handleCancel}
         okButtonProps={okButtonDelete}
         okType="none"
       >
-        <p>{`Are you sure you want to delete this product?`} </p>
+        <p>{`Bạn có muốn chăc xóa sản phảm này?`} </p>
       </Modal>
       <Modal
-        title="Information product"
+        title="Thông tin sản phẩm"
         open={showModalInfo}
         onOk={handleReviewProduct}
         onCancel={handleCancel}
@@ -692,11 +670,11 @@ function Adminproduct() {
               <p className="pl-2">{inforProduct?.name}</p>
             </label>
             <label className="flex items-center">
-              <p className=" font-[500] w-[20%]">Category:</p>
+              <p className=" font-[500] w-[20%]">Loại:</p>
               <p className="pl-2">{inforProduct?.category?.name}</p>
             </label>
             <label className="flex items-center">
-              <p className=" font-[500] w-[20%]">Description:</p>
+              <p className=" font-[500] w-[20%]">Mô tả:</p>
               <div className="pl-2 py-2">
                 {inforProduct?.description.length > 0
                   ? inforProduct.description.map((item, index) => {
@@ -706,21 +684,21 @@ function Adminproduct() {
               </div>
             </label>
             <label className="flex items-center">
-              <p className=" font-[500] w-[20%]">DistCount:</p>
+              <p className=" font-[500] w-[20%]">Giảm giá:</p>
               <p className="pl-2">{inforProduct?.distCount}</p>
             </label>
             <label className="flex items-center">
-              <p className=" font-[500] w-[20%]">OriginPrice:</p>
+              <p className=" font-[500] w-[20%]">Giá:</p>
               <p className="pl-2">
                 {inforProduct?.originPrice.toLocaleString()} đ
               </p>
             </label>
             <label className="flex items-center">
-              <p className=" font-[500] w-[20%]">Quantity:</p>
+              <p className=" font-[500] w-[20%]">Số lượng:</p>
               <p className="pl-2">{inforProduct?.quantity}</p>
             </label>
             <label className="flex items-center">
-              <p className=" font-[500] w-[20%]">sold_out:</p>
+              <p className=" font-[500] w-[20%]">Đã bán:</p>
               <p className="pl-2">{inforProduct?.sold_out}</p>
             </label>
           </div>

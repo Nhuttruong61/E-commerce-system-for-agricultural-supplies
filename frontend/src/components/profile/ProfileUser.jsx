@@ -93,7 +93,7 @@ function Profile() {
             onSubmit={handleSubmit}
           >
             <label className="flex items-center my-2 justify-between ">
-              <p className="md:w-[30%] xl:w-[10%]  font-[600] ">
+              <p className="md:w-[30%] xl:w-[20%]  font-[600] ">
                 Tên người dùng:
               </p>
               <input
@@ -105,7 +105,7 @@ function Profile() {
               />
             </label>
             <label className="flex items-center my-2 justify-between">
-              <p className="md:w-[30%] xl:w-[10%] font-[600]">Email:</p>
+              <p className="md:w-[30%] xl:w-[20%] font-[600]">Email:</p>
               <input
                 type="text"
                 name="email"
@@ -115,7 +115,7 @@ function Profile() {
               />
             </label>
             <label className="flex items-center my-2 justify-between">
-              <p className="md:w-[30%] xl:w-[10%] font-[600]">Số điện thoại:</p>
+              <p className="md:w-[30%] xl:w-[20%] font-[600]">Số điện thoại:</p>
               <input
                 type="text"
                 value={phoneNumber}

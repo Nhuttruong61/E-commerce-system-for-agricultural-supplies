@@ -60,6 +60,7 @@ function InfomationOrder() {
     };
     const res = await OrderService.cancelOrder(id, status);
     if (res.success) {
+      dispatch(getAllProductRd());
       navigate("/profile");
     }
   };
@@ -90,6 +91,7 @@ function InfomationOrder() {
       if (res.success) {
         dispatch(getAllProductRd());
         toast.success("Đánh giá thành công");
+        getOrder();
         localStorage.setItem("hasReviewed", review._id);
       }
     }
@@ -174,7 +176,7 @@ function InfomationOrder() {
             )}
           </div>
         </div>
-        {orders?.status === "Delivered" && !hasReviewed ? (
+        {orders?.status === "Delivered" && !hasReviewed && (
           <div className="w-auto items-center bg-white px-[10%] my-1 md:flex md:justify-between">
             <div className="bg-[#4b8600] text-white rounded flex justify-center items-center my-2">
               <button
@@ -182,17 +184,6 @@ function InfomationOrder() {
                 onClick={() => setShowModalReview(true)}
               >
                 Đánh giá
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="w-auto items-center bg-white px-[10%] my-1 md:flex md:justify-between">
-            <div className="bg-[#4b8600] text-white rounded flex justify-center items-center my-2">
-              <button
-                className="text-[50%] md:text-[100%] font-[600] px-2 py-1"
-                disabled
-              >
-                Đã đánh giá
               </button>
             </div>
           </div>

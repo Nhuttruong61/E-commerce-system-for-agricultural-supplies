@@ -78,7 +78,7 @@ function AdminEvent() {
               width: 90,
             }}
           >
-            Search
+            Tìm kiếm
           </Button>
           <Button
             onClick={() => clearFilters && handleReset(clearFilters)}
@@ -87,7 +87,7 @@ function AdminEvent() {
               width: 90,
             }}
           >
-            Reset
+            Tải lại
           </Button>
           <Button
             type="link"
@@ -96,7 +96,7 @@ function AdminEvent() {
               close();
             }}
           >
-            close
+            Đóng
           </Button>
         </Space>
       </div>
@@ -141,24 +141,24 @@ function AdminEvent() {
       dataIndex: "_id",
     },
     {
-      title: "Name",
+      title: "Tên",
       dataIndex: "name",
       ...getColumnSearchProps("name"),
     },
     {
-      title: "Product",
+      title: "Sản phẩm",
       dataIndex: "productName",
     },
     {
-      title: "Start",
+      title: "Bắt đầu",
       dataIndex: "start",
     },
     {
-      title: "Finish",
+      title: "Kết thúc",
       dataIndex: "finish",
     },
     {
-      title: "Action",
+      title: "Hành động",
       dataIndex: "action",
       render: renderAction,
     },
@@ -174,7 +174,7 @@ function AdminEvent() {
   }
   const handleAddEvent = async () => {
     if (!name || !description || !product) {
-      toast.warning("Please complete all information");
+      toast.warning("Xin hãy nhập đầy đủ thông tin");
     } else {
       setShowModalAdd(false);
       setIsLoading(true);
@@ -254,7 +254,7 @@ function AdminEvent() {
       >
         <span className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-red-500  text-white">
           <AiOutlineCloudUpload className="md:text-[30px] text-[20px]" />
-          <h2 className="font-[600] px-1 ">Import</h2>
+          <h2 className="font-[600] px-1 ">Tạo mới</h2>
         </span>
       </div>
       <TableComponent
@@ -263,7 +263,7 @@ function AdminEvent() {
         isLoading={isLoading}
       />
       <Modal
-        title="Add new event"
+        title="Thêm mới sự kiện"
         open={showModalAdd}
         onOk={handleAddEvent}
         onCancel={handleCancel}
@@ -271,28 +271,28 @@ function AdminEvent() {
         okType="none"
       >
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Name</p>
+          <p className="w-[20%] font-[500]">Tên</p>
           <input
             type="text"
             value={name}
-            placeholder="Enter name event"
+            placeholder="Nhận tên sự kiện"
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
             onChange={(e) => setName(e.target.value)}
           />
         </label>
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Description</p>
+          <p className="w-[20%] font-[500]">Miêu tả</p>
           <textarea
             cols={12}
             rows={4}
             value={description}
-            placeholder="Enter description event"
+            placeholder="hãy miêu tả thông tin sự kiện"
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
             onChange={(e) => setDescription(e.target.value)}
           />
         </label>
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Product</p>
+          <p className="w-[20%] font-[500]">Sản phẩm</p>
           <select
             value={product}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
@@ -310,17 +310,17 @@ function AdminEvent() {
           </select>
         </label>
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Discount</p>
+          <p className="w-[20%] font-[500]">Giảm giá</p>
           <input
             type="text"
             value={discount}
-            placeholder="Enter discount event"
+            placeholder="Phần trăm giảm giá"
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
             onChange={(e) => setDiscount(e.target.value)}
           />
         </label>
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Start day</p>
+          <p className="w-[20%] font-[500]">Bắt đầu</p>
           <input
             type="date"
             value={startDay}
@@ -330,7 +330,7 @@ function AdminEvent() {
           />
         </label>
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Finish day</p>
+          <p className="w-[20%] font-[500]">Kết thúc</p>
           <input
             type="date"
             value={finishDay}
@@ -341,14 +341,14 @@ function AdminEvent() {
         </label>
       </Modal>
       <Modal
-        title="Delete event"
+        title="Xóa sự kiện"
         open={showModalDelete}
         onOk={handleDeleteEvent}
         onCancel={handleCancel}
         okButtonProps={okButtonDelete}
         okType="none"
       >
-        <p>Do you want to make sure to delete this event?</p>
+        <p>Bạn có muốn chắc xóa sự kiện này?</p>
       </Modal>
     </div>
   );

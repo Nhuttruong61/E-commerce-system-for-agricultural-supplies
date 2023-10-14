@@ -14,6 +14,7 @@ import Profile from "../pages/Profile";
 import InfomationOrder from "../pages/InfomationOrder";
 import OrderSuccessPage from "../pages/OrderSuccessPage";
 import CheckoutPage from "../pages/CheckoutPage";
+// import Payment from "../pages/Payment";
 const routers = [
   {
     path: "/login",
@@ -85,7 +86,6 @@ const routers = [
     page: ProductDetailPage,
     isShowHeader: true,
   },
-
   {
     path: "*",
     page: NotFoundPage,

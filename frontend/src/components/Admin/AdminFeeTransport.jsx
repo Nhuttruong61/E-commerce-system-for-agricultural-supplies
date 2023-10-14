@@ -46,19 +46,19 @@ function AdminFeeTransport() {
       dataIndex: "_id",
     },
     {
-      title: "Title",
+      title: "Tiêu đề",
       dataIndex: "title",
     },
     {
-      title: "Cost",
+      title: "Giá",
       dataIndex: "cost",
     },
     {
-      title: "Tree Shipping",
+      title: "Giá miễn ship",
       dataIndex: "freeShipping",
     },
     {
-      title: "Action",
+      title: "Hành động",
       dataIndex: "action",
       render: renderAction,
     },
@@ -105,7 +105,7 @@ function AdminFeeTransport() {
         isLoading={isLoading}
       />
       <Modal
-        title="Edit fee cost"
+        title="Chỉnh sửa giá"
         open={showModalEdit}
         onOk={handleEditFeeStransport}
         onCancel={handleCancel}
@@ -113,7 +113,7 @@ function AdminFeeTransport() {
         okType="none"
       >
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Title</p>
+          <p className="w-[20%] font-[500]">Tiêu đề</p>
           <input
             value={editFeeCost.title}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
@@ -123,7 +123,7 @@ function AdminFeeTransport() {
           />
         </label>
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Cost</p>
+          <p className="w-[20%] font-[500]">Giá</p>
           <input
             value={editFeeCost.cost}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
@@ -133,7 +133,7 @@ function AdminFeeTransport() {
           />
         </label>
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Free Strasport</p>
+          <p className="w-[20%] font-[500]">Giá miễn ship</p>
           <input
             value={editFeeCost.freeShipping}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
