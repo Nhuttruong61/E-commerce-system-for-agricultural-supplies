@@ -112,7 +112,7 @@ const updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
     order.status = req.body.status;
     if (req.body.status === "Delivered") {
       order.deliveredAt = Date.now();
-      order.paymentInfo.status = "Succeeded";
+      order.paymentInfo.status = "Đã thanh toán";
     }
     await order.save({ validateBeforeSave: false });
 
