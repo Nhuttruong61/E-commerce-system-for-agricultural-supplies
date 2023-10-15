@@ -5,6 +5,7 @@ import {
   ShoppingCartOutlined,
   CloseOutlined,
   SettingOutlined,
+  HomeOutlined,
 } from "@ant-design/icons";
 import { BsBox } from "react-icons/bs";
 import { useNavigate, Link } from "react-router-dom";
@@ -73,9 +74,16 @@ function Header() {
   };
   const handleNavigateProfile = () => {
     setIsShownInUser(false);
-    navigate("/profile");
+    navigate(`/profile?${1}`);
   };
-
+  const handleNavigateOrder = () => {
+    setIsShownInUser(false);
+    navigate(`/profile?${2}`);
+  };
+  const handleNavigateAddress = () => {
+    setIsShownInUser(false);
+    navigate(`/profile?${3}`);
+  };
   const handleNavigateAdmin = () => {
     setIsShownInUser(false);
     navigate("/system/admin");
@@ -211,8 +219,14 @@ function Header() {
                   )}
                   <div className="hover:bg-[#4B8600] cursor-pointer hover:text-white p-2 flex items-center">
                     <BsBox />
-                    <p className="ml-1" onClick={handleNavigateProfile}>
+                    <p className="ml-1" onClick={handleNavigateOrder}>
                       Đơn hàng
+                    </p>
+                  </div>
+                  <div className="hover:bg-[#4B8600] cursor-pointer hover:text-white p-2 flex items-center">
+                    <HomeOutlined />
+                    <p className="ml-1" onClick={handleNavigateAddress}>
+                      Địa chỉ
                     </p>
                   </div>
                   <div className="hover:bg-[#4B8600] cursor-pointer hover:text-white p-2 flex items-center">

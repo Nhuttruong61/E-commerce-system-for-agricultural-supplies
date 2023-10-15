@@ -3,7 +3,10 @@ import ProfileSideBar from "../components/profile/ProfileSideBar";
 import ProfileContent from "../components/profile/ProfileContent";
 import Footer from "../components/Footer";
 function Profile() {
-  const [active, setActive] = useState(1);
+  const queryString = window.location.search;
+  const queryStringCut = queryString.split("?")[1];
+  const numberValue = parseInt(queryStringCut);
+  const [active, setActive] = useState(numberValue ? numberValue : 1);
   return (
     <div className="flex flex-col">
       <div className=" flex bg-[#f4f1f4] py-10 md:min-h-[80vh]">

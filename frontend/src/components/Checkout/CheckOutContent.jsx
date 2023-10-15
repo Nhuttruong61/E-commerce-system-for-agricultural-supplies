@@ -161,12 +161,16 @@ function CheckOutContent() {
     }
   };
   const handlePayment = async () => {
-    const order = {
-      amount: totalPrice,
-    };
-    const res = await PaymentService.payment(order);
-    if (res.success) {
-      window.location.href = res.paymentUrl;
+    if (account?.addresses.length === 0) {
+      setShowModalAddress(true);
+    } else {
+      const order = {
+        amount: totalPrice,
+      };
+      const res = await PaymentService.payment(order);
+      if (res.success) {
+        window.location.href = res.paymentUrl;
+      }
     }
   };
   const handleOrderPayment = async () => {
@@ -188,7 +192,6 @@ function CheckOutContent() {
             status: "Đã thanh toán",
           },
         };
-        console.log("order", order);
         const res = await OrderService.createOrder(order);
         if (res.success) {
           navigate("/order/seccess");
