@@ -372,7 +372,7 @@ function AdminOrder() {
           <div className="w-full  items-center bg-white px-[10%] my-1  md:flex md:justify-between">
             <div className="w-full">
               <p className="text-[50%] md:text-[100%] font-[600] pt-2 ">
-                Client information
+                Thông tin đơn hàng
               </p>
               <div className="flex justify-between">
                 <div>
@@ -404,7 +404,7 @@ function AdminOrder() {
                 <div>
                   <div className="flex">
                     <p className="text-[50%] md:text-[100%] font-[600] pr-2">
-                      country:
+                      Quốc gia:
                     </p>
                     <p className="text-[50%] md:text-[100%]">
                       {dataSeeMore?.shippingAddress.country}

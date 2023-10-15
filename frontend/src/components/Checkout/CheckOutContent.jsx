@@ -188,7 +188,7 @@ function CheckOutContent() {
             addressType: account?.addresses[0].addressType,
           },
           paymentInfo: {
-            type: Paymentethods,
+            type: "onlinePayment",
             status: "Đã thanh toán",
           },
         };
@@ -204,7 +204,7 @@ function CheckOutContent() {
     if (account?.addresses.length !== 0) {
       handleOrderPayment();
     }
-  }, [encodedParams, account]);
+  }, [totalPrice]);
   return (
     <Loading isLoading={isLoading}>
       <div>

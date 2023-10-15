@@ -46,7 +46,7 @@ const Dropdown = ({ Text, items }) => {
         ) : null}
       </span>
       {open && (
-        <div className="absolute bg-white border rounded shadow-md mt-2">
+        <div className="absolute bg-white border rounded shadow-md mt-2 w-[160px]">
           <ul>
             {dataCategory?.data?.categories?.map((item) => (
               <li

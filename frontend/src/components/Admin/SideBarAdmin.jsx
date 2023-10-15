@@ -12,7 +12,7 @@ import { LiaShippingFastSolid } from "react-icons/lia";
 import { BiCategory } from "react-icons/bi";
 function SideBarAdmin({ active, setActive }) {
   return (
-    <div className="w-full h-[92vh] shadow overflow-y-auto sticky top-0 left-0 z-10">
+    <div className="w-full h-[90vh] shadow overflow-y-auto sticky top-0 left-0 z-10">
       <div className="flex w-full items-center p-4">
         <div className="flex w-full items-center" onClick={() => setActive(1)}>
           <AiOutlineUser

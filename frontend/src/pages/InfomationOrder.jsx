@@ -187,8 +187,9 @@ function InfomationOrder() {
               </button>
             </div>
           </div>
-        )}
-        {orders?.status === "Processing" ? (
+        )}{" "}
+        {orders?.status === "Processing" &&
+        orders.paymentInfo.type !== "onlinePayment" ? (
           <div className="w-auto  items-center bg-white px-[10%] my-1  md:flex md:justify-between">
             <div className="bg-red-600 text-white rounded flex justify-center items-center my-2">
               <button

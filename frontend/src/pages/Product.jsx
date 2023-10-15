@@ -58,7 +58,7 @@ function Product() {
     setCurrentPage(page);
   };
   useEffect(() => {
-    const eventId = data.map((item) => {
+    const eventId = data?.map((item) => {
       return {
         idProductEvent: item.product[0]._id,
         discount: item.discount,
