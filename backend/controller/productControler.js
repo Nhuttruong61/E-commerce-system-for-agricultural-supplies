@@ -12,8 +12,11 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
       name,
       description,
       category,
-      tags,
+      weight,
       originPrice,
+      price,
+      expirationDate,
+      origin,
       distCount,
       quantity,
       images,
@@ -22,7 +25,10 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
       !name ||
       !description ||
       !category ||
-      !tags ||
+      !weight ||
+      !price ||
+      !expirationDate ||
+      !origin ||
       !originPrice ||
       !quantity ||
       !images
@@ -45,8 +51,11 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
         categoryid,
         name: categoryid.name,
       },
-      tags,
+      weight,
       originPrice,
+      price,
+      expirationDate,
+      origin,
       distCount,
       quantity,
       images: {
@@ -116,8 +125,11 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
       name,
       description,
       category,
-      tags,
+      weight,
+      price,
+      expirationDate,
       originPrice,
+      origin,
       distCount,
       quantity,
       newImage,
@@ -129,9 +141,6 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
     if (!categoryid) {
       return next(new ErrorHandler("category not found", 404));
     }
-    if (product?.images[0]?.public_id) {
-      await cloudinary.v2.uploader.destroy(product.images[0].public_id);
-    }
     if (newImage) {
       const myCloud = await cloudinary.v2.uploader.upload(newImage, {
         folder: "imgProducts",
@@ -141,6 +150,9 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
         url: myCloud.secure_url,
       };
     }
+    if (product?.images[1]?.public_id) {
+      await cloudinary.v2.uploader.destroy(product.images[1].public_id);
+    }
 
     product.name = name;
     product.description = description;
@@ -148,8 +160,11 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
       categoryid,
       name: categoryid.name,
     };
-    product.tags = tags;
+    product.weight = weight;
     product.originPrice = originPrice;
+    product.price = price;
+    product.expirationDate = expirationDate;
+    product.origin = origin;
     product.distCount = distCount;
     product.quantity = quantity;
     await product.save();

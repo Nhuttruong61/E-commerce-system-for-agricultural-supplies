@@ -13,10 +13,13 @@ const productSchema = new mongoose.Schema({
     type: Object,
     required: [true, "Please select a category"],
   },
-  tags: {
+  weight: {
     type: String,
   },
   originPrice: {
+    type: Number,
+  },
+  price: {
     type: Number,
   },
   distCount: {
@@ -39,6 +42,14 @@ const productSchema = new mongoose.Schema({
       },
     },
   ],
+  origin: {
+    type: String,
+    required: [true, "Please enter origin"],
+  },
+  expirationDate: {
+    type: Date,
+    required: [true, "Please enter expiration date"],
+  },
   reviews: [
     {
       user: {
