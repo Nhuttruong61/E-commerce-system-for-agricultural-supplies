@@ -107,7 +107,7 @@ function ProductDetail(id) {
         <div className="w-full sm:m-2 px-[4%]">
           <p className="md:text-xl text-xs font-[700] ">{productData?.name}</p>
           <div className="flex items-center">
-            <p className="pr-1"> {productData?.ratings}</p>
+            <p className="pr-1"> {productData?.ratings.slice(0, 4)}</p>
             <Rating rating={productData?.ratings} />
           </div>
           <span className="flex items-center">
@@ -207,7 +207,7 @@ function ProductDetail(id) {
               <span className="flex items-center px-1">
                 {dataProduct?.product?.ratings ? (
                   <p className="md:text-[150%] text-[50%] font-[600]">
-                    {dataProduct?.product?.ratings}
+                    {dataProduct?.product?.ratings.slice(0, 4)}
                   </p>
                 ) : (
                   <p className="md:text-[150%] text-[50%] font-[600]">5</p>

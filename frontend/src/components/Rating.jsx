@@ -3,7 +3,7 @@ import { StarFilled, StarOutlined } from "@ant-design/icons";
 import { BsStarHalf } from "react-icons/bs";
 function Rating({ rating }) {
   const starts = [];
-  for (let i = 0; i <= 5; i++) {
+  for (let i = 1; i <= 5; i++) {
     if (i <= rating) {
       starts.push(
         <StarFilled

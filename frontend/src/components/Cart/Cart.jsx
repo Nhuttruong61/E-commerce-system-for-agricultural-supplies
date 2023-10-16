@@ -4,7 +4,7 @@ import CartCard from "./CartCard";
 import { useSelector } from "react-redux";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
-
+import "../../assets/css/fade.css";
 function Cart({ setOpenCart }) {
   const { cart } = useSelector((state) => state.cart);
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ function Cart({ setOpenCart }) {
     setOpenCart(false);
   };
   return (
-    <div className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-20">
+    <div className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-20 fadeIn">
       <div className="fixed top-0 right-0 h-full w-[80%] 800px:w-[25%] bg-white flex flex-col overflow-y-scroll justify-between shadow-sm">
         {cart && cart.length === 0 ? (
           <div className="w-full h-screen flex items-center justify-center">
