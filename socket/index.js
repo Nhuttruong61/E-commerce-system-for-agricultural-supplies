@@ -4,14 +4,19 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const server = http.createServer(app);
-const io = socketIO(server);
-const dotenv = require("dotenv");
-app.use(cors());
-app.use(express.json());
+const io = socketIO(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
 
-dotenv.config({
+require("dotenv").config({
   path: "./.env",
 });
+
+app.use(express.json());
 //Khởi tạo Endpoint và xử lý kết nối Socket:
 app.get("/", (req, res) => {
   res.send("Hello socket");
@@ -38,7 +43,7 @@ const createMessage = ({ senderId, receiverId, text, images }) => ({
   seen: false,
 });
 
-io.on("conection", (socket) => {
+io.on("connection", (socket) => {
   //// Xử lý sự kiện khi có kết nối mới được thiết lập.
   console.log(`user connect`);
   // Xử lý khi người dùng gửi sự kiện "addUser".
