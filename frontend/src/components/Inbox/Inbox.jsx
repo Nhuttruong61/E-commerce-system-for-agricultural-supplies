@@ -1,38 +1,29 @@
 import React, { useEffect, useState } from "react";
-import * as ConvertionService from "../../service/conventionService";
-import * as MessageService from "../../service/messageService";
-import * as UserService from "../../service/userService";
-import { useNavigate } from "react-router-dom";
+import { AiOutlineMessage, AiOutlineClose } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import { AiOutlineClose, AiOutlineSend } from "react-icons/ai";
-import { BsImages } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+import * as ConventionService from "../../service/conventionService";
+import * as UserService from "../../service/userService";
+import "../../assets/css/fade.css";
 import socketIO from "socket.io-client";
+import * as MessageService from "../../service/messageService";
 import * as timeago from "timeago.js";
-import { UserOutlined } from "@ant-design/icons";
+import { AiOutlineSend } from "react-icons/ai";
+import { BsImages } from "react-icons/bs";
 const ENDPOINT = "http://localhost:8000/";
 const socketId = socketIO(ENDPOINT, {
   transport: ["websocket"],
   withCredentials: true,
 });
-
-function AdminInbox() {
-  const { account } = useSelector((state) => state.user);
-  const [convertion, setConvertion] = useState([]);
-  const [openMessage, setOpenMessage] = useState(false);
+function Inbox() {
+  const { account, isAuthenticated } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [currentChat, setCurrentChat] = useState();
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
-  const [listUser, setListUser] = useState([]);
-  const getConvertion = async () => {
-    const data = await ConvertionService.getAllConversations(account._id);
-    if (data?.success) {
-      setConvertion(data.conversations);
-    }
-  };
-  useEffect(() => {
-    getConvertion();
-  }, []);
+  const [listUser, setListUser] = useState(null);
 
   useEffect(() => {
     socketId.on("getMessage", (data) => {
@@ -49,8 +40,6 @@ function AdminInbox() {
       currentChat?.members.includes(arrivalMessage.sender) &&
       setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage, currentChat]);
-
-  // create message
   const createMessageHandler = async () => {
     const message = {
       sender: account._id,
@@ -80,7 +69,6 @@ function AdminInbox() {
       console.log("err", err);
     }
   };
-
   //get message
   const getMessage = async () => {
     if (currentChat) {
@@ -106,58 +94,25 @@ function AdminInbox() {
     };
     await MessageService.UpdateMessage(currentChat._id, data);
   };
-  return (
-    <div className="w-[90%] bg-white h-[80vh] m-5  overflow-y-scroll rounded">
-      {!openMessage ? (
-        <>
-          <h1 className="font-[600] text-[24px]">Tất cả tin nhắn</h1>
-          {convertion?.map((item, index) => {
-            return (
-              <ListMessage
-                data={item}
-                key={index}
-                setOpenMessage={setOpenMessage}
-                createMessageHandler={createMessageHandler}
-                setCurrentChat={setCurrentChat}
-                me={account._id}
-                setListUser={setListUser}
-                listUser={listUser}
-              />
-            );
-          })}
-        </>
-      ) : (
-        <>
-          <SeleteInbox
-            setOpenMessage={setOpenMessage}
-            newMessage={newMessage}
-            setNewMessage={setNewMessage}
-            createMessageHandler={createMessageHandler}
-            messages={messages}
-            sellerId={account._id}
-            listUser={listUser}
-          />
-        </>
-      )}
-    </div>
-  );
-}
-const ListMessage = ({
-  data,
-  setOpenMessage,
-  setCurrentChat,
-  me,
-  setListUser,
-  listUser,
-}) => {
-  const navigate = useNavigate();
-  const handleClickConvertion = (id) => {
-    navigate(`/system/admin?${id}`);
-    setOpenMessage(true);
-  };
+  const handleMessageSubmit = async () => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    } else {
+      const message = {
+        groupTitle: account._id + "64ed97e2a41b317df2d04bbf",
+        userId: account._id,
+        AdminId: "64ed97e2a41b317df2d04bbf",
+      };
 
+      const res = await ConventionService.createConversation(message);
+      if (res.success) {
+        setCurrentChat(res.conversation);
+        setIsModalOpen(true);
+      }
+    }
+  };
   useEffect(() => {
-    const userId = data.members.find((user) => user !== me);
+    const userId = currentChat?.members.find((user) => user !== account._id);
     const getUser = async () => {
       try {
         const res = await UserService.getUserById(userId);
@@ -170,33 +125,45 @@ const ListMessage = ({
     };
 
     getUser();
-  }, [me, data]);
+  }, [currentChat, account]);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <div
-      className="w-full flex p-2 my-2 px-3 hover:bg-[#f2f2f2] cursor-pointer"
-      onClick={() => handleClickConvertion(data._id) || setCurrentChat(data)}
-    >
-      {listUser?.avatar ? (
-        <img
-          src={listUser?.avatar.url}
-          alt=""
-          className="w-[50px] h-[50px] object-cover rounded-full"
-        />
-      ) : (
-        <UserOutlined className="text-[24px] p-2" />
-      )}
-      <div className="pl-3">
-        <h1 className="font-[500]">{listUser.name}</h1>
-        {data?.lastMessage && (
-          <p className="text-[12px]"> {data?.lastMessage}</p>
+    <div className="">
+      <div className="fixed bottom-10 z-50 right-5 ">
+        {isModalOpen ? (
+          <div
+            className="cursor-pointer border rounded-full p-2 bg-[#009b49]"
+            onClick={handleCloseModal}
+          >
+            <AiOutlineClose className="text-[42px] text-white fadeIn" />
+          </div>
+        ) : (
+          <div
+            className="cursor-pointer border rounded-full p-2 bg-[#009b49]"
+            onClick={handleMessageSubmit}
+          >
+            <AiOutlineMessage className="text-[42px] text-white fadeIn" />
+          </div>
         )}
       </div>
+      {isModalOpen && (
+        <InboxForm
+          newMessage={newMessage}
+          setNewMessage={setNewMessage}
+          createMessageHandler={createMessageHandler}
+          messages={messages}
+          listUser={listUser}
+          sellerId={account._id}
+        />
+      )}
     </div>
   );
-};
-
-const SeleteInbox = ({
-  setOpenMessage,
+}
+const InboxForm = ({
   newMessage,
   setNewMessage,
   createMessageHandler,
@@ -204,32 +171,23 @@ const SeleteInbox = ({
   sellerId,
   listUser,
 }) => {
-  const handleExit = () => {
-    setOpenMessage(false);
-  };
+  const animation = {};
   return (
-    <div className="w-full min-h-full flex flex-col justify-between">
-      <div className="flex shadow">
-        <div className="w-full flex m-2">
-          {listUser?.avatar ? (
-            <img
-              src={listUser?.avatar.url}
-              alt=""
-              className="w-[50px] h-[50px] object-cover rounded-full"
-            />
-          ) : (
-            <UserOutlined className="text-[24px] p-2" />
-          )}
-          <div className="px-2">
-            <h1 className="font-[600]">{listUser?.name}</h1>
-          </div>
-        </div>
-        <AiOutlineClose
-          className="text-[24px] hover:bg-red-600 hover:text-white"
-          onClick={handleExit}
+    <div
+      className="fixed bottom-2 z-50 right-24 bg-white w-[280px] rounded fadeIn min-h-[48vh]"
+      style={animation}
+    >
+      <div className="flex shadow  p-2">
+        <img
+          src={listUser?.avatar.url}
+          alt=""
+          className="w-[40px] h-[40px] object-cover rounded-full "
         />
+        <div className="px-2">
+          <h1 className="font-[600]">{listUser?.name}</h1>
+        </div>
       </div>
-      <div className="px-3 h-[60vh]  overflow-y-scroll py-2">
+      <div className="px-3 h-[34vh]  overflow-y-scroll ">
         {messages?.map((item, index) => {
           return (
             <div
@@ -240,7 +198,7 @@ const SeleteInbox = ({
             >
               {item.sender !== sellerId && (
                 <img
-                  src={listUser.avatar.url}
+                  src={listUser?.avatar.url}
                   alt=""
                   className="w-[30px] h-[30px] rounded-full mr-2"
                 />
@@ -262,7 +220,7 @@ const SeleteInbox = ({
         })}
       </div>
       <div className="flex items-center justify-between">
-        <div className="w-[5%] flex justify-center items-center cursor-pointer">
+        <div className="w-[15%] flex justify-center items-center cursor-pointer">
           <input
             type="file"
             name=""
@@ -271,26 +229,25 @@ const SeleteInbox = ({
             // onChange={handleImageUpload}
           />
           <label htmlFor="image">
-            <BsImages className="text-[24px] text-[#5b5b5b]" />
+            <BsImages className="text-[20px] text-[#5b5b5b]" />
           </label>
         </div>
         <input
           type="text"
           value={newMessage}
-          className="w-[90%] px-2 h-auto my-1 py-2 border-[2px] rounded-[8px] outline-none"
+          className="w-[70%] px-2 h-auto my-1 p-1 border-[2px] rounded-[8px] outline-none"
           placeholder="Aa"
           onChange={(e) => setNewMessage(e.target.value)}
         />
         <button
-          className="cursor-pointer w-[5%]"
+          className="cursor-pointer w-[15%]"
           disabled={newMessage.trim() === ""}
           onClick={createMessageHandler}
         >
-          <AiOutlineSend className="text-[24px] mx-2" />
+          <AiOutlineSend className="text-[20px] mx-2" />
         </button>
       </div>
     </div>
   );
 };
-
-export default AdminInbox;
+export default Inbox;
