@@ -5,37 +5,38 @@ const sendMail = require("../utils/sendMail");
 const ErrorHandler = require("../utils/ErrorHandler");
 const sendToken = require("../utils/jwtToken");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-const createUser = catchAsyncErrors(async (req, res, next) => {
-  try {
-    const { name, email, password } = req.body;
-    const userEmail = await User.findOne({ email });
-    if (userEmail) {
-      return next(new ErrorHandler("User already exists", 400));
-    }
-    const user = {
-      name: name,
-      email: email,
-      password: password,
-    };
-    const activationToken = createActivationToken(user);
-    const activationUrl = `http://localhost:3000/activation/${activationToken}`;
-    try {
-      await sendMail({
-        email: user.email,
-        subject: "Active your account",
-        message: `Hello ${user.name}, please activate your account: ${activationUrl}`,
-      });
-      res.status(201).json({
-        success: true,
-        message: `please check your email: ${user.email} to activate your account`,
-      });
-    } catch (e) {
-      return next(new ErrorHandler(e.message, 500));
-    }
-  } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
-  }
-});
+const { response } = require("express");
+// const createUser = catchAsyncErrors(async (req, res, next) => {
+//   try {
+//     const { name, email, password } = req.body;
+//     const userEmail = await User.findOne({ email });
+//     if (userEmail) {
+//       return next(new ErrorHandler("User already exists", 400));
+//     }
+//     const user = {
+//       name: name,
+//       email: email,
+//       password: password,
+//     };
+//     const activationToken = createActivationToken(user);
+//     const activationUrl = `http://localhost:3000/activation/${activationToken}`;
+//     try {
+//       await sendMail({
+//         email: user.email,
+//         subject: "Active your account",
+//         message: `Hello ${user.name}, please activate your account: ${activationUrl}`,
+//       });
+//       res.status(201).json({
+//         success: true,
+//         message: `please check your email: ${user.email} to activate your account`,
+//       });
+//     } catch (e) {
+//       return next(new ErrorHandler(e.message, 500));
+//     }
+//   } catch (err) {
+//     return next(new ErrorHandler(err.message, 400));
+//   }
+// });
 
 // create activation Token
 const createActivationToken = (user) => {
@@ -67,6 +68,33 @@ const activation = catchAsyncErrors(async (req, res, next) => {
     sendToken(user, 201, res);
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
+  }
+});
+
+const createUser = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
+      return next(new ErrorHandler("Please provide all fields!", 400));
+    }
+
+    let user = await User.findOne({ email });
+    if (user) {
+      return next(new ErrorHandler("User already exists", 400));
+    }
+
+    const newUser = await User.create({
+      name,
+      email,
+      password,
+    });
+
+    res.status(201).json({
+      success: true,
+      user: newUser,
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -287,6 +315,83 @@ const deleteAddress = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+const sendResetEmail = async (user) => {
+  const resetToken = createResetToken(user);
+  const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+
+  try {
+    await sendMail({
+      email: user.email,
+      subject: "Lấy lại mật khẩu",
+      message: `Xin chào, vui lòng nhấn vào đường link này: ${resetUrl}`,
+    });
+  } catch (e) {
+    throw new Error("Error sending reset email");
+  }
+};
+const requestPasswordReset = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const userEmail = await User.findOne({ email });
+    console.log(userEmail);
+
+    if (!userEmail) {
+      return next(new ErrorHandler("User not found", 404));
+    }
+    const user = {
+      email: email,
+    };
+
+    await sendResetEmail(user);
+    res.status(200).json({
+      success: true,
+      message: `Reset email sent to ${email}. Please check your email.`,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+const createResetToken = (user) => {
+  return jwt.sign(user, process.env.RESET_SECRET, {
+    expiresIn: "5m",
+  });
+};
+const resetPassword = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { resetToken, newPassword } = req.body;
+
+    const user = jwt.verify(resetToken, process.env.RESET_SECRET);
+
+    if (!user) {
+      return next(new ErrorHandler("Invalid reset token", 400));
+    }
+    user.password = newPassword;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successful.",
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
+const getUserByid = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return next(new ErrorHandler("No find user", 400));
+    }
+    response.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
 module.exports = {
   createUser,
   activation,
@@ -300,4 +405,7 @@ module.exports = {
   deleteUser,
   updateAddress,
   deleteAddress,
+  requestPasswordReset,
+  resetPassword,
+  getUserByid,
 };

@@ -31,4 +31,5 @@ router.delete(
 );
 router.post("/request-password", userControler.requestPasswordReset);
 router.put("/reset-password", userControler.resetPassword);
+router.get("/get-user/:id", userControler.getUserByid);
 module.exports = router;
