@@ -67,9 +67,17 @@ function AdminOrder() {
     setIsLoading(false);
   };
 
+  const vietnameseStatus = {
+    Processing: "Đang xử lý",
+    Transferred: "Đã chuyển hàng",
+    Delivered: "Đã giao hàng",
+    Cancel: "Đã hủy",
+  };
   const handleRenderStatus = (text, item) => {
+    const translatedStatus = vietnameseStatus[item.status] || item.status;
+
     if (item.status === "Cancel" || item.status === "Delivered") {
-      return <span>{item.status}</span>;
+      return <span>{translatedStatus}</span>;
     } else {
       const options =
         item.status === "Processing"
@@ -83,7 +91,7 @@ function AdminOrder() {
         >
           {options.map((option) => (
             <Select.Option key={option} value={option}>
-              {option}
+              {vietnameseStatus[option] || option}
             </Select.Option>
           ))}
         </Select>
@@ -178,7 +186,11 @@ function AdminOrder() {
   });
   const columns = [
     {
-      title: "Id",
+      title: "STT",
+      dataIndex: "stt",
+    },
+    {
+      title: "Mã đơn",
       dataIndex: "id",
     },
     {
@@ -205,6 +217,11 @@ function AdminOrder() {
     {
       title: "Loại thanh toán",
       dataIndex: "paymentInfo",
+      render: (paymentInfo) => {
+        return paymentInfo === "paymentDelivery"
+          ? "Thanh toán trực tiếp"
+          : "Thanh toán online";
+      },
     },
     {
       title: "Thanh toán",
@@ -233,9 +250,10 @@ function AdminOrder() {
   ];
   let dataTable = [];
   if (dataOrder && dataOrder.length > 0) {
-    dataTable = dataOrder.map((order) => {
+    dataTable = dataOrder.map((order, index) => {
       return {
         key: order._id,
+        stt: index + 1,
         id: order._id,
         name: order.user.name,
         phone: order.user.phoneNumber,
@@ -301,7 +319,7 @@ function AdminOrder() {
       <div className="flex flex-row-reverse p-2 ">
         <CSVLink
           filename="order.csv"
-          className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-[#73c509]  text-white"
+          className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-[#009b49]  text-white"
           onClick={handleExportOrder}
           data={dataExport}
         >

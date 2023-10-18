@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import TableComponent from "../Table";
+import TableComponent from "../../Table";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Modal, Space } from "antd";
 import {
@@ -10,9 +10,9 @@ import {
 } from "@ant-design/icons";
 import { AiOutlineCloudUpload, AiOutlineSend } from "react-icons/ai";
 import imageCompression from "browser-image-compression";
-import * as ProductService from "../../service/productService";
+import * as ProductService from "../../../service/productService";
 import { toast } from "react-toastify";
-import { getAllProductRd } from "../../redux/action/productAction";
+import { getAllProductRd } from "../../../redux/action/productAction";
 import { CSVLink } from "react-csv";
 import { CiExport } from "react-icons/ci";
 function Adminproduct() {
@@ -28,7 +28,11 @@ function Adminproduct() {
   const [description, setDescription] = useState([]);
   const [newDescription, setNewDescription] = useState("");
   const [category, setCategory] = useState(data.categories[0]._id);
+  const [price, setPrice] = useState("");
   const [originPrice, setOriginPrice] = useState("");
+  const [weight, setWeight] = useState("");
+  const [origin, setOrigin] = useState("");
+  const [expirationDate, setExpirationDate] = useState(null);
   const [distCount, setdistCount] = useState(0);
   const [quantity, setQuantity] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -37,9 +41,13 @@ function Adminproduct() {
     name: "",
     description: [],
     category,
+    weight: "",
     originPrice: "",
+    price: "",
     distCount: "",
     quantity: "",
+    origin: "",
+    expirationDate: null,
     newImage: "",
   });
   const [idProduct, setIdProduct] = useState();
@@ -149,16 +157,18 @@ function Adminproduct() {
           onClick={() => {
             setShowModalEdit(true);
             setIdProduct(item._id);
-            console.log(item);
             setEditProduct({
               _id: item._id,
               name: item.name,
               description: item.description,
               category: item.category.categoryid,
-              tags: item.tags,
+              weight: item.weight,
               originPrice: item.originPrice,
+              price: item.price,
               distCount: item.distCount,
               quantity: item.quantity,
+              origin: item.origin,
+              expirationDate: item.expirationDate,
               images: item.images[0].url,
               newImage: item.images[0].url,
             });
@@ -184,11 +194,15 @@ function Adminproduct() {
   };
   const columns = [
     {
-      title: "Id",
+      title: "STT",
+      dataIndex: "stt",
+    },
+    {
+      title: "Mã sản phẩm",
       dataIndex: "id",
     },
     {
-      title: "Tiêu đề",
+      title: "Tên sản phẩm",
       dataIndex: "name",
       ...getColumnSearchProps("name"),
     },
@@ -197,7 +211,7 @@ function Adminproduct() {
       dataIndex: "categoryName",
     },
     {
-      title: "Giá",
+      title: "Giá bán",
       dataIndex: "originPrice",
     },
     {
@@ -226,10 +240,11 @@ function Adminproduct() {
   }, []);
   let dataTable = [];
   if (product?.data && product.data.length > 0) {
-    dataTable = product.data.map((item) => {
+    dataTable = product.data.map((item, index) => {
       return {
         ...item,
         id: item._id,
+        stt: index + 1,
         categoryName: item.category.categoryid.name,
         inforProduct: {
           ...item,
@@ -280,10 +295,13 @@ function Adminproduct() {
         category: {
           _id: category,
         },
-
+        weight,
         originPrice,
+        price,
         distCount,
         quantity,
+        origin,
+        expirationDate,
         images: selectedImage,
       };
       const res = await ProductService.createProduct(product);
@@ -291,6 +309,9 @@ function Adminproduct() {
         toast.success("Thêm sản phẩm thành công");
         dispatch(getAllProductRd());
         setName("");
+        setWeight("");
+        setOrigin("");
+        setExpirationDate("");
         setDescription([]);
         setNewDescription("");
         setOriginPrice("");
@@ -333,8 +354,14 @@ function Adminproduct() {
         ...prevEditProduct,
         newImage: selectedImage,
       }));
+    } else {
+      setEditProduct((prevEditProduct) => ({
+        ...prevEditProduct,
+        newImage: prevEditProduct.newImage,
+      }));
     }
   }, [selectedImage]);
+
   const handleEditProduct = async () => {
     setShowModalEdit(false);
     setIsLoading(true);
@@ -363,7 +390,7 @@ function Adminproduct() {
           _id: item._id,
           name: item.name,
           category: item.categoryName,
-          tags: item.tags,
+          weight: item.weight,
           createdAt: item.createdAt,
         };
         res.push(product);
@@ -381,11 +408,19 @@ function Adminproduct() {
   const handleReviewProduct = () => {
     setShowModalInfor(false);
   };
+  function formatDateForInput(dateString) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
   return (
     <div className="w-full flex flex-col">
       <div className="flex  md:flex-row m-2 justify-between">
         <span
-          className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-red-500  text-white"
+          className="border-[2px] flex justify-center rounded cursor-pointer items-center px-2 py-1 bg-red-500  text-white"
           onClick={() => setShowModalAdd(true)}
         >
           <AiOutlineCloudUpload className="md:text-[30px] text-[20px]" />
@@ -393,7 +428,7 @@ function Adminproduct() {
         </span>
         <CSVLink
           filename="products.csv"
-          className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-[#73c509]  text-white"
+          className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-[#009b49]  text-white"
           data={dataExport}
           onClick={handleExportProducts}
         >
@@ -442,13 +477,13 @@ function Adminproduct() {
             <div className="flex">
               <input
                 type="text"
-                placeholder="Add new description"
+                placeholder="Thêm mô tả mới"
                 value={newDescription}
                 className="w-[90%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
                 onChange={(e) => setNewDescription(e.target.value)}
               />
               <button
-                className="ml-2  text-[#73c509]"
+                className="ml-2  text-[#009b49]"
                 onClick={handleNewDescription}
               >
                 <AiOutlineSend className="md:text-[30px]" />
@@ -474,16 +509,34 @@ function Adminproduct() {
               : null}
           </select>
         </label>
-
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Giá</p>
+          <p className="w-[20%] font-[500]">Trọng lượng</p>
+          <input
+            value={weight}
+            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            onChange={(e) => setWeight(e.target.value)}
+            placeholder="Nhập trọng lượng đơn vị kg"
+          />
+        </label>
+        <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Giá nhập</p>
+          <input
+            value={price}
+            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            onChange={(e) => setPrice(e.target.value)}
+            placeholder="Nhập số giá nhập trên món"
+          />
+        </label>
+        <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Giá bán</p>
           <input
             value={originPrice}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
             onChange={(e) => setOriginPrice(e.target.value)}
-            placeholder="Giá sản phẩm"
+            placeholder="Nhâp giá bán trên món"
           />
         </label>
+
         <label className="flex justify-between items-center">
           <p className="w-[20%] font-[500]">Giảm giá</p>
           <input
@@ -502,10 +555,28 @@ function Adminproduct() {
             placeholder="Số lượng sản phẩm"
           />
         </label>
+        <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Xuất xứ</p>
+          <input
+            value={origin}
+            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            onChange={(e) => setOrigin(e.target.value)}
+            placeholder="Xuất xứ sản phẩm"
+          />
+        </label>
+        <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Ngày hết hạn</p>
+          <input
+            type="date"
+            value={expirationDate}
+            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            onChange={(e) => setExpirationDate(e.target.value)}
+          />
+        </label>
         <label className="flex items-center my-8 w-[30%] ">
           <label
             htmlFor="inport"
-            className="bg-[#4b8600] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2"
+            className="bg-[#0e9c49] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2"
           >
             Image
           </label>
@@ -526,7 +597,7 @@ function Adminproduct() {
         </label>
       </Modal>
       <Modal
-        title="Cạp nhật sản phẩm"
+        title="Cập nhật sản phẩm"
         open={showModalEdit}
         onOk={handleEditProduct}
         onCancel={handleCancel}
@@ -577,7 +648,27 @@ function Adminproduct() {
           </select>
         </label>
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Giá</p>
+          <p className="w-[20%] font-[500]">Trọng lượng</p>
+          <input
+            value={editProduct.weight}
+            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            onChange={(e) =>
+              setEditProduct({ ...editProduct, weight: e.target.value })
+            }
+          />
+        </label>
+        <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Giá nhập</p>
+          <input
+            value={editProduct.price}
+            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            onChange={(e) =>
+              setEditProduct({ ...editProduct, price: e.target.value })
+            }
+          />
+        </label>
+        <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Giá bán</p>
           <input
             value={editProduct.originPrice}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
@@ -606,10 +697,31 @@ function Adminproduct() {
             }
           />
         </label>
+        <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Xuất xứ</p>
+          <input
+            value={editProduct.origin}
+            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            onChange={(e) =>
+              setEditProduct({ ...editProduct, origin: e.target.value })
+            }
+          />
+        </label>
+        <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Ngày hết hạn</p>
+          <input
+            type="date"
+            value={formatDateForInput(editProduct.expirationDate)}
+            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            onChange={(e) =>
+              setEditProduct({ ...editProduct, expirationDate: e.target.value })
+            }
+          />
+        </label>
         <label className="flex items-center my-8 w-[30%] ">
           <label
             htmlFor="inport"
-            className="bg-[#4b8600] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2"
+            className="bg-[#0e9c49] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2"
           >
             Image
           </label>
@@ -635,7 +747,7 @@ function Adminproduct() {
         </label>
       </Modal>
       <Modal
-        title="Xóa sản phảm"
+        title="Xóa sản phẩm"
         open={showModalDelete}
         onOk={handleDelete}
         onCancel={handleCancel}
@@ -666,15 +778,15 @@ function Adminproduct() {
           </div>
           <div className="w-[70%]">
             <label className="flex  items-center">
-              <p className=" font-[500] w-[20%]">Name:</p>
+              <p className=" font-[500] w-[30%] py-1">Tên:</p>
               <p className="pl-2">{inforProduct?.name}</p>
             </label>
             <label className="flex items-center">
-              <p className=" font-[500] w-[20%]">Loại:</p>
+              <p className=" font-[500] w-[30%] py-1">Loại:</p>
               <p className="pl-2">{inforProduct?.category?.name}</p>
             </label>
             <label className="flex items-center">
-              <p className=" font-[500] w-[20%]">Mô tả:</p>
+              <p className=" font-[500] w-[30%] py-1">Mô tả:</p>
               <div className="pl-2 py-2">
                 {inforProduct?.description.length > 0
                   ? inforProduct.description.map((item, index) => {
@@ -684,22 +796,34 @@ function Adminproduct() {
               </div>
             </label>
             <label className="flex items-center">
-              <p className=" font-[500] w-[20%]">Giảm giá:</p>
+              <p className=" font-[500] w-[30%] py-1">Giảm giá:</p>
               <p className="pl-2">{inforProduct?.distCount}</p>
             </label>
             <label className="flex items-center">
-              <p className=" font-[500] w-[20%]">Giá:</p>
+              <p className=" font-[500] w-[30%] py-1">Giá nhập:</p>
+              <p className="pl-2">{inforProduct?.price.toLocaleString()} đ</p>
+            </label>
+            <label className="flex items-center">
+              <p className=" font-[500] w-[30%] py-1">Giá bán:</p>
               <p className="pl-2">
                 {inforProduct?.originPrice.toLocaleString()} đ
               </p>
             </label>
             <label className="flex items-center">
-              <p className=" font-[500] w-[20%]">Số lượng:</p>
+              <p className=" font-[500] w-[30%] py-1">Trọng lượng:</p>
+              <p className="pl-2">{inforProduct?.weight} kg</p>
+            </label>
+            <label className="flex items-center">
+              <p className=" font-[500] w-[30%] py-1">Số lượng:</p>
               <p className="pl-2">{inforProduct?.quantity}</p>
             </label>
             <label className="flex items-center">
-              <p className=" font-[500] w-[20%]">Đã bán:</p>
+              <p className=" font-[500] w-[30%] py-1">Đã bán:</p>
               <p className="pl-2">{inforProduct?.sold_out}</p>
+            </label>
+            <label className="flex items-center">
+              <p className=" font-[500] w-[30%] py-1">Ngày hết hạn:</p>
+              <p className="pl-2">{inforProduct?.expirationDate}</p>
             </label>
           </div>
         </div>

@@ -5,6 +5,7 @@ import ProductCart from "../components/Product/ProductCart";
 import Loading from "../components/Loading";
 import Footer from "../components/Footer";
 import { Pagination } from "antd";
+import Inbox from "../components/Inbox/Inbox";
 
 function Product() {
   const location = useLocation();
@@ -25,7 +26,10 @@ function Product() {
       if (products) {
         const res = products.data;
         setIsLoading(false);
-        return setProductData(res);
+        const unExpiredProducts = res.filter((item) => {
+          return isNotExpired(new Date(item.expirationDate));
+        });
+        setProductData(unExpiredProducts);
       }
     }, delay);
   }, [products]);
@@ -79,6 +83,10 @@ function Product() {
 
     setDataProductEvent(updatedDataSort);
   }, [dataProduct]);
+  const isNotExpired = (expirationDate) => {
+    const currentDate = new Date();
+    return expirationDate > currentDate;
+  };
   return (
     <Loading isLoading={isLoading}>
       <div className="bg-[#f4f1f4] md:min-h-[100vh]">
@@ -103,6 +111,7 @@ function Product() {
             />
           </div>
         )}
+        <Inbox />
         <Footer />
       </div>
     </Loading>

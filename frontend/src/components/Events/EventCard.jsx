@@ -34,7 +34,7 @@ function EventCard(item) {
               {productPrice.toLocaleString()}đ
             </h5>
           </div>
-          <span className="pr-3 font-[400] text-[#4b8600] ">
+          <span className="pr-3 font-[400] text-[#0e9c49] ">
             {item?.data?.product[0]?.sold_out} Đã bán
           </span>
         </div>

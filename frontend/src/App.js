@@ -19,7 +19,7 @@ function App() {
             const Page = route.page;
             const isShowHeader = route.isShowHeader;
             const Layout = isShowHeader ? Default : Fragment;
-            return  (
+            return (
               <Route
                 key={route.path}
                 path={route.path}
@@ -29,14 +29,14 @@ function App() {
                   </Layout>
                 }
               />
-            ) ;
+            );
           })}
         </Routes>
       </Router>
-      
+
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -44,10 +44,8 @@ function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme="colored"
       />
-      {/* Same as */}
-      <ToastContainer />
     </div>
   );
 }

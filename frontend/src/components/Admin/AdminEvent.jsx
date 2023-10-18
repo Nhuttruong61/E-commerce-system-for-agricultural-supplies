@@ -137,8 +137,8 @@ function AdminEvent() {
   };
   const columns = [
     {
-      title: "Id",
-      dataIndex: "_id",
+      title: "STT",
+      dataIndex: "stt",
     },
     {
       title: "Tên",
@@ -165,9 +165,10 @@ function AdminEvent() {
   ];
   let dataTable = [];
   if (data) {
-    dataTable = data.map((item) => {
+    dataTable = data.map((item, index) => {
       return {
         ...item,
+        stt: index + 1,
         productName: item.product[0].name,
       };
     });
@@ -281,7 +282,7 @@ function AdminEvent() {
           />
         </label>
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Miêu tả</p>
+          <p className="w-[20%] font-[500]">Mô tả</p>
           <textarea
             cols={12}
             rows={4}

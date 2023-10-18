@@ -18,7 +18,7 @@ import * as PaymentService from "../../service/payment";
 import { useNavigate } from "react-router-dom";
 function CheckOutContent() {
   const { cart } = useSelector((state) => state.cart);
-  const { account } = useSelector((state) => state.user);
+  const { account, isAuthenticated } = useSelector((state) => state.user);
   const { data } = useSelector((state) => state.fee);
   const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState(0);
@@ -57,9 +57,18 @@ function CheckOutContent() {
   useEffect(() => {
     dispatch(getAllFee());
   }, []);
+
   useEffect(() => {
-    const cost = data[0].cost;
-    const freeShip = data[0].freeShipping;
+    const totalWeight = cart.reduce((acc, item) => {
+      return acc + item.weight * item.quantity;
+    }, 0);
+    const selectedShippingOption = data.find(
+      (option) => totalWeight <= option.weight
+    );
+
+    const totalFeecost = selectedShippingOption.cost * totalWeight;
+    const freeShip = selectedShippingOption.freeShipping;
+
     const total = cart.reduce((acc, item) => {
       return acc + item.price * item.quantity;
     }, 0);
@@ -68,8 +77,8 @@ function CheckOutContent() {
       setTotalPrice(total);
       setShipCost(0);
     } else {
-      setTotalPrice(total + cost);
-      setShipCost(cost);
+      setTotalPrice(total + totalFeecost);
+      setShipCost(totalFeecost);
     }
   }, [cart, data]);
   useEffect(() => {
@@ -116,6 +125,7 @@ function CheckOutContent() {
       };
       setIsLoading(true);
       const update = await updateAddress(addressUser);
+      setIsLoading(false);
       if (update.success) {
         dispatch(getUser());
         toast.success("Thay đổi địa chỉ thành công");
@@ -131,7 +141,9 @@ function CheckOutContent() {
     },
   };
   const handleOrder = async () => {
-    if (account?.addresses.length === 0) {
+    if (!isAuthenticated) {
+      navigate("/login");
+    } else if (account?.addresses.length === 0) {
       setShowModalAddress(true);
     } else {
       const order = {
@@ -161,7 +173,9 @@ function CheckOutContent() {
     }
   };
   const handlePayment = async () => {
-    if (account?.addresses.length === 0) {
+    if (!isAuthenticated) {
+      navigate("/login");
+    } else if (account?.addresses.length === 0) {
       setShowModalAddress(true);
     } else {
       const order = {
@@ -174,34 +188,38 @@ function CheckOutContent() {
     }
   };
   const handleOrderPayment = async () => {
-    const res = await PaymentService.peymentReturn(encodedParams);
-    if (res.Message === "Success" && res.RspCode === "00") {
-      if (account?.addresses.length !== 0 && totalPrice !== 0) {
-        const order = {
-          cart,
-          user: account,
-          totalPrice: totalPrice,
-          shippingAddress: {
-            country: account?.addresses[0].country,
-            city: account?.addresses[0].city,
-            address: account?.addresses[0].address,
-            addressType: account?.addresses[0].addressType,
-          },
-          paymentInfo: {
-            type: "onlinePayment",
-            status: "Đã thanh toán",
-          },
-        };
-        const res = await OrderService.createOrder(order);
-        if (res.success) {
-          navigate("/order/seccess");
-          dispatch(clearQuantity());
+    if (!isAuthenticated) {
+      navigate("/login");
+    } else {
+      const res = await PaymentService.peymentReturn(encodedParams);
+      if (res.Message === "Success" && res.RspCode === "00") {
+        if (account?.addresses.length !== 0 && totalPrice !== 0) {
+          const order = {
+            cart,
+            user: account,
+            totalPrice: totalPrice,
+            shippingAddress: {
+              country: account?.addresses[0].country,
+              city: account?.addresses[0].city,
+              address: account?.addresses[0].address,
+              addressType: account?.addresses[0].addressType,
+            },
+            paymentInfo: {
+              type: "onlinePayment",
+              status: "Đã thanh toán",
+            },
+          };
+          const res = await OrderService.createOrder(order);
+          if (res.success) {
+            navigate("/order/seccess");
+            dispatch(clearQuantity());
+          }
         }
       }
     }
   };
   useEffect(() => {
-    if (account?.addresses.length !== 0) {
+    if (isAuthenticated) {
       handleOrderPayment();
     }
   }, [totalPrice]);
@@ -227,7 +245,7 @@ function CheckOutContent() {
                     <p className="text-[50%] md:text-[100%] px-2">Số lượng:</p>
                     <div className="flex items-center justify-center  rounded ml-2">
                       <button
-                        className="flex items-center p-1 bg-[#4b8600] h-full rounded"
+                        className="flex items-center p-1 bg-[#0e9c49] h-full rounded"
                         onClick={() => {
                           handleDecrease(item);
                         }}
@@ -236,7 +254,7 @@ function CheckOutContent() {
                       </button>
                       <p className="px-2">{item.quantity}</p>
                       <button
-                        className="flex items-center p-1 h-full bg-[#4b8600] rounded"
+                        className="flex items-center p-1 h-full bg-[#0e9c49] rounded"
                         disabled={item.quantity >= item.quantityProduct}
                         onClick={() => {
                           handleIncreate(item);
@@ -332,7 +350,7 @@ function CheckOutContent() {
         {Paymentethods === "paymentDelivery" && (
           <div className="flex flex-row-reverse md:px-8 w-full shadow shadow-black bottom-[41%] py-2 bg-white items-center">
             <button
-              className="bg-[#4b8600] text-white px-2 font-[600] py-1 rounded"
+              className="bg-[#0e9c49] text-white px-2 font-[600] py-1 rounded"
               onClick={handleOrder}
             >
               Đặt hàng

@@ -4,17 +4,15 @@ import Rating from "../Rating";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import { UserOutlined } from "@ant-design/icons";
 import { format } from "date-fns";
-import Loading from "../Loading";
 import { useDispatch, useSelector } from "react-redux";
 import ProductCart from "./ProductCart";
 import { increaseQuantity } from "../../redux/action/cartAction";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function ProductDetail(id) {
   const { data } = useSelector((state) => state.product);
   const dataEvent = useSelector((state) => state.event);
-  const user = useSelector((state) => state.user);
+  const { cart } = useSelector((state) => state.cart);
   const _id = id?.id;
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(0);
@@ -22,7 +20,7 @@ function ProductDetail(id) {
   const [expanded, setExpanded] = useState(false);
   const [dataReviews, setDataReviews] = useState(null);
   const [productData, setProductData] = useState(null);
-  const navigate = useNavigate();
+  const [checkQuantity, setCheckQuantity] = useState(null);
   const getProduct = async () => {
     const res = await getaProduct(_id);
     setDataProduct(res);
@@ -67,28 +65,47 @@ function ProductDetail(id) {
       setDataReviews(dataProduct?.product?.reviews);
     }
   }, [dataProduct, _id]);
+  useEffect(() => {
+    const filteredItems = cart?.filter((item) => item._id === _id);
+    setCheckQuantity(filteredItems);
+  }, [cart, _id]);
   const handleAddToCart = () => {
-    if (!user?.isAuthenticated) {
-      navigate("/login");
-    } else {
-      if (quantity > 0) {
-        dispatch(
-          increaseQuantity({
-            _id: productData?._id,
-            name: productData?.name,
-            description: productData?.description,
-            price: productPrice,
-            disCount: productData?.distCount,
-            image: productData?.images[0].url,
-            quantityProduct: productData?.quantity,
-            quantity,
-          })
-        );
-        toast.success("Đã thêm sản phẩm vào giỏ hàng");
+    if (quantity > 0) {
+      dispatch(
+        increaseQuantity({
+          _id: productData?._id,
+          name: productData?.name,
+          description: productData?.description,
+          price: productPrice,
+          disCount: productData?.distCount,
+          weight: productData?.weight,
+          image: productData?.images[0].url,
+          quantityProduct: productData?.quantity,
+          quantity,
+        })
+      );
+      if (
+        checkQuantity &&
+        checkQuantity.length > 0 &&
+        checkQuantity[0].quantity < checkQuantity[0].quantityProduct
+      ) {
+        toast.success("Thêm sản phẩm thành công");
+      } else if (
+        checkQuantity &&
+        checkQuantity.length > 0 &&
+        checkQuantity[0].quantity === checkQuantity[0].quantityProduct
+      ) {
+        toast.error("Đã đạt số lượng tối đa");
+      } else {
+        toast.success("Thêm sản phẩm thành công");
       }
     }
   };
-
+  useEffect(() => {
+    if (quantity > productData?.quantity) {
+      setQuantity(1);
+    }
+  }, [quantity]);
   return (
     <div className=" mb-10">
       <p className="text-[80%] md:text-[100%] font-[600] md:px-[10%]">
@@ -107,24 +124,30 @@ function ProductDetail(id) {
         <div className="w-full sm:m-2 px-[4%]">
           <p className="md:text-xl text-xs font-[700] ">{productData?.name}</p>
           <div className="flex items-center">
-            <p className="pr-1"> {productData?.ratings.slice(0, 4)}</p>
+            <p className="pr-1"> {productData?.ratings?.slice(0, 4)}</p>
             <Rating rating={productData?.ratings} />
           </div>
-          <span className="flex items-center">
-            <p className="mr-2">Đã bán</p>
-            <p className="font-bold">{productData?.sold_out}</p>
-          </span>
+          <div className="flex">
+            <span className="flex items-center">
+              <p className="mr-2">Đã bán:</p>
+              <p className="font-bold">{productData?.sold_out}</p>
+            </span>
+            <span className="flex ml-8 justify-center items-center">
+              <p className="mr-2 text-slate-400 ">Có sẳn:</p>
+              <p className="text-slate-400">{productData?.quantity}</p>
+            </span>
+          </div>
           <div className="flex">
             {productData?.distCount ? (
               <>
                 <h1 className="line-through font-bold text-red-600 pr-2">
-                  {productData?.originPrice.toLocaleString()}đ
+                  {productData?.originPrice.toLocaleString()} đ
                 </h1>
                 <h1 className="font-bold">{productPrice.toLocaleString()}đ</h1>
               </>
             ) : (
               <h1 className="font-bold">
-                {dataProduct?.product?.originPrice.toLocaleString()}
+                {dataProduct?.product?.originPrice.toLocaleString()} đ
               </h1>
             )}
           </div>
@@ -136,7 +159,11 @@ function ProductDetail(id) {
             >
               <MinusOutlined />
             </button>
-            <p className="p-2 flex items-center font-bold h-full">{quantity}</p>
+            <input
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+              className=" flex items-center font-bold h-full w-[48px] py-1 px-2 outline-none text-center"
+            />
             <button
               className="p-2 flex items-center border bg-[#f9f9f9]"
               onClick={handleIncrease}
@@ -145,7 +172,7 @@ function ProductDetail(id) {
               <PlusOutlined />
             </button>
             <button
-              className="bg-[#73c509] p-1 border mx-2 font-[600] text-white px-2"
+              className="bg-[#009b49] p-1 border mx-2 font-[600] text-white px-2"
               onClick={handleAddToCart}
             >
               Thêm vào giỏ hàng
@@ -203,11 +230,11 @@ function ProductDetail(id) {
         <div className="relative">
           <p className="md:text-[100%] text-[50%] font-[600]">Đánh giá</p>
           <div className="shadow shadow-[#a8a7a7] w-full">
-            <div className="bg-[#73c509] py-1 px-1  items-center text-white">
+            <div className="bg-[#009b49] py-1 px-1  items-center text-white">
               <span className="flex items-center px-1">
                 {dataProduct?.product?.ratings ? (
                   <p className="md:text-[150%] text-[50%] font-[600]">
-                    {dataProduct?.product?.ratings.slice(0, 4)}
+                    {dataProduct?.product?.ratings?.slice(0, 4)}
                   </p>
                 ) : (
                   <p className="md:text-[150%] text-[50%] font-[600]">5</p>
@@ -231,7 +258,7 @@ function ProductDetail(id) {
                       />
                     ) : (
                       <div className="border rounded-[50%] ">
-                        <UserOutlined className="text-[24px] p-2 text-[#73C509]" />
+                        <UserOutlined className="text-[24px] p-2 text-[#009b49]" />
                       </div>
                     )}
                     <div className=" flex flex-col w-full">

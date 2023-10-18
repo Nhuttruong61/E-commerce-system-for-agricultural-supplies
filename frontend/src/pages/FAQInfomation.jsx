@@ -206,7 +206,7 @@ function FAQInfomation() {
                       <div className=" absolute mt-6 bg-white shadow-md py-2 rounded">
                         <div>
                           <p
-                            className="text-blue-600 px-2 font-[600]  cursor-pointer hover:bg-[#4b8600] hover:text-white"
+                            className="text-blue-600 px-2 font-[600]  cursor-pointer hover:bg-[#0e9c49] hover:text-white"
                             onClick={showModalEditQuetion}
                           >
                             Chỉnh sửa
@@ -235,7 +235,7 @@ function FAQInfomation() {
                         </div>
                         <div>
                           <p
-                            className="text-red-600  cursor-pointer px-2 font-[600]  hover:bg-[#4b8600] hover:text-white"
+                            className="text-red-600  cursor-pointer px-2 font-[600]  hover:bg-[#0e9c49] hover:text-white"
                             onClick={showModalDeleteQuetion}
                           >
                             Xóa
@@ -340,7 +340,7 @@ function FAQInfomation() {
                 />
               ) : (
                 <div className="border rounded-[50%]">
-                  <UserOutlined className="text-[24px] p-2 text-[#73C509]" />
+                  <UserOutlined className="text-[24px] p-2 text-[#009b49]" />
                 </div>
               )}
 
@@ -352,7 +352,7 @@ function FAQInfomation() {
                   onChange={handleOnchangeNewComment}
                 />
                 <button
-                  className="bg-[#4b8600] px-4 rounded-r-[4px] text-white"
+                  className="bg-[#0e9c49] px-4 rounded-r-[4px] text-white"
                   style={{
                     cursor: newComment.length === 0 ? "not-allowed" : "pointer",
                   }}

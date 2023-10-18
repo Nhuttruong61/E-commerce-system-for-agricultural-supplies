@@ -28,7 +28,7 @@ const createCategory = catchAsyncErrors(async (req, res, next) => {
       category,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 //get all  categories
@@ -40,7 +40,7 @@ const getallCategories = catchAsyncErrors(async (req, res, next) => {
       categories,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -60,7 +60,7 @@ const deleteCategory = catchAsyncErrors(async (req, res, next) => {
       message: "Category deleted successfully",
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 module.exports = { createCategory, getallCategories, deleteCategory };

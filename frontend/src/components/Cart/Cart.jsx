@@ -40,7 +40,7 @@ function Cart({ setOpenCart }) {
         <div className="px-5 mb-3">
           {/* checkout buttons */}
           <Button
-            className="h-[45px] flex items-center justify-center w-[100%] bg-[#73c509]  rounded-[5px]"
+            className="h-[45px] flex items-center justify-center w-[100%] bg-[#009b49]  rounded-[5px]"
             onClick={handleNavigate}
             disabled={cart.length === 0}
           >

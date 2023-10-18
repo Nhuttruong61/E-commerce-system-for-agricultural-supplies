@@ -50,3 +50,23 @@ export const deleteUser = async (id) => {
   });
   return res;
 };
+
+export const forgotPassword = async (data) => {
+  const res = await axios.post("/user/request-password", data, {
+    withCredentials: true,
+  });
+  return res;
+};
+
+export const resetPassword = async (data) => {
+  const res = await axios.put("/user/reset-password", data, {
+    withCredentials: true,
+  });
+  return res;
+};
+export const getUserById = async (id) => {
+  const res = await axios.get(`/user/get-user/${id}`, {
+    withCredentials: true,
+  });
+  return res;
+};

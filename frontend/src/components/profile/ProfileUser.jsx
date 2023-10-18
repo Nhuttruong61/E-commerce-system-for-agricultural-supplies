@@ -127,7 +127,7 @@ function Profile() {
             <label className="flex items-center my-8 xl:w-[20%] md:w-[100]">
               <label
                 htmlFor="inport"
-                className="bg-[#4b8600] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2"
+                className="bg-[#0e9c49] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2"
               >
                 Chọn ảnh
               </label>
@@ -156,7 +156,7 @@ function Profile() {
             </label>
             <div className="flex flex-row-reverse">
               <label className="flex flex-row-reverse font-[500] md:w-[120px]">
-                <button className="bg-[#4b8600] text-white px-4 py-2  rounded-[4px] ">
+                <button className="bg-[#0e9c49] text-white px-4 py-2  rounded-[4px] ">
                   Thay đổi
                 </button>
               </label>

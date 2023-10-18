@@ -102,7 +102,7 @@ function Header() {
         <Link to="/" className=" w-[25%] flex items-center">
           <img src={logo} alt="" className=" md:w-[10%] w-[40%]" />
           {show && (
-            <p className="text-xs md:text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#4b8600] to-[#e49200]">
+            <p className="text-xs md:text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#0e9c49] to-[#e49200]">
               Nông Nghiệp Xanh
             </p>
           )}
@@ -143,7 +143,7 @@ function Header() {
             </div>
           ) : null}
 
-          <div className="h-full items-center flex justify-center w-[10%]  bg-[#73c509] hover:bg-[#4d8208] rounded-r-[8px] cursor-pointer">
+          <div className="h-full items-center flex justify-center w-[10%]  bg-[#009b49] hover:bg-[#4d8208] rounded-r-[8px] cursor-pointer">
             <SearchOutlined
               className=" text-white text-[12px] md:text-[24px]"
               onClick={handleSubmitSearch}
@@ -159,7 +159,7 @@ function Header() {
         >
           <div className="flex justify-center items-center px-4">
             {show ? (
-              <div className="border border-[#73c509] rounded-full mx-2 ">
+              <div className="border border-[#009b49] rounded-full mx-2 ">
                 {user?.account?.avatar ? (
                   <img
                     className="w-[40px] h-[40px] object-cover rounded-full"
@@ -167,7 +167,7 @@ function Header() {
                     alt=""
                   />
                 ) : (
-                  <UserOutlined className="text-[24px] p-2 text-[#73C509]" />
+                  <UserOutlined className="text-[24px] p-2 text-[#009b49]" />
                 )}
               </div>
             ) : null}
@@ -202,7 +202,7 @@ function Header() {
               {ishownInUser && (
                 <div className="absolute h-auto w-[120px] bg-white rounded-[4px]">
                   <div
-                    className="hover:bg-[#4B8600] hover:text-white cursor-pointer p-2 flex items-center"
+                    className="hover:bg-[#0e9c49] hover:text-white cursor-pointer p-2 flex items-center"
                     onClick={handleNavigateProfile}
                   >
                     <UserOutlined />
@@ -210,26 +210,26 @@ function Header() {
                   </div>
 
                   {user?.account?.role === "admin" && (
-                    <div className="hover:bg-[#4B8600] hover:text-white cursor-pointer p-2 flex items-center">
+                    <div className="hover:bg-[#0e9c49] hover:text-white cursor-pointer p-2 flex items-center">
                       <SettingOutlined />
                       <p className="ml-1" onClick={handleNavigateAdmin}>
                         Quản lý
                       </p>
                     </div>
                   )}
-                  <div className="hover:bg-[#4B8600] cursor-pointer hover:text-white p-2 flex items-center">
+                  <div className="hover:bg-[#0e9c49] cursor-pointer hover:text-white p-2 flex items-center">
                     <BsBox />
                     <p className="ml-1" onClick={handleNavigateOrder}>
                       Đơn hàng
                     </p>
                   </div>
-                  <div className="hover:bg-[#4B8600] cursor-pointer hover:text-white p-2 flex items-center">
+                  <div className="hover:bg-[#0e9c49] cursor-pointer hover:text-white p-2 flex items-center">
                     <HomeOutlined />
                     <p className="ml-1" onClick={handleNavigateAddress}>
                       Địa chỉ
                     </p>
                   </div>
-                  <div className="hover:bg-[#4B8600] cursor-pointer hover:text-white p-2 flex items-center">
+                  <div className="hover:bg-[#0e9c49] cursor-pointer hover:text-white p-2 flex items-center">
                     <CloseOutlined />
                     <p className="ml-1" onClick={handleLogout}>
                       Thoát
@@ -244,7 +244,7 @@ function Header() {
             onClick={() => setOpenCart(!openCart)}
           >
             <ShoppingCartOutlined className="text-[24px] mx-2 " />
-            <div className="absolute border border-[#ccc] rounded-[50%] right-[-4px] top-0 bg-[#73c509]">
+            <div className="absolute border border-[#ccc] rounded-[50%] right-[-4px] top-0 bg-[#009b49]">
               <p className="text-[12px] px-[5px] text-white font-[800]">
                 {cart.length ? cart.length : "0"}
               </p>
@@ -258,7 +258,7 @@ function Header() {
           active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
         } transition 800px:flex items-center justify-between w-full`}
       >
-        <div className="bg-[#73c509] relative w-full mt-0 shadow-md h-[60px] flex  items-center  ">
+        <div className="bg-[#009b49] relative w-full mt-0 shadow-md h-[60px] flex  items-center  ">
           <div className="  h-full  flex items-center pl-o sm:pl-[10%] w-[10%] sm:w-[30%] ">
             <DropdownComponet Text="Danh mục"></DropdownComponet>
           </div>

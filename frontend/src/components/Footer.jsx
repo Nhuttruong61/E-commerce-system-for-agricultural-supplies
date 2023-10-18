@@ -10,7 +10,7 @@ import { footerProductLinks, footerSupportLinks } from "../static/data";
 function Footer() {
   return (
     <div className=" flex flex-col ">
-      <div className=" md:flex md:justify-between md:items-center bg-[#73C509] p-2">
+      <div className=" md:flex md:justify-between md:items-center bg-[#009b49] p-2">
         <h1 className=" md:mb-0 mb-6 md:w-2/5 lg:text-3xl text-2xl font-[700]">
           <span className="text-red-500">Đăng ký </span>
           <span className="text-white">nhận tin khi có sự kiện mới</span>
@@ -29,7 +29,7 @@ function Footer() {
       <div className="grid grid-cols-1 sm:grid-cols-3  grap-6 sm:px-8 px-5 py-8 sm:text-center">
         <ul className="px-5 text-center sm:text-start flex sm:block flex-col items-center">
           <img src={logo} alt="" className="w-[90px]" />
-          <p className=" font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#4b8600] to-[#e49200]">
+          <p className=" font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#0e9c49] to-[#e49200]">
             Nông Nghiệp Xanh
           </p>
           <p className="font-[600]">Uy tính - Chất lượng - Bền vững </p>
@@ -60,7 +60,7 @@ function Footer() {
             return (
               <li key={link.name}>
                 <Link
-                  className="hover:text-[#4b8600] duration-300"
+                  className="hover:text-[#0e9c49] duration-300"
                   to={link.link}
                 >
                   {link.name}
@@ -75,7 +75,7 @@ function Footer() {
             return (
               <li key={link.name}>
                 <Link
-                  className="hover:text-[#4b8600] duration-300"
+                  className="hover:text-[#0e9c49] duration-300"
                   to={link.link}
                 >
                   {link.name}
@@ -85,7 +85,7 @@ function Footer() {
           })}
         </ul>
       </div>
-      <div className="grid grid-cols-1 sm:px-8 px-5 py-2 text-center bg-[#73c509] text-white">
+      <div className="grid grid-cols-1 sm:px-8 px-5 py-2 text-center bg-[#009b49] text-white">
         <span className="font-[600]">Copyright 2023 Nongsanxanh.com</span>
       </div>
     </div>

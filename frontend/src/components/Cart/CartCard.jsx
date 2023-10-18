@@ -43,7 +43,7 @@ function CartCard({ item }) {
                 <p>{totalPrice?.toLocaleString()} đ</p>
                 <div className="flex items-center justify-center border rounded ml-2">
                   <button
-                    className="flex items-center px-1 bg-[#4b8600] h-full"
+                    className="flex items-center px-1 bg-[#0e9c49] h-full"
                     disabled={value <= 0}
                     onClick={() => {
                       handleDecrease(item);
@@ -53,7 +53,7 @@ function CartCard({ item }) {
                   </button>
                   <p className="px-2">{value}</p>
                   <button
-                    className="flex items-center px-1 h-full bg-[#4b8600]"
+                    className="flex items-center px-1 h-full bg-[#0e9c49]"
                     disabled={value >= item.quantityProduct}
                     onClick={() => {
                       handleIncreate(item);

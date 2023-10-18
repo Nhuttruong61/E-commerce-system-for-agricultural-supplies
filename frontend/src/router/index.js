@@ -14,7 +14,8 @@ import Profile from "../pages/Profile";
 import InfomationOrder from "../pages/InfomationOrder";
 import OrderSuccessPage from "../pages/OrderSuccessPage";
 import CheckoutPage from "../pages/CheckoutPage";
-// import Payment from "../pages/Payment";
+import ForgotPassword from "../pages/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword";
 const routers = [
   {
     path: "/login",
@@ -29,6 +30,16 @@ const routers = [
   {
     path: "/activation/:accessToken",
     page: Activation,
+    isShowHeader: false,
+  },
+  {
+    path: "/request-password",
+    page: ForgotPassword,
+    isShowHeader: false,
+  },
+  {
+    path: "/reset-password/:resetToken",
+    page: ResetPassword,
     isShowHeader: false,
   },
   {

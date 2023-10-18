@@ -6,6 +6,7 @@ import Newproduct from "../components/Newproduct";
 import Event from "../components/Events/Event";
 import Footer from "../components/Footer";
 import Outstanding from "../components/Discount";
+import Inbox from "../components/Inbox/Inbox";
 
 function HomePage() {
   return (
@@ -16,6 +17,7 @@ function HomePage() {
       <Newproduct />
       <Event />
       <Outstanding />
+      <Inbox />
       <Footer />
     </div>
   );

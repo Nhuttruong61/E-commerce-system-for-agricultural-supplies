@@ -43,6 +43,7 @@ function AdminUser() {
       <div
         className="cursor-pointer"
         onClick={() => {
+          console.log(item);
           setIdUser(item.id);
           setShowModal(true);
         }}
@@ -151,8 +152,8 @@ function AdminUser() {
   });
   const columns = [
     {
-      title: "Id",
-      dataIndex: "id",
+      title: "STT",
+      dataIndex: "stt",
     },
     {
       title: "Email",
@@ -184,10 +185,11 @@ function AdminUser() {
   ];
   let dataTable = [];
   if (dataUser && dataUser.length > 0) {
-    dataTable = dataUser.map((user) => {
+    dataTable = dataUser.map((user, index) => {
       return {
         key: user._id,
         id: user._id,
+        stt: index + 1,
         email: user.email,
         name: user.name,
         phone: user?.phoneNumber ? user.phoneNumber : "Chưa có thông tin",
@@ -213,12 +215,13 @@ function AdminUser() {
     setIsLoading(true);
     setShowModal(false);
     const res = await UserSerVice.deleteUser(idUser);
+    console.log(res);
     setShowModal(false);
     if (res.success) {
-      dispatch(getAllUsers());
-      toast.success(res.message);
+      getAllUsers();
+      toast.success("Xóa tài khoản thành công");
     } else {
-      toast.error(res.message);
+      toast.error("Có lỗi xa");
     }
     setIsLoading(false);
   };
@@ -230,7 +233,7 @@ function AdminUser() {
       <div className="flex flex-row-reverse p-2 ">
         <CSVLink
           filename="user.csv"
-          className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-[#73c509]  text-white"
+          className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-[#009b49]  text-white"
           data={dataTable}
         >
           <CiExport className="md:text-[30px] text-[20px] " />

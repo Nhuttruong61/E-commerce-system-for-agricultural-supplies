@@ -122,8 +122,8 @@ function AdminCategory() {
   };
   const columns = [
     {
-      title: "Id",
-      dataIndex: "_id",
+      title: "STT",
+      dataIndex: "stt",
     },
 
     {
@@ -150,9 +150,10 @@ function AdminCategory() {
   ];
   let dataTable = [];
   if (data && data?.categories) {
-    dataTable = data.categories.map((item) => {
+    dataTable = data.categories.map((item, index) => {
       return {
         ...item,
+        stt: index + 1,
         image: item.images[0].url,
       };
     });
@@ -267,7 +268,7 @@ function AdminCategory() {
         <label className="flex items-center my-8 w-[30%] ">
           <label
             htmlFor="inport"
-            className="bg-[#4b8600] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2"
+            className="bg-[#0e9c49] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2"
           >
             Ảnh
           </label>

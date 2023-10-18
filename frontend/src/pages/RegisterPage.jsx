@@ -50,9 +50,9 @@ function RegisterPage() {
 
     try {
       const response = await Userservice.RegisterService(newUser);
-
       if (response.success === true) {
-        toast.success("Vui lòng kiểm tra email để kích hoạt tài khoản!");
+        // toast.success("Vui lòng kiểm tra email để kích hoạt tài khoản!");
+        toast.success("Đăng kí kí tài khoản thành công");
         navigate("/login");
       }
     } catch (error) {
@@ -119,7 +119,7 @@ function RegisterPage() {
             </div>
 
             <button
-              className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#4b8600] hover:bg-[#345409]"
+              className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#0e9c49] hover:bg-[#345409]"
               type="submit"
               disabled={!email || !password}
             >

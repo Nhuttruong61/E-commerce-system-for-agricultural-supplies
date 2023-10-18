@@ -19,10 +19,10 @@ function ProfileSideBar({ setActive, active }) {
         className="flex items-center cursor-pointer w-full mb-8"
         onClick={() => setActive(1)}
       >
-        <UserOutlined style={{ color: active === 1 ? "#4b8600" : "" }} />
+        <UserOutlined style={{ color: active === 1 ? "#0e9c49" : "" }} />
         <span
           className={`pl-3 ${
-            active === 1 ? "text-[#4b8600]" : ""
+            active === 1 ? "text-[#0e9c49]" : ""
           } 800px:block hidden`}
         >
           Tài khoản
@@ -32,10 +32,10 @@ function ProfileSideBar({ setActive, active }) {
         className="flex items-center cursor-pointer w-full mb-8"
         onClick={() => setActive(2)}
       >
-        <BsBox style={{ color: active === 2 ? "#4b8600" : "" }} />
+        <BsBox style={{ color: active === 2 ? "#0e9c49" : "" }} />
         <span
           className={`pl-3 ${
-            active === 2 ? "text-[#4b8600]" : ""
+            active === 2 ? "text-[#0e9c49]" : ""
           } 800px:block hidden`}
         >
           Đơn hàng
@@ -45,10 +45,10 @@ function ProfileSideBar({ setActive, active }) {
         className="flex items-center cursor-pointer w-full mb-8"
         onClick={() => setActive(3)}
       >
-        <HomeOutlined style={{ color: active === 3 ? "#4b8600" : "" }} />
+        <HomeOutlined style={{ color: active === 3 ? "#0e9c49" : "" }} />
         <span
           className={`pl-3 ${
-            active === 3 ? "text-[#4b8600]" : ""
+            active === 3 ? "text-[#0e9c49]" : ""
           } 800px:block hidden`}
         >
           Địa chỉ
@@ -58,10 +58,10 @@ function ProfileSideBar({ setActive, active }) {
         className="flex items-center cursor-pointer w-full mb-8"
         onClick={handleLogout}
       >
-        <CloseOutlined style={{ color: active === 4 ? "#4b8600" : "" }} />
+        <CloseOutlined style={{ color: active === 4 ? "#0e9c49" : "" }} />
         <span
           className={`pl-3 ${
-            active === 4 ? "text-[#4b8600]" : ""
+            active === 4 ? "text-[#0e9c49]" : ""
           } 800px:block hidden`}
         >
           Đăng xuất

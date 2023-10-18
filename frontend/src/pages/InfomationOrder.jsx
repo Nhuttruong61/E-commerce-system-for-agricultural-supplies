@@ -160,7 +160,7 @@ function InfomationOrder() {
               {orders?.totalPrice.toLocaleString()} đ
             </p>
           </div>
-          <div className="bg-[#4b8600] text-white rounded">
+          <div className="bg-[#0e9c49] text-white rounded">
             {orders?.status === "Processing" ? (
               <p className="px-2 py-1 text-[50%] md:text-[100%] font-[600]">
                 Chờ xử lý
@@ -178,7 +178,7 @@ function InfomationOrder() {
         </div>
         {orders?.status === "Delivered" && !hasReviewed && (
           <div className="w-auto items-center bg-white px-[10%] my-1 md:flex md:justify-between">
-            <div className="bg-[#4b8600] text-white rounded flex justify-center items-center my-2">
+            <div className="bg-[#0e9c49] text-white rounded flex justify-center items-center my-2">
               <button
                 className="text-[50%] md:text-[100%] font-[600] px-2 py-1 "
                 onClick={() => setShowModalReview(true)}

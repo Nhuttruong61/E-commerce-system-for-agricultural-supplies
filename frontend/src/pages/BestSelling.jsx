@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import ProductCart from "../components/Product/ProductCart";
 import Loading from "../components/Loading";
 import Footer from "../components/Footer";
+import Inbox from "../components/Inbox/Inbox";
 
 function BestSelling() {
   const products = useSelector((state) => state.product);
@@ -33,6 +34,7 @@ function BestSelling() {
             <ProductCart key={index} item={item} />
           ))}
         </div>
+        <Inbox />
         <Footer />
       </div>
     </Loading>

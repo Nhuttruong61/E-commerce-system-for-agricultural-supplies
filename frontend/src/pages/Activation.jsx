@@ -14,7 +14,7 @@ function Activation() {
       }
     };
     ActivetionToken();
-  }, [accessToken]);
+  }, []);
   const mesage = error
     ? "Xác nhận thất bại vui lòng kiểm tra lại!"
     : "Xác nhận thành công !";

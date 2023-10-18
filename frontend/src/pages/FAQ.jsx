@@ -72,7 +72,7 @@ export default function FAQ() {
   };
   const okButtonAdd = {
     style: {
-      color: "#4b8600",
+      color: "#0e9c49",
       border: "1px solid #ccc",
     },
   };
@@ -84,7 +84,7 @@ export default function FAQ() {
 
           <div>
             <p
-              className="bg-[#4b8600] text-white px-4 py-1 font-[600] rounded hover:bg-[#4c8600f3] cursor-pointer"
+              className="bg-[#0e9c49] text-white px-4 py-1 font-[600] rounded hover:bg-[#4c8600f3] cursor-pointer"
               onClick={showModalAdd}
             >
               Đăng bài
@@ -125,7 +125,7 @@ export default function FAQ() {
                     onClick={() => handleNavigate(item._id)}
                   >
                     <div className="flex  items-center pr-2 ">
-                      <MessageFilled className="text-[#73C509] md:text-[30px]" />
+                      <MessageFilled className="text-[#009b49] md:text-[30px]" />
                     </div>
                     <div className="flex flex-col">
                       <p className=" font-[600] flex  items-center">
