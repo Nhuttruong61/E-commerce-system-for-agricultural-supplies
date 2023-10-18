@@ -32,6 +32,8 @@ const questionRouter = require("./router/question");
 const sliderRouter = require("./router/slider");
 const transportFeeRouter = require("./router/transportfee");
 const paymentRouter = require("./router/vnpay");
+const conversationRouter = require("./router/convertion");
+const messageRouter = require("./router/message");
 
 app.use("/api/v2/user", userRouter);
 app.use("/api/v2/category", categoriesRouter);
@@ -42,6 +44,8 @@ app.use("/api/v2/question", questionRouter);
 app.use("/api/v2/slider", sliderRouter);
 app.use("/api/v2/transportfee", transportFeeRouter);
 app.use("/api/v2/payment", paymentRouter);
+app.use("/api/v2/convertion", conversationRouter);
+app.use("/api/v2/message", messageRouter);
 
 app.use(ErrorHandler);
 module.exports = app;
