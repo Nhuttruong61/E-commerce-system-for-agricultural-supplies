@@ -29,4 +29,6 @@ router.delete(
   isAuthenticated,
   userControler.deleteAddress
 );
+router.post("/request-password", userControler.requestPasswordReset);
+router.put("/reset-password", userControler.resetPassword);
 module.exports = router;

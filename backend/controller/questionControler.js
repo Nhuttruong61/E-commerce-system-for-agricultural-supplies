@@ -28,7 +28,7 @@ const createQuestion = catchAsyncErrors(async (req, res, next) => {
       question,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -47,7 +47,7 @@ const confirmQuestionAdmin = catchAsyncErrors(async (req, res, next) => {
       question,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -60,7 +60,7 @@ const getAllQuestions = catchAsyncErrors(async (req, res, next) => {
       question,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 // get a question
@@ -75,7 +75,7 @@ const getaQuestion = catchAsyncErrors(async (req, res, next) => {
       question,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -104,7 +104,7 @@ const editQuestionUser = catchAsyncErrors(async (req, res, next) => {
       question,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -129,7 +129,7 @@ const deleteQuestionUser = catchAsyncErrors(async (req, res, next) => {
       message: "Question has been edited successfully",
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -146,7 +146,7 @@ const deleteQuestionAdmin = catchAsyncErrors(async (req, res, next) => {
       message: "Question delete successfully",
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -174,7 +174,7 @@ const createComment = catchAsyncErrors(async (req, res, next) => {
       comment,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -193,7 +193,7 @@ const getComment = catchAsyncErrors(async (req, res, next) => {
       comment,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -224,7 +224,7 @@ const editComment = catchAsyncErrors(async (req, res, next) => {
       comment,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -260,7 +260,7 @@ const deleteComment = catchAsyncErrors(async (req, res, next) => {
       message: "Comment has been deleted successfully",
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 

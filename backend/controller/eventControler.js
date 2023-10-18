@@ -47,7 +47,7 @@ const getAllEvent = catchAsyncErrors(async (req, res, next) => {
       events,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -60,7 +60,7 @@ const getaEvent = catchAsyncErrors(async (req, res, next) => {
       event,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -77,7 +77,7 @@ const deleteEvent = catchAsyncErrors(async (req, res, next) => {
       message: "Event deleted successfully",
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 

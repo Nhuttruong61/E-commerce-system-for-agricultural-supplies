@@ -69,7 +69,7 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
       product,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -99,7 +99,7 @@ const getAllProducts = catchAsyncErrors(async (req, res, next) => {
       product: products,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 

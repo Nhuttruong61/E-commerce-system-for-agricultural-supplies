@@ -5,14 +5,15 @@ const ErrorHandler = require("../utils/ErrorHandler");
 //create TransportFree
 const ceatetransportFree = catchAsyncErrors(async (req, res, next) => {
   try {
-    const { title, cost, freeShipping } = req.body;
-    if (!title || !cost || !freeShipping)
+    const { title, cost, freeShipping, weight } = req.body;
+    if (!title || !cost || !weight || !freeShipping)
       return next(
         new ErrorHandler("Please provide complete event information", 400)
       );
     const transportfee = await TransportFree.create({
       title,
       cost,
+      weight,
       freeShipping,
     });
     res.status(201).json({
@@ -20,7 +21,7 @@ const ceatetransportFree = catchAsyncErrors(async (req, res, next) => {
       transportfee,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 //get all
@@ -33,12 +34,12 @@ const getAllTransportFees = catchAsyncErrors(async (req, res, next) => {
 });
 const editTransportFee = catchAsyncErrors(async (req, res, next) => {
   try {
-    const { title, cost, freeShipping } = req.body;
+    const { title, cost, weight, freeShipping } = req.body;
     const transportFee = await TransportFree.findById(req.params.id);
     if (!transportFee) {
       return next(new ErrorHandler("TransportFee not found", 404));
     }
-    if (!title || !cost || !freeShipping) {
+    if (!title || !cost || !weight || !freeShipping) {
       return next(
         new ErrorHandler(
           "Please provide complete transport fee information",
@@ -48,6 +49,7 @@ const editTransportFee = catchAsyncErrors(async (req, res, next) => {
     }
     transportFee.title = title;
     transportFee.cost = cost;
+    transportFee.weight = weight;
     transportFee.freeShipping = freeShipping;
     await transportFee.save();
     res.status(200).json({
@@ -55,7 +57,7 @@ const editTransportFee = catchAsyncErrors(async (req, res, next) => {
       transportFee,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 

@@ -28,7 +28,7 @@ const createOrder = catchAsyncErrors(async (req, res, next) => {
       orders,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -44,7 +44,7 @@ const getOrderUser = catchAsyncErrors(async (req, res, next) => {
       order: orders,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -60,7 +60,7 @@ const getOrder = catchAsyncErrors(async (req, res, next) => {
       order: order,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -93,7 +93,7 @@ const cancelOrder = catchAsyncErrors(async (req, res, next) => {
       message: "Order canceled successfully",
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -128,7 +128,7 @@ const updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
       await product.save({ validateBeforeSave: false });
     }
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -148,7 +148,7 @@ const deleteOrder = catchAsyncErrors(async (req, res, next) => {
       message: "Order deleted successfully!",
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 

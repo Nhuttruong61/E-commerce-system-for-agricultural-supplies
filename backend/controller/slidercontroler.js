@@ -25,7 +25,7 @@ const createSlider = catchAsyncErrors(async (req, res, next) => {
       slider,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 //get all slider
@@ -37,7 +37,7 @@ const getAllSlider = catchAsyncErrors(async (req, res, next) => {
       slider,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
@@ -57,7 +57,7 @@ const deleteSlider = catchAsyncErrors(async (req, res, next) => {
       message: "slider deleted successfully",
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400));
+    return next(new ErrorHandler(err.message, 500));
   }
 });
 
