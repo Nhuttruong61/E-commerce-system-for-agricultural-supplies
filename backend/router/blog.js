@@ -10,5 +10,18 @@ router.post(
   BlogControler.createBlog
 );
 router.get("/get-all-blog", BlogControler.getAllBlog);
+router.get("/get-a-blog/:id", BlogControler.getAblog);
+router.put(
+  "/update-blog/:id",
+  isAuthenticated,
+  isAdmin("admin"),
+  BlogControler.updateBlog
+);
+router.delete(
+  "/delete-blog/:id",
+  isAuthenticated,
+  isAdmin("admin"),
+  BlogControler.deleteBlog
+);
 
 module.exports = router;
