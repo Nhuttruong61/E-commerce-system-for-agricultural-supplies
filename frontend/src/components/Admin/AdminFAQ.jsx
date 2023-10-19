@@ -231,7 +231,7 @@ function AdminFAQ() {
         okButtonProps={okButtonDelete}
         okType="none"
       >
-        <p>{`bạn có muốn chắc xóa bài đăng?`} </p>
+        <p>{`Bạn có muốn chắc xóa bài đăng?`} </p>
       </Modal>
     </div>
   );

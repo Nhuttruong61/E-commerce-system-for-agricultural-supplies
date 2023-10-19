@@ -27,7 +27,7 @@ export default function FAQ() {
   }, []);
   useEffect(() => {
     setIsLoading(true);
-    if (questionData && questionData.data.length > 0) {
+    if (questionData && questionData?.data?.length > 0) {
       const res = questionData.data;
       setDataQuetion(res);
     }

@@ -69,7 +69,7 @@ function Product() {
       };
     });
     const updatedDataSort = dataProduct.map((item) => {
-      const event = eventId.find(
+      const event = eventId?.find(
         (eventItem) => eventItem.idProductEvent === item._id
       );
       if (event) {

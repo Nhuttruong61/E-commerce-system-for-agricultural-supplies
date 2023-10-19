@@ -16,6 +16,8 @@ import OrderSuccessPage from "../pages/OrderSuccessPage";
 import CheckoutPage from "../pages/CheckoutPage";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
+import BlogPage from "../pages/BlogPage";
+import BlogDetailPage from "../pages/BlogDetailPage";
 const routers = [
   {
     path: "/login",
@@ -107,6 +109,16 @@ const routers = [
     page: AdminPage,
     isShowHeader: false,
     isPrivate: true,
+  },
+  {
+    path: "/blog",
+    page: BlogPage,
+    isShowHeader: true,
+  },
+  {
+    path: "/blog/:id",
+    page: BlogDetailPage,
+    isShowHeader: true,
   },
 ];
 export default routers;
