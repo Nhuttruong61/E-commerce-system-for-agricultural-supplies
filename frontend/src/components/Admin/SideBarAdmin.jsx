@@ -7,15 +7,16 @@ import {
   AiOutlineMessage,
   AiOutlineUser,
   AiOutlineQuestionCircle,
+  AiOutlineAppstoreAdd,
 } from "react-icons/ai";
 import { LuTimerOff } from "react-icons/lu";
 import { FcExpired } from "react-icons/fc";
 import { LiaShippingFastSolid } from "react-icons/lia";
-import { BiCategory } from "react-icons/bi";
+import { BiCategory, BiBorderAll } from "react-icons/bi";
 function SideBarAdmin({ active, setActive }) {
   return (
     <div className="w-full h-[90vh] shadow overflow-y-auto sticky top-0 left-0 z-10 cursor-pointer">
-      <div className="flex w-full items-center p-4">
+      <div className="flex w-full items-center px-4 py-3">
         <div
           className="flex w-full items-center  "
           onClick={() => setActive(1)}
@@ -34,7 +35,7 @@ function SideBarAdmin({ active, setActive }) {
           </p>
         </div>
       </div>
-      <div className="flex w-full items-center p-4">
+      <div className="flex w-full items-center px-4 py-3">
         <div className="flex w-full items-center" onClick={() => setActive(2)}>
           <BiCategory
             className={` text-[24px]  ${
@@ -51,7 +52,7 @@ function SideBarAdmin({ active, setActive }) {
         </div>
       </div>
       <div
-        className="flex w-full items-center p-4"
+        className="flex w-full items-center px-4 py-3"
         onClick={() => setActive(3)}
       >
         <div className="flex w-full items-center">
@@ -70,7 +71,7 @@ function SideBarAdmin({ active, setActive }) {
         </div>
       </div>
       <div
-        className="flex w-full items-center p-4"
+        className="flex w-full items-center px-4 py-3"
         onClick={() => setActive(4)}
       >
         <div className="flex w-full items-center">
@@ -89,7 +90,7 @@ function SideBarAdmin({ active, setActive }) {
         </div>
       </div>
       <div
-        className="flex w-full items-center p-4"
+        className="flex w-full items-center px-4 py-3"
         onClick={() => setActive(5)}
       >
         <div className="flex w-full items-center">
@@ -108,7 +109,7 @@ function SideBarAdmin({ active, setActive }) {
         </div>
       </div>
       <div
-        className="flex w-full items-center p-4"
+        className="flex w-full items-center px-4 py-3"
         onClick={() => setActive(6)}
       >
         <div className="flex w-full items-center">
@@ -128,7 +129,7 @@ function SideBarAdmin({ active, setActive }) {
       </div>
 
       <div
-        className="flex w-full items-center p-4"
+        className="flex w-full items-center px-4 py-3"
         onClick={() => setActive(7)}
       >
         <div className="flex w-full items-center">
@@ -147,7 +148,7 @@ function SideBarAdmin({ active, setActive }) {
         </div>
       </div>
       <div
-        className="flex w-full items-center p-4"
+        className="flex w-full items-center px-4 py-3"
         onClick={() => setActive(8)}
       >
         <div className="flex w-full items-center">
@@ -166,7 +167,7 @@ function SideBarAdmin({ active, setActive }) {
         </div>
       </div>
       <div
-        className="flex w-full items-center p-4"
+        className="flex w-full items-center px-4 py-3"
         onClick={() => setActive(9)}
       >
         <div className="flex w-full items-center">
@@ -185,7 +186,7 @@ function SideBarAdmin({ active, setActive }) {
         </div>
       </div>
       <div
-        className="flex w-full items-center p-4"
+        className="flex w-full items-center px-4 py-3"
         onClick={() => setActive(10)}
       >
         <div className="flex w-full items-center">
@@ -200,6 +201,44 @@ function SideBarAdmin({ active, setActive }) {
             }`}
           >
             Sản phẩm hết hạn
+          </p>
+        </div>
+      </div>
+      <div
+        className="flex w-full items-center px-4 py-3"
+        onClick={() => setActive(11)}
+      >
+        <div className="flex w-full items-center">
+          <AiOutlineAppstoreAdd
+            className={` text-[24px]  ${
+              active === 11 ? "text-[#0e9c49]" : "text-black"
+            }`}
+          />
+          <p
+            className={`800px:block hidden pl-2 text-[18px] font-[500] ${
+              active === 11 ? "text-[#0e9c49]" : "text-black"
+            }`}
+          >
+            Thêm blog
+          </p>
+        </div>
+      </div>
+      <div
+        className="flex w-full items-center px-4 py-3"
+        onClick={() => setActive(12)}
+      >
+        <div className="flex w-full items-center">
+          <BiBorderAll
+            className={` text-[24px]  ${
+              active === 12 ? "text-[#0e9c49]" : "text-black"
+            }`}
+          />
+          <p
+            className={`800px:block hidden pl-2 text-[18px] font-[500] ${
+              active === 12 ? "text-[#0e9c49]" : "text-black"
+            }`}
+          >
+            Tất cả blog
           </p>
         </div>
       </div>

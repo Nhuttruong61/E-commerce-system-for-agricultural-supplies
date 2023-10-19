@@ -9,6 +9,8 @@ import AdminFAQ from "./AdminFAQ";
 import AdminFeeTransport from "./AdminFeeTransport";
 import ProductAboutToExpire from "./AdminProduct/ProductAboutToExpire";
 import ProductExpire from "./AdminProduct/ProductExpire";
+import CreateBlog from "./AdminBlog/CreateBlog";
+import AdminBlog from "./AdminBlog/AdminBlog";
 
 function AdminContent({ active }) {
   let content = null;
@@ -32,6 +34,10 @@ function AdminContent({ active }) {
     content = <ProductAboutToExpire />;
   } else if (active === 10) {
     content = <ProductExpire />;
+  } else if (active === 11) {
+    content = <CreateBlog />;
+  } else if (active === 12) {
+    content = <AdminBlog />;
   }
   return <div className="flex w-full overflow-x-auto">{content}</div>;
 }
