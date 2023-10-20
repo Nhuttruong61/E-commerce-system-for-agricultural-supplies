@@ -14,6 +14,7 @@ import { CSVLink } from "react-csv";
 import { CiExport } from "react-icons/ci";
 import unidecode from "unidecode";
 import { toast } from "react-toastify";
+import PieChartComponent from "../chart/PieChartComponet";
 
 function AdminOrder() {
   const [isLoading, setIsLoading] = useState(false);
@@ -368,6 +369,34 @@ function AdminOrder() {
 
   return (
     <div className="w-full">
+      <div className="flex w-full flex-col px-2">
+        <div className="h-[180px] w-[180px]">
+          <PieChartComponent order={dataOrder} />
+        </div>
+        <p className="font-[600]">Biểu đồ thể hiện trại thái của đơn hàng</p>
+        <div className="flex">
+          <div>
+            <div className="flex items-center pr-2">
+              <p className="pr-2">Đang xử lý</p>
+              <p className="bg-[#0088fe] w-[40px] h-2"></p>
+            </div>
+            <div className="flex items-center">
+              <p className="pr-2">Đã hủy</p>
+              <p className="bg-[#ffbb28] w-[40px] h-2"></p>
+            </div>
+          </div>
+          <div>
+            <div className="flex items-center">
+              <p className="pr-2">Đã giao hàng</p>
+              <p className="bg-[#00C49F] w-[40px] h-2"></p>
+            </div>
+            <div className="flex items-center">
+              <p className="pr-2">Đã chuyển hàng</p>
+              <p className="bg-[#ff8042] w-[40px] h-2"></p>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="flex flex-row-reverse p-2 ">
         <CSVLink
           filename="order.csv"

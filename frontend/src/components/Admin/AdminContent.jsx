@@ -39,7 +39,11 @@ function AdminContent({ active }) {
   } else if (active === 12) {
     content = <AdminBlog />;
   }
-  return <div className="flex w-full overflow-x-auto">{content}</div>;
+  return (
+    <div className="flex w-full h-[90vh] overflow-y-auto overflow-x-auto">
+      {content}
+    </div>
+  );
 }
 
 export default AdminContent;
