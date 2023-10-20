@@ -54,9 +54,17 @@ function Newproduct() {
       }
       return item;
     });
+    const unExpiredProducts = updatedDataSort.filter((item) => {
+      return isNotExpired(new Date(item.expirationDate));
+    });
 
-    setDataNewProduct(updatedDataSort);
+    setDataNewProduct(unExpiredProducts);
   }, [dataSort, dataEvent]);
+
+  const isNotExpired = (expirationDate) => {
+    const currentDate = new Date();
+    return expirationDate > currentDate;
+  };
   return (
     <div className=" p-6 rounded-lg mb-12  md:px-[10%]">
       <div className=" flex justify-center text-center items-center">

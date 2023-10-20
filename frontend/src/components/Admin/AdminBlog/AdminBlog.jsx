@@ -164,6 +164,7 @@ function AdminBlog() {
     dataTable = blogs.data.map((blog, index) => {
       return {
         ...blog,
+        key: index,
         stt: index + 1,
       };
     });
@@ -232,7 +233,7 @@ function AdminBlog() {
               dataSeeMore?.content.length > 0 &&
               dataSeeMore?.content.map((item, index) => {
                 return (
-                  <div className="w-full">
+                  <div className="w-full" key={item._id}>
                     <div className="flex justify-between items-center">
                       <p className="w-[20%] font-[500]">Tiêu đề {index + 1}</p>
                       <p className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px] ">

@@ -2,9 +2,17 @@ import React, { useEffect, useRef, useState } from "react";
 import * as OrderSerVice from "../../service/orderService";
 import TableComponent from "../Table";
 import { Button, Modal, Select, Space } from "antd";
-import { SearchOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import jsPDF from "jspdf";
+
+import {
+  SearchOutlined,
+  DeleteOutlined,
+  EyeOutlined,
+  PrinterOutlined,
+} from "@ant-design/icons";
 import { CSVLink } from "react-csv";
 import { CiExport } from "react-icons/ci";
+import unidecode from "unidecode";
 import { toast } from "react-toastify";
 
 function AdminOrder() {
@@ -17,6 +25,8 @@ function AdminOrder() {
   const searchInput = useRef(null);
   const [dataSeeMore, setDataSeeMore] = useState(null);
   const [dataExport, setDataExport] = useState([]);
+  const [dataExportAUser, setDataExportAUser] = useState(null);
+  const [showModalPrint, setShowModalPrint] = useState(false);
   const getAllOrders = async () => {
     setIsLoading(true);
     const res = await OrderSerVice.getAllOrder();
@@ -30,14 +40,25 @@ function AdminOrder() {
   }, []);
   const renderAction = (text, item) => {
     return (
-      <div
-        className="cursor-pointer"
-        onClick={() => {
-          setIdOrder(item.id);
-          setshowModalDelete(true);
-        }}
-      >
-        <DeleteOutlined className="text-red-600 border border-[red] py-2 px-1 rounded-[4px]" />
+      <div className="flex">
+        <div
+          className="flex flex-row-reverse"
+          onClick={() => {
+            setDataExportAUser(item);
+            setShowModalPrint(true);
+          }}
+        >
+          <PrinterOutlined className="text-[#009b49] border text-[20px] border-[#009b49] py-2 px-1 rounded-[4px] mx-1" />
+        </div>
+        <div
+          className="cursor-pointer"
+          onClick={() => {
+            setIdOrder(item.id);
+            setshowModalDelete(true);
+          }}
+        >
+          <DeleteOutlined className="text-red-600 border border-[red] py-2 px-1 rounded-[4px] text-[20px]" />
+        </div>
       </div>
     );
   };
@@ -275,6 +296,7 @@ function AdminOrder() {
   const handleCancel = () => {
     setShowModalSeeMore(false);
     setshowModalDelete(false);
+    setShowModalPrint(false);
   };
   const handleDeleteOrder = async () => {
     setshowModalDelete(false);
@@ -291,7 +313,7 @@ function AdminOrder() {
       border: "1px solid #ccc",
     },
   };
-  const handleExportOrder = () => {
+  const handleExportAllOrder = () => {
     let res = [];
     if (dataTable && dataTable.length > 0) {
       dataTable.forEach((item) => {
@@ -314,13 +336,43 @@ function AdminOrder() {
       setDataExport(res);
     }
   };
+
+  const handleExportOrder = () => {
+    setShowModalPrint(false);
+    const {
+      name,
+      address,
+      paymentInfoStatus,
+      product,
+      totalPrice,
+      phoneNumber,
+    } = dataExportAUser || {};
+    const formattedName = unidecode(name);
+    const formattedAddress = unidecode(address);
+    const formattedPaymentStatus = unidecode(paymentInfoStatus);
+    const formattedProduct = unidecode(
+      product.map(({ name, quantity }) => `${name} (${quantity})`).join(", ")
+    );
+    const doc = new jsPDF();
+    doc.setFont("Arial");
+    doc.text("Thong tin", 20, 10);
+    doc.text(`Ten: ${formattedName}`, 20, 20);
+    doc.text(`Dien thoai: ${phoneNumber}`, 20, 30);
+    doc.text(`Dia chi: ${formattedAddress}`, 20, 40);
+    doc.text(`Thanh toan: ${formattedPaymentStatus}`, 20, 50);
+    doc.text(`Gia: ${totalPrice}`, 20, 60);
+    doc.text(`San pham: ${formattedProduct}`, 20, 70);
+
+    doc.save("order.pdf");
+  };
+
   return (
     <div className="w-full">
       <div className="flex flex-row-reverse p-2 ">
         <CSVLink
           filename="order.csv"
           className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-[#009b49]  text-white"
-          onClick={handleExportOrder}
+          onClick={handleExportAllOrder}
           data={dataExport}
         >
           <CiExport className="md:text-[30px] text-[20px] " />
@@ -477,6 +529,16 @@ function AdminOrder() {
         okType="none"
       >
         <p>{`Bạn có muốn chăc xóa đơn hàng này?`} </p>
+      </Modal>
+      <Modal
+        title="In hóa đơn"
+        open={showModalPrint}
+        onOk={handleExportOrder}
+        onCancel={handleCancel}
+        okButtonProps={okButtonDelete}
+        okType="none"
+      >
+        <p>{`Bạn có muốn in hóa đơn này`} </p>
       </Modal>
     </div>
   );
