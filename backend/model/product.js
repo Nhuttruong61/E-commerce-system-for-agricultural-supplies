@@ -9,6 +9,10 @@ const productSchema = new mongoose.Schema({
     type: Array,
     required: [true, "Please enter your product description"],
   },
+  ingredient: {
+    type: Array,
+    required: [true, "Please enter your product ingredient"],
+  },
   category: {
     type: Object,
     required: [true, "Please select a category"],

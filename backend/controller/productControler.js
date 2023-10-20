@@ -11,6 +11,7 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
     const {
       name,
       description,
+      ingredient,
       category,
       weight,
       originPrice,
@@ -47,6 +48,7 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
     const product = await Product.create({
       name,
       description,
+      ingredient,
       category: {
         categoryid,
         name: categoryid.name,
@@ -124,6 +126,7 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
     const {
       name,
       description,
+      ingredient,
       category,
       weight,
       price,
@@ -156,6 +159,7 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
 
     product.name = name;
     product.description = description;
+    product.ingredient = ingredient;
     product.category = {
       categoryid,
       name: categoryid.name,

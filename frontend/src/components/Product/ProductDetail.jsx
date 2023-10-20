@@ -21,6 +21,7 @@ function ProductDetail(id) {
   const [dataReviews, setDataReviews] = useState(null);
   const [productData, setProductData] = useState(null);
   const [checkQuantity, setCheckQuantity] = useState(null);
+  const [dataSuggest, setDataSuggest] = useState(null);
   const getProduct = async () => {
     const res = await getaProduct(_id);
     setDataProduct(res);
@@ -106,6 +107,16 @@ function ProductDetail(id) {
       setQuantity(1);
     }
   }, [quantity]);
+  const isNotExpired = (expirationDate) => {
+    const currentDate = new Date();
+    return expirationDate > currentDate;
+  };
+  useEffect(() => {
+    const unExpiredProducts = data.filter((item) => {
+      return isNotExpired(new Date(item.expirationDate));
+    });
+    setDataSuggest(unExpiredProducts);
+  }, [data]);
   return (
     <div className=" mb-10">
       <p className="text-[80%] md:text-[100%] font-[600] md:px-[10%]">
@@ -196,6 +207,19 @@ function ProductDetail(id) {
                   );
                 })}
               </ul>
+              {dataProduct?.product?.ingredient &&
+                dataProduct?.product?.ingredient.length > 0 && (
+                  <div className="text-[60%] md:text-[100%]">
+                    <p className="font-[600] py-2 px-2">Thành phần:</p>
+                    {dataProduct?.product?.ingredient.map((item, index) => {
+                      return (
+                        <p className="ml-2" key={index}>
+                          - {item}
+                        </p>
+                      );
+                    })}
+                  </div>
+                )}
             </div>
             <p
               className="absolute bottom-[-20px] w-full text-center text-blue-600 cursor-pointer pl-4 text-[60%] md:text-[100%] "
@@ -212,8 +236,8 @@ function ProductDetail(id) {
         </p>
         <div className="flex ">
           <div className="grid grid-cols-2 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-4 lg:gap-[25px] xl:grid-cols-5 xl:gap-[30px] mb-12 md:p-6">
-            {data && data.length > 0
-              ? data
+            {dataSuggest && dataSuggest.length > 0
+              ? dataSuggest
                   .filter(
                     (item) =>
                       item.category.categoryid._id ===
