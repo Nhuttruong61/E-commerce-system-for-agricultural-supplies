@@ -10,7 +10,7 @@ router.post(
 );
 
 router.get(
-  "/get-all-message:id",
+  "/get-all-message/:id",
   isAuthenticated,
   MessageController.getAllMessage
 );

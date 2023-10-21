@@ -2,7 +2,6 @@ const Blog = require("../model/blog");
 const cloudinary = require("cloudinary");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
-const { response } = require("express");
 
 //create a new blog
 const createBlog = catchAsyncErrors(async (req, res, next) => {

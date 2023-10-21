@@ -1,6 +1,7 @@
 import axios from "./axios-costum";
 
 export const createMessage = async (data) => {
+  console.log("data", data);
   const res = await axios.post("/message/create-message", data, {
     withCredentials: true,
   });
@@ -8,7 +9,7 @@ export const createMessage = async (data) => {
 };
 
 export const getAllMessage = async (id) => {
-  const res = await axios.get(`/message/get-all-message${id}`, {
+  const res = await axios.get(`/message/get-all-message/${id}`, {
     withCredentials: true,
   });
   return res;

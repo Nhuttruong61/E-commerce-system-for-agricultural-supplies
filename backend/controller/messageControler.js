@@ -2,13 +2,13 @@ const Messages = require("../model/message");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 const Conversation = require("../model/conversation");
+const cloudinary = require("cloudinary");
 const createMessage = catchAsyncErrors(async (req, res, next) => {
   try {
     const messageData = req.body;
-
     if (req.body.images) {
       const myCloud = await cloudinary.v2.uploader.upload(req.body.images, {
-        folder: "messages",
+        folder: "messagesImg",
       });
       messageData.images = {
         public_id: myCloud.public_id,
@@ -40,13 +40,12 @@ const createMessage = catchAsyncErrors(async (req, res, next) => {
 
 //get all messages
 const getAllMessage = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
   try {
-    const message = await Messages.find({
-      coversationId: req.params.userId,
-    });
-    res.status(201).json({
+    const messages = await Messages.find({ conversationId: id });
+    res.status(200).json({
       success: true,
-      message,
+      message: messages,
     });
   } catch (err) {
     return next(new ErrorHandler(err.message, 500));

@@ -3,7 +3,7 @@ import AdminUser from "./AdminUser";
 import Adminproduct from "./AdminProduct/Adminproduct";
 import AdminOrder from "./AdminOrder";
 import AdminEvent from "./AdminEvent";
-import AdminInbox from "./AdminInbox";
+import AdminInbox from "./Inbox/AdminInbox";
 import AdminCategory from "./AdminCategory";
 import AdminFAQ from "./AdminFAQ";
 import AdminFeeTransport from "./AdminFeeTransport";

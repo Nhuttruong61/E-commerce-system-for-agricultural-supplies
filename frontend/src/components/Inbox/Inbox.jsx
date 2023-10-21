@@ -9,7 +9,9 @@ import socketIO from "socket.io-client";
 import * as MessageService from "../../service/messageService";
 import * as timeago from "timeago.js";
 import { AiOutlineSend } from "react-icons/ai";
+import { CloseOutlined } from "@ant-design/icons";
 import { BsImages } from "react-icons/bs";
+import imageCompression from "browser-image-compression";
 const ENDPOINT = "http://localhost:8000/";
 const socketId = socketIO(ENDPOINT, {
   transport: ["websocket"],
@@ -24,7 +26,7 @@ function Inbox() {
   const [currentChat, setCurrentChat] = useState();
   const [messages, setMessages] = useState([]);
   const [listUser, setListUser] = useState(null);
-
+  const [selectedImage, setSelectedImage] = useState(null);
   useEffect(() => {
     socketId.on("getMessage", (data) => {
       setArrivalMessage({
@@ -40,10 +42,30 @@ function Inbox() {
       currentChat?.members.includes(arrivalMessage.sender) &&
       setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage, currentChat]);
+  const handleOnchangeImage = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 800,
+    };
+    try {
+      const compressedFile = await imageCompression(file, options);
+      const reader = new FileReader();
+      reader.onload = () => {
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(compressedFile);
+    } catch (error) {
+      console.error("Lỗi khi nén ảnh:", error);
+    }
+  };
   const createMessageHandler = async () => {
     const message = {
       sender: account._id,
       text: newMessage,
+      images: selectedImage,
       conversationId: currentChat._id,
     };
     const receiverId = currentChat.members.find(
@@ -53,12 +75,15 @@ function Inbox() {
       senderId: account._id,
       receiverId,
       text: newMessage,
+      images: selectedImage,
     });
     try {
       if (newMessage !== "") {
         await MessageService.createMessage(message)
           .then((res) => {
             setMessages([...messages, res.message]);
+            setNewMessage("");
+            setSelectedImage(null);
             updateLastMessage();
           })
           .catch((error) => {
@@ -158,6 +183,9 @@ function Inbox() {
           messages={messages}
           listUser={listUser}
           sellerId={account._id}
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+          handleOnchangeImage={handleOnchangeImage}
         />
       )}
     </div>
@@ -170,6 +198,9 @@ const InboxForm = ({
   messages,
   sellerId,
   listUser,
+  selectedImage,
+  setSelectedImage,
+  handleOnchangeImage,
 }) => {
   const animation = {};
   return (
@@ -211,6 +242,13 @@ const InboxForm = ({
                       : "bg-[#0866ff] text-white"
                   }`}
                 >
+                  {item?.images && (
+                    <img
+                      src={item?.images?.url}
+                      alt=""
+                      className="h-[80px] w-[80px]"
+                    />
+                  )}
                   <p>{item.text}</p>
                 </div>
                 <p className="text-[10px]">{timeago.format(item.createdAt)}</p>
@@ -220,17 +258,28 @@ const InboxForm = ({
         })}
       </div>
       <div className="flex items-center justify-between">
-        <div className="w-[15%] flex justify-center items-center cursor-pointer">
+        <div className="w-[20%] flex justify-center items-center cursor-pointer">
           <input
             type="file"
             name=""
             id="image"
             className="hidden"
-            // onChange={handleImageUpload}
+            onChange={handleOnchangeImage}
           />
           <label htmlFor="image">
-            <BsImages className="text-[20px] text-[#5b5b5b]" />
+            <BsImages className="text-[24px] text-[#5b5b5b]" />
           </label>
+          {selectedImage && (
+            <div className="relative">
+              <button
+                className="absolute top-[-16px] right-[-5px]"
+                onClick={() => setSelectedImage(null)}
+              >
+                <CloseOutlined className="p-1 hover:bg-red-500 hover:text-white text-[10px]" />
+              </button>
+              <img src={selectedImage} alt="" className="w-[30px] h-[30px]" />
+            </div>
+          )}
         </div>
         <input
           type="text"
