@@ -16,7 +16,7 @@ const SliderComponet = () => {
     queryFn: getAllSlides,
   });
   return (
-    <Carousel afterChange={onChange} className="md:mx-[10%]">
+    <Carousel afterChange={onChange} className="md:mx-[10%]" autoplay>
       {dataSlider?.slider?.map((item) =>
         item?.images?.map((i) => (
           <div

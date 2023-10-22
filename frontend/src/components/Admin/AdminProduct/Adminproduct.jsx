@@ -546,18 +546,18 @@ function Adminproduct() {
         <label className="flex justify-between items-center">
           <p className="w-[20%] font-[500]">Giá nhập</p>
           <input
-            value={price}
+            value={origin}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(e) => setOriginPrice(e.target.value)}
             placeholder="Nhập số giá nhập trên món"
           />
         </label>
         <label className="flex justify-between items-center">
           <p className="w-[20%] font-[500]">Giá bán</p>
           <input
-            value={originPrice}
+            value={price}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) => setOriginPrice(e.target.value)}
+            onChange={(e) => setPrice(e.target.value)}
             placeholder="Nhâp giá bán trên món"
           />
         </label>
@@ -699,20 +699,20 @@ function Adminproduct() {
         <label className="flex justify-between items-center">
           <p className="w-[20%] font-[500]">Giá nhập</p>
           <input
-            value={editProduct.price}
+            value={editProduct.originPrice}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
             onChange={(e) =>
-              setEditProduct({ ...editProduct, price: e.target.value })
+              setEditProduct({ ...editProduct, originPrice: e.target.value })
             }
           />
         </label>
         <label className="flex justify-between items-center">
           <p className="w-[20%] font-[500]">Giá bán</p>
           <input
-            value={editProduct.originPrice}
+            value={editProduct.price}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
             onChange={(e) =>
-              setEditProduct({ ...editProduct, originPrice: e.target.value })
+              setEditProduct({ ...editProduct, price: e.target.value })
             }
           />
         </label>
@@ -850,13 +850,13 @@ function Adminproduct() {
             </label>
             <label className="flex items-center">
               <p className=" font-[500] w-[30%] py-1">Giá nhập:</p>
-              <p className="pl-2">{inforProduct?.price.toLocaleString()} đ</p>
-            </label>
-            <label className="flex items-center">
-              <p className=" font-[500] w-[30%] py-1">Giá bán:</p>
               <p className="pl-2">
                 {inforProduct?.originPrice.toLocaleString()} đ
               </p>
+            </label>
+            <label className="flex items-center">
+              <p className=" font-[500] w-[30%] py-1">Giá bán:</p>
+              <p className="pl-2">{inforProduct?.price.toLocaleString()} đ</p>
             </label>
             <label className="flex items-center">
               <p className=" font-[500] w-[30%] py-1">Trọng lượng:</p>

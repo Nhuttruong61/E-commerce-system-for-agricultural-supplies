@@ -34,7 +34,11 @@ export const converDataChartBar = (order) => {
     const object = {};
     order.forEach((order) => {
       const paidDate = new Date(order.paymentInfo.paidAt);
-      if (paidDate >= fiveWeeksAgo && paidDate <= today) {
+      if (
+        order.paymentInfo.status === "Đã thanh toán" &&
+        paidDate >= fiveWeeksAgo &&
+        paidDate <= today
+      ) {
         const weekStart = startOfWeek(paidDate);
         const weekEnd = endOfWeek(paidDate);
         const weekKey = `${weekStart}-${weekEnd}`;
@@ -53,7 +57,7 @@ export const converDataChartBar = (order) => {
       const dateB = new Date(b.name.split(" - ")[0]);
       return dateA - dateB;
     });
-    console.log("sortedWeeklyRevenues", sortedWeeklyRevenues);
+    // console.log("sortedWeeklyRevenues", sortedWeeklyRevenues);
     return sortedWeeklyRevenues;
   } catch (e) {
     return [];

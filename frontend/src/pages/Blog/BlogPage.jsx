@@ -26,7 +26,7 @@ function BlogPage() {
           {blogs?.data?.map((item) => {
             return (
               <div
-                className="flex py-2 cursor-pointer"
+                className="flex py-2 cursor-pointer "
                 key={item._id}
                 onClick={() => handleNavigate(item._id)}
               >
@@ -34,7 +34,9 @@ function BlogPage() {
                   <img src={item?.content[0]?.images.url} alt="" />
                 </div>
                 <div className="w-[80%]  px-2">
-                  <p className="font-[600] md:text-[1.8rem]">{item?.title}</p>
+                  <p className="font-[600] md:text-[1.8rem] hover:text-[#4D8208]">
+                    {item?.title}
+                  </p>
                   <p>{item.content[0].description[0].substring(0, 200)}...</p>
                   <p className=" w-full py-2 text-[#cabebe]">
                     {moment(item.createdAt).fromNow()}

@@ -29,6 +29,7 @@ function ProductDetail(id) {
   useEffect(() => {
     getProduct();
   }, [id]);
+  console.log("productData", productData);
   useEffect(() => {
     const eventId = dataEvent.data.map((item) => {
       return {
@@ -58,8 +59,7 @@ function ProductDetail(id) {
   const toggleExpand = () => {
     setExpanded(!expanded);
   };
-  const productPrice =
-    productData?.originPrice * (1 - productData?.distCount / 100);
+  const productPrice = productData?.price * (1 - productData?.distCount / 100);
 
   useEffect(() => {
     if (dataProduct && dataProduct.success) {
@@ -152,13 +152,13 @@ function ProductDetail(id) {
             {productData?.distCount ? (
               <>
                 <h1 className="line-through font-bold text-red-600 pr-2">
-                  {productData?.originPrice.toLocaleString()} đ
+                  {productData?.price.toLocaleString()} đ
                 </h1>
                 <h1 className="font-bold">{productPrice.toLocaleString()}đ</h1>
               </>
             ) : (
               <h1 className="font-bold">
-                {dataProduct?.product?.originPrice.toLocaleString()} đ
+                {dataProduct?.product?.price.toLocaleString()} đ
               </h1>
             )}
           </div>

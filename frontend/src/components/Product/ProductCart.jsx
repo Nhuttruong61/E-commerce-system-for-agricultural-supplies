@@ -6,8 +6,7 @@ function ProductCart(item) {
   const handleClick = (e) => {
     navigate(`/product/details/${e.item._id}`);
   };
-  const productPrice =
-    item?.item?.originPrice * (1 - item?.item?.distCount / 100);
+  const productPrice = item?.item?.price * (1 - item?.item?.distCount / 100);
   return (
     <div
       className=" shadow hover:shadow-[#5b5959]"
@@ -38,8 +37,8 @@ function ProductCart(item) {
           </div>
         ) : null}
       </div>
-      <div className="flex flex-col my-[6%]  text-[10%] md:text-[100%]">
-        <div className=" flex justify-center font-[500]  text-[50%] md:text-[80%]">
+      <div className="flex flex-col my-[6%]  text-[10%] md:text-[100%] px-2">
+        <div className=" flex justify-center font-[500]  text-[50%] md:text-[100%] py-1">
           <p>
             {item.item.name.length > 20
               ? item.item.name.slice(0, 20) + "..."
@@ -49,10 +48,12 @@ function ProductCart(item) {
         <Rating rating={item?.item.ratings} />
 
         <div className="flex justify-between font-[500]  text-[10%] md:text-[80%] md:px-[4%]">
-          <div className="flex">
-            <p className="text-red-600 line-through pr-2">
-              {item.item.originPrice.toLocaleString()}đ
-            </p>
+          <div className="flex py-1">
+            {item?.item?.distCount > 0 && (
+              <p className="text-red-600 line-through pr-2">
+                {item.item.price.toLocaleString()}đ
+              </p>
+            )}
             <p>{productPrice.toLocaleString()}đ</p>
           </div>
           <span>Đã bán {item.item.sold_out}</span>

@@ -16,6 +16,7 @@ import unidecode from "unidecode";
 import { toast } from "react-toastify";
 import PieChartComponent from "../chart/PieChartComponet";
 import BarChartComponent from "../chart/BarChartComponent";
+import moment from "moment";
 
 function AdminOrder() {
   const [isLoading, setIsLoading] = useState(false);
@@ -256,6 +257,12 @@ function AdminOrder() {
       sorter: (a, b) => a.totalPrice - b.totalPrice,
     },
     {
+      title: "Ngày đặt",
+      dataIndex: "date",
+      sorter: (a, b) => a.stt - b.stt,
+    },
+
+    {
       title: "Trạng thái",
       dataIndex: "status",
       render: handleRenderStatus,
@@ -285,6 +292,7 @@ function AdminOrder() {
         paymentInfoStatus: order.paymentInfo.status,
         address: order.shippingAddress.address,
         totalPrice: order.totalPrice,
+        date: moment(order.paymentInfo.createdAt).fromNow(),
         status: order.status,
         more: {
           ...order,
