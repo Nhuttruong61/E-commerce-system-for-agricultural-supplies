@@ -43,7 +43,6 @@ function AdminUser() {
       <div
         className="cursor-pointer"
         onClick={() => {
-          console.log(item);
           setIdUser(item.id);
           setShowModal(true);
         }}

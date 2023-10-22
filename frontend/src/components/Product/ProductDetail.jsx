@@ -29,7 +29,6 @@ function ProductDetail(id) {
   useEffect(() => {
     getProduct();
   }, [id]);
-  console.log("productData", productData);
   useEffect(() => {
     const eventId = dataEvent.data.map((item) => {
       return {
@@ -190,12 +189,12 @@ function ProductDetail(id) {
             </button>
           </div>
           <div className="relative py-2">
-            <p className="text-[60%] md:text-[100%] font-[600]">
+            <p className="text-[60%] md:text-[100%] font-[600] pb-2">
               Chi tiết sản phẩm
             </p>
             <div
               className={`shadow shadow-[#a8a7a7] ${
-                expanded ? "h-auto" : "h-[9vh] overflow-hidden"
+                expanded ? "h-auto" : "h-[10vh] overflow-hidden"
               }`}
             >
               <ul className="text-[60%] md:text-[100%] px-2 py-2">
@@ -227,6 +226,22 @@ function ProductDetail(id) {
             >
               {expanded ? "Thu gọn" : "Xem thêm"}
             </p>
+          </div>
+          <div className="py-2 flex ">
+            <p className="text-[60%] md:text-[100%] font-[600] pr-2">
+              Quy cách:
+            </p>
+            {dataProduct?.product.capacity ? (
+              dataProduct?.product.capacity < 1 ? (
+                <p>{dataProduct?.product.capacity * 1000} ml</p>
+              ) : (
+                <p>{dataProduct?.product.capacity} lít</p>
+              )
+            ) : dataProduct?.product.weight < 1 ? (
+              <p>{dataProduct?.product.weight * 1000} gam</p>
+            ) : (
+              <p>{dataProduct?.product.weight} kg</p>
+            )}
           </div>
         </div>
       </div>

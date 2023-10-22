@@ -20,6 +20,9 @@ const productSchema = new mongoose.Schema({
   weight: {
     type: String,
   },
+  capacity: {
+    type: String,
+  },
   originPrice: {
     type: Number,
   },

@@ -3,9 +3,7 @@ import { Carousel } from "antd";
 import axios from "../../service/axios-costum";
 import { useQuery } from "@tanstack/react-query";
 const SliderComponet = () => {
-  const onChange = (currentSlide) => {
-    console.log(currentSlide);
-  };
+  const onChange = (currentSlide) => {};
   const getAllSlides = async () => {
     const res = await axios.get("/slider/get-all-slider");
     return res;

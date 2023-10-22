@@ -54,7 +54,6 @@ function SeleteInbox({
       </div>
       <div className="px-3 h-[60vh]  overflow-y-scroll py-2">
         {messages?.map((item, index) => {
-          console.log(item);
           return (
             <div
               key={index}

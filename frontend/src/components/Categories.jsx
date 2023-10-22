@@ -26,7 +26,7 @@ function Categories() {
                 onClick={() => handleSubmit(i)}
               >
                 <div className="text-clip">
-                  <span className=" p-2 rounded-[4px] overflow-hidden w-auto h-[120px] items-center flex">
+                  <span className=" p-2 rounded-[4px] overflow-hidden w-auto h-[120px] items-center flex justify-center">
                     <img
                       src={i?.images[0].url}
                       className=" w-[92px] object-cover rounded-[4px]"

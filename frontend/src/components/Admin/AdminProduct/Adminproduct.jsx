@@ -31,6 +31,7 @@ function Adminproduct() {
   const [price, setPrice] = useState("");
   const [originPrice, setOriginPrice] = useState("");
   const [weight, setWeight] = useState("");
+  const [capacity, setCapacity] = useState("");
   const [origin, setOrigin] = useState("");
   const [expirationDate, setExpirationDate] = useState(null);
   const [distCount, setdistCount] = useState(0);
@@ -44,6 +45,7 @@ function Adminproduct() {
     ingredient: [],
     category,
     weight: "",
+    capacity: "",
     originPrice: "",
     price: "",
     distCount: "",
@@ -166,6 +168,7 @@ function Adminproduct() {
               ingredient: item.ingredient,
               category: item.category.categoryid,
               weight: item.weight,
+              capacity: item.capacity,
               originPrice: item.originPrice,
               price: item.price,
               distCount: item.distCount,
@@ -300,6 +303,7 @@ function Adminproduct() {
           _id: category,
         },
         weight,
+        capacity: capacity !== "" ? capacity : null,
         originPrice,
         price,
         distCount,
@@ -314,6 +318,7 @@ function Adminproduct() {
         dispatch(getAllProductRd());
         setName("");
         setWeight("");
+        setCapacity("");
         setOrigin("");
         setExpirationDate("");
         setDescription([]);
@@ -544,9 +549,18 @@ function Adminproduct() {
           />
         </label>
         <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Dung tích</p>
+          <input
+            value={capacity}
+            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            onChange={(e) => setCapacity(e.target.value)}
+            placeholder="Nhập dung tích đơn vị lít"
+          />
+        </label>
+        <label className="flex justify-between items-center">
           <p className="w-[20%] font-[500]">Giá nhập</p>
           <input
-            value={origin}
+            value={originPrice}
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
             onChange={(e) => setOriginPrice(e.target.value)}
             placeholder="Nhập số giá nhập trên món"
@@ -693,6 +707,16 @@ function Adminproduct() {
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
             onChange={(e) =>
               setEditProduct({ ...editProduct, weight: e.target.value })
+            }
+          />
+        </label>
+        <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Dung tích</p>
+          <input
+            value={editProduct.capacity}
+            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            onChange={(e) =>
+              setEditProduct({ ...editProduct, capacity: e.target.value })
             }
           />
         </label>
@@ -862,6 +886,12 @@ function Adminproduct() {
               <p className=" font-[500] w-[30%] py-1">Trọng lượng:</p>
               <p className="pl-2">{inforProduct?.weight} kg</p>
             </label>
+            {inforProduct?.capacity && (
+              <label className="flex items-center">
+                <p className=" font-[500] w-[30%] py-1">Dung tích:</p>
+                <p className="pl-2">{inforProduct?.capacity} lít</p>
+              </label>
+            )}
             <label className="flex items-center">
               <p className=" font-[500] w-[30%] py-1">Số lượng:</p>
               <p className="pl-2">{inforProduct?.quantity}</p>

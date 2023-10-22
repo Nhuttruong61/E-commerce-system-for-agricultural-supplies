@@ -17,8 +17,10 @@ function BestSelling() {
         .slice()
         .sort((a, b) => b.sold_out - a.sold_out)
         .slice(0, 10);
-
-      setData(sortedData);
+      const unExpiredProducts = sortedData.filter((item) => {
+        return isNotExpired(new Date(item.expirationDate));
+      });
+      setData(unExpiredProducts);
     }
     setIsLoading(false);
   }, [products, selectedOption]);
@@ -43,29 +45,35 @@ function BestSelling() {
       setDataProductFillter(res);
     }
   }, [selectedOption, data]);
+  const isNotExpired = (expirationDate) => {
+    const currentDate = new Date();
+    return expirationDate > currentDate;
+  };
   return (
     <Loading isLoading={isLoading}>
       <div className="bg-[#f4f1f4] md:min-h-[100vh]">
-        <div className="w-full justify-between flex md:px-10 py-2 items-center">
-          <span className="flex font-[600]">
-            Có tất cả <p className="text-red-600 px-1">{data.length} </p>sản
-            phẩm
-          </span>
-          <div className="flex items-center">
-            <p className="font-[600] pr-4">Sắp xếp theo:</p>
-            <select
-              className="outline-none font-[600] py-1 rounded px-2"
-              value={selectedOption}
-              onChange={(e) => setSelectedOption(e.target.value)}
-            >
-              <option value="all">Tất cả sản phẩm</option>
-              <option value="asc">Giá tăng dần</option>
-              <option value="desc">Giá giảm dần</option>
-              <option value="newest">Mới nhất</option>
-              <option value="oldest">Cũ nhất</option>
-            </select>
+        {dataProductFillter?.length > 0 && (
+          <div className="w-full justify-between flex md:px-10 py-2 items-center">
+            <span className="flex font-[600]">
+              Có tất cả <p className="text-red-600 px-1">{data.length} </p>sản
+              phẩm
+            </span>
+            <div className="flex items-center">
+              <p className="font-[600] pr-4">Sắp xếp theo:</p>
+              <select
+                className="outline-none font-[600] py-1 rounded px-2"
+                value={selectedOption}
+                onChange={(e) => setSelectedOption(e.target.value)}
+              >
+                <option value="all">Tất cả sản phẩm</option>
+                <option value="asc">Giá tăng dần</option>
+                <option value="desc">Giá giảm dần</option>
+                <option value="newest">Mới nhất</option>
+                <option value="oldest">Cũ nhất</option>
+              </select>
+            </div>
           </div>
-        </div>
+        )}
         <div className="grid grid-cols-2 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-4 lg:gap-[25px] xl:grid-cols-5 xl:gap-[30px] mb-12 md:p-6">
           {dataProductFillter.map((item, index) => (
             <ProductCart key={index} item={item} />

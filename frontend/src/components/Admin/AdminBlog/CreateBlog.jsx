@@ -94,7 +94,6 @@ function CreateBlog() {
       }
     }
   };
-  console.log("content", content);
   return (
     <div className="flex  items-center w-full flex-col ">
       <h1 className="text-[2.6rem] font-[600]">Thêm tin tức mới</h1>

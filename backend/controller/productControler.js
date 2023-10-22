@@ -14,6 +14,7 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
       ingredient,
       category,
       weight,
+      capacity,
       originPrice,
       price,
       expirationDate,
@@ -54,6 +55,7 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
         name: categoryid.name,
       },
       weight,
+      capacity,
       originPrice,
       price,
       expirationDate,
@@ -129,6 +131,7 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
       ingredient,
       category,
       weight,
+      capacity,
       price,
       expirationDate,
       originPrice,
@@ -165,6 +168,7 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
       name: categoryid.name,
     };
     product.weight = weight;
+    product.capacity = capacity;
     product.originPrice = originPrice;
     product.price = price;
     product.expirationDate = expirationDate;
