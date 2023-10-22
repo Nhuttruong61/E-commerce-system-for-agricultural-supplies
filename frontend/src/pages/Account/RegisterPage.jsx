@@ -1,11 +1,11 @@
 import { useState } from "react";
-import Login from "../components/FormInput";
-import Input from "../components/Input";
+import Login from "../../components/FormInput";
+import Input from "../../components/Input";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import * as Userservice from "../service/userService";
-import Loading from "../components/Loading";
+import * as Userservice from "../../service/userService";
+import Loading from "../../components/Loading";
 function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

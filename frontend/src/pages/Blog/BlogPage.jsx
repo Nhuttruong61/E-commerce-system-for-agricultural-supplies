@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Footer from "../components/Footer";
-import Loading from "../components/Loading";
+import Footer from "../../components/Layout/Footer";
+import Loading from "../../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllBlog } from "../redux/action/blog";
+import { getAllBlog } from "../../redux/action/blog";
 import { useNavigate } from "react-router-dom";
-
+import moment from "moment";
 function BlogPage() {
   const blogs = useSelector((state) => state.blog);
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ function BlogPage() {
     setIsLoading(true);
     dispatch(getAllBlog());
     setIsLoading(false);
-  }, [blogs]);
+  }, []);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleNavigate = (id) => {
@@ -36,6 +36,9 @@ function BlogPage() {
                 <div className="w-[80%]  px-2">
                   <p className="font-[600] md:text-[1.8rem]">{item?.title}</p>
                   <p>{item.content[0].description[0].substring(0, 200)}...</p>
+                  <p className=" w-full py-2 text-[#cabebe]">
+                    {moment(item.createdAt).fromNow()}
+                  </p>
                 </div>
               </div>
             );

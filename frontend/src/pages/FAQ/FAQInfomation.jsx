@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import * as questionService from "../service/questionService";
+import * as questionService from "../../service/questionService";
 import { format } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "antd";
-import Loading from "../components/Loading";
+import Loading from "../../components/Loading";
 import { UserOutlined } from "@ant-design/icons";
 import { BsThreeDots } from "react-icons/bs";
-import { getAllQuestionRd } from "../redux/action/questionAction";
+import { getAllQuestionRd } from "../../redux/action/questionAction";
 import { toast } from "react-toastify";
 import { AiOutlineSend } from "react-icons/ai";
 function FAQInfomation() {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import Rating from "../Rating";
 function ProductCart(item) {
@@ -62,4 +62,4 @@ function ProductCart(item) {
   );
 }
 
-export default ProductCart;
+export default memo(ProductCart);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import * as ConvertionService from "../../../service/conventionService";
 import * as MessageService from "../../../service/messageService";
 import { useSelector } from "react-redux";
@@ -6,7 +6,7 @@ import socketIO from "socket.io-client";
 import ListMessage from "./ListMessage";
 import SeleteInbox from "./SeleteInbox";
 import imageCompression from "browser-image-compression";
-
+import moment from "moment";
 const ENDPOINT = "http://localhost:8000/";
 const socketId = socketIO(ENDPOINT, {
   transport: ["websocket"],
@@ -166,4 +166,4 @@ function AdminInbox() {
   );
 }
 
-export default AdminInbox;
+export default memo(AdminInbox);

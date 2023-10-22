@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import Login from "../components/FormInput";
-import Input from "../components/Input";
+import Login from "../../components/FormInput";
+import Input from "../../components/Input";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
-import * as Userservice from "../service/userService";
+import * as Userservice from "../../service/userService";
 import { toast } from "react-toastify";
-import Loading from "../components/Loading";
+import Loading from "../../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../redux/action/userAction";
+import { getUser } from "../../redux/action/userAction";
 
 function LoginPage() {
   const dispatch = useDispatch();

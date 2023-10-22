@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProductRd } from "../redux/action/productAction";
-import ProductCart from "./Product/ProductCart";
+import { getAllProductRd } from "../../redux/action/productAction";
+import ProductCart from "../Product/ProductCart";
 function Popular() {
   const dispatch = useDispatch();
   const productData = useSelector((state) => state.product);
@@ -11,7 +11,10 @@ function Popular() {
   const [dataEvent, setDataEvent] = useState([]);
   useEffect(() => {
     if (data) {
-      setDataEvent(data);
+      const unExpiredProducts = data.filter((item) => {
+        return isNotExpired(new Date(item.expirationDate));
+      });
+      setDataEvent(unExpiredProducts);
     } else {
       setDataEvent([]);
     }
@@ -48,10 +51,8 @@ function Popular() {
       }
       return item;
     });
-    const unExpiredProducts = updatedDataSort.filter((item) => {
-      return isNotExpired(new Date(item.expirationDate));
-    });
-    setDataPopular(unExpiredProducts);
+
+    setDataPopular(updatedDataSort);
   }, [dataEvent, dataSort]);
   const isNotExpired = (expirationDate) => {
     const currentDate = new Date();
@@ -78,4 +79,4 @@ function Popular() {
   );
 }
 
-export default Popular;
+export default memo(Popular);

@@ -1,6 +1,6 @@
 import React from "react";
 import { Carousel } from "antd";
-import axios from "../service/axios-costum";
+import axios from "../../service/axios-costum";
 import { useQuery } from "@tanstack/react-query";
 const SliderComponet = () => {
   const onChange = (currentSlide) => {
@@ -19,16 +19,12 @@ const SliderComponet = () => {
     <Carousel afterChange={onChange} className="md:mx-[10%]">
       {dataSlider?.slider?.map((item) =>
         item?.images?.map((i) => (
-            <div
+          <div
             key={i.id}
             className="md:min-h-[50vh] min-h-[24vh] flex items-center justify-center"
           >
-            <img
-              src={i.url}
-              alt=""
-              className="object-cover h-full"
-            />
-          </div>          
+            <img src={i.url} alt="" className="object-cover h-full" />
+          </div>
         ))
       )}
     </Carousel>

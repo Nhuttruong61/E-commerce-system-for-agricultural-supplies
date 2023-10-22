@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import ProductCart from "../components/Product/ProductCart";
-import Loading from "../components/Loading";
-import Footer from "../components/Footer";
+import ProductCart from "../../components/Product/ProductCart";
+import Loading from "../../components/Loading";
+import Footer from "../../components/Layout/Footer";
 import { Pagination } from "antd";
-import Inbox from "../components/Inbox/Inbox";
+import Inbox from "../../components/Inbox/Inbox";
 
 function Product() {
   const location = useLocation();

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import ProductCart from "./Product/ProductCart";
+import ProductCart from "../Product/ProductCart";
 
 function Newproduct() {
   const products = useSelector((state) => state.product);
@@ -72,7 +72,7 @@ function Newproduct() {
           Sản phẩm mới
         </p>
       </div>
-      <div className="grid gap-[5px] mx-1 grid-cols-4 md:gap-[10px] lg:grid-cols-5 lg:gap-[20px]  xl:gap-[30px]">
+      <div className="grid gap-[5px] mx-1 md:grid-cols-4 grid-cols-2  md:gap-[10px] lg:grid-cols-5 lg:gap-[20px]  xl:gap-[30px]">
         {dataNewProduct && dataNewProduct.length !== 0 && (
           <>
             {dataNewProduct &&
@@ -86,4 +86,4 @@ function Newproduct() {
   );
 }
 
-export default Newproduct;
+export default memo(Newproduct);

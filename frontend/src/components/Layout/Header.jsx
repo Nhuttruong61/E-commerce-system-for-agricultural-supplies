@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import {
   SearchOutlined,
   UserOutlined,
@@ -10,13 +10,13 @@ import {
 import { BsBox } from "react-icons/bs";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { LogoutUser } from "../redux/action/userAction";
-import DropdownComponet from "./Dropdown";
-import Navbar from "./Navbar";
-import logo from "../assets/logo/logo.png";
-import Cart from "./Cart/Cart";
-import { clearQuantity } from "../redux/action/cartAction";
-
+import { LogoutUser } from "../../redux/action/userAction";
+import DropdownComponet from "../Dropdown";
+import Navbar from "../Navbar";
+import logo from "../../assets/logo/logo.png";
+import Cart from "../Cart/Cart";
+import { clearQuantity } from "../../redux/action/cartAction";
+import { HiOutlineMenu } from "react-icons/hi";
 function Header() {
   const user = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
@@ -98,7 +98,7 @@ function Header() {
 
   return (
     <div>
-      <div className=" flex justify-between h-[74px] items-center md:px-8 w-full px-1">
+      <div className=" justify-between h-[74px] items-center md:px-8 w-full px-1 hidden sm:flex">
         <Link to="/" className=" w-[25%] flex items-center">
           <img src={logo} alt="" className=" md:w-[10%] w-[40%]" />
           {show && (
@@ -253,12 +253,19 @@ function Header() {
           {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
         </div>
       </div>
+      <div className=" block sm:hidden">
+        <div className="">
+          <HiOutlineMenu />
+        </div>
+      </div>
       <div
         className={`${
           active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
         } transition 800px:flex items-center justify-between w-full`}
       >
-        <div className="bg-[#009b49] relative w-full mt-0 shadow-md h-[60px] flex  items-center  ">
+        <div
+          className={`bg-[#009b49] relative w-full mt-0 shadow-md h-[60px]  items-center  hidden sm:flex `}
+        >
           <div className="  h-full  flex items-center pl-o sm:pl-[10%] w-[10%] sm:w-[30%] ">
             <DropdownComponet Text="Danh mục"></DropdownComponet>
           </div>
@@ -269,4 +276,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default memo(Header);

@@ -44,7 +44,7 @@ export const converDataChartBar = (order) => {
             revenue: order.totalPrice,
           };
         } else {
-          object[weekKey].revenue = order.totalPrice;
+          object[weekKey].revenue += order.totalPrice;
         }
       }
     });

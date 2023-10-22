@@ -1,12 +1,12 @@
-import React from "react";
-import logo from "../assets/logo/logo.png";
+import React, { memo } from "react";
+import logo from "../../assets/logo/logo.png";
 import { Link } from "react-router-dom";
 import {
   FacebookFilled,
   YoutubeFilled,
   TwitterCircleFilled,
 } from "@ant-design/icons";
-import { footerProductLinks, footerSupportLinks } from "../static/data";
+import { footerProductLinks, footerSupportLinks } from "../../static/data";
 function Footer() {
   return (
     <div className=" flex flex-col ">
@@ -92,4 +92,4 @@ function Footer() {
   );
 }
 
-export default Footer;
+export default memo(Footer);

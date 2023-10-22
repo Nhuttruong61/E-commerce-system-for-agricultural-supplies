@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo/logo.png";
@@ -25,4 +25,4 @@ function HeaderAdmin() {
   );
 }
 
-export default HeaderAdmin;
+export default memo(HeaderAdmin);

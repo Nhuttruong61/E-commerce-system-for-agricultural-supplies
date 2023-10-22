@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { CloseOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import CartCard from "./CartCard";
 import { useSelector } from "react-redux";
@@ -54,4 +54,4 @@ function Cart({ setOpenCart }) {
   );
 }
 
-export default Cart;
+export default memo(Cart);

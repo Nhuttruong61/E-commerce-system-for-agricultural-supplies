@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ProductCart from "./Product/ProductCart";
 
@@ -70,7 +70,7 @@ function Discount() {
             Khuyến mãi
           </p>
         </div>
-        <div className="grid gap-[5px] mx-1 grid-cols-4 md:gap-[10px] lg:grid-cols-5 lg:gap-[20px]  xl:gap-[30px]">
+        <div className="grid gap-[5px] mx-1 md:grid-cols-4 grid-cols-2  md:gap-[10px] lg:grid-cols-5 lg:gap-[20px]  xl:gap-[30px]">
           {dataSort && dataSort.length !== 0 && (
             <>
               {dataSort &&
@@ -85,4 +85,4 @@ function Discount() {
   );
 }
 
-export default Discount;
+export default memo(Discount);

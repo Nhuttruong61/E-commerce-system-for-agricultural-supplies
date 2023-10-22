@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
@@ -49,4 +49,4 @@ function Categories() {
   );
 }
 
-export default Categories;
+export default memo(Categories);

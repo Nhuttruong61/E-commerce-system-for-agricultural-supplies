@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import * as UserSerVice from "../../service/userService";
 import TableComponent from "../Table";
 import { Button, Modal, Space } from "antd";
@@ -312,4 +312,4 @@ function AdminUser() {
   );
 }
 
-export default AdminUser;
+export default memo(AdminUser);

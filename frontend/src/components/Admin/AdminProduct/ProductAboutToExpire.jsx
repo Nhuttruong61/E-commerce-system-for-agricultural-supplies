@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import TableComponent from "../../Table";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Modal, Space } from "antd";
@@ -614,4 +614,4 @@ function ProductAboutToExpire() {
   );
 }
 
-export default ProductAboutToExpire;
+export default memo(ProductAboutToExpire);

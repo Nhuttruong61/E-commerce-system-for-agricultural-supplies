@@ -7,11 +7,11 @@ import * as UserService from "../../service/userService";
 import "../../assets/css/fade.css";
 import socketIO from "socket.io-client";
 import * as MessageService from "../../service/messageService";
-import * as timeago from "timeago.js";
 import { AiOutlineSend } from "react-icons/ai";
 import { CloseOutlined } from "@ant-design/icons";
 import { BsImages } from "react-icons/bs";
 import imageCompression from "browser-image-compression";
+import moment from "moment";
 const ENDPOINT = "http://localhost:8000/";
 const socketId = socketIO(ENDPOINT, {
   transport: ["websocket"],
@@ -251,7 +251,7 @@ const InboxForm = ({
                   )}
                   <p>{item.text}</p>
                 </div>
-                <p className="text-[10px]">{timeago.format(item.createdAt)}</p>
+                <p className="text-[10px]">{moment(item.createdAt).fromNow}</p>
               </div>
             </div>
           );

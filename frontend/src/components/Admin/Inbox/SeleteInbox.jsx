@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import * as timeago from "timeago.js";
+import React, { memo, useEffect, useState } from "react";
+import moment from "moment";
+import "moment/locale/vi";
 import { AiOutlineClose, AiOutlineSend } from "react-icons/ai";
 import { BsImages } from "react-icons/bs";
 import * as UserService from "../../../service/userService";
@@ -85,7 +86,9 @@ function SeleteInbox({
                   )}
                   <p>{item.text}</p>
                 </div>
-                <p className="text-[10px]">{timeago.format(item.createdAt)}</p>
+                <p className="text-[10px]">
+                  {moment(item.createdAt).fromNow()}
+                </p>
               </div>
             </div>
           );
@@ -134,4 +137,4 @@ function SeleteInbox({
   );
 }
 
-export default SeleteInbox;
+export default memo(SeleteInbox);

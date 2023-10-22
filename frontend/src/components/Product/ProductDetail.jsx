@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { getaProduct } from "../../service/productService";
 import Rating from "../Rating";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
@@ -122,8 +122,8 @@ function ProductDetail(id) {
       <p className="text-[80%] md:text-[100%] font-[600] md:px-[10%]">
         Sản phẩm
       </p>
-      <div className="w-full flex flex-col  md:flex-row md:justify-between md:px-[10%]">
-        <div className=" md:w-[50%] w-[100%] flex justify-center text-center">
+      <div className="w-full flex flex-col  md:flex-row md:justify-between md:px-[10%] ">
+        <div className=" md:w-[50%] w-[100%] flex justify-center text-center py-2">
           {productData && (
             <img
               src={productData?.images[0].url}
@@ -132,13 +132,13 @@ function ProductDetail(id) {
             />
           )}
         </div>
-        <div className="w-full sm:m-2 px-[4%]">
+        <div className="w-full sm:m-2 px-[4%] py-1">
           <p className="md:text-xl text-xs font-[700] ">{productData?.name}</p>
-          <div className="flex items-center">
+          <div className="flex items-center py-1">
             <p className="pr-1"> {productData?.ratings?.slice(0, 4)}</p>
             <Rating rating={productData?.ratings} />
           </div>
-          <div className="flex">
+          <div className="flex py-1">
             <span className="flex items-center">
               <p className="mr-2">Đã bán:</p>
               <p className="font-bold">{productData?.sold_out}</p>
@@ -162,7 +162,7 @@ function ProductDetail(id) {
               </h1>
             )}
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center py-2">
             <button
               className="p-2 flex items-center border bg-[#f9f9f9]"
               onClick={handleDecrease}
@@ -189,16 +189,16 @@ function ProductDetail(id) {
               Thêm vào giỏ hàng
             </button>
           </div>
-          <div className="relative">
+          <div className="relative py-2">
             <p className="text-[60%] md:text-[100%] font-[600]">
               Chi tiết sản phẩm
             </p>
             <div
               className={`shadow shadow-[#a8a7a7] ${
-                expanded ? "h-auto" : "h-[4vh] overflow-hidden"
+                expanded ? "h-auto" : "h-[9vh] overflow-hidden"
               }`}
             >
-              <ul className="text-[60%] md:text-[100%]">
+              <ul className="text-[60%] md:text-[100%] px-2 py-2">
                 {dataProduct?.product?.description.map((item, index) => {
                   return (
                     <li className="ml-2" key={index}>
@@ -312,4 +312,4 @@ function ProductDetail(id) {
   );
 }
 
-export default ProductDetail;
+export default memo(ProductDetail);

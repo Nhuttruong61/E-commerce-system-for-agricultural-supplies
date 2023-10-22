@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ProfileSideBar from "../components/profile/ProfileSideBar";
 import ProfileContent from "../components/profile/ProfileContent";
-import Footer from "../components/Footer";
+import Footer from "../components/Layout/Footer";
 function Profile() {
   const queryString = window.location.search;
   const queryStringCut = queryString.split("?")[1];

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import EventCard from "../components/Events/EventCard";
-import Footer from "../components/Footer";
+import Footer from "../components/Layout/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllEvents } from "../redux/action/eventAction";
 function EventPage() {

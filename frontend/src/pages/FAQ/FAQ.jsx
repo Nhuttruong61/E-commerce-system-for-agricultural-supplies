@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import * as questionService from "../service/questionService";
+import * as questionService from "../../service/questionService";
 import { useQuery } from "@tanstack/react-query";
-import Loading from "../components/Loading";
-import Footer from "../components/Footer";
+import Loading from "../../components/Loading";
+import Footer from "../../components/Layout/Footer";
 import { MessageFilled } from "@ant-design/icons";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "antd";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllQuestionRd } from "../redux/action/questionAction";
+import { getAllQuestionRd } from "../../redux/action/questionAction";
 
 export default function FAQ() {
   const questionData = useSelector((state) => state.question);

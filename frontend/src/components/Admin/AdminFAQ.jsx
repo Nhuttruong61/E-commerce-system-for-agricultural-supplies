@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import TableComponent from "../Table";
 import { Button, Modal, Select, Space } from "antd";
 import { SearchOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -237,4 +237,4 @@ function AdminFAQ() {
   );
 }
 
-export default AdminFAQ;
+export default memo(AdminFAQ);

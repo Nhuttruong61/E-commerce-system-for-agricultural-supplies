@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DownOutlined, MenuOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -68,4 +68,4 @@ const Dropdown = ({ Text, items }) => {
     </div>
   );
 };
-export default Dropdown;
+export default memo(Dropdown);

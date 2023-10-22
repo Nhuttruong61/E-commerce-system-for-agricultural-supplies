@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import * as OrderService from "../service/orderService";
-import Loading from "../components/Loading";
-import Footer from "../components/Footer";
+import * as OrderService from "../../service/orderService";
+import Loading from "../../components/Loading";
+import Footer from "../../components/Layout/Footer";
 import { Button, Modal, Rate } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { toast } from "react-toastify";
-import * as ProductService from "../service/productService";
+import * as ProductService from "../../service/productService";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProductRd } from "../redux/action/productAction";
+import { getAllProductRd } from "../../redux/action/productAction";
 function InfomationOrder() {
   const { id } = useParams();
   const navigate = useNavigate();

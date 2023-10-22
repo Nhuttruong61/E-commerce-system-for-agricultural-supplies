@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { navItems } from "../static/data";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -27,4 +27,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default memo(Navbar);

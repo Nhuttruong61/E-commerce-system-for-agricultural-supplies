@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import {
   AiOutlineShop,
@@ -246,4 +246,4 @@ function SideBarAdmin({ active, setActive }) {
   );
 }
 
-export default SideBarAdmin;
+export default memo(SideBarAdmin);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TableComponent from "../Table";
 import { Modal } from "antd";
@@ -299,4 +299,4 @@ function AdminFeeTransport() {
   );
 }
 
-export default AdminFeeTransport;
+export default memo(AdminFeeTransport);

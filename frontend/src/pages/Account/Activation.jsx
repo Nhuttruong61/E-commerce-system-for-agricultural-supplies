@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import * as Userservice from "../service/userService";
+import * as Userservice from "../../service/userService";
 function Activation() {
   const { accessToken } = useParams();
   const [error, setError] = useState(false);

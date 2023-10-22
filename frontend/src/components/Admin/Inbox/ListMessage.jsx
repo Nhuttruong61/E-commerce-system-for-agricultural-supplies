@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import * as UserService from "../../../service/userService";
@@ -25,6 +25,11 @@ function ListMessage({ data, setOpenMessage, setCurrentChat, me }) {
 
     getUser();
   }, [me, data]);
+
+  if (!listUser || Object.keys(listUser).length === 0) {
+    return null;
+  }
+
   return (
     <div
       className="w-full flex p-2 my-2 px-3 hover:bg-[#f2f2f2] cursor-pointer"
@@ -49,4 +54,4 @@ function ListMessage({ data, setOpenMessage, setCurrentChat, me }) {
   );
 }
 
-export default ListMessage;
+export default memo(ListMessage);

@@ -1,5 +1,5 @@
 import React from "react";
-import Footer from "../components/Footer";
+import Footer from "../components/Layout/Footer";
 import CheckoutSteps from "../components/Checkout/CheckoutSteps";
 import CheckOutContent from "../components/Checkout/CheckOutContent";
 

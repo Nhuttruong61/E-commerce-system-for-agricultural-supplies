@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBlog } from "../../../redux/action/blog";
 import { SearchOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
@@ -288,4 +288,4 @@ function AdminBlog() {
   );
 }
 
-export default AdminBlog;
+export default memo(AdminBlog);

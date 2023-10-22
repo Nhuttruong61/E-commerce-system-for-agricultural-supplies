@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import {
@@ -71,4 +71,4 @@ function CartCard({ item }) {
   );
 }
 
-export default CartCard;
+export default memo(CartCard);

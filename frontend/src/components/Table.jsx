@@ -1,5 +1,5 @@
 import { Table } from "antd";
-import React from "react";
+import React, { memo } from "react";
 import Loading from "../components/Loading";
 
 const TableComponent = (props) => {
@@ -12,4 +12,4 @@ const TableComponent = (props) => {
   );
 };
 
-export default TableComponent;
+export default memo(TableComponent);

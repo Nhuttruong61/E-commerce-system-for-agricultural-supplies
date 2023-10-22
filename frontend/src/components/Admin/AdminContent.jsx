@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import AdminUser from "./AdminUser";
 import Adminproduct from "./AdminProduct/Adminproduct";
 import AdminOrder from "./AdminOrder";
@@ -46,4 +46,4 @@ function AdminContent({ active }) {
   );
 }
 
-export default AdminContent;
+export default memo(AdminContent);

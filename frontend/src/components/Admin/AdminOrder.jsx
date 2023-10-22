@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import * as OrderSerVice from "../../service/orderService";
 import TableComponent from "../Table";
 import { Button, Modal, Select, Space } from "antd";
@@ -579,4 +579,4 @@ function AdminOrder() {
   );
 }
 
-export default AdminOrder;
+export default memo(AdminOrder);

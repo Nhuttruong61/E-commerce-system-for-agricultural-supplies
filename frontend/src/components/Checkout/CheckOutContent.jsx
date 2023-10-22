@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PlusOutlined, MinusOutlined, RightOutlined } from "@ant-design/icons";
 import {
@@ -465,4 +465,4 @@ function CheckOutContent() {
   );
 }
 
-export default CheckOutContent;
+export default memo(CheckOutContent);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import imageCompression from "browser-image-compression";
 import { Modal } from "antd";
 import { toast } from "react-toastify";
@@ -260,4 +260,4 @@ function CreateBlog() {
   );
 }
 
-export default CreateBlog;
+export default memo(CreateBlog);

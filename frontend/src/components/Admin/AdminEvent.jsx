@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TableComponent from "../Table";
 import { Button, Modal, Space } from "antd";
@@ -355,4 +355,4 @@ function AdminEvent() {
   );
 }
 
-export default AdminEvent;
+export default memo(AdminEvent);

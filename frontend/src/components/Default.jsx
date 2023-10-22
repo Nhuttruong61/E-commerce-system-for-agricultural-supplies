@@ -1,5 +1,5 @@
-import React from "react";
-import Header from "./Header";
+import React, { memo } from "react";
+import Header from "./Layout/Header";
 
 function DefaultComponet({ children }) {
   return (
@@ -10,4 +10,4 @@ function DefaultComponet({ children }) {
   );
 }
 
-export default DefaultComponet;
+export default memo(DefaultComponet);
