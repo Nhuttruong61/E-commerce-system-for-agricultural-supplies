@@ -17,6 +17,8 @@ import logo from "../../assets/logo/logo.png";
 import Cart from "../Cart/Cart";
 import { clearQuantity } from "../../redux/action/cartAction";
 import { HiOutlineMenu } from "react-icons/hi";
+import "../../assets/css/right.css";
+import "../../assets/css/left.css";
 function Header() {
   const user = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
@@ -28,6 +30,7 @@ function Header() {
   const [searchData, setSearchData] = useState(null);
   const [ishownInUser, setIsShownInUser] = useState(false);
   const [openCart, setOpenCart] = useState(false);
+  const [activeMobile, setActiveMobile] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -253,11 +256,188 @@ function Header() {
           {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
         </div>
       </div>
-      <div className=" block sm:hidden">
-        <div className="">
-          <HiOutlineMenu />
+      <div className=" sm:hidden h-[16vh] ">
+        <div
+          className={`${
+            active === true
+              ? "shadow-sm fixed top-0 left-0  z-10 w-full bg-white py-2"
+              : null
+          } transition 800px:flex items-center justify-between w-full cursor-pointer bg-white`}
+        >
+          <div className="w-full flex justify-between ">
+            <div onClick={() => setActiveMobile(!activeMobile)}>
+              <HiOutlineMenu className="text-[30px] my-2 mx-4" />
+            </div>
+            {activeMobile && (
+              <div className="w-[70%] shadow z-50 bg-white h-[90vh] fixed top-0 slide-right-animation ">
+                <div className="flex relative">
+                  <div className=" flex items-center bg-[#0e9c49] w-full h-[10vh]">
+                    <div
+                      className=" text-white"
+                      onClick={() => {
+                        navigate("/");
+                        setActiveMobile(false);
+                      }}
+                    >
+                      <p className="px-2 py-1 text-[20px] font-[600]">
+                        Nông sản xanh
+                      </p>
+                    </div>
+                    <span
+                      className="absolute top-[15px] right-0 px-2"
+                      onClick={() => setActiveMobile(false)}
+                    >
+                      <CloseOutlined className="text-white" />
+                    </span>
+                  </div>
+                </div>
+                <div className="flex flex-col py-2 px-2">
+                  <p
+                    className="py-2 cursor-pointer"
+                    onClick={() => {
+                      navigate("/");
+                      setActiveMobile(false);
+                    }}
+                  >
+                    Trang chủ
+                  </p>
+                  {user?.account?.role === "admin" && (
+                    <div className="hover:bg-[#0e9c49] hover:text-white cursor-pointer  flex items-center">
+                      <p onClick={handleNavigateAdmin}>Quản lý</p>
+                    </div>
+                  )}
+                  <p
+                    className="py-2 cursor-pointer"
+                    onClick={() => {
+                      navigate("/products");
+                      setActiveMobile(false);
+                    }}
+                  >
+                    Sản phẩm
+                  </p>
+                  <p
+                    className="py-2 cursor-pointer"
+                    onClick={() => {
+                      navigate("/best-selling");
+                      setActiveMobile(false);
+                    }}
+                  >
+                    Phổ biến
+                  </p>
+                  <p
+                    className="py-2 cursor-pointer"
+                    onClick={() => {
+                      navigate("/events");
+                      setActiveMobile(false);
+                    }}
+                  >
+                    Sự kiện
+                  </p>
+                  <p
+                    className="py-2 cursor-pointer"
+                    onClick={() => {
+                      navigate("/faq");
+                      setActiveMobile(false);
+                    }}
+                  >
+                    Diễn đàn
+                  </p>
+                  <p
+                    className="py-2 cursor-pointer"
+                    onClick={() => {
+                      navigate("/blog");
+                      setActiveMobile(false);
+                    }}
+                  >
+                    Tin tức
+                  </p>
+                  {user?.isAuthenticated && (
+                    <p
+                      className="py-2 cursor-pointer"
+                      onClick={handleNavigateProfile}
+                    >
+                      Tài khoản
+                    </p>
+                  )}
+                  {user?.isAuthenticated ? null : (
+                    <p
+                      className="py-2 cursor-pointer"
+                      onClick={() => {
+                        navigate("/login");
+                        setActiveMobile(false);
+                      }}
+                    >
+                      Đăng nhập/ đăng kí
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+            <div className="my-3">
+              <div className="w-[10px]">
+                <div
+                  className="relative cursor-pointer"
+                  onClick={() => setOpenCart(!openCart)}
+                >
+                  <ShoppingCartOutlined className="text-[30px] absolute right-[16px] " />
+                  <div className="absolute border border-[#ccc] rounded-[50%] right-[8px] top-[-4px] bg-[#009b49]">
+                    <p className="text-[12px] px-[5px] text-white font-[800]">
+                      {cart.length ? cart.length : "0"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
+            </div>
+          </div>
+          <div className="py-1 flex justify-center">
+            <div
+              className={
+                show
+                  ? "h-[42px]  border bg-[white] items-center flex w-[80%]   rounded-[8px]"
+                  : "h-[42px]  border bg-[white] items-center flex w-[80%]   rounded-[8px]"
+              }
+            >
+              <input
+                className="h-[30px]  items-center outline-none w-[90%] rounded-l-[8px] px-2 text-[80%] md:text-[100%]"
+                placeholder="Nhập tên sản phẩm cần tìm..."
+                value={search}
+                onChange={handleSearch}
+              />
+              {searchData && searchData.length !== 0 && search !== "" ? (
+                <div className="absolute min-h-[30vh] w-[80%] top-[100px] mt-2 bg-white shadow-md border rounded overflow-y-auto z-20 text-[80%] md:text-[100%]">
+                  {searchData.map((item, index) => {
+                    return (
+                      <Link
+                        to={`/product/details/${item._id}`}
+                        key={index}
+                        onClick={() => setSearch("")}
+                      >
+                        <div className="w-full flex items-start py-3">
+                          <img
+                            src={item.images[0].url}
+                            alt=""
+                            className="w-[40px] h-[40px] mr-[10px]"
+                          />
+                          <h2 className="">{item.name}</h2>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              ) : null}
+
+              <div className="h-full items-center flex justify-center w-[20%]  bg-[#009b49] hover:bg-[#4d8208] rounded-r-[8px] cursor-pointer">
+                <SearchOutlined
+                  className=" text-white text-[12px] md:text-[24px]"
+                  onClick={handleSubmitSearch}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
       <div
         className={`${
           active === true ? "shadow-sm fixed top-0 left-0 z-10" : null

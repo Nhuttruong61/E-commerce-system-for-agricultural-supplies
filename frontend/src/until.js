@@ -32,6 +32,8 @@ export const converDataChartBar = (order) => {
     const fiveWeeksAgo = new Date(today);
     fiveWeeksAgo.setDate(today.getDate() - 35);
     const object = {};
+    let weekNumber = 1;
+
     order.forEach((order) => {
       const paidDate = new Date(order.paymentInfo.paidAt);
       if (
@@ -42,22 +44,27 @@ export const converDataChartBar = (order) => {
         const weekStart = startOfWeek(paidDate);
         const weekEnd = endOfWeek(paidDate);
         const weekKey = `${weekStart}-${weekEnd}`;
+
         if (!object[weekKey]) {
           object[weekKey] = {
             name: `${format(weekStart, "dd/MM")} - ${format(weekEnd, "dd/MM")}`,
             revenue: order.totalPrice,
+            weekNumber: weekNumber,
           };
+
+          weekNumber++;
         } else {
           object[weekKey].revenue += order.totalPrice;
         }
       }
     });
+
     const sortedWeeklyRevenues = Object.values(object).sort((a, b) => {
       const dateA = new Date(a.name.split(" - ")[0]);
       const dateB = new Date(b.name.split(" - ")[0]);
       return dateA - dateB;
     });
-    // console.log("sortedWeeklyRevenues", sortedWeeklyRevenues);
+
     return sortedWeeklyRevenues;
   } catch (e) {
     return [];
