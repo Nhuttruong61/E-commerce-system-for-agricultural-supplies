@@ -375,7 +375,7 @@ function CheckOutContent() {
                 type="text"
                 value="Thanh toán hóa đơn"
                 readOnly={true}
-                className="w-full md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px] outline-none"
+                className="w-full md:px-4 px-2 h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px] outline-none"
               />
             </label>
 
@@ -385,7 +385,7 @@ function CheckOutContent() {
                 type="text"
                 value={totalPrice}
                 readOnly={true}
-                className="w-full md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px] outline-none"
+                className="w-full md:px-4 px-2 h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px] outline-none"
               />
             </label>
             <button

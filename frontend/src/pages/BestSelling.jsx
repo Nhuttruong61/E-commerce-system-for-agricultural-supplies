@@ -54,7 +54,7 @@ function BestSelling() {
       <div className="bg-[#f4f1f4] md:min-h-[100vh]">
         {dataProductFillter?.length > 0 && (
           <div className="w-full justify-between flex md:px-10 py-2 items-center">
-            <span className="flex font-[600]">
+            <span className="md:flex font-[600] hidden">
               Có tất cả <p className="text-red-600 px-1">{data.length} </p>sản
               phẩm
             </span>

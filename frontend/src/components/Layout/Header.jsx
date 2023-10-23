@@ -174,7 +174,7 @@ function Header() {
                 )}
               </div>
             ) : null}
-            <div className="relative z-10 text-[50%] md:text-[100%] font-[600]">
+            <div className="relative z-10 text-[100%] font-[600]">
               {user?.isAuthenticated ? (
                 <div
                   className="cursor-pointer "
@@ -291,9 +291,9 @@ function Header() {
                     </span>
                   </div>
                 </div>
-                <div className="flex flex-col py-2 px-2">
+                <div className="flex flex-col py-2 ">
                   <p
-                    className="py-2 cursor-pointer"
+                    className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
                     onClick={() => {
                       navigate("/");
                       setActiveMobile(false);
@@ -302,12 +302,14 @@ function Header() {
                     Trang chủ
                   </p>
                   {user?.account?.role === "admin" && (
-                    <div className="hover:bg-[#0e9c49] hover:text-white cursor-pointer  flex items-center">
-                      <p onClick={handleNavigateAdmin}>Quản lý</p>
+                    <div className="hover:bg-[#0e9c49]  hover:text-white cursor-pointer  flex items-center">
+                      <p className="py-2 px-2" onClick={handleNavigateAdmin}>
+                        Quản lý
+                      </p>
                     </div>
                   )}
                   <p
-                    className="py-2 cursor-pointer"
+                    className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
                     onClick={() => {
                       navigate("/products");
                       setActiveMobile(false);
@@ -316,7 +318,7 @@ function Header() {
                     Sản phẩm
                   </p>
                   <p
-                    className="py-2 cursor-pointer"
+                    className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
                     onClick={() => {
                       navigate("/best-selling");
                       setActiveMobile(false);
@@ -325,7 +327,7 @@ function Header() {
                     Phổ biến
                   </p>
                   <p
-                    className="py-2 cursor-pointer"
+                    className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
                     onClick={() => {
                       navigate("/events");
                       setActiveMobile(false);
@@ -334,7 +336,7 @@ function Header() {
                     Sự kiện
                   </p>
                   <p
-                    className="py-2 cursor-pointer"
+                    className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
                     onClick={() => {
                       navigate("/faq");
                       setActiveMobile(false);
@@ -343,7 +345,7 @@ function Header() {
                     Diễn đàn
                   </p>
                   <p
-                    className="py-2 cursor-pointer"
+                    className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
                     onClick={() => {
                       navigate("/blog");
                       setActiveMobile(false);
@@ -353,7 +355,7 @@ function Header() {
                   </p>
                   {user?.isAuthenticated && (
                     <p
-                      className="py-2 cursor-pointer"
+                      className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
                       onClick={handleNavigateProfile}
                     >
                       Tài khoản
@@ -361,7 +363,7 @@ function Header() {
                   )}
                   {user?.isAuthenticated ? null : (
                     <p
-                      className="py-2 cursor-pointer"
+                      className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
                       onClick={() => {
                         navigate("/login");
                         setActiveMobile(false);
@@ -370,9 +372,28 @@ function Header() {
                       Đăng nhập/ đăng kí
                     </p>
                   )}
+                  {user?.isAuthenticated && (
+                    <p
+                      className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
+                      onClick={() => {
+                        handleLogout();
+                        setActiveMobile(false);
+                      }}
+                    >
+                      Thoát
+                    </p>
+                  )}
                 </div>
               </div>
             )}
+            <div
+              className="flex justify-center items-center"
+              onClick={() => navigate("/")}
+            >
+              <p className=" font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#0e9c49] to-[#e49200] text-[140%]">
+                Nông Nghiệp Xanh
+              </p>
+            </div>
             <div className="my-3">
               <div className="w-[10px]">
                 <div

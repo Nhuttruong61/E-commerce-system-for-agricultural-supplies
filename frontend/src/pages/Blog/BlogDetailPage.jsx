@@ -24,11 +24,10 @@ function BlogDetailPage() {
 
     getBlog();
   }, [id]);
-  console.log("dataBlog", dataBlog);
   return (
     <Loading isLoading={isLoading}>
       <div className="w-full min-h-[100vh] bg-[#f4f1f4f4]">
-        <div className="md:px-[10%] py-5">
+        <div className="md:px-[10%] py-5 px-2">
           <p className="font-[600] md:text-[1.8rem]">{dataBlog?.title}</p>
           {dataBlog?.content?.map((item) => {
             return (
@@ -36,11 +35,11 @@ function BlogDetailPage() {
                 <p className="font-[600] md:text-[1.2rem] py-2">
                   {item.heading}
                 </p>
-                <div className=" flex w-full  ">
+                <div className=" flex w-full justify-center ">
                   <img
                     src={item?.images.url}
                     alt=""
-                    className="w-320px h-[320px]"
+                    className="md:w-[420px] md:h-[320px] w-[280px] h-[280px]"
                   />
                 </div>
                 {item?.description?.map((item) => {

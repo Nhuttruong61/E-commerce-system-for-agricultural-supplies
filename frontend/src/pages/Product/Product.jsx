@@ -187,7 +187,7 @@ function Product() {
       <div className="bg-[#f4f1f4] md:min-h-[100vh]">
         {dataProductEvent?.length > 0 && (
           <div className="w-full justify-between flex md:px-10 py-2 items-center">
-            <span className="flex font-[600]">
+            <span className=" font-[600] hidden md:flex">
               Có tất cả{" "}
               <p className="text-red-600 px-1">{currentItems.length} </p>sản
               phẩm
