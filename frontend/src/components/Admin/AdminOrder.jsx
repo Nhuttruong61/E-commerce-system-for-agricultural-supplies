@@ -17,8 +17,11 @@ import { toast } from "react-toastify";
 import PieChartComponent from "../chart/PieChartComponet";
 import BarChartComponent from "../chart/BarChartComponent";
 import moment from "moment";
+import { getAllOrder } from "../../redux/action/orders";
+import { useDispatch } from "react-redux";
 
 function AdminOrder() {
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [dataOrder, setDataOrder] = useState([]);
   const [idOrder, setIdOrder] = useState("");
@@ -40,6 +43,7 @@ function AdminOrder() {
   };
   useEffect(() => {
     getAllOrders();
+    dispatch(getAllOrder());
   }, []);
   const renderAction = (text, item) => {
     return (
@@ -409,6 +413,11 @@ function AdminOrder() {
         </div>
         <div className="h-[240px] w-[50%]">
           <BarChartComponent order={dataOrder} />
+          <div className="w-full flex justify-center">
+            <p className="font-[600]">
+              Biểu đồ thể hiện danh thu 5 tuần gần nhất
+            </p>
+          </div>
         </div>
       </div>
       <div className="flex flex-row-reverse p-2 ">

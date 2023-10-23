@@ -11,6 +11,7 @@ import ProductAboutToExpire from "./AdminProduct/ProductAboutToExpire";
 import ProductExpire from "./AdminProduct/ProductExpire";
 import CreateBlog from "./AdminBlog/CreateBlog";
 import AdminBlog from "./AdminBlog/AdminBlog";
+import Statistical from "./Statistical";
 
 function AdminContent({ active }) {
   let content = null;
@@ -38,6 +39,8 @@ function AdminContent({ active }) {
     content = <CreateBlog />;
   } else if (active === 12) {
     content = <AdminBlog />;
+  } else if (active === 13) {
+    content = <Statistical />;
   }
   return (
     <div className="flex w-full h-[90vh] overflow-y-auto overflow-x-auto">

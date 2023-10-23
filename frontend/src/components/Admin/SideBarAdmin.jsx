@@ -8,6 +8,7 @@ import {
   AiOutlineUser,
   AiOutlineQuestionCircle,
   AiOutlineAppstoreAdd,
+  AiOutlineBarChart,
 } from "react-icons/ai";
 import { LuTimerOff } from "react-icons/lu";
 import { FcExpired } from "react-icons/fc";
@@ -239,6 +240,25 @@ function SideBarAdmin({ active, setActive }) {
             }`}
           >
             Tất cả blog
+          </p>
+        </div>
+      </div>
+      <div
+        className="flex w-full items-center px-4 py-3"
+        onClick={() => setActive(13)}
+      >
+        <div className="flex w-full items-center">
+          <AiOutlineBarChart
+            className={` text-[24px]  ${
+              active === 13 ? "text-[#0e9c49]" : "text-black"
+            }`}
+          />
+          <p
+            className={`800px:block hidden pl-2 text-[18px] font-[500] ${
+              active === 13 ? "text-[#0e9c49]" : "text-black"
+            }`}
+          >
+            Thống kê
           </p>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { startOfWeek, endOfWeek } from "date-fns";
+import { startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";
 import { format } from "date-fns";
 export const converDataChart = (order, type) => {
   try {
@@ -66,6 +66,46 @@ export const converDataChartBar = (order) => {
     });
 
     return sortedWeeklyRevenues;
+  } catch (e) {
+    return [];
+  }
+};
+
+export const ConverChartComposed = ({ data }) => {
+  try {
+    const today = new Date();
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(today.getMonth() - 6);
+    const object = {};
+
+    data.forEach((order) => {
+      const paidDate = new Date(order.paymentInfo.paidAt);
+
+      if (
+        order.paymentInfo.status === "Đã thanh toán" &&
+        paidDate >= sixMonthsAgo &&
+        paidDate <= today
+      ) {
+        const monthKey = format(paidDate, "yyyy-MM");
+
+        if (!object[monthKey]) {
+          object[monthKey] = {
+            name: format(paidDate, "MM/yyyy"),
+            uv: order.totalPrice,
+          };
+        } else {
+          object[monthKey].uv += order.totalPrice;
+        }
+      }
+    });
+
+    const result = Object.values(object).map((item) => {
+      return {
+        name: item.name,
+        uv: item.uv,
+      };
+    });
+    return result;
   } catch (e) {
     return [];
   }
