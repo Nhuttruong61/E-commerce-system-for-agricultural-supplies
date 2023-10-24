@@ -26,20 +26,20 @@ export const converDataChart = (order, type) => {
   }
 };
 
-export const converDataChartBar = (order) => {
+export const converDataChartBar = ({ data }) => {
   try {
     const today = new Date();
-    const fiveWeeksAgo = new Date(today);
-    fiveWeeksAgo.setDate(today.getDate() - 35);
+    const monthStart = startOfMonth(today);
+    const monthEnd = endOfMonth(today);
     const object = {};
     let weekNumber = 1;
 
-    order.forEach((order) => {
-      const paidDate = new Date(order.paymentInfo.paidAt);
+    data.forEach((data) => {
+      const paidDate = new Date(data.paymentInfo.paidAt);
       if (
-        order.paymentInfo.status === "Đã thanh toán" &&
-        paidDate >= fiveWeeksAgo &&
-        paidDate <= today
+        data.paymentInfo.status === "Đã thanh toán" &&
+        paidDate >= monthStart &&
+        paidDate <= monthEnd
       ) {
         const weekStart = startOfWeek(paidDate);
         const weekEnd = endOfWeek(paidDate);
@@ -48,13 +48,12 @@ export const converDataChartBar = (order) => {
         if (!object[weekKey]) {
           object[weekKey] = {
             name: `${format(weekStart, "dd/MM")} - ${format(weekEnd, "dd/MM")}`,
-            revenue: order.totalPrice,
+            revenue: data.totalPrice,
             weekNumber: weekNumber,
           };
-
           weekNumber++;
         } else {
-          object[weekKey].revenue += order.totalPrice;
+          object[weekKey].revenue += data.totalPrice;
         }
       }
     });
@@ -74,8 +73,8 @@ export const converDataChartBar = (order) => {
 export const ConverChartComposed = ({ data }) => {
   try {
     const today = new Date();
-    const sixMonthsAgo = new Date();
-    sixMonthsAgo.setMonth(today.getMonth() - 6);
+    const twelveMonthsAgo = new Date();
+    twelveMonthsAgo.setMonth(today.getMonth() - 12);
     const object = {};
 
     data.forEach((order) => {
@@ -83,7 +82,7 @@ export const ConverChartComposed = ({ data }) => {
 
       if (
         order.paymentInfo.status === "Đã thanh toán" &&
-        paidDate >= sixMonthsAgo &&
+        paidDate >= twelveMonthsAgo &&
         paidDate <= today
       ) {
         const monthKey = format(paidDate, "yyyy-MM");
@@ -107,6 +106,21 @@ export const ConverChartComposed = ({ data }) => {
     });
     return result;
   } catch (e) {
+    return [];
+  }
+};
+export const converDataChartProduct = ({ data }) => {
+  try {
+    const sortedData = data.sort((a, b) => b.sold_out - a.sold_out);
+    const top10Products = sortedData.slice(0, 10);
+    const formattedData = top10Products.map((item) => ({
+      name: item.name,
+      sold_out: item.sold_out,
+    }));
+
+    return formattedData;
+  } catch (e) {
+    console.error("Error:", e);
     return [];
   }
 };

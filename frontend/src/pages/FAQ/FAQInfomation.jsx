@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import * as questionService from "../../service/questionService";
 import { format } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
-import { Modal } from "antd";
+import { Button, Modal } from "antd";
 import Loading from "../../components/Loading";
 import { UserOutlined } from "@ant-design/icons";
 import { BsThreeDots } from "react-icons/bs";
@@ -218,6 +218,14 @@ function FAQInfomation() {
                             onCancel={handleCancel}
                             okButtonProps={okButtonEdit}
                             okType="none"
+                            footer={[
+                              <Button key="cancel" onClick={handleCancel}>
+                                Hủy
+                              </Button>,
+                              <Button key="submit" onClick={handleEditQuestion}>
+                                Xác nhận
+                              </Button>,
+                            ]}
                           >
                             <input
                               type="text"
@@ -247,6 +255,17 @@ function FAQInfomation() {
                             onCancel={handleCancel}
                             okButtonProps={okButtonDelete}
                             okType="none"
+                            footer={[
+                              <Button key="cancel" onClick={handleCancel}>
+                                Hủy
+                              </Button>,
+                              <Button
+                                key="submit"
+                                onClick={handleDeleteQuestion}
+                              >
+                                Xác nhận
+                              </Button>,
+                            ]}
                           >
                             <p>{`Bạn có chắc muốn xóa bài đăng này!`} </p>
                           </Modal>
@@ -295,6 +314,14 @@ function FAQInfomation() {
                                 onCancel={handleCancel}
                                 okButtonProps={okButtonDelete}
                                 okType="none"
+                                footer={[
+                                  <Button key="cancel" onClick={handleCancel}>
+                                    Hủy
+                                  </Button>,
+                                  <Button key="submit" onClick={handleDelete}>
+                                    Xác nhận
+                                  </Button>,
+                                ]}
                               >
                                 <p>{`Bạn có chắc muốn xóa bình luận này!`} </p>
                               </Modal>
@@ -315,6 +342,14 @@ function FAQInfomation() {
                                 onCancel={handleCancel}
                                 okButtonProps={okButtonEdit}
                                 okType="none"
+                                footer={[
+                                  <Button key="cancel" onClick={handleCancel}>
+                                    Hủy
+                                  </Button>,
+                                  <Button key="submit" onClick={handleEdit}>
+                                    Xác nhận
+                                  </Button>,
+                                ]}
                               >
                                 <textarea
                                   value={comment}

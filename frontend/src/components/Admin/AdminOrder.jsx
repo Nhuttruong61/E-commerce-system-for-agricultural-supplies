@@ -379,7 +379,6 @@ function AdminOrder() {
 
     doc.save("order.pdf");
   };
-
   return (
     <div className="w-full">
       <div className="flex">
@@ -409,14 +408,6 @@ function AdminOrder() {
                 <p className="bg-[#ff8042] w-[40px] h-2"></p>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="h-[240px] w-[50%]">
-          <BarChartComponent order={dataOrder} />
-          <div className="w-full flex justify-center">
-            <p className="font-[600]">
-              Biểu đồ thể hiện danh thu 5 tuần gần nhất
-            </p>
           </div>
         </div>
       </div>

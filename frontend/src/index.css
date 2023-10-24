@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-slider button.slick-prev {
+  top: 120px;
+  left: 0px;
+  z-index: 10;
+}
+.custom-slider button.slick-next {
+  top: 120px;
+  right: 20px;
+  z-index: 10;
+}
+.custom-slider button.slick-prev::before {
+  color: white;
+  content: "\276E";
+  height: 40px;
+  width: 40px;
+  font-size: 30px;
+  background: #0e9c49;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.custom-slider button.slick-next::before {
+  color: white;
+  content: "\276F";
+  height: 40px;
+  width: 40px;
+  font-size: 30px;
+  background: #0e9c49;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

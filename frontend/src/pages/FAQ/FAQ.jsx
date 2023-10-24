@@ -6,7 +6,7 @@ import Footer from "../../components/Layout/Footer";
 import { MessageFilled } from "@ant-design/icons";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import { Modal } from "antd";
+import { Button, Modal } from "antd";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllQuestionRd } from "../../redux/action/questionAction";
@@ -96,6 +96,14 @@ export default function FAQ() {
               onCancel={handleCancel}
               okButtonProps={okButtonAdd}
               okType="none"
+              footer={[
+                <Button key="cancel" onClick={handleCancel}>
+                  Hủy
+                </Button>,
+                <Button key="submit" onClick={handleAdd}>
+                  Xác nhận
+                </Button>,
+              ]}
             >
               <input
                 type="text"

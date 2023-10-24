@@ -39,14 +39,16 @@ function Product() {
   const [dataProductFillterPrice, setDataProductFillterPrice] = useState([]);
   const [isCheckFilterPrice, setIsCheckFilterPrice] = useState(false);
   useEffect(() => {
-    if (products) {
-      const res = products.data;
-      setIsLoading(false);
-      const unExpiredProducts = res.filter((item) => {
-        return isNotExpired(new Date(item.expirationDate));
-      });
-      setProductData(unExpiredProducts);
-    }
+    setTimeout(() => {
+      if (products) {
+        const res = products.data;
+        setIsLoading(false);
+        const unExpiredProducts = res.filter((item) => {
+          return isNotExpired(new Date(item.expirationDate));
+        });
+        setProductData(unExpiredProducts);
+      }
+    }, 300);
   }, [products]);
 
   useEffect(() => {
@@ -236,7 +238,7 @@ function Product() {
                   checked={priceRanges.under100}
                   onChange={handleCheckboxChangePrice}
                 />
-                <label>Dưới 100</label>
+                <label>Dưới 100 nghìn</label>
               </div>
               <div className="flex px-2 py-1">
                 <input
@@ -246,7 +248,7 @@ function Product() {
                   checked={priceRanges.from100to500}
                   onChange={handleCheckboxChangePrice}
                 />
-                <label htmlFor="from100to500">Từ 100 đến 500</label>
+                <label htmlFor="from100to500">Từ 100 nghìn đến 500 nghìn</label>
               </div>
               <div className="flex px-2 py-1">
                 <input
@@ -256,7 +258,7 @@ function Product() {
                   checked={priceRanges.over500}
                   onChange={handleCheckboxChangePrice}
                 />
-                <label htmlFor="orver200">Hơn 500</label>
+                <label htmlFor="orver200">Hơn 500 nghìn</label>
               </div>
             </div>
           </div>

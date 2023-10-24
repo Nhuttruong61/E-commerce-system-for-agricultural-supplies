@@ -103,7 +103,7 @@ function Header() {
     <div>
       <div className=" justify-between h-[74px] items-center md:px-8 w-full px-1 hidden sm:flex">
         <Link to="/" className=" w-[25%] flex items-center">
-          <img src={logo} alt="" className=" md:w-[10%] w-[40%]" />
+          <img src={logo} alt="" className=" w-[60px]" />
           {show && (
             <p className="text-xs md:text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#0e9c49] to-[#e49200]">
               Nông Nghiệp Xanh

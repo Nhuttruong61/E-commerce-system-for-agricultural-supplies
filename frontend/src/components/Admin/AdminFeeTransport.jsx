@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TableComponent from "../Table";
-import { Modal } from "antd";
+import { Button, Modal } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import { getAllFee } from "../../redux/action/feeAction";
@@ -243,6 +243,14 @@ function AdminFeeTransport() {
         onCancel={handleCancel}
         okButtonProps={okButtonEdit}
         okType="none"
+        footer={[
+          <Button key="cancel" onClick={handleCancel}>
+            Hủy
+          </Button>,
+          <Button key="submit" onClick={handleEditFeeStransport}>
+            Xác nhận
+          </Button>,
+        ]}
       >
         <label className="flex justify-between items-center">
           <p className="w-[20%] font-[500]">Tiêu đề</p>

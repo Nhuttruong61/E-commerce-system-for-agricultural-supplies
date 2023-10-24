@@ -12,17 +12,19 @@ function BestSelling() {
   const [selectedOption, setSelectedOption] = useState("all");
   const [dataProductFillter, setDataProductFillter] = useState([]);
   useEffect(() => {
-    if (products?.data && products.data.length > 0) {
-      const sortedData = products.data
-        .slice()
-        .sort((a, b) => b.sold_out - a.sold_out)
-        .slice(0, 10);
-      const unExpiredProducts = sortedData.filter((item) => {
-        return isNotExpired(new Date(item.expirationDate));
-      });
-      setData(unExpiredProducts);
-    }
-    setIsLoading(false);
+    setTimeout(() => {
+      if (products?.data && products.data.length > 0) {
+        const sortedData = products.data
+          .slice()
+          .sort((a, b) => b.sold_out - a.sold_out)
+          .slice(0, 10);
+        const unExpiredProducts = sortedData.filter((item) => {
+          return isNotExpired(new Date(item.expirationDate));
+        });
+        setData(unExpiredProducts);
+      }
+      setIsLoading(false);
+    }, 300);
   }, [products, selectedOption]);
   useEffect(() => {
     if (selectedOption === "all" && data && data.length > 0) {
@@ -51,7 +53,7 @@ function BestSelling() {
   };
   return (
     <Loading isLoading={isLoading}>
-      <div className="bg-[#f4f1f4] md:min-h-[100vh]">
+      <div className="bg-[#f4f1f4] min-h-[100vh]">
         {dataProductFillter?.length > 0 && (
           <div className="w-full justify-between flex md:px-10 py-2 items-center">
             <span className="md:flex font-[600] hidden">

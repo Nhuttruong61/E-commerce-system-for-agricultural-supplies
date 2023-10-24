@@ -218,7 +218,7 @@ function Adminproduct() {
     },
     {
       title: "Giá bán",
-      dataIndex: "originPrice",
+      dataIndex: "price",
     },
     {
       title: "Số lượng",

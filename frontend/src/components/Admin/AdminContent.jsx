@@ -11,36 +11,38 @@ import ProductAboutToExpire from "./AdminProduct/ProductAboutToExpire";
 import ProductExpire from "./AdminProduct/ProductExpire";
 import CreateBlog from "./AdminBlog/CreateBlog";
 import AdminBlog from "./AdminBlog/AdminBlog";
-import Statistical from "./Statistical";
+import Dashboard from "./Dashboard";
 
 function AdminContent({ active }) {
   let content = null;
   if (active === 1) {
-    content = <AdminUser />;
+    content = <Dashboard />;
   } else if (active === 2) {
-    content = <AdminCategory />;
+    content = <AdminUser />;
   } else if (active === 3) {
-    content = <Adminproduct />;
+    content = <AdminCategory />;
   } else if (active === 4) {
-    content = <AdminOrder />;
+    content = <Adminproduct />;
   } else if (active === 5) {
-    content = <AdminEvent />;
+    content = <AdminOrder />;
   } else if (active === 6) {
-    content = <AdminInbox />;
+    content = <AdminEvent />;
   } else if (active === 7) {
-    content = <AdminFAQ />;
+    content = <AdminInbox />;
   } else if (active === 8) {
-    content = <AdminFeeTransport />;
+    content = <AdminFAQ />;
   } else if (active === 9) {
-    content = <ProductAboutToExpire />;
+    content = <AdminFeeTransport />;
   } else if (active === 10) {
-    content = <ProductExpire />;
+    content = <ProductAboutToExpire />;
   } else if (active === 11) {
-    content = <CreateBlog />;
+    content = <ProductExpire />;
   } else if (active === 12) {
-    content = <AdminBlog />;
+    content = <CreateBlog />;
   } else if (active === 13) {
-    content = <Statistical />;
+    content = <AdminBlog />;
+  } else if (active === 14) {
+    content = <Dashboard />;
   }
   return (
     <div className="flex w-full h-[90vh] overflow-y-auto overflow-x-auto">

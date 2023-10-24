@@ -21,6 +21,7 @@ function InfomationOrder() {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [hasReviewed, setHasReviewed] = useState(false);
+  const [priceProduct, setPriceProduct] = useState(0);
   const getOrder = async () => {
     setIsLoading(true);
     try {
@@ -108,6 +109,12 @@ function InfomationOrder() {
       }
     }
   }, [orders]);
+  useEffect(() => {
+    const total = orders?.cart.reduce((acc, item) => {
+      return acc + item.price * item.quantity;
+    }, 0);
+    setPriceProduct(total);
+  }, [orders]);
   return (
     <Loading isLoading={isLoading}>
       <div className="bg-[#f4f1f4]">
@@ -141,7 +148,9 @@ function InfomationOrder() {
                           Giá tiền:
                         </p>
                         <p className="text-[50%] md:text-[100%]">
-                          {`${(item.price * item.quantity).toLocaleString()} đ`}
+                          {`${(
+                            item.price * item.quantity
+                          )?.toLocaleString()} đ`}
                         </p>
                       </div>
                     </div>
@@ -154,11 +163,32 @@ function InfomationOrder() {
         <div className="w-auto  items-center bg-white px-[10%] my-2  md:flex md:justify-between">
           <div>
             <p className="text-[50%] md:text-[100%] font-[600] pt-2 ">
-              Tổng thanh toán
+              Chi tiết thanh toán
             </p>
-            <p className="text-[50%] md:text-[100%] font-[600] pt-2 text-red-600">
-              {orders?.totalPrice.toLocaleString()} đ
-            </p>
+            <div className="flex items-center pt-2">
+              <p className="text-[50%] md:text-[100%] font-[600] pr-2">
+                Giá sản phẩm:
+              </p>
+              <p className="text-[50%] md:text-[100%] font-[600]  text-red-600">
+                {priceProduct?.toLocaleString()} đ
+              </p>
+            </div>
+            <div className="flex items-center pt-2">
+              <p className="text-[50%] md:text-[100%] font-[600] pr-2">
+                Phí vận chuyển:
+              </p>
+              <p className="text-[50%] md:text-[100%] font-[600]  text-red-600">
+                {(orders?.totalPrice - priceProduct).toLocaleString()} đ
+              </p>
+            </div>
+            <div className="flex items-center pt-2">
+              <p className="text-[50%] md:text-[100%] font-[600] pr-2">
+                Tổng cộng:
+              </p>
+              <p className="text-[50%] md:text-[100%] font-[600]  text-red-600">
+                {orders?.totalPrice.toLocaleString()} đ
+              </p>
+            </div>
           </div>
           <div className="bg-[#0e9c49] text-white rounded">
             {orders?.status === "Processing" ? (

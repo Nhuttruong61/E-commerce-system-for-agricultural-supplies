@@ -4,6 +4,7 @@ import { getAllUserOrder } from "../../redux/action/orderAction";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import TableComponent from "../Table";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 function ProfileOrder() {
   const { account } = useSelector((state) => state.user);
   const orders = useSelector((state) => state.order);
@@ -34,6 +35,11 @@ function ProfileOrder() {
       sorter: (a, b) => a.quality - b.quality,
     },
     {
+      title: "Ngày đặt",
+      dataIndex: "createdAt",
+      sorter: (a, b) => a.sst - b.sst,
+    },
+    {
       title: "Trạng thái",
       dataIndex: "status",
     },
@@ -47,7 +53,7 @@ function ProfileOrder() {
   let dataTable = [];
   if (orders && orders.data?.length > 0) {
     dataTable = orders?.data
-      .map((order) => {
+      .map((order, index) => {
         if (order.status === "Cancel") {
           return null;
         } else {
@@ -59,15 +65,19 @@ function ProfileOrder() {
           } else if (order.status === "Delivered") {
             statusText = "Đã giao hàng";
           }
+
           return {
             ...order,
+            sst: index + 1,
             name: order?.cart[0].name,
             quality: order?.cart?.length,
             status: statusText,
+            createdAt: moment(order?.paymentInfo.createdAt).fromNow(),
           };
         }
       })
-      .filter((order) => order !== null);
+      .filter((order) => order !== null)
+      .reverse();
   }
 
   const handleDetail = (item) => {

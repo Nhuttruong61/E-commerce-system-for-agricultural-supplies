@@ -12,8 +12,8 @@ import {
 } from "recharts";
 import { converDataChartBar } from "../../until";
 
-function BarChartComponent({ order }) {
-  const data = converDataChartBar(order);
+function BarChartComponent({ orders }) {
+  const data = converDataChartBar(orders);
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
@@ -31,9 +31,15 @@ function BarChartComponent({ order }) {
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
-
+        <Bar
+          name="Lợi nhuận"
+          dataKey="pv"
+          fill="#8884d8"
+          activeBar={<Rectangle fill="pink" stroke="blue" />}
+        />
         <Bar
           dataKey="revenue"
+          name="danh thu"
           fill="#82ca9d"
           activeBar={<Rectangle fill="gold" stroke="purple" />}
         />

@@ -22,6 +22,7 @@ function ProductDetail(id) {
   const [productData, setProductData] = useState(null);
   const [checkQuantity, setCheckQuantity] = useState(null);
   const [dataSuggest, setDataSuggest] = useState(null);
+  const [activeReview, setActiveReview] = useState(false);
   const getProduct = async () => {
     const res = await getaProduct(_id);
     setDataProduct(res);
@@ -62,7 +63,10 @@ function ProductDetail(id) {
 
   useEffect(() => {
     if (dataProduct && dataProduct.success) {
-      setDataReviews(dataProduct?.product?.reviews);
+      const res = dataProduct?.product?.reviews.sort((a, b) => {
+        return new Date(b.createAt) - new Date(a.createAt);
+      });
+      setDataReviews(res);
     }
   }, [dataProduct, _id]);
   useEffect(() => {
@@ -117,7 +121,7 @@ function ProductDetail(id) {
     setDataSuggest(unExpiredProducts);
   }, [data]);
   return (
-    <div className=" mb-10">
+    <div className=" mb-10 px-1">
       <p className="text-[80%] md:text-[100%] font-[600] md:px-[10%]">
         Sản phẩm
       </p>
@@ -132,12 +136,13 @@ function ProductDetail(id) {
           )}
         </div>
         <div className="w-full sm:m-2 px-[4%] py-1">
-          <p className="md:text-xl text-xs font-[700] ">{productData?.name}</p>
+          <p className="md: md:text-[120%] text-[80%] font-[700] ">
+            {productData?.name}
+          </p>
           <div className="flex items-center py-1">
-            <p className="pr-1"> {productData?.ratings?.slice(0, 4)}</p>
             <Rating rating={productData?.ratings} />
           </div>
-          <div className="flex py-1">
+          <div className="flex py-1 md: md:text-[100%] text-[80%]">
             <span className="flex items-center">
               <p className="mr-2">Đã bán:</p>
               <p className="font-bold">{productData?.sold_out}</p>
@@ -150,20 +155,22 @@ function ProductDetail(id) {
           <div className="flex">
             {productData?.distCount ? (
               <>
-                <h1 className="line-through font-bold text-red-600 pr-2">
+                <h1 className="md: md:text-[100%] text-[80%] line-through font-bold text-red-600 pr-2">
                   {productData?.price.toLocaleString()} đ
                 </h1>
-                <h1 className="font-bold">{productPrice.toLocaleString()}đ</h1>
+                <h1 className="font-bold md: md:text-[100%] text-[80%]">
+                  {productPrice.toLocaleString()}đ
+                </h1>
               </>
             ) : (
-              <h1 className="font-bold">
+              <h1 className="font-bold md: md:text-[100%] text-[80%]">
                 {dataProduct?.product?.price.toLocaleString()} đ
               </h1>
             )}
           </div>
           <div className="flex items-center py-2">
             <button
-              className="p-2 flex items-center border bg-[#f9f9f9]"
+              className="p-2 flex items-center border bg-[#f9f9f9] md: md:text-[100%] text-[80%]"
               onClick={handleDecrease}
               disabled={quantity <= 0}
             >
@@ -172,24 +179,24 @@ function ProductDetail(id) {
             <input
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
-              className=" flex items-center font-bold h-full w-[48px] py-1 px-2 outline-none text-center"
+              className=" flex items-center font-bold h-full w-[48px] py-1 px-2 outline-none text-center md: md:text-[100%] text-[80%]"
             />
             <button
-              className="p-2 flex items-center border bg-[#f9f9f9]"
+              className="p-2 flex items-center border bg-[#f9f9f9] md: md:text-[100%] text-[80%]"
               onClick={handleIncrease}
               disabled={quantity >= dataProduct?.product.quantity}
             >
               <PlusOutlined />
             </button>
             <button
-              className="bg-[#009b49] p-1 border mx-2 font-[600] text-white px-2"
+              className="bg-[#009b49] p-1 border mx-2 font-[600] text-white px-2 md: md:text-[100%] text-[80%]"
               onClick={handleAddToCart}
             >
               Thêm vào giỏ hàng
             </button>
           </div>
           <div className="relative py-2">
-            <p className="text-[60%] md:text-[100%] font-[600] pb-2">
+            <p className="md: md:text-[100%] text-[80%] font-[600] pb-2">
               Chi tiết sản phẩm
             </p>
             <div
@@ -197,7 +204,7 @@ function ProductDetail(id) {
                 expanded ? "h-auto" : "h-[10vh] overflow-hidden"
               }`}
             >
-              <ul className="text-[60%] md:text-[100%] px-2 py-2">
+              <ul className="md: md:text-[100%] text-[80%] px-2 py-2">
                 {dataProduct?.product?.description.map((item, index) => {
                   return (
                     <li className="ml-2" key={index}>
@@ -227,7 +234,7 @@ function ProductDetail(id) {
               {expanded ? "Thu gọn" : "Xem thêm"}
             </p>
           </div>
-          <div className="py-2 flex ">
+          <div className="py-2 flex items-center">
             <p className="text-[60%] md:text-[100%] font-[600] pr-2">
               Quy cách:
             </p>
@@ -245,8 +252,8 @@ function ProductDetail(id) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col md:px-[10%]">
-        <p className="font-[600] md:text-[100%] text-[50%]">
+      <div className="flex flex-col md:px-[10%] px-2">
+        <p className="font-[600] md: md:text-[100%] text-[80%]">
           Sản phẩm tương tự
         </p>
         <div className="flex ">
@@ -267,24 +274,29 @@ function ProductDetail(id) {
 
       <div className="w-full md:px-[10%]">
         <div className="relative">
-          <p className="md:text-[100%] text-[50%] font-[600]">Đánh giá</p>
-          <div className="shadow shadow-[#a8a7a7] w-full">
+          <p className=" md:text-[100%] text-[80%] font-[600]">Đánh giá</p>
+          <div
+            className={`shadow shadow-[#a8a7a7] h-full ${
+              activeReview ? "w-auto" : "h-[30.5vh] overflow-hidden"
+            }`}
+          >
             <div className="bg-[#009b49] py-1 px-1  items-center text-white">
               <span className="flex items-center px-1">
                 {dataProduct?.product?.ratings ? (
-                  <p className="md:text-[150%] text-[50%] font-[600]">
+                  <p className=" md:text-[100%] text-[80%] font-[600]">
                     {dataProduct?.product?.ratings?.slice(0, 4)}
                   </p>
                 ) : (
-                  <p className="md:text-[150%] text-[50%] font-[600]">5</p>
+                  <p className=" md:text-[100%] text-[80%] font-[600]">5</p>
                 )}
 
-                <p className="md:text-[100%] text-[40%] pl-1"> trên 5</p>
+                <p className="md: md:text-[100%] text-[80%] pl-1"> trên 5</p>
               </span>
               <div className="text-[10px] md:text-[14px] ">
                 <Rating rating={dataProduct?.product?.ratings} />
               </div>
             </div>
+
             {dataReviews?.map((review) => {
               return (
                 <div key={review._id} className="w-full py-1 px-1 border-b-2">
@@ -301,18 +313,18 @@ function ProductDetail(id) {
                       </div>
                     )}
                     <div className=" flex flex-col w-full">
-                      <p className="md:text-[100%] text-[50%]">
+                      <p className="md: md:text-[100%] text-[80%]">
                         {review?.user?.name}
                       </p>
                       <span className=" text-[8px] md:text-[10px]">
                         <Rating rating={review?.rating} />
                       </span>
-                      <p className="md:text-[100%] text-[40%] ">
+                      <p className="md: md:text-[100%] text-[50%] ">
                         {review.createAt
                           ? format(new Date(review.createAt), "dd/MM/yyyy")
                           : null}
                       </p>
-                      <p className="md:text-[100%] text-[40%]">
+                      <p className="md: md:text-[100%] text-[80%]">
                         {review?.comment}
                       </p>
                     </div>
@@ -321,6 +333,16 @@ function ProductDetail(id) {
               );
             })}
           </div>
+          {dataReviews?.length > 2 && (
+            <div className="flex justify-center">
+              <p
+                className="md: md:text-[100%] text-[80%] text-blue-700 "
+                onClick={() => setActiveReview(true)}
+              >
+                Tải thêm
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
