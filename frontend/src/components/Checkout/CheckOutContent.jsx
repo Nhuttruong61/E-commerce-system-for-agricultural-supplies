@@ -142,6 +142,7 @@ function CheckOutContent() {
   };
   const handleOrder = async () => {
     if (!isAuthenticated) {
+      localStorage.setItem("redirectPath", window.location.pathname);
       navigate("/login");
     } else if (account?.addresses.length === 0) {
       setShowModalAddress(true);

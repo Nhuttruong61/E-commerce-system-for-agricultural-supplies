@@ -34,7 +34,9 @@ function LoginPage() {
     try {
       const response = await Userservice.LoginService(user);
       if (response.success === true) {
-        navigate("/");
+        const redirectPath = localStorage.getItem("redirectPath") || "/";
+        navigate(redirectPath);
+        localStorage.removeItem("redirectPath");
         dispatch(getUser());
       }
     } catch (err) {
