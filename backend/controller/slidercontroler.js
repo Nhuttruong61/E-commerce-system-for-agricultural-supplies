@@ -28,6 +28,36 @@ const createSlider = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(err.message, 500));
   }
 });
+const updateSlider = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const slider = await Sliser.findById(req.params.id);
+    const { images } = req.body;
+    if (!images) {
+      return next(
+        new ErrorHandler("Please provide complete informations", 400)
+      );
+    }
+    const isCloudinaryImage = images && images.includes("cloudinary");
+    if (images && !isCloudinaryImage) {
+      await cloudinary.v2.uploader.destroy(slider.images[0].public_id);
+      const myCloud = await cloudinary.v2.uploader.upload(images, {
+        folder: "imgSlider",
+      });
+      slider.images = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      };
+    }
+
+    await slider.save();
+    res.status(201).json({
+      success: true,
+      slider,
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err.message, 500));
+  }
+});
 //get all slider
 const getAllSlider = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -65,4 +95,5 @@ module.exports = {
   createSlider,
   getAllSlider,
   deleteSlider,
+  updateSlider,
 };

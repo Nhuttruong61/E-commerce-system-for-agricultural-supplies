@@ -9,6 +9,12 @@ router.post(
   isAdmin("admin"),
   sliderControler.createSlider
 );
+router.put(
+  "/update-slider/:id",
+  isAuthenticated,
+  isAdmin("admin"),
+  sliderControler.updateSlider
+);
 router.get("/get-all-slider", sliderControler.getAllSlider);
 router.delete(
   "/delete-slider/:id",

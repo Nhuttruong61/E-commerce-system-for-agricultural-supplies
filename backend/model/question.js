@@ -37,7 +37,6 @@ const questionShema = new mongoose.Schema({
       },
     },
   ],
-  
 });
 
 module.exports = mongoose.model("Question", questionShema);
