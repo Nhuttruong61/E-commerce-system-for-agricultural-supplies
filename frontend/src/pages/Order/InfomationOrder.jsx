@@ -206,7 +206,7 @@ function InfomationOrder() {
             )}
           </div>
         </div>
-        {orders?.status === "Delivered" && !hasReviewed && (
+        {orders?.status === "Delivered" && (
           <div className="w-auto items-center bg-white px-[10%] my-1 md:flex md:justify-between">
             <div className="bg-[#0e9c49] text-white rounded flex justify-center items-center my-2">
               <button

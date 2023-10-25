@@ -79,8 +79,13 @@ function LoginPage() {
             </div>
             <div className="flex justify-between">
               <div className="flex items-center my-2">
-                <input type="checkbox" />
-                <p className="text-[14px]"> Ghi nhớ mật khẩu</p>
+                <Link
+                  to="/request-password"
+                  className="text-[14px] text-red-600 cursor-pointer"
+                >
+                  {" "}
+                  Quên mật khẩu
+                </Link>
               </div>
               <div className="flex items-center my-2">
                 <p className="text-[14px]">Bạn chưa có tài khoản?</p>

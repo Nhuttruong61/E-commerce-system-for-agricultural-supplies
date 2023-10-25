@@ -9,7 +9,7 @@ function ProductCart(item) {
   const productPrice = item?.item?.price * (1 - item?.item?.distCount / 100);
   return (
     <div
-      className=" shadow hover:shadow-[#5b5959] border"
+      className=" shadow hover:shadow-[#0e9c49] border"
       onClick={() => handleClick(item)}
     >
       <div className="relative py-2">

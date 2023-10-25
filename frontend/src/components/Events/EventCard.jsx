@@ -23,7 +23,9 @@ function EventCard(item) {
         />
       </div>
       <div className="w-full md:[w-50%] flex flex-col justify-center pl-[4%]">
-        <h1 className="font-[700]">{item?.data.name}</h1>
+        <h1 className="font-[700] text-[140%] md:text-[160%] py-2">
+          {item?.data.name}
+        </h1>
         <p>{item?.data.description} </p>
         <div className="flex justify-between">
           <div className="flex">

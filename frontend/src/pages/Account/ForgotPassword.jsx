@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Login from "../../components/FormInput";
 import Input from "../../components/Input";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Userservice from "../../service/userService";
 import { toast } from "react-toastify";
 import Loading from "../../components/Loading";
@@ -18,14 +18,19 @@ function ForgotPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    const data = {
-      email: email,
-    };
-
-    const res = await Userservice.forgotPassword(data);
-    if (res.success === true) {
-      navigate("/login");
-      toast.success("Đổi mật khẩu thành công");
+    try {
+      const data = {
+        email: email,
+      };
+      const res = await Userservice.forgotPassword(data);
+      if (res.success === true) {
+        navigate("/login");
+        toast.success("Vui lòng kiểm tra email để xác nhận");
+      }
+    } catch {
+      toast.error("Email không chính xác");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -51,6 +56,12 @@ function ForgotPassword() {
               Gửi
             </button>
           </form>
+          <Link
+            to="/login"
+            className="text-[14px] text-orange-400 mx-[2px] cursor-pointer py-2"
+          >
+            Đăng nhập
+          </Link>
         </Login>
       </Loading>
     </div>

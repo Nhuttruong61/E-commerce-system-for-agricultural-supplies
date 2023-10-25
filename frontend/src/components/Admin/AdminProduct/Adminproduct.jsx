@@ -217,8 +217,20 @@ function Adminproduct() {
       dataIndex: "categoryName",
     },
     {
-      title: "Giá bán",
+      title: "Ảnh",
+      dataIndex: "image",
+      render: (text, record) => (
+        <img
+          src={record.images[0].url}
+          alt="Product"
+          style={{ width: "50px", height: "50px" }}
+        />
+      ),
+    },
+    {
+      title: "Giá",
       dataIndex: "price",
+      sorter: (a, b) => a.price - b.price,
     },
     {
       title: "Số lượng",
