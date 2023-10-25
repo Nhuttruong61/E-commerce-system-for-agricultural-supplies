@@ -9,7 +9,7 @@ function Categories() {
     <div className="  p-6 rounded-lg mb-12  md:px-[10%]">
       <div className=" flex justify-center text-center items-center">
         <p className="  my-8 font-[700] md:text-[32px] text-[20px] border px-6 bg-[#0e9c49] text-white rounded-[20px]">
-          Loại sản phẩm
+          LOẠI SẢN PHẨM
         </p>
       </div>
       <div className="grid grid-cols-1 gap-[5px] md:grid-cols-2 md:gap-[10px] lg:grid-cols-4 lg:gap-[20px] xl:grid-cols-5 xl:gap-[30px] ">

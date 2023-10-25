@@ -8,6 +8,7 @@ import Footer from "../components/Layout/Footer";
 import Outstanding from "../components/Discount";
 import Inbox from "../components/Inbox/Inbox";
 import Slick from "../components/Slick";
+import News from "../components/Layout/News";
 function HomePage() {
   return (
     <div className="bg-[#f4f1f4]">
@@ -18,6 +19,7 @@ function HomePage() {
       <Newproduct />
       <Event />
       <Outstanding />
+      <News />
       <Inbox />
       <Footer />
     </div>
