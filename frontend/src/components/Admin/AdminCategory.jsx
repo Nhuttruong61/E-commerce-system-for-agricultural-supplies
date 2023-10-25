@@ -296,7 +296,7 @@ function AdminCategory() {
         okButtonProps={okButtonDelete}
         okType="none"
       >
-        <p>{`Bnaj có muốn chăc xóa danh mục này?`} </p>
+        <p>{`Bạn có muốn chăc xóa danh mục này?`} </p>
       </Modal>
     </div>
   );

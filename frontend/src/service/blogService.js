@@ -1,7 +1,6 @@
 import axios from "./axios-costum";
 
 export const createBlog = async (data) => {
-  console.log("data", data);
   const res = await axios.post("/blog/create-blog", data, {
     withCredentials: true,
   });
@@ -29,7 +28,7 @@ export const updateBlog = async (id, data) => {
 };
 
 export const deleteBlog = async (id) => {
-  const res = await axios.post(`/blog/delete-blog/${id}`, {
+  const res = await axios.delete(`/blog/delete-blog/${id}`, {
     withCredentials: true,
   });
   return res;

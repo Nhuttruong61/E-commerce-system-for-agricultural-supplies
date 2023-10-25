@@ -798,7 +798,7 @@ function Adminproduct() {
             htmlFor="inport"
             className="bg-[#0e9c49] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2"
           >
-            Image
+            Ảnh
           </label>
           <input
             id="inport"

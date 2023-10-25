@@ -182,6 +182,7 @@ function AdminBlog() {
       border: "1px solid #ccc",
     },
   };
+
   const handleDelete = async () => {
     setShowModalDelete(false);
     setIsLoading(true);

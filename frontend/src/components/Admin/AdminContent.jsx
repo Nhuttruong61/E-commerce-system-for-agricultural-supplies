@@ -12,6 +12,7 @@ import ProductExpire from "./AdminProduct/ProductExpire";
 import CreateBlog from "./AdminBlog/CreateBlog";
 import AdminBlog from "./AdminBlog/AdminBlog";
 import Dashboard from "./Dashboard";
+import SliderAdmin from "./SliderAdmin";
 
 function AdminContent({ active }) {
   let content = null;
@@ -43,6 +44,8 @@ function AdminContent({ active }) {
     content = <AdminBlog />;
   } else if (active === 14) {
     content = <Dashboard />;
+  } else if (active === 15) {
+    content = <SliderAdmin />;
   }
   return (
     <div className="flex w-full h-[90vh] overflow-y-auto overflow-x-auto">

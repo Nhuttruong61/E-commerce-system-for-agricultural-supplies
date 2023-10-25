@@ -1,11 +1,11 @@
 import React from "react";
 import { Carousel } from "antd";
-import axios from "../../service/axios-costum";
 import { useQuery } from "@tanstack/react-query";
+import { getAllSlider } from "../../service/sliderService";
 const SliderComponet = () => {
   const onChange = (currentSlide) => {};
   const getAllSlides = async () => {
-    const res = await axios.get("/slider/get-all-slider");
+    const res = await getAllSlider();
     return res;
   };
 
@@ -14,7 +14,7 @@ const SliderComponet = () => {
     queryFn: getAllSlides,
   });
   return (
-    <Carousel afterChange={onChange} className="md:mx-[10%]" autoplay>
+    <Carousel afterChange={onChange} className="w-full" autoplay>
       {dataSlider?.slider?.map((item) =>
         item?.images?.map((i) => (
           <div

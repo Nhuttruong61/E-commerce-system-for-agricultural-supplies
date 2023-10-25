@@ -14,6 +14,7 @@ import { LuTimerOff } from "react-icons/lu";
 import { FcExpired } from "react-icons/fc";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { BiCategory, BiBorderAll } from "react-icons/bi";
+import { TfiLayoutSliderAlt } from "react-icons/tfi";
 function SideBarAdmin({ active, setActive }) {
   return (
     <div className="w-full h-[90vh] shadow overflow-y-auto sticky top-0 left-0 z-10 cursor-pointer">
@@ -259,6 +260,25 @@ function SideBarAdmin({ active, setActive }) {
             }`}
           >
             Tất cả blog
+          </p>
+        </div>
+      </div>
+      <div
+        className="flex w-full items-center px-4 py-3"
+        onClick={() => setActive(15)}
+      >
+        <div className="flex w-full items-center">
+          <TfiLayoutSliderAlt
+            className={` text-[24px]  ${
+              active === 15 ? "text-[#0e9c49]" : "text-black"
+            }`}
+          />
+          <p
+            className={`800px:block hidden pl-2 text-[18px] font-[500] ${
+              active === 15 ? "text-[#0e9c49]" : "text-black"
+            }`}
+          >
+            Slider
           </p>
         </div>
       </div>
