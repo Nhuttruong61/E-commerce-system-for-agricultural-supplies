@@ -2,11 +2,13 @@ import React, { memo, useEffect, useRef, useState } from "react";
 import * as UserSerVice from "../../service/userService";
 import TableComponent from "../Table";
 import { Button, Modal, Space } from "antd";
+import * as userService from "../../service/userService";
 import {
   SearchOutlined,
   DeleteOutlined,
   EyeOutlined,
   UserOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { CSVLink } from "react-csv";
@@ -17,11 +19,23 @@ function AdminUser() {
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
   const [idUser, setIdUser] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  const [showModalAdd, setShowModalAdd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showModalReview, setShowModalReview] = useState(false);
   const [infoUser, setInfoUser] = useState(null);
   const dispatch = useDispatch();
+  const [showModalEdit, setShowModalEdit] = useState(false);
+  const [editUser, setEditUser] = useState({
+    name: "",
+    email: "",
+    phoneNumber: "",
+    role: "",
+    tax: "",
+    addresses: {
+      city: "",
+      address: "",
+    },
+  });
   const getAllUsers = async () => {
     setIsLoading(true);
     const res = await UserSerVice.getAllUser();
@@ -40,14 +54,39 @@ function AdminUser() {
   }, []);
   const renderAction = (text, item) => {
     return (
-      <div
-        className="cursor-pointer"
-        onClick={() => {
-          setIdUser(item.id);
-          setShowModal(true);
-        }}
-      >
-        <DeleteOutlined className="text-red-600 border border-[red] py-2 px-1 rounded-[4px]" />
+      <div className=" flex">
+        <div
+          className="cursor-pointer"
+          onClick={() => {
+            setIdUser(item.id);
+            setShowModalAdd(true);
+          }}
+        >
+          <DeleteOutlined className="text-red-600 border border-[red] py-2 px-1 rounded-[4px]" />
+        </div>
+        <div
+          className="cursor-pointer pl-2"
+          onClick={() => {
+            setEditUser({
+              name: item.name,
+              email: item.email,
+              phoneNumber: item.phoneNumber,
+              role: item.role,
+              avatar: item.avatar,
+              tax: item?.tax ? item?.tax : null,
+              addresses: {
+                city: item?.addresses?.city ? item?.addresses?.city : "",
+                address: item?.addresses?.address
+                  ? item?.addresses?.address
+                  : "",
+              },
+            });
+            setIdUser(item.id);
+            setShowModalEdit(true);
+          }}
+        >
+          <EditOutlined className="text-green-600 border border-[green] py-2 px-1 rounded-[4px]" />
+        </div>
       </div>
     );
   };
@@ -165,11 +204,11 @@ function AdminUser() {
     },
     {
       title: "Điện thoại",
-      dataIndex: "phone",
+      dataIndex: "phoneNumber",
     },
     {
       title: "Vai trò",
-      dataIndex: "isAdmin",
+      dataIndex: "role",
     },
     {
       title: "Xem thêm",
@@ -191,8 +230,11 @@ function AdminUser() {
         stt: index + 1,
         email: user.email,
         name: user.name,
-        phone: user?.phoneNumber ? user.phoneNumber : "Chưa có thông tin",
-        isAdmin: user.role,
+        tax: user?.tax,
+        phoneNumber: user?.phoneNumber ? user.phoneNumber : "Chưa có thông tin",
+        role: user.role,
+        avatar: user?.avatar?.url,
+        addresses: user.addresses[0],
         review: {
           ...user,
         },
@@ -201,8 +243,9 @@ function AdminUser() {
   }
 
   const handleCancel = () => {
-    setShowModal(false);
+    setShowModalAdd(false);
     setShowModalReview(false);
+    setShowModalEdit(false);
   };
   const okButtonDelete = {
     style: {
@@ -212,10 +255,9 @@ function AdminUser() {
   };
   const handleDeleteUser = async () => {
     setIsLoading(true);
-    setShowModal(false);
+    setShowModalAdd(false);
     const res = await UserSerVice.deleteUser(idUser);
-    console.log(res);
-    setShowModal(false);
+    setShowModalAdd(false);
     if (res.success) {
       getAllUsers();
       toast.success("Xóa tài khoản thành công");
@@ -226,6 +268,29 @@ function AdminUser() {
   };
   const handleReview = () => {
     setShowModalReview(false);
+  };
+  const handleEditUser = async () => {
+    try {
+      setShowModalEdit(false);
+      setIsLoading(true);
+      const res = await UserSerVice.updateUserId(idUser, editUser);
+      if (res.success) {
+        const res = await UserSerVice.updateAddressrId(
+          idUser,
+          editUser.addresses
+        );
+        if (res.success) {
+          getAllUsers();
+          toast.success("Cập nhật thông tin thành công");
+        }
+      }
+    } catch (e) {
+      toast.error("Đã xãy ra lỗi");
+      console.log(e);
+    } finally {
+      getAllUsers();
+      setIsLoading(false);
+    }
   };
   return (
     <div className="w-full">
@@ -247,7 +312,7 @@ function AdminUser() {
         />
         <Modal
           title="Xóa người dùng"
-          open={showModal}
+          open={showModalAdd}
           onOk={handleDeleteUser}
           onCancel={handleCancel}
           okButtonProps={okButtonDelete}
@@ -290,6 +355,12 @@ function AdminUser() {
                 <p className=" font-[500]">Điện thoại:</p>
                 <p className="pl-2">{infoUser?.phoneNumber}</p>
               </label>
+              {infoUser?.tax && (
+                <label className="flex items-center">
+                  <p className=" font-[500]">Mã thuế:</p>
+                  <p className="pl-2">{infoUser?.tax}</p>
+                </label>
+              )}
               <label className="flex items-center">
                 <p className=" font-[500]">Vai trò:</p>
                 <p className="pl-2">{infoUser?.role}</p>
@@ -302,6 +373,119 @@ function AdminUser() {
                 ) : (
                   <p className="pl-2">No information yet</p>
                 )}
+              </label>
+            </div>
+          </div>
+        </Modal>
+        <Modal
+          title="Chỉnh sửa thông tin"
+          open={showModalEdit}
+          onOk={handleEditUser}
+          onCancel={handleCancel}
+          okButtonProps={okButtonDelete}
+          okType="none"
+          cancelButtonProps={{ style: { display: "none" } }}
+          width={600}
+        >
+          <div className="flex items-center">
+            <div className="w-[30%]">
+              {editUser?.avatar ? (
+                <img
+                  src={editUser?.avatar}
+                  alt=""
+                  className="w-[80px] h-[80px] rounded-full"
+                />
+              ) : (
+                <UserOutlined style={{ width: "80px", height: "80px" }} />
+              )}
+            </div>
+            <div className="w-[70%]">
+              <label className="flex justify-between items-center">
+                <p className="w-[20%] font-[500]">Tên</p>
+                <input
+                  value={editUser?.name}
+                  className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px] outline-none"
+                  onChange={(e) =>
+                    setEditUser({ ...editUser, name: e.target.value })
+                  }
+                />
+              </label>
+              <label className="flex justify-between items-center">
+                <p className="w-[20%] font-[500]">Email</p>
+                <input
+                  value={editUser?.email}
+                  className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px] outline-none"
+                  readOnly
+                />
+              </label>
+              <label className="flex justify-between items-center">
+                <p className="w-[20%] font-[500]">Điện thoại</p>
+                <input
+                  value={editUser?.phoneNumber}
+                  className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px] outline-none"
+                  onChange={(e) =>
+                    setEditUser({ ...editUser, phoneNumber: e.target.value })
+                  }
+                />
+              </label>
+              {editUser?.role !== "admin" && (
+                <label className="flex justify-between items-center">
+                  <p className="w-[20%] font-[500]">Vai trò</p>
+                  <select
+                    value={editUser?.role}
+                    className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px] outline-none "
+                    onChange={(e) =>
+                      setEditUser({ ...editUser, role: e.target.value })
+                    }
+                  >
+                    <option value="user">user</option>
+                    <option value="business">business</option>
+                  </select>
+                </label>
+              )}
+              {editUser?.role === "business" && (
+                <label className="flex justify-between items-center">
+                  <p className="w-[20%] font-[500]">Mã thuế</p>
+                  <input
+                    value={editUser?.tax}
+                    className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px] outline-none"
+                    onChange={(e) =>
+                      setEditUser({ ...editUser, tax: e.target.value })
+                    }
+                  />
+                </label>
+              )}
+              <label className="flex  items-center">
+                <p className="w-[20%] font-[500]">Thành phố:</p>
+                <input
+                  value={editUser?.addresses?.city}
+                  className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px] outline-none"
+                  onChange={(e) =>
+                    setEditUser((edit) => ({
+                      ...edit,
+                      addresses: {
+                        ...edit.addresses,
+                        city: e.target.value,
+                      },
+                    }))
+                  }
+                />
+              </label>
+              <label className="flex  items-center">
+                <p className="w-[20%] font-[500]">Địa chỉ:</p>
+                <input
+                  value={editUser?.addresses?.address}
+                  className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px] outline-none"
+                  onChange={(e) =>
+                    setEditUser((edit) => ({
+                      ...edit,
+                      addresses: {
+                        ...edit.addresses,
+                        address: e.target.value,
+                      },
+                    }))
+                  }
+                />
               </label>
             </div>
           </div>

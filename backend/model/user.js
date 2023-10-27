@@ -26,16 +26,10 @@ const userSchema = new mongoose.Schema({
   },
   addresses: [
     {
-      country: {
-        type: String,
-      },
       city: {
         type: String,
       },
       address: {
-        type: String,
-      },
-      addressType: {
         type: String,
       },
     },

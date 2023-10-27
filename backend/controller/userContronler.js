@@ -73,8 +73,8 @@ const activation = catchAsyncErrors(async (req, res, next) => {
 
 const createUser = catchAsyncErrors(async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) {
+    const { name, email, password, phoneNumber } = req.body;
+    if (!name || !email || !password || !phoneNumber) {
       return next(new ErrorHandler("Please provide all fields!", 400));
     }
 
@@ -87,8 +87,36 @@ const createUser = catchAsyncErrors(async (req, res, next) => {
       name,
       email,
       password,
+      phoneNumber,
     });
 
+    res.status(201).json({
+      success: true,
+      user: newUser,
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err.message, 500));
+  }
+});
+//create create account for business
+const createAccountBussenes = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { name, email, password, phoneNumber, tax } = req.body;
+    if (!name || !email || !password || !phoneNumber || !tax) {
+      return next(new ErrorHandler("Please provide all fields!", 400));
+    }
+    let user = await User.findOne({ email });
+    if (user) {
+      return next(new ErrorHandler("User already exists", 400));
+    }
+    const newUser = await User.create({
+      name,
+      email,
+      tax,
+      password,
+      phoneNumber,
+      role: "business",
+    });
     res.status(201).json({
       success: true,
       user: newUser,
@@ -136,7 +164,6 @@ const getUser = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(err.message, 500));
   }
 });
-
 //logout user
 const logOut = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -159,20 +186,59 @@ const logOut = catchAsyncErrors(async (req, res, next) => {
 const updateUser = catchAsyncErrors(async (req, res, next) => {
   try {
     const { name, email, phoneNumber, avatar } = req.body;
-    const user = await User.findOne({ email }).select("+ password");
+    const user = await User.findOne({ email });
     if (!user) {
       return next(new ErrorHandler(" Please provide enough information", 400));
     }
-    const myCloud = await cloudinary.v2.uploader.upload(avatar, {
-      folder: "avatars",
-    });
+    const isCloudinaryImage = avatar && avatar.includes("cloudinary");
+
+    if (avatar && !isCloudinaryImage) {
+      await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+      const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+        folder: "avatars",
+      });
+      user.avatar = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      };
+    }
     user.name = name;
     user.email = email;
     user.phoneNumber = phoneNumber;
-    user.avatar = {
-      public_id: myCloud.public_id,
-      url: myCloud.secure_url,
-    };
+
+    await user.save();
+    res.status(201).json({
+      success: true,
+      user,
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err.message, 500));
+  }
+});
+// update user by id
+const updateUserId = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    const { name, email, phoneNumber, avatar, tax, role } = req.body;
+    if (!user) {
+      return next(new ErrorHandler(" Please provide enough information", 400));
+    }
+    const isCloudinaryImage = avatar && avatar.includes("cloudinary");
+    if (avatar && !isCloudinaryImage) {
+      await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+      const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+        folder: "avatars",
+      });
+      user.avatar = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      };
+    }
+    user.name = name;
+    user.email = email;
+    user.tax = tax;
+    user.role = role;
+    user.phoneNumber = phoneNumber;
 
     await user.save();
     res.status(201).json({
@@ -262,26 +328,22 @@ const deleteUser = catchAsyncErrors(async (req, res, next) => {
 // update address
 const updateAddress = catchAsyncErrors(async (req, res, next) => {
   try {
-    const { country, city, address, addressType } = req.body;
+    const { city, address } = req.body;
     const userId = req.user.id;
     const user = await User.findById(userId);
-
     if (!user) {
       return next(new ErrorHandler("User not found", 404));
     }
     if (user.addresses.length === 0) {
       user.addresses.push({
-        country: country,
         city: city,
         address: address,
-        addressType: addressType,
       });
     } else {
       const firstAddress = user.addresses[0];
-      firstAddress.country = country;
+
       firstAddress.city = city;
       firstAddress.address = address;
-      firstAddress.addressType = addressType;
     }
     await user.save();
     res.status(200).json({
@@ -292,7 +354,34 @@ const updateAddress = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(e.message, 500));
   }
 });
+// update addressid
+const updateAddressId = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { city, address } = req.body;
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return next(new ErrorHandler("User not found", 404));
+    }
+    if (user.addresses.length === 0) {
+      user.addresses.push({
+        city: city,
+        address: address,
+      });
+    } else {
+      const firstAddress = user.addresses[0];
 
+      firstAddress.city = city;
+      firstAddress.address = address;
+    }
+    await user.save();
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (e) {
+    return next(new ErrorHandler(e.message, 500));
+  }
+});
 // delete address
 const deleteAddress = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -408,4 +497,7 @@ module.exports = {
   requestPasswordReset,
   resetPassword,
   getUserByid,
+  createAccountBussenes,
+  updateUserId,
+  updateAddressId,
 };

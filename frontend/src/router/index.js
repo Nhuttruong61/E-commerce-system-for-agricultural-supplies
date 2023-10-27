@@ -18,6 +18,7 @@ import ForgotPassword from "../pages/Account/ForgotPassword";
 import ResetPassword from "../pages/Account/ResetPassword";
 import BlogPage from "../pages/Blog/BlogPage";
 import BlogDetailPage from "../pages/Blog/BlogDetailPage";
+import RegisterBussiness from "../pages/Account/RegisterBussiness";
 const routers = [
   {
     path: "/login",
@@ -27,6 +28,11 @@ const routers = [
   {
     path: "/register",
     page: RegisterPage,
+    isShowHeader: false,
+  },
+  {
+    path: "/register-bussiness",
+    page: RegisterBussiness,
     isShowHeader: false,
   },
   {

@@ -6,11 +6,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Userservice from "../../service/userService";
 import Loading from "../../components/Loading";
-import { BsArrowRight } from "react-icons/bs";
-function RegisterPage() {
+import { BsArrowLeft } from "react-icons/bs";
+
+function RegisterBussiness() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [tax, setTax] = useState("");
 
   const [password, setPassword] = useState("");
   const [forGotPassword, setForGotPassword] = useState("");
@@ -33,6 +35,9 @@ function RegisterPage() {
   const handleOnchanPhone = (value) => {
     setPhoneNumber(value);
   };
+  const handleOnchanTax = (value) => {
+    setTax(value);
+  };
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,15 +53,16 @@ function RegisterPage() {
       setIsLoading(false);
       return;
     }
-    const newUser = {
+    const data = {
       name: name,
       email: email,
+      tax: tax,
       phoneNumber: phoneNumber,
       password: password,
     };
 
     try {
-      const response = await Userservice.RegisterService(newUser);
+      const response = await Userservice.RegisterService(data);
       if (response.success === true) {
         // toast.success("Vui lòng kiểm tra email để kích hoạt tài khoản!");
         toast.success("Đăng kí kí tài khoản thành công");
@@ -72,12 +78,9 @@ function RegisterPage() {
     <div>
       <Loading isLoading={isLoading}>
         <Login title="Đăng Ký">
-          <Link
-            to="/register-bussiness"
-            className="flex justify-end items-center text-orange-400"
-          >
-            <p className="pr-2">Doanh nghiệp</p>
-            <BsArrowRight />
+          <Link to="/register" className="flex items-center text-orange-400">
+            <BsArrowLeft />
+            <p className="pl-2">Cá nhân</p>
           </Link>
           <form onSubmit={handleSubmit}>
             <Input
@@ -97,6 +100,12 @@ function RegisterPage() {
               value={email}
               placeholder="Nhập email"
               onChange={handleOnchanEmail}
+            />
+            <Input
+              name="Mã số thuế"
+              value={tax}
+              placeholder="Nhập mã số thuế của bạn"
+              onChange={handleOnchanTax}
             />
 
             <div className="relative">
@@ -152,4 +161,4 @@ function RegisterPage() {
   );
 }
 
-export default RegisterPage;
+export default RegisterBussiness;

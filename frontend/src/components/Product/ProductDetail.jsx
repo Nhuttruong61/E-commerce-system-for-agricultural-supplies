@@ -13,6 +13,7 @@ function ProductDetail(id) {
   const { data } = useSelector((state) => state.product);
   const dataEvent = useSelector((state) => state.event);
   const { cart } = useSelector((state) => state.cart);
+  const { account } = useSelector((state) => state.user);
   const _id = id?.id;
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(0);
@@ -60,7 +61,8 @@ function ProductDetail(id) {
     setExpanded(!expanded);
   };
   const productPrice = productData?.price * (1 - productData?.distCount / 100);
-
+  const productPriceWholesalePrice =
+    productData?.wholesalePrice * (1 - productData?.distCount / 100);
   useEffect(() => {
     if (dataProduct && dataProduct.success) {
       const res = dataProduct?.product?.reviews.sort((a, b) => {
@@ -81,6 +83,7 @@ function ProductDetail(id) {
           name: productData?.name,
           description: productData?.description,
           price: productPrice,
+          wholesalePrice: productPriceWholesalePrice,
           disCount: productData?.distCount,
           weight: productData?.weight,
           image: productData?.images[0].url,
@@ -167,7 +170,36 @@ function ProductDetail(id) {
                 {dataProduct?.product?.price.toLocaleString()} đ
               </h1>
             )}
+            {account?.role === "business" && (
+              <>
+                {productData?.distCount ? (
+                  <div className="px-10 flex items-center">
+                    <p className="font-[600] pr-2 md:text-[100%] text-[80%]">
+                      Giá sỉ:
+                    </p>
+                    <div className="flex  pr-2 items-start">
+                      <h1 className="line-through font-bold text-red-600  md:text-[100%] text-[80%] pr-2">
+                        {productData?.wholesalePrice.toLocaleString()} đ
+                      </h1>
+                      <h1 className="font-bold  md:text-[100%] text-[80%]">
+                        {productPriceWholesalePrice.toLocaleString()} đ
+                      </h1>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex px-10 ">
+                    <p className="font-[600] pr-2 md:text-[100%] text-[80%]">
+                      Giá sỉ:
+                    </p>
+                    <h1 className="font-bold md: md:text-[100%] text-[80%]">
+                      {productData?.wholesalePrice.toLocaleString()} đ
+                    </h1>
+                  </div>
+                )}
+              </>
+            )}
           </div>
+
           <div className="flex items-center py-2">
             <button
               className="p-2 flex items-center border bg-[#f9f9f9] md: md:text-[100%] text-[80%]"

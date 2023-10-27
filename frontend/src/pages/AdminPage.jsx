@@ -17,7 +17,7 @@ function AdminPage() {
     <div>
       <HeaderAdmin />
       <div className="flex w-full">
-        <div className="w-[80px] 800px:w-[280px]">
+        <div className="w-[80px] 800px:w-[300px]">
           <SideBarAdmin active={active} setActive={setActive} />
         </div>
         <AdminContent active={active} />

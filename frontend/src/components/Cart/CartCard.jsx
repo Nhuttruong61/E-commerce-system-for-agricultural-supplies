@@ -1,11 +1,12 @@
 import React, { memo, useEffect, useState } from "react";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   decreaseQuantity,
   increaseQuantity,
 } from "../../redux/action/cartAction";
 function CartCard({ item }) {
+  const { account } = useSelector((state) => state.user);
   const [value, setValue] = useState(item.quantity);
   const [totalPrice, setTotalPrice] = useState(null);
   const dispatch = useDispatch();
@@ -27,9 +28,15 @@ function CartCard({ item }) {
       })
     );
   };
+
   useEffect(() => {
-    const res = item.price * value;
-    setTotalPrice(res);
+    if (account?.role === "business" && item.quantity >= 10) {
+      const res = item.wholesalePrice * value;
+      setTotalPrice(res);
+    } else {
+      const res = item.price * value;
+      setTotalPrice(res);
+    }
   }, [value]);
   return (
     <div className="border-b p-4">

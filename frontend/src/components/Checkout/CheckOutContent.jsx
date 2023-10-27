@@ -23,11 +23,8 @@ function CheckOutContent() {
   const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState(0);
   const [showModalAddress, setShowModalAddress] = useState(false);
-  const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
-  const [addressType, setAddressType] = useState("");
-  const [newAddressType, setNewAddressType] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [Paymentethods, setPaymentMethod] = useState("paymentDelivery");
   const [price, setPrice] = useState();
@@ -62,7 +59,7 @@ function CheckOutContent() {
     const totalWeight = cart.reduce((acc, item) => {
       return acc + item.weight * item.quantity;
     }, 0);
-    const selectedShippingOption = data.find(
+    const selectedShippingOption = data?.find(
       (option) => totalWeight <= option.weight
     );
 
@@ -70,9 +67,15 @@ function CheckOutContent() {
     const freeShip = selectedShippingOption.freeShipping;
 
     const total = cart.reduce((acc, item) => {
-      return acc + item.price * item.quantity;
+      if (account?.role === "business" && item?.quantity >= 10) {
+        return acc + item.wholesalePrice * item.quantity;
+      } else {
+        return acc + item.price * item.quantity;
+      }
     }, 0);
+
     setPrice(total);
+
     if (total >= freeShip) {
       setTotalPrice(total);
       setShipCost(0);
@@ -92,36 +95,25 @@ function CheckOutContent() {
     if (account?.addresses) {
       for (let i = 0; i < account.addresses.length; i++) {
         const item = account.addresses[i];
-        setCountry(item.country);
         setCity(item.city);
         setAddress(item.address);
-        setAddressType(item.addressType);
       }
     }
   }, [account]);
-  const handleOnchangeCountry = (e) => setCountry(e.target.value);
   const handleOnchangeCity = (e) => setCity(e.target.value);
   const handleOnchangeAddress = (e) => setAddress(e.target.value);
-  const handleOnchangaAddressType = (e) => setAddressType(e.target.value);
-  const handleOnchangaNewAddressType = (e) => {
-    setNewAddressType(e.target.value);
-  };
 
   const handleCancel = () => {
     setShowModalAddress(false);
   };
   const handleEditAddress = async () => {
     setShowModalAddress(false);
-    const finalAddressType =
-      addressType === "other" ? newAddressType : addressType;
-    if (!country || !city || !address) {
+    if (!city || !address) {
       toast.warning("Vui lòng nhập đầy đủ thông tin!");
     } else {
       const addressUser = {
-        country: country,
         city: city,
         address: address,
-        addressType: finalAddressType,
       };
       setIsLoading(true);
       const update = await updateAddress(addressUser);
@@ -152,10 +144,8 @@ function CheckOutContent() {
         user: account,
         totalPrice: totalPrice,
         shippingAddress: {
-          country,
           city,
           address,
-          addressType,
         },
         paymentInfo: {
           type: Paymentethods,
@@ -200,10 +190,8 @@ function CheckOutContent() {
             user: account,
             totalPrice: totalPrice,
             shippingAddress: {
-              country: account?.addresses[0].country,
               city: account?.addresses[0].city,
               address: account?.addresses[0].address,
-              addressType: account?.addresses[0].addressType,
             },
             paymentInfo: {
               type: "onlinePayment",
@@ -268,7 +256,7 @@ function CheckOutContent() {
                   <div className="flex md:items-center md:justify-center  ml-2 md:w-[30%] ">
                     <p className="text-[50%] md:text-[100%] px-2">Giá tiền:</p>
                     <p className="text-[50%] md:text-[100%]">
-                      {`${(item.price * item.quantity).toLocaleString()} đ`}
+                      {price?.toLocaleString()}đ
                     </p>
                   </div>
                 </div>
@@ -406,16 +394,6 @@ function CheckOutContent() {
           okType="none"
           width={600}
         >
-          <label className="flex items-center my-2 justify-between ">
-            <p className="md:w-[30%] xl:w-[20%]  font-[600] ">Quốc Gia</p>
-            <input
-              type="text"
-              placeholder="Nhập tên quốc gia"
-              value={country}
-              className="w-[70%] md:px-4 xl:w-[85%] h-auto py-2 border-[2px] sm:px-0 rounded-[4px]"
-              onChange={handleOnchangeCountry}
-            />
-          </label>
           <label className="flex items-center my-2 justify-between">
             <p className="md:w-[30%] xl:w-[20%] font-[600]">Thành Phố:</p>
             <input
@@ -436,30 +414,6 @@ function CheckOutContent() {
               onChange={handleOnchangeAddress}
             />
           </label>
-          <label className="flex items-center my-2 justify-between">
-            <p className="md:w-[30%] xl:w-[20%] font-[600]">Loại địa chỉ:</p>
-            <select
-              value={addressType}
-              onChange={handleOnchangaAddressType}
-              className="w-[70%] md:px-4 xl:w-[85%] h-auto py-2 border-[2px] sm:px-0 rounded-[4px]"
-            >
-              <option value="Nhà">Nhà</option>
-              <option value="Doanh nghiệp">Doanh Nghiệp</option>
-              <option value="other">Khác</option>
-            </select>
-          </label>
-          {addressType === "other" && (
-            <div className="flex items-center my-2 justify-end">
-              <input
-                type="text"
-                placeholder="Nhập loại địa chỉ"
-                value={newAddressType}
-                name="newAddressType"
-                className="w-[70%] md:px-4 xl:w-[85%] h-auto py-2 border-[2px] sm:px-0 rounded-[4px] flex-row-reverse"
-                onChange={handleOnchangaNewAddressType}
-              />
-            </div>
-          )}
         </Modal>
       </div>
     </Loading>

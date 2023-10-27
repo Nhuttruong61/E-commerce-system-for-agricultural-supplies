@@ -3,6 +3,10 @@ export const RegisterService = async (newUser) => {
   const res = await axios.post("/user/create-user", newUser);
   return res;
 };
+export const RegisterBusiness = async (data) => {
+  const res = await axios.post("/user/create-account-bussiness", data);
+  return res;
+};
 export const Activation_token = async (accessToken) => {
   const res = await axios.post("/user/activation", { accessToken });
   return res;
@@ -25,6 +29,18 @@ export const Logout = async () => {
 
 export const updateAUser = async (user) => {
   const res = await axios.put("/user/update-user", user, {
+    withCredentials: true,
+  });
+  return res;
+};
+export const updateUserId = async (id, user) => {
+  const res = await axios.put(`/user/update-userId/${id}`, user, {
+    withCredentials: true,
+  });
+  return res;
+};
+export const updateAddressrId = async (id, data) => {
+  const res = await axios.put(`/user/update-addressId/${id}`, data, {
     withCredentials: true,
   });
   return res;

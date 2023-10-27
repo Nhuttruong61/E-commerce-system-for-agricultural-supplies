@@ -517,14 +517,6 @@ function AdminOrder() {
                 <div>
                   <div className="flex">
                     <p className="text-[50%] md:text-[100%] font-[600] pr-2">
-                      Quốc gia:
-                    </p>
-                    <p className="text-[50%] md:text-[100%]">
-                      {dataSeeMore?.shippingAddress.country}
-                    </p>
-                  </div>
-                  <div className="flex">
-                    <p className="text-[50%] md:text-[100%] font-[600] pr-2">
                       Thành phố:
                     </p>
                     <p className="text-[50%] md:text-[100%]">

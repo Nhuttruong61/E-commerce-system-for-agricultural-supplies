@@ -29,6 +29,7 @@ function Adminproduct() {
   const [newDescription, setNewDescription] = useState("");
   const [category, setCategory] = useState(data.categories[0]._id);
   const [price, setPrice] = useState("");
+  const [wholesalePrice, setWholesalePrice] = useState("");
   const [originPrice, setOriginPrice] = useState("");
   const [weight, setWeight] = useState("");
   const [capacity, setCapacity] = useState("");
@@ -48,6 +49,7 @@ function Adminproduct() {
     capacity: "",
     originPrice: "",
     price: "",
+    wholesalePrice: "",
     distCount: "",
     quantity: "",
     origin: "",
@@ -171,6 +173,7 @@ function Adminproduct() {
               capacity: item.capacity,
               originPrice: item.originPrice,
               price: item.price,
+              wholesalePrice: item.wholesalePrice,
               distCount: item.distCount,
               quantity: item.quantity,
               origin: item.origin,
@@ -302,46 +305,61 @@ function Adminproduct() {
     setCategory(e.target.value);
   };
   const handleAddProduct = async () => {
-    if (!name || !description || !category || !originPrice || !quantity) {
-      toast.warning("Xin nhập đầy đủ thông tin");
-    } else {
-      setShowModalAdd(false);
-      setIsLoading(true);
-      const product = {
-        name,
-        description,
-        ingredient,
-        category: {
-          _id: category,
-        },
-        weight,
-        capacity: capacity !== "" ? capacity : null,
-        originPrice,
-        price,
-        distCount,
-        quantity,
-        origin,
-        expirationDate,
-        images: selectedImage,
-      };
-      const res = await ProductService.createProduct(product);
-      if (res.success) {
-        toast.success("Thêm sản phẩm thành công");
-        dispatch(getAllProductRd());
-        setName("");
-        setWeight("");
-        setCapacity("");
-        setOrigin("");
-        setExpirationDate("");
-        setDescription([]);
-        setNewDescription("");
-        setOriginPrice("");
-        setQuantity("");
-        setSelectedImage(null);
+    try {
+      if (
+        !name ||
+        !description ||
+        !category ||
+        !originPrice ||
+        !quantity ||
+        !wholesalePrice
+      ) {
+        toast.warning("Xin nhập đầy đủ thông tin");
       } else {
-        toast.error("Đã xảy ra lỗi");
+        setShowModalAdd(false);
+        setIsLoading(true);
+        const product = {
+          name,
+          description,
+          ingredient,
+          category: {
+            _id: category,
+          },
+          weight,
+          capacity: capacity !== "" ? capacity : null,
+          originPrice,
+          price,
+          wholesalePrice,
+          distCount,
+          quantity,
+          origin,
+          expirationDate,
+          images: selectedImage,
+        };
+        const res = await ProductService.createProduct(product);
+        if (res.success) {
+          toast.success("Thêm sản phẩm thành công");
+          dispatch(getAllProductRd());
+          setName("");
+          setWeight("");
+          setCapacity("");
+          setOrigin("");
+          setExpirationDate("");
+          setDescription([]);
+          setNewDescription("");
+          setOriginPrice("");
+          setPrice("");
+          setWholesalePrice("");
+          setQuantity("");
+          setSelectedImage(null);
+        } else {
+          toast.error("Đã xảy ra lỗi");
+        }
+        setIsLoading(false);
       }
-      setIsLoading(false);
+    } catch (e) {
+      console.log(e);
+      toast.error("Đã xảy ra lỗi");
     }
   };
   const okButtonAdd = {
@@ -385,23 +403,33 @@ function Adminproduct() {
 
   const handleEditProduct = async () => {
     setShowModalEdit(false);
-    setIsLoading(true);
-    const res = await ProductService.updateProduct(editProduct, idProduct);
-    setIsLoading(false);
-    if (res.success) {
-      dispatch(getAllProductRd());
-      toast.success("Cập nhật sản phẩm thành công");
+    try {
+      setIsLoading(true);
+      const res = await ProductService.updateProduct(editProduct, idProduct);
+      setIsLoading(false);
+      if (res.success) {
+        dispatch(getAllProductRd());
+        toast.success("Cập nhật sản phẩm thành công");
+      }
+    } catch (e) {
+      toast.error("Đã xảy ra lỗi");
+      console.log(e);
     }
   };
   const handleDelete = async () => {
-    setIsLoading(true);
-    const res = await ProductService.deleteProduct(idProduct);
     setShowModalDelete(false);
-    if (res.success) {
-      dispatch(getAllProductRd());
-      toast.success("Xóa sản phẩm thành công");
+    try {
+      setIsLoading(true);
+      const res = await ProductService.deleteProduct(idProduct);
+      if (res.success) {
+        dispatch(getAllProductRd());
+        toast.success("Xóa sản phẩm thành công");
+      }
+      setIsLoading(false);
+    } catch (e) {
+      toast.error("Đã xảy ra lỗi");
+      console.log(e);
     }
-    setIsLoading(false);
   };
   const handleExportProducts = () => {
     let res = [];
@@ -587,6 +615,15 @@ function Adminproduct() {
             placeholder="Nhâp giá bán trên món"
           />
         </label>
+        <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Giá bán sỉ</p>
+          <input
+            value={wholesalePrice}
+            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            onChange={(e) => setWholesalePrice(e.target.value)}
+            placeholder="Nhâp giá bán sỉ trên món"
+          />
+        </label>
 
         <label className="flex justify-between items-center">
           <p className="w-[20%] font-[500]">Giảm giá</p>
@@ -753,6 +790,16 @@ function Adminproduct() {
           />
         </label>
         <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Giá bán sỉ</p>
+          <input
+            value={editProduct.wholesalePrice}
+            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            onChange={(e) =>
+              setEditProduct({ ...editProduct, wholesalePrice: e.target.value })
+            }
+          />
+        </label>
+        <label className="flex justify-between items-center">
           <p className="w-[20%] font-[500]">Giảm giá</p>
           <input
             value={editProduct.distCount}
@@ -893,6 +940,12 @@ function Adminproduct() {
             <label className="flex items-center">
               <p className=" font-[500] w-[30%] py-1">Giá bán:</p>
               <p className="pl-2">{inforProduct?.price.toLocaleString()} đ</p>
+            </label>
+            <label className="flex items-center">
+              <p className=" font-[500] w-[30%] py-1">Giá bán sỉ:</p>
+              <p className="pl-2">
+                {inforProduct?.wholesalePrice.toLocaleString()} đ
+              </p>
             </label>
             <label className="flex items-center">
               <p className=" font-[500] w-[30%] py-1">Trọng lượng:</p>

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-distracting-elements */
 import React, { memo, useEffect, useState } from "react";
 import {
   SearchOutlined,
@@ -19,6 +20,7 @@ import { clearQuantity } from "../../redux/action/cartAction";
 import { HiOutlineMenu } from "react-icons/hi";
 import "../../assets/css/right.css";
 import "../../assets/css/left.css";
+
 function Header() {
   const user = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
@@ -101,6 +103,14 @@ function Header() {
 
   return (
     <div>
+      {user?.account?.role === "business" && (
+        <div className="bg-[#009b49] text-white font-[600]">
+          <marquee>
+            Bạn đang đăng nhập với tài khoản doanh nghiệp nếu mua mỗi sản phẩm
+            với sô lượng trên 10 thì sẽ được giá ưu đãi!
+          </marquee>
+        </div>
+      )}
       <div className=" justify-between h-[74px] items-center md:px-8 w-full px-1 hidden sm:flex">
         <Link to="/" className=" w-[25%] flex items-center">
           <img src={logo} alt="" className=" w-[60px]" />
@@ -260,7 +270,7 @@ function Header() {
         <div
           className={`${
             active === true
-              ? "shadow-sm fixed top-0 left-0  z-10 w-full bg-white py-2"
+              ? " shadow-sm fixed top-0 left-0  z-10 w-full bg-white py-2 "
               : null
           } transition 800px:flex items-center justify-between w-full cursor-pointer bg-white`}
         >
@@ -280,7 +290,7 @@ function Header() {
                       }}
                     >
                       <p className="px-2 py-1 text-[20px] font-[600]">
-                        Nông sản xanh
+                        Nông nghiệp xanh
                       </p>
                     </div>
                     <span
@@ -394,7 +404,7 @@ function Header() {
                 Nông Nghiệp Xanh
               </p>
             </div>
-            <div className="my-3">
+            <div className="my-3 pl-8">
               <div className="w-[10px]">
                 <div
                   className="relative cursor-pointer"

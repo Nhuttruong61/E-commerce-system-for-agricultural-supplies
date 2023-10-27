@@ -63,7 +63,7 @@ function SeleteInbox({
             >
               {item.sender !== sellerId && (
                 <img
-                  src={user?.avatar.url}
+                  src={user?.avatar?.url}
                   alt=""
                   className="w-[30px] h-[30px] rounded-full mr-2"
                 />

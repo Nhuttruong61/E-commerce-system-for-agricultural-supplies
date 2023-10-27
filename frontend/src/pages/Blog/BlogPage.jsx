@@ -9,6 +9,7 @@ function BlogPage() {
   const blogs = useSelector((state) => state.blog);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [dataBlogs, setDataBlogs] = useState();
   useEffect(() => {
     setIsLoading(true);
     dispatch(getAllBlog());
@@ -19,11 +20,19 @@ function BlogPage() {
   const handleNavigate = (id) => {
     navigate(`/blog/${id}`);
   };
+  useEffect(() => {
+    if (blogs?.data?.length > 0) {
+      const res = blogs?.data.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+      setDataBlogs(res);
+    }
+  }, []);
   return (
     <Loading isLoading={isLoading}>
       <div className=" min-h-[100vh] bg-[#f4f1f4f4]">
         <div className="md:px-[10%] py-5">
-          {blogs?.data?.map((item) => {
+          {dataBlogs?.map((item) => {
             return (
               <div
                 className="flex py-2 cursor-pointer "

@@ -10,6 +10,18 @@ router.post("/login-user", userControler.loginUser);
 router.get("/get-user", isAuthenticated, userControler.getUser);
 router.get("/logout", userControler.logOut);
 router.put("/update-user", isAuthenticated, userControler.updateUser);
+router.put(
+  "/update-userId/:id",
+  isAuthenticated,
+  isAdmin("admin"),
+  userControler.updateUserId
+);
+router.put(
+  "/update-addressId/:id",
+  isAuthenticated,
+  isAdmin("admin"),
+  userControler.updateAddressId
+);
 router.put("/change-password", isAuthenticated, userControler.changePassword);
 router.get(
   "/get-all-users",
