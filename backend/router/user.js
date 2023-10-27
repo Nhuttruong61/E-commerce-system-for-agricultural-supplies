@@ -4,6 +4,7 @@ const userControler = require("../controller/userContronler");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
 
 router.post("/create-user", userControler.createUser);
+router.post("/create-account-bussiness", userControler.createAccountBussenes);
 router.post("/activation", userControler.activation);
 router.post("/login-user", userControler.loginUser);
 router.get("/get-user", isAuthenticated, userControler.getUser);

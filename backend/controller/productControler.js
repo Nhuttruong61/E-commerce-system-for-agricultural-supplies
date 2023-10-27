@@ -17,6 +17,7 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
       capacity,
       originPrice,
       price,
+      wholesalePrice,
       expirationDate,
       origin,
       distCount,
@@ -32,6 +33,7 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
       !expirationDate ||
       !origin ||
       !originPrice ||
+      !wholesalePrice ||
       !quantity ||
       !images
     ) {
@@ -58,6 +60,7 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
       capacity,
       originPrice,
       price,
+      wholesalePrice,
       expirationDate,
       origin,
       distCount,
@@ -133,6 +136,7 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
       weight,
       capacity,
       price,
+      wholesalePrice,
       expirationDate,
       originPrice,
       origin,
@@ -172,6 +176,7 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
     product.capacity = capacity;
     product.originPrice = originPrice;
     product.price = price;
+    product.wholesalePrice = wholesalePrice;
     product.expirationDate = expirationDate;
     product.origin = origin;
     product.distCount = distCount;
@@ -211,6 +216,7 @@ const deleteProduct = catchAsyncErrors(async (req, res, next) => {
 const reviewProduct = catchAsyncErrors(async (req, res, next) => {
   try {
     const { user, comment, rating, cart } = req.body;
+    console.log(req.body);
     const orderId = await req.body._id;
     const productIds = cart.map((cartItem) => cartItem._id);
     const order = await Order.findById(orderId);

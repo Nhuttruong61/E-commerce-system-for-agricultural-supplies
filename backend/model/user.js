@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
   },
   phoneNumber: {
     type: String,
+    required: true,
+  },
+  tax: {
+    type: String,
   },
   addresses: [
     {

@@ -25,9 +25,15 @@ const productSchema = new mongoose.Schema({
   },
   originPrice: {
     type: Number,
+    required: true,
   },
   price: {
     type: Number,
+    required: true,
+  },
+  wholesalePrice: {
+    type: Number,
+    required: true,
   },
   distCount: {
     type: Number,
