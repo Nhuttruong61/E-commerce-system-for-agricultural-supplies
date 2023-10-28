@@ -127,7 +127,7 @@ function Profile() {
             <label className="flex items-center my-8 xl:w-[20%] md:w-[100]">
               <label
                 htmlFor="inport"
-                className="bg-[#0e9c49] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2"
+                className="bg-[#0e9c49] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2 px-2"
               >
                 Chọn ảnh
               </label>

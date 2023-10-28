@@ -14,8 +14,8 @@ import { getAllFee } from "../../redux/action/feeAction";
 import Loading from "../Loading";
 import * as OrderService from "../../service/orderService";
 import * as PaymentService from "../../service/payment";
-
 import { useNavigate } from "react-router-dom";
+import { getaProduct } from "../../service/productService";
 function CheckOutContent() {
   const { cart } = useSelector((state) => state.cart);
   const { account, isAuthenticated } = useSelector((state) => state.user);
@@ -29,11 +29,12 @@ function CheckOutContent() {
   const [Paymentethods, setPaymentMethod] = useState("paymentDelivery");
   const [price, setPrice] = useState();
   const [shipCost, setShipCost] = useState(0);
-
+  const [idGifts, setIdGifts] = useState(null);
+  const [dataGift, setDataGift] = useState(null);
+  const [dataCart, setDataCart] = useState([]);
   const queryString = window.location.search;
   const queryParams = new URLSearchParams(queryString);
   const encodedParams = queryParams.toString();
-
   const navigate = useNavigate();
   const handleIncreate = (item) => {
     dispatch(
@@ -140,7 +141,7 @@ function CheckOutContent() {
       setShowModalAddress(true);
     } else {
       const order = {
-        cart,
+        cart: dataCart,
         user: account,
         totalPrice: totalPrice,
         shippingAddress: {
@@ -186,7 +187,7 @@ function CheckOutContent() {
       if (res.Message === "Success" && res.RspCode === "00") {
         if (account?.addresses.length !== 0 && totalPrice !== 0) {
           const order = {
-            cart,
+            cart: dataCart,
             user: account,
             totalPrice: totalPrice,
             shippingAddress: {
@@ -212,6 +213,63 @@ function CheckOutContent() {
       handleOrderPayment();
     }
   }, [totalPrice]);
+
+  const getGiftData = async () => {
+    const giftIds = cart.flatMap((item) => item.gifts);
+    setIdGifts(giftIds);
+  };
+
+  useEffect(() => {
+    getGiftData();
+  }, []);
+  const getGiftProduct = async () => {
+    if (idGifts) {
+      try {
+        const productPromises = idGifts.map(async (id) => {
+          const res = await getaProduct(id);
+          const cartItem = cart.find((item) => item.gifts.includes(id));
+          const quantityProduct = cartItem ? cartItem.quantity : 0;
+          return (res.product = {
+            _id: res.product._id,
+            name: res.product.name,
+            image: res.product.images[0].url,
+            weight: res.product.weight,
+            quantity: quantityProduct,
+          });
+        });
+        const products = await Promise.all(productPromises);
+
+        setDataGift(products);
+      } catch (error) {
+        console.error("Error fetching gift products:", error);
+      }
+    }
+  };
+  useEffect(() => {
+    getGiftProduct();
+  }, [idGifts, cart]);
+
+  useEffect(() => {
+    if (dataGift?.length > 0) {
+      const updatedCart = [...cart];
+      dataGift.forEach((giftProduct) => {
+        const dataGiftIndex = updatedCart.findIndex(
+          (item) => item._id === giftProduct._id
+        );
+
+        if (dataGiftIndex !== -1) {
+          updatedCart[dataGiftIndex].quantity += giftProduct.quantity;
+        } else {
+          updatedCart.push(giftProduct);
+        }
+      });
+
+      setDataCart(updatedCart);
+    } else {
+      setDataCart(cart);
+    }
+  }, [dataGift, cart]);
+
   return (
     <Loading isLoading={isLoading}>
       <div>

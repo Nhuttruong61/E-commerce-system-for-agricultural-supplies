@@ -54,7 +54,6 @@ function ProfileOrder() {
   if (orders && orders.data?.length > 0) {
     dataTable = orders?.data
       .map((order, index) => {
-        console.log(order);
         if (order.status === "Cancel") {
           return null;
         } else {

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductCart from "./ProductCart";
 import { increaseQuantity } from "../../redux/action/cartAction";
 import { toast } from "react-toastify";
-
+import { IoIosArrowDown } from "react-icons/io";
 function ProductDetail(id) {
   const { data } = useSelector((state) => state.product);
   const dataEvent = useSelector((state) => state.event);
@@ -24,6 +24,7 @@ function ProductDetail(id) {
   const [checkQuantity, setCheckQuantity] = useState(null);
   const [dataSuggest, setDataSuggest] = useState(null);
   const [activeReview, setActiveReview] = useState(false);
+  const [dataGift, setDataGift] = useState([]);
   const getProduct = async () => {
     const res = await getaProduct(_id);
     setDataProduct(res);
@@ -85,6 +86,7 @@ function ProductDetail(id) {
           price: productPrice,
           wholesalePrice: productPriceWholesalePrice,
           disCount: productData?.distCount,
+          gifts: productData?.gifts,
           weight: productData?.weight,
           image: productData?.images[0].url,
           quantityProduct: productData?.quantity,
@@ -123,21 +125,37 @@ function ProductDetail(id) {
     });
     setDataSuggest(unExpiredProducts);
   }, [data]);
+
+  const getGiftData = async () => {
+    if (productData) {
+      const promises = productData?.gifts?.map(async (id) => {
+        const res = await getaProduct(id);
+        return res?.product;
+      });
+      const gifts = await Promise.all(promises);
+      setDataGift(gifts);
+    }
+  };
+  useEffect(() => {
+    getGiftData();
+  }, [productData]);
+
   return (
     <div className=" mb-10 px-1">
       <p className="text-[80%] md:text-[100%] font-[600] md:px-[10%]">
         Sản phẩm
       </p>
       <div className="w-full flex flex-col  md:flex-row md:justify-between md:px-[10%] ">
-        <div className=" md:w-[50%] w-[100%] flex justify-center text-center py-2">
+        <div className=" md:w-[50%] w-[100%] flex justify-center text-center py-2 md:h-[50vh]">
           {productData && (
             <img
               src={productData?.images[0].url}
               alt=""
-              className="sm:w-[280px] md:w-[320px] w-[120px] object-contain"
+              className="sm:w-[280px] md:w-[420px] w-[120px] object-contain"
             />
           )}
         </div>
+
         <div className="w-full sm:m-2 px-[4%] py-1">
           <p className="md: md:text-[120%] text-[80%] font-[700] ">
             {productData?.name}
@@ -282,6 +300,31 @@ function ProductDetail(id) {
               <p>{dataProduct?.product.weight} kg</p>
             )}
           </div>
+          {dataGift?.length > 0 && (
+            <div className="my-4 flex items-center h-[10vh]">
+              <p className="text-[60%] md:text-[100%] font-[600] pr-2">
+                Tặng kèm:
+              </p>
+              <div className="flex ">
+                {dataGift &&
+                  dataGift?.map((item) => {
+                    return (
+                      <div
+                        key={item._id}
+                        className="shadow py-1 px-2 mx-2 flex justify-center flex-col items-center"
+                      >
+                        <p className="px-2 font-[600] pb-2">{item.name}</p>
+                        <img
+                          src={item?.images[0].url}
+                          alt=""
+                          className="h-[50px] w-[50px]"
+                        />
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div className="flex flex-col md:px-[10%] px-2">

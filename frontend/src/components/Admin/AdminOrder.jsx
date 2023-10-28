@@ -15,7 +15,6 @@ import { CiExport } from "react-icons/ci";
 import unidecode from "unidecode";
 import { toast } from "react-toastify";
 import PieChartComponent from "../chart/PieChartComponet";
-import BarChartComponent from "../chart/BarChartComponent";
 import moment from "moment";
 import { getAllOrder } from "../../redux/action/orders";
 import { useDispatch } from "react-redux";
@@ -470,8 +469,9 @@ function AdminOrder() {
                             Giá tiền:
                           </p>
                           <p className="text-[50%] md:text-[100%]">
-                            {`${(
-                              item.price * item.quantity
+                            {`${(isNaN(item.price) || isNaN(item.quantity)
+                              ? 0
+                              : item.price * item.quantity
                             ).toLocaleString()} đ`}
                           </p>
                         </div>
@@ -529,14 +529,6 @@ function AdminOrder() {
                     </p>
                     <p className="text-[50%] md:text-[100%]">
                       {dataSeeMore?.shippingAddress.address}
-                    </p>
-                  </div>
-                  <div className="flex">
-                    <p className="text-[50%] md:text-[100%] font-[600] pr-2">
-                      Loại địa chỉ:
-                    </p>
-                    <p className="text-[50%] md:text-[100%]">
-                      {dataSeeMore?.shippingAddress.addressType}
                     </p>
                   </div>
                 </div>

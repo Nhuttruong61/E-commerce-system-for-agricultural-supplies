@@ -268,7 +268,7 @@ function AdminCategory() {
         <label className="flex items-center my-8 w-[30%] ">
           <label
             htmlFor="inport"
-            className="bg-[#0e9c49] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2"
+            className="bg-[#0e9c49] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2 px-2"
           >
             Ảnh
           </label>
