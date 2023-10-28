@@ -51,6 +51,7 @@ function Adminproduct() {
     price: "",
     wholesalePrice: "",
     distCount: "",
+    gifts: [],
     quantity: "",
     origin: "",
     expirationDate: null,
@@ -60,6 +61,8 @@ function Adminproduct() {
   const [dataExport, setDataExport] = useState([]);
   const [showModalInfo, setShowModalInfor] = useState(false);
   const [inforProduct, setInfoUProduct] = useState(null);
+  const [isShowGift, setIsShowGift] = useState(false);
+  const [gifts, setGifts] = useState([]);
   const dispatch = useDispatch();
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -161,6 +164,7 @@ function Adminproduct() {
         <div
           className="mx-1"
           onClick={() => {
+            item?.gifts.length > 0 ? setIsShowGift(true) : setIsShowGift(false);
             setShowModalEdit(true);
             setIdProduct(item._id);
             setEditProduct({
@@ -175,6 +179,7 @@ function Adminproduct() {
               price: item.price,
               wholesalePrice: item.wholesalePrice,
               distCount: item.distCount,
+              gifts: item.gifts,
               quantity: item.quantity,
               origin: item.origin,
               expirationDate: item.expirationDate,
@@ -331,6 +336,7 @@ function Adminproduct() {
           price,
           wholesalePrice,
           distCount,
+          gifts: isShowGift ? gifts : null,
           quantity,
           origin,
           expirationDate,
@@ -464,6 +470,32 @@ function Adminproduct() {
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   }
+  useEffect(() => {
+    if (isShowGift === false) {
+      setGifts([]);
+      setEditProduct({
+        ...editProduct,
+        gifts: [],
+      });
+    }
+  }, [isShowGift]);
+  const handleOnchangeCheckbox = (item) => (e) => {
+    const productId = item._id;
+    if (e.target.checked) {
+      setGifts((prev) => [...prev, productId]);
+    } else {
+      setGifts((prev) => prev.filter((id) => id !== productId));
+    }
+  };
+  const handleOnchangeEditCheckbox = (item) => (e) => {
+    const isChecked = e.target.checked;
+    setEditProduct((pre) => {
+      const updatedGifts = isChecked
+        ? [...pre.gifts, item._id]
+        : pre.gifts.filter((id) => id !== item._id);
+      return { ...pre, gifts: updatedGifts };
+    });
+  };
 
   return (
     <div className="w-full flex flex-col">
@@ -661,12 +693,39 @@ function Adminproduct() {
             onChange={(e) => setExpirationDate(e.target.value)}
           />
         </label>
+        <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Tặng kèm</p>
+          <input
+            type="checkbox"
+            checked={isShowGift}
+            onClick={() => setIsShowGift(!isShowGift)}
+          />
+        </label>
+        {isShowGift && (
+          <label className="flex justify-between items-center">
+            <p className="w-[20%] font-[500]">Quà tặng</p>
+            <div className="w-[80%] md:px-4  h-[12vh] overflow-y-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]">
+              {product?.data?.map((item) => {
+                return (
+                  <div key={item._id} className="flex ">
+                    <input
+                      type="checkbox"
+                      checked={gifts?.includes(item._id)}
+                      onChange={handleOnchangeCheckbox(item)}
+                    />
+                    <p className="px-2">{item?.name}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </label>
+        )}
         <label className="flex items-center my-8 w-[30%] ">
           <label
             htmlFor="inport"
-            className="bg-[#0e9c49] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2"
+            className="bg-[#0e9c49] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2 px-2"
           >
-            Image
+            Ảnh
           </label>
           <input
             id="inport"
@@ -840,10 +899,37 @@ function Adminproduct() {
             }
           />
         </label>
+        <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Tặng kèm</p>
+          <input
+            type="checkbox"
+            checked={isShowGift}
+            onClick={() => setIsShowGift(!isShowGift)}
+          />
+        </label>
+        {isShowGift && (
+          <label className="flex justify-between items-center">
+            <p className="w-[20%] font-[500]">Quà tặng</p>
+            <div className="w-[80%] md:px-4  h-[12vh] overflow-y-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]">
+              {product?.data?.map((item) => {
+                return (
+                  <div key={item._id} className="flex ">
+                    <input
+                      type="checkbox"
+                      checked={editProduct?.gifts?.includes(item._id)}
+                      onChange={handleOnchangeEditCheckbox(item)}
+                    />
+                    <p className="px-2">{item?.name}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </label>
+        )}
         <label className="flex items-center my-8 w-[30%] ">
           <label
             htmlFor="inport"
-            className="bg-[#0e9c49] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2"
+            className="bg-[#0e9c49] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2 px-2"
           >
             Ảnh
           </label>

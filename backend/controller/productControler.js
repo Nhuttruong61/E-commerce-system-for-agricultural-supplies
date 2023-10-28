@@ -21,6 +21,7 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
       expirationDate,
       origin,
       distCount,
+      gifts,
       quantity,
       images,
     } = req.body;
@@ -64,6 +65,7 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
       expirationDate,
       origin,
       distCount,
+      gifts,
       quantity,
       images: {
         public_id: myCloud.public_id,
@@ -141,6 +143,7 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
       originPrice,
       origin,
       distCount,
+      gifts,
       quantity,
       newImage,
     } = req.body;
@@ -180,6 +183,7 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
     product.expirationDate = expirationDate;
     product.origin = origin;
     product.distCount = distCount;
+    product.gifts = gifts;
     product.quantity = quantity;
     await product.save();
     res.status(200).json({

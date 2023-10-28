@@ -39,6 +39,9 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  gifts: {
+    type: Array,
+  },
   quantity: {
     type: Number,
     required: [true, "Please enter quantity "],
