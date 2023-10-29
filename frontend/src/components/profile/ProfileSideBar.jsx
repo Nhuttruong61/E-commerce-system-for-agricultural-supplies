@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { UserOutlined, HomeOutlined, CloseOutlined } from "@ant-design/icons";
 import { BsBox } from "react-icons/bs";
 import { useDispatch } from "react-redux";
@@ -71,4 +71,4 @@ function ProfileSideBar({ setActive, active }) {
   );
 }
 
-export default ProfileSideBar;
+export default memo(ProfileSideBar);

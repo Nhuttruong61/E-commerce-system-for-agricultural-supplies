@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useSelector } from "react-redux";
 import ComposedChartComponent from "../chart/ComposedChartComponent";
 import BarChartNoPaddingComponent from "../chart/BarChartNoPaddingComponent";
@@ -42,4 +42,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default memo(Dashboard);

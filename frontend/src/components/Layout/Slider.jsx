@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Carousel } from "antd";
 import { useQuery } from "@tanstack/react-query";
 import { getAllSlider } from "../../service/sliderService";
@@ -28,4 +28,4 @@ const SliderComponet = () => {
     </Carousel>
   );
 };
-export default SliderComponet;
+export default memo(SliderComponet);

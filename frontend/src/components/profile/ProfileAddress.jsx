@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateAddress } from "../../service/userService";
 import { getUser } from "../../redux/action/userAction";
@@ -97,4 +97,4 @@ function Address() {
   );
 }
 
-export default Address;
+export default memo(Address);

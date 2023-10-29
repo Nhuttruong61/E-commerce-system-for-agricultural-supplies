@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Steps } from "antd";
 
 function CheckoutSteps({ current }) {
@@ -28,4 +28,4 @@ function CheckoutSteps({ current }) {
   );
 }
 
-export default CheckoutSteps;
+export default memo(CheckoutSteps);

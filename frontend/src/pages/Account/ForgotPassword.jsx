@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import Login from "../../components/FormInput";
 import Input from "../../components/Input";
 import { Link, useNavigate } from "react-router-dom";
@@ -68,4 +68,4 @@ function ForgotPassword() {
   );
 }
 
-export default ForgotPassword;
+export default memo(ForgotPassword);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import Slider from "react-slick";
 import ProductCart from "./Product/ProductCart";
 function Slick({ data }) {
@@ -30,4 +30,4 @@ function Slick({ data }) {
   );
 }
 
-export default Slick;
+export default memo(Slick);

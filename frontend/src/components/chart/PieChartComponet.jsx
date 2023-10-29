@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, memo } from "react";
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
 import { converDataChart } from "../../until";
 
@@ -54,4 +54,4 @@ function PieChartComponent({ order }) {
   );
 }
 
-export default PieChartComponent;
+export default memo(PieChartComponent);

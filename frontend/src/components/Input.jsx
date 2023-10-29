@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 function Input(props) {
   const { name, value, placeholder, type } = props;
   const handleOnchangeInput = (e) => {
@@ -20,4 +20,4 @@ function Input(props) {
   );
 }
 
-export default Input;
+export default memo(Input);

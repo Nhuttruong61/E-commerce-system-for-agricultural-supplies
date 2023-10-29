@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { UserOutlined } from "@ant-design/icons";
 import { updateAUser } from "../../service/userService";
@@ -168,4 +168,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default memo(Profile);

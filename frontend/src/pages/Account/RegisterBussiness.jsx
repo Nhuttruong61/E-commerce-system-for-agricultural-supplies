@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import Login from "../../components/FormInput";
 import Input from "../../components/Input";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
@@ -161,4 +161,4 @@ function RegisterBussiness() {
   );
 }
 
-export default RegisterBussiness;
+export default memo(RegisterBussiness);

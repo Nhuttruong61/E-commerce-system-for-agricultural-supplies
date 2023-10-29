@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import ProfileUser from "../profile/ProfileUser";
 import ProfileAddress from "../profile/ProfileAddress";
 import ProfileOrder from "./ProfileOrder";
@@ -15,4 +15,4 @@ function ProfileContent({ active }) {
   return <div className="w-full rounded-[10px] mx-4">{content}</div>;
 }
 
-export default ProfileContent;
+export default memo(ProfileContent);

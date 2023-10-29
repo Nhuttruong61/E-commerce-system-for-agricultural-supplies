@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductCart from "./ProductCart";
 import { increaseQuantity } from "../../redux/action/cartAction";
 import { toast } from "react-toastify";
-import { IoIosArrowDown } from "react-icons/io";
 function ProductDetail(id) {
   const { data } = useSelector((state) => state.product);
   const dataEvent = useSelector((state) => state.event);
@@ -16,7 +15,7 @@ function ProductDetail(id) {
   const { account } = useSelector((state) => state.user);
   const _id = id?.id;
   const dispatch = useDispatch();
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [dataProduct, setDataProduct] = useState(null);
   const [expanded, setExpanded] = useState(false);
   const [dataReviews, setDataReviews] = useState(null);
@@ -228,9 +227,14 @@ function ProductDetail(id) {
             </button>
             <input
               value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-              className=" flex items-center font-bold h-full w-[48px] py-1 px-2 outline-none text-center md: md:text-[100%] text-[80%]"
+              onChange={(e) => {
+                const parsedValue =
+                  e.target.value !== "" ? parseInt(e.target.value, 10) : 1;
+                setQuantity(parsedValue);
+              }}
+              className="flex items-center font-bold h-full w-[48px] py-1 px-2 outline-none text-center md:text-[100%] text-[80%]"
             />
+
             <button
               className="p-2 flex items-center border bg-[#f9f9f9] md: md:text-[100%] text-[80%]"
               onClick={handleIncrease}
@@ -241,6 +245,7 @@ function ProductDetail(id) {
             <button
               className="bg-[#009b49] p-1 border mx-2 font-[600] text-white px-2 md: md:text-[100%] text-[80%]"
               onClick={handleAddToCart}
+              disabled={productData?.quantity < 1}
             >
               Thêm vào giỏ hàng
             </button>

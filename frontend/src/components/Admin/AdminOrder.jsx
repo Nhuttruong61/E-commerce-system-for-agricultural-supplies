@@ -312,12 +312,17 @@ function AdminOrder() {
     setShowModalPrint(false);
   };
   const handleDeleteOrder = async () => {
-    setshowModalDelete(false);
-    setIsLoading(true);
-    const res = await OrderSerVice.deleteOrder(idOrder);
-    if (res.success) {
-      toast.success("Xóa đơn hàng hành công");
-      getAllOrders();
+    try {
+      setshowModalDelete(false);
+      setIsLoading(true);
+      const res = await OrderSerVice.deleteOrder(idOrder);
+      if (res.success) {
+        toast.success("Xóa đơn hàng hành công");
+        getAllOrders();
+      }
+    } catch (e) {
+      toast.error("Bạn không thể xóa đơn hàng khi đang vận chuyển");
+      console.log(e);
     }
   };
   const okButtonDelete = {

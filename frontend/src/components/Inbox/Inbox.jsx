@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { AiOutlineMessage, AiOutlineClose } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -176,4 +176,4 @@ function Inbox() {
   );
 }
 
-export default Inbox;
+export default memo(Inbox);

@@ -111,8 +111,11 @@ function InfomationOrder() {
   }, [orders]);
   useEffect(() => {
     const total = orders?.cart.reduce((acc, item) => {
-      return acc + item.price * item.quantity;
+      const price = isNaN(item.price) ? 0 : item.price;
+      const quantity = isNaN(item.quantity) ? 0 : item.quantity;
+      return acc + price * quantity;
     }, 0);
+
     setPriceProduct(total);
   }, [orders]);
   return (
@@ -148,9 +151,10 @@ function InfomationOrder() {
                           Giá tiền:
                         </p>
                         <p className="text-[50%] md:text-[100%]">
-                          {`${(
-                            item.price * item.quantity
-                          )?.toLocaleString()} đ`}
+                          {`${(isNaN(item.price) || isNaN(item.quantity)
+                            ? 0
+                            : item.price * item.quantity
+                          ).toLocaleString()} đ`}
                         </p>
                       </div>
                     </div>

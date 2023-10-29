@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, memo } from "react";
 import {
   BarChart,
   Bar,
@@ -43,4 +43,4 @@ function BarChartNoPaddingComponent({ products }) {
   );
 }
 
-export default BarChartNoPaddingComponent;
+export default memo(BarChartNoPaddingComponent);

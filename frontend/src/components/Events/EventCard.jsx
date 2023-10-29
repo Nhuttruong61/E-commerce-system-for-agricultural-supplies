@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import CountDown from "./CountDown";
 import { useNavigate } from "react-router-dom";
 function EventCard(item) {
@@ -46,4 +46,4 @@ function EventCard(item) {
   );
 }
 
-export default EventCard;
+export default memo(EventCard);

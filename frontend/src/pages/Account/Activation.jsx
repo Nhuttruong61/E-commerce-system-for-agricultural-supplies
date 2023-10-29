@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as Userservice from "../../service/userService";
 function Activation() {
@@ -25,4 +25,4 @@ function Activation() {
   );
 }
 
-export default Activation;
+export default memo(Activation);

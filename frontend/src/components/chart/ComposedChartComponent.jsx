@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, memo } from "react";
 import {
   ComposedChart,
   Line,
@@ -41,4 +41,4 @@ function ComposedChartComponent({ orders }) {
   );
 }
 
-export default ComposedChartComponent;
+export default memo(ComposedChartComponent);

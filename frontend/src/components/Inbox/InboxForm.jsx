@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import moment from "moment";
 import { AiOutlineSend } from "react-icons/ai";
 import { CloseOutlined } from "@ant-design/icons";
@@ -131,4 +131,4 @@ function InboxForm({
   );
 }
 
-export default InboxForm;
+export default memo(InboxForm);

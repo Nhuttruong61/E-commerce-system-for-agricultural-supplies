@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { StarFilled, StarOutlined } from "@ant-design/icons";
 import { BsStarHalf } from "react-icons/bs";
 function Rating({ rating }) {
@@ -35,4 +35,4 @@ function Rating({ rating }) {
   return <div className="flex"> {starts}</div>;
 }
 
-export default Rating;
+export default memo(Rating);

@@ -7,6 +7,7 @@ function ProductCart(item) {
     navigate(`/product/details/${e.item._id}`);
   };
   const productPrice = item?.item?.price * (1 - item?.item?.distCount / 100);
+
   return (
     <div
       className=" shadow hover:shadow-[#0e9c49] border"
@@ -17,13 +18,26 @@ function ProductCart(item) {
           <img
             src={item.item.images[0].url}
             alt=""
-            className=" h-[170px] md:w-full object-contain w-[100px]"
+            className=" h-[140px] md:w-full object-contain w-[100px]"
           />
         </div>
+        {item?.item?.gifts.length > 0 ? (
+          <div className="bg-[#ee4d2d] z-1 md:w-[36%] py-2 w-[30%] absolute h-[10%] left-[-8px] text-white top-0 flex flex-col justify-center text-center font-[600]  rounded-r">
+            <span className="md:text-[80%] text-[60%] ">Khuyến mãi</span>
+            <span
+              className="absolute w-[8px]"
+              style={{
+                borderWidth: "  8px 0px 0px 8px",
+                borderColor: "#a92d05 transparent transparent transparent",
+                bottom: "-8px",
+              }}
+            />
+          </div>
+        ) : null}
         {item?.item?.distCount ? (
           <div className="bg-yellow-500 z-1 w-[20%] absolute h-[22%] right-0 text-white top-0 flex flex-col justify-center text-center font-[600] ">
-            <span className="md:text-[48%] text-[40%]">Giảm</span>
-            <span className="md:text-[48%] text-[40%]">
+            <span className="md:text-[80%] text-[60%]">Giảm</span>
+            <span className="md:text-[80%] text-[60%]">
               {item.item.distCount} %
             </span>
             <span

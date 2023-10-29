@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import TableComponent from "../Table";
 import { Modal } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
@@ -290,4 +290,4 @@ function SliderAdmin() {
   );
 }
 
-export default SliderAdmin;
+export default memo(SliderAdmin);

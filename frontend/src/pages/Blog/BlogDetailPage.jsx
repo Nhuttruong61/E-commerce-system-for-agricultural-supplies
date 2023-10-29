@@ -16,7 +16,6 @@ function BlogDetailPage() {
         if (res.success) {
           setDataBlog(res.blog);
         }
-        console.log("res", res);
       } catch (error) {
         console.error("Error fetching blog:", error);
       }
