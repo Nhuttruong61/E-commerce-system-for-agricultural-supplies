@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductCart from "./ProductCart";
 import { increaseQuantity } from "../../redux/action/cartAction";
 import { toast } from "react-toastify";
+import Zoom from "../Zoom";
 function ProductDetail(id) {
   const { data } = useSelector((state) => state.product);
   const dataEvent = useSelector((state) => state.event);
@@ -146,13 +147,7 @@ function ProductDetail(id) {
       </p>
       <div className="w-full flex flex-col  md:flex-row md:justify-between md:px-[10%] ">
         <div className=" md:w-[50%] w-[100%] flex justify-center text-center py-2 md:h-[50vh]">
-          {productData && (
-            <img
-              src={productData?.images[0].url}
-              alt=""
-              className="sm:w-[280px] md:w-[420px] w-[120px] object-contain"
-            />
-          )}
+          {productData && <Zoom image={productData?.images[0].url} />}
         </div>
 
         <div className="w-full sm:m-2 px-[4%] py-1">

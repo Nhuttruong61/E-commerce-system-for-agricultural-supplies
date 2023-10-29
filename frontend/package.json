@@ -21,6 +21,7 @@
     "react-csv": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
+    "react-image-magnify": "^2.7.4",
     "react-lottie": "^1.2.3",
     "react-query": "^3.39.3",
     "react-redux": "^8.1.1",
