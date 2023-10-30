@@ -8,32 +8,22 @@ function Popular() {
   const { data } = useSelector((state) => state.event);
   const [dataSort, setDataSort] = useState([]);
   const [dataPopular, setDataPopular] = useState([]);
-  const [dataEvent, setDataEvent] = useState([]);
+
   useEffect(() => {
-    if (data) {
-      const unExpiredProducts = data.filter((item) => {
-        return isNotExpired(new Date(item.expirationDate));
-      });
-      setDataEvent(unExpiredProducts);
-    } else {
-      setDataEvent([]);
-    }
-  }, [data]);
-  const getAllProduct = async () => {
     dispatch(getAllProductRd());
-  };
-  useEffect(() => {
-    getAllProduct();
   }, []);
 
   useEffect(() => {
     const allProduct = productData?.data ? [...productData?.data] : [];
     const sortedProduct = allProduct?.sort((a, b) => b.sold_out - a.sold_out);
-    const data = sortedProduct?.slice(0, 5);
+    const unExpiredProducts = sortedProduct.filter((item) => {
+      return isNotExpired(new Date(item.expirationDate));
+    });
+    const data = unExpiredProducts?.slice(0, 5);
     setDataSort(data);
   }, []);
   useEffect(() => {
-    const eventId = dataEvent.map((item) => {
+    const eventId = data.map((item) => {
       return {
         idProductEvent: item.product[0]._id,
         discount: item.discount,
@@ -53,7 +43,7 @@ function Popular() {
     });
 
     setDataPopular(updatedDataSort);
-  }, [dataEvent, dataSort]);
+  }, [dataSort]);
   const isNotExpired = (expirationDate) => {
     const currentDate = new Date();
     return expirationDate > currentDate;
