@@ -11,7 +11,7 @@ function AdminBlog() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
-  const [idDelete, setIdDelete] = useState("");
+  const [idBlog, setIdBlog] = useState("");
   const searchInput = useRef(null);
   const [searchedColumn, setSearchedColumn] = useState("");
   const [showModalSeeMoreBlog, setShowModalSeeMoreBlog] = useState(false);
@@ -27,7 +27,7 @@ function AdminBlog() {
         <div
           className="mx-1"
           onClick={() => {
-            setIdDelete(item._id);
+            setIdBlog(item._id);
             setShowModalDelete(true);
           }}
         >
@@ -187,9 +187,9 @@ function AdminBlog() {
     setShowModalDelete(false);
     setIsLoading(true);
     try {
-      const res = await BlogService.deleteBlog(idDelete);
+      const res = await BlogService.deleteBlog(idBlog);
       setIsLoading(false);
-      if (res.status) {
+      if (res.status === "success") {
         toast.success("Xóa bài đăng thành công");
         dispatch(getAllBlog());
       }

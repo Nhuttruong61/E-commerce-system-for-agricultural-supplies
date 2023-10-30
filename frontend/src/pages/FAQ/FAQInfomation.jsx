@@ -10,6 +10,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { getAllQuestionRd } from "../../redux/action/questionAction";
 import { toast } from "react-toastify";
 import { AiOutlineSend } from "react-icons/ai";
+import moment from "moment/moment";
 function FAQInfomation() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -284,7 +285,7 @@ function FAQInfomation() {
             <div className="flex  flex-col">
               {commentData?.map((item) => {
                 return (
-                  <div key={item._id} className="flex w-full my-2 flex-col">
+                  <div key={item._id} className="flex w-full my-1 flex-col">
                     <div className="flex items-center w-full">
                       <img
                         src={item?.author.avatar.url}
@@ -361,6 +362,11 @@ function FAQInfomation() {
                           )}
                         </div>
                       </div>
+                    </div>
+                    <div className="flex justify-end">
+                      <p className="text-[#373636] text-[12px]">
+                        {moment(item.createdAt).fromNow()}
+                      </p>
                     </div>
                   </div>
                 );

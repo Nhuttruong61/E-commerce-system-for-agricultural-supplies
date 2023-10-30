@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import EventCard from "../components/Events/EventCard";
 import Footer from "../components/Layout/Footer";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,4 +25,4 @@ function EventPage() {
   );
 }
 
-export default EventPage;
+export default memo(EventPage);

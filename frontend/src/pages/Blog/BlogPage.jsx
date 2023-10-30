@@ -27,7 +27,7 @@ function BlogPage() {
       });
       setDataBlogs(res);
     }
-  }, []);
+  }, [blogs]);
   return (
     <Loading isLoading={isLoading}>
       <div className=" min-h-[100vh] bg-[#f4f1f4f4]">

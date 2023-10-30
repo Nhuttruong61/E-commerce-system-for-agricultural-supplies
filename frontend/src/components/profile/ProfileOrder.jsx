@@ -37,7 +37,7 @@ function ProfileOrder() {
     {
       title: "Ngày đặt",
       dataIndex: "createdAt",
-      sorter: (a, b) => a.sst - b.sst,
+      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
     },
     {
       title: "Trạng thái",
@@ -72,7 +72,9 @@ function ProfileOrder() {
             name: order?.cart[0].name,
             quality: order?.cart?.length,
             status: statusText,
-            createdAt: moment(order?.paymentInfo.createdAt).fromNow(),
+            createdAt: moment(order?.paymentInfo.createdAt).format(
+              "YYYY-MM-DD"
+            ),
           };
         }
       })

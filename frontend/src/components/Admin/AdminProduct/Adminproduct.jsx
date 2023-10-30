@@ -8,7 +8,7 @@ import {
   EditOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-import { AiOutlineCloudUpload, AiOutlineSend } from "react-icons/ai";
+import { AiOutlineCloudUpload } from "react-icons/ai";
 import imageCompression from "browser-image-compression";
 import * as ProductService from "../../../service/productService";
 import { toast } from "react-toastify";
@@ -26,7 +26,6 @@ function Adminproduct() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState([]);
-  const [newDescription, setNewDescription] = useState("");
   const [category, setCategory] = useState(data.categories[0]._id);
   const [price, setPrice] = useState("");
   const [wholesalePrice, setWholesalePrice] = useState("");
@@ -164,7 +163,9 @@ function Adminproduct() {
         <div
           className="mx-1"
           onClick={() => {
-            item?.gifts.length > 0 ? setIsShowGift(true) : setIsShowGift(false);
+            item?.gifts?.length > 0
+              ? setIsShowGift(true)
+              : setIsShowGift(false);
             setShowModalEdit(true);
             setIdProduct(item._id);
             setEditProduct({
@@ -352,7 +353,6 @@ function Adminproduct() {
           setOrigin("");
           setExpirationDate("");
           setDescription([]);
-          setNewDescription("");
           setOriginPrice("");
           setPrice("");
           setWholesalePrice("");
@@ -453,12 +453,6 @@ function Adminproduct() {
       setDataExport(res);
     }
   };
-  const handleNewDescription = () => {
-    if (newDescription.trim() !== "") {
-      setDescription([...description, newDescription]);
-      setNewDescription("");
-    }
-  };
 
   const handleReviewProduct = () => {
     setShowModalInfor(false);
@@ -543,35 +537,23 @@ function Adminproduct() {
         </label>
         <label className="flex justify-center items-center">
           <p className="w-[20%] font-[500]">Mô tả</p>
-          <div className="flex flex-col w-[80%]">
-            {description?.length > 0 && (
-              <div className="flex flex-col">
-                {description?.map((desc, index) => (
-                  <input
-                    className="w-full md:px-4 px-2 h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-                    key={index}
-                    value={desc}
-                    readOnly
-                  />
-                ))}
-              </div>
-            )}
-            <div className="flex">
-              <input
-                type="text"
-                placeholder="Thêm mô tả mới"
-                value={newDescription}
-                className="w-[90%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-                onChange={(e) => setNewDescription(e.target.value)}
-              />
-              <button
-                className="ml-2  text-[#009b49]"
-                onClick={handleNewDescription}
-              >
-                <AiOutlineSend className="md:text-[30px]" />
-              </button>
-            </div>
-          </div>
+          <textarea
+            value={description.join("\n")}
+            rows={4}
+            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            placeholder="Nhập mô tả"
+            onChange={(e) =>
+              setDescription(
+                e.target.value.split("\n").filter((line) => line.trim() !== "")
+              )
+            }
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                setDescription([...description, ""]);
+              }
+            }}
+          ></textarea>
         </label>
         <label className="flex justify-between items-center">
           <p className="w-[20%] font-[500]">Thành phần</p>

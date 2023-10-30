@@ -220,7 +220,6 @@ const deleteProduct = catchAsyncErrors(async (req, res, next) => {
 const reviewProduct = catchAsyncErrors(async (req, res, next) => {
   try {
     const { user, comment, rating, cart } = req.body;
-    console.log(req.body);
     const orderId = await req.body._id;
     const productIds = cart.map((cartItem) => cartItem._id);
     const order = await Order.findById(orderId);

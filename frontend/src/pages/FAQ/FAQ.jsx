@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import * as questionService from "../../service/questionService";
-import { useQuery } from "@tanstack/react-query";
 import Loading from "../../components/Loading";
 import Footer from "../../components/Layout/Footer";
 import { MessageFilled } from "@ant-design/icons";

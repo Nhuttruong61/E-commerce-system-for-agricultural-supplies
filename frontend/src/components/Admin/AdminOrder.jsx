@@ -262,7 +262,7 @@ function AdminOrder() {
     {
       title: "Ngày đặt",
       dataIndex: "date",
-      sorter: (a, b) => a.stt - b.stt,
+      sorter: (a, b) => new Date(a.date) - new Date(b.date),
     },
 
     {
@@ -295,7 +295,7 @@ function AdminOrder() {
         paymentInfoStatus: order.paymentInfo.status,
         address: order.shippingAddress.address,
         totalPrice: order.totalPrice,
-        date: moment(order.paymentInfo.createdAt).fromNow(),
+        date: moment(order.paymentInfo.createdAt).format("YYYY-MM-DD"),
         status: order.status,
         more: {
           ...order,

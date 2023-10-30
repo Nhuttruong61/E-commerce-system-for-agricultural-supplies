@@ -5,7 +5,7 @@ import Popular from "../components/Layout/Popular";
 import Newproduct from "../components/Layout/Newproduct";
 import Event from "../components/Events/Event";
 import Footer from "../components/Layout/Footer";
-import Outstanding from "../components/Discount";
+import Outstanding from "../components/Layout/Discount";
 import Inbox from "../components/Inbox/Inbox";
 import Slick from "../components/Slick";
 import News from "../components/Layout/News";

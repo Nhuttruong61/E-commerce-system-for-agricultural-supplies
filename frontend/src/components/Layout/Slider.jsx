@@ -1,18 +1,18 @@
-import React, { memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { Carousel } from "antd";
-import { useQuery } from "@tanstack/react-query";
 import { getAllSlider } from "../../service/sliderService";
 const SliderComponet = () => {
+  const [dataSlider, setDataSlider] = useState(null);
   const onChange = (currentSlide) => {};
   const getAllSlides = async () => {
     const res = await getAllSlider();
-    return res;
+    setDataSlider(res);
   };
 
-  const { data: dataSlider } = useQuery({
-    queryKey: ["slider"],
-    queryFn: getAllSlides,
-  });
+  useEffect(() => {
+    getAllSlides();
+  }, []);
+  console.log(dataSlider);
   return (
     <Carousel afterChange={onChange} className="w-full" autoplay>
       {dataSlider?.slider?.map((item) =>
