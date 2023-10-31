@@ -7,7 +7,6 @@ function ProductCart(item) {
     navigate(`/product/details/${e.item._id}`);
   };
   const productPrice = item?.item?.price * (1 - item?.item?.distCount / 100);
-
   return (
     <div
       className=" shadow hover:shadow-[#0e9c49] border"
@@ -59,7 +58,7 @@ function ProductCart(item) {
               : item.item.name}{" "}
           </p>
         </div>
-        <Rating rating={item?.item.ratings} />
+        {item?.item.ratings && <Rating rating={item?.item.ratings} />}
 
         <div className="flex justify-between font-[500]   md:text-[80%] md:px-[4%] ">
           <div className="flex py-1">

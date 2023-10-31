@@ -139,7 +139,6 @@ function ProductDetail(id) {
   useEffect(() => {
     getGiftData();
   }, [productData]);
-
   return (
     <div className=" mb-10 px-1">
       <p className="text-[80%] md:text-[100%] font-[600] md:px-[10%]">
@@ -154,9 +153,11 @@ function ProductDetail(id) {
           <p className="md: md:text-[120%] text-[80%] font-[700] ">
             {productData?.name}
           </p>
-          <div className="flex items-center py-1">
-            <Rating rating={productData?.ratings} />
-          </div>
+          {productData?.ratings && (
+            <div className="flex items-center py-1">
+              <Rating rating={productData?.ratings} />
+            </div>
+          )}
           <div className="flex py-1 md: md:text-[100%] text-[80%]">
             <span className="flex items-center">
               <p className="mr-2">Đã bán:</p>
@@ -254,15 +255,16 @@ function ProductDetail(id) {
                 expanded ? "h-auto" : "h-[10vh] overflow-hidden"
               }`}
             >
-              <ul className="md: md:text-[100%] text-[80%] px-2 py-2">
+              <div className="md: md:text-[100%] text-[80%] px-2 py-2">
                 {dataProduct?.product?.description.map((item, index) => {
                   return (
-                    <li className="ml-2" key={index}>
-                      • {item}
-                    </li>
+                    <div
+                      key={index}
+                      dangerouslySetInnerHTML={{ __html: item }}
+                    />
                   );
                 })}
-              </ul>
+              </div>
               {dataProduct?.product?.ingredient &&
                 dataProduct?.product?.ingredient.length > 0 && (
                   <div className="text-[60%] md:text-[100%]">
@@ -347,79 +349,81 @@ function ProductDetail(id) {
         </div>
       </div>
 
-      <div className="w-full md:px-[10%]">
-        <div className="relative">
-          <p className=" md:text-[100%] text-[80%] font-[600]">Đánh giá</p>
-          <div
-            className={`shadow shadow-[#a8a7a7] h-full ${
-              activeReview ? "w-auto" : "h-[30.5vh] overflow-hidden"
-            }`}
-          >
-            <div className="bg-[#009b49] py-1 px-1  items-center text-white">
-              <span className="flex items-center px-1">
-                {dataProduct?.product?.ratings ? (
-                  <p className=" md:text-[100%] text-[80%] font-[600]">
-                    {dataProduct?.product?.ratings?.slice(0, 4)}
-                  </p>
-                ) : (
-                  <p className=" md:text-[100%] text-[80%] font-[600]">5</p>
-                )}
+      {productData?.reviews?.length > 0 && (
+        <div className="w-full md:px-[10%]">
+          <div className="relative">
+            <p className=" md:text-[100%] text-[80%] font-[600]">Đánh giá</p>
+            <div
+              className={`shadow shadow-[#a8a7a7] h-full ${
+                activeReview ? "w-auto" : "h-[30.5vh] overflow-hidden"
+              }`}
+            >
+              <div className="bg-[#009b49] py-1 px-1  items-center text-white">
+                <span className="flex items-center px-1">
+                  {dataProduct?.product?.ratings ? (
+                    <p className=" md:text-[100%] text-[80%] font-[600]">
+                      {dataProduct?.product?.ratings?.slice(0, 4)}
+                    </p>
+                  ) : (
+                    <p className=" md:text-[100%] text-[80%] font-[600]">5</p>
+                  )}
 
-                <p className="md: md:text-[100%] text-[80%] pl-1"> trên 5</p>
-              </span>
-              <div className="text-[10px] md:text-[14px] ">
-                <Rating rating={dataProduct?.product?.ratings} />
+                  <p className="md: md:text-[100%] text-[80%] pl-1"> trên 5</p>
+                </span>
+                <div className="text-[10px] md:text-[14px] ">
+                  <Rating rating={dataProduct?.product?.ratings} />
+                </div>
               </div>
-            </div>
 
-            {dataReviews?.map((review) => {
-              return (
-                <div key={review._id} className="w-full py-1 px-1 border-b-2">
-                  <div className="flex w-full items-center ">
-                    {review && review.user?.avatar?.url ? (
-                      <img
-                        src={review.user.avatar.url}
-                        alt=""
-                        className=" md:w-[40px] md:h-[40px] w-[30px] h-[30px] rounded-[50%] mr-1 "
-                      />
-                    ) : (
-                      <div className="border rounded-[50%] ">
-                        <UserOutlined className="text-[24px] p-2 text-[#009b49]" />
+              {dataReviews?.map((review) => {
+                return (
+                  <div key={review._id} className="w-full py-1 px-1 border-b-2">
+                    <div className="flex w-full items-center ">
+                      {review && review.user?.avatar?.url ? (
+                        <img
+                          src={review.user.avatar.url}
+                          alt=""
+                          className=" md:w-[40px] md:h-[40px] w-[30px] h-[30px] rounded-[50%] mr-1 "
+                        />
+                      ) : (
+                        <div className="border rounded-[50%] ">
+                          <UserOutlined className="text-[24px] p-2 text-[#009b49]" />
+                        </div>
+                      )}
+                      <div className=" flex flex-col w-full">
+                        <p className="md: md:text-[100%] text-[80%]">
+                          {review?.user?.name}
+                        </p>
+                        <span className=" text-[8px] md:text-[10px]">
+                          <Rating rating={review?.rating} />
+                        </span>
+                        <p className="md: md:text-[100%] text-[50%] ">
+                          {review.createAt
+                            ? format(new Date(review.createAt), "dd/MM/yyyy")
+                            : null}
+                        </p>
+                        <p className="md: md:text-[100%] text-[80%]">
+                          {review?.comment}
+                        </p>
                       </div>
-                    )}
-                    <div className=" flex flex-col w-full">
-                      <p className="md: md:text-[100%] text-[80%]">
-                        {review?.user?.name}
-                      </p>
-                      <span className=" text-[8px] md:text-[10px]">
-                        <Rating rating={review?.rating} />
-                      </span>
-                      <p className="md: md:text-[100%] text-[50%] ">
-                        {review.createAt
-                          ? format(new Date(review.createAt), "dd/MM/yyyy")
-                          : null}
-                      </p>
-                      <p className="md: md:text-[100%] text-[80%]">
-                        {review?.comment}
-                      </p>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-          {dataReviews?.length > 2 && (
-            <div className="flex justify-center">
-              <p
-                className="md: md:text-[100%] text-[80%] text-blue-700 "
-                onClick={() => setActiveReview(true)}
-              >
-                Tải thêm
-              </p>
+                );
+              })}
             </div>
-          )}
+            {dataReviews?.length > 2 && (
+              <div className="flex justify-center">
+                <p
+                  className="md: md:text-[100%] text-[80%] text-blue-700 "
+                  onClick={() => setActiveReview(true)}
+                >
+                  Tải thêm
+                </p>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

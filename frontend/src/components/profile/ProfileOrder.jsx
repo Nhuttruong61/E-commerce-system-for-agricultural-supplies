@@ -22,8 +22,8 @@ function ProfileOrder() {
   };
   const columns = [
     {
-      title: "Mã hàng",
-      dataIndex: "_id",
+      title: "STT",
+      dataIndex: "sst",
     },
     {
       title: "Tên sản phẩm",
@@ -78,16 +78,17 @@ function ProfileOrder() {
           };
         }
       })
-      .filter((order) => order !== null)
-      .reverse();
+      .filter((order) => order !== null);
   }
 
   const handleDetail = (item) => {
     navigate(`/information/order/${item._id}`);
   };
   return (
-    <div className="w-full overflow-x-auto">
-      <TableComponent columns={columns} data={dataTable} />
+    <div className="w-full ">
+      <div className="overflow-x-auto">
+        <TableComponent columns={columns} data={dataTable} />
+      </div>
     </div>
   );
 }

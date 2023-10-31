@@ -217,10 +217,6 @@ function AdminOrder() {
       dataIndex: "stt",
     },
     {
-      title: "Mã đơn",
-      dataIndex: "id",
-    },
-    {
       title: "Người dùng",
       dataIndex: "name",
       ...getColumnSearchProps("name"),
@@ -287,7 +283,6 @@ function AdminOrder() {
       return {
         key: order._id,
         stt: index + 1,
-        id: order._id,
         name: order.user.name,
         phone: order.user.phoneNumber,
         product: order.cart,

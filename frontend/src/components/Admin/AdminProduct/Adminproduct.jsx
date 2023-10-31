@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { getAllProductRd } from "../../../redux/action/productAction";
 import { CSVLink } from "react-csv";
 import { CiExport } from "react-icons/ci";
+import Editor from "../../Editor";
 function Adminproduct() {
   const { data } = useSelector((state) => state.category);
   const product = useSelector((state) => state.product);
@@ -535,27 +536,13 @@ function Adminproduct() {
             placeholder="Tên sản phảm"
           />
         </label>
-        <label className="flex justify-center items-center">
+        <label className="flex justify-center items-center mb-10">
           <p className="w-[20%] font-[500]">Mô tả</p>
-          <textarea
-            value={description.join("\n")}
-            rows={4}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            placeholder="Nhập mô tả"
-            onChange={(e) =>
-              setDescription(
-                e.target.value.split("\n").filter((line) => line.trim() !== "")
-              )
-            }
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                setDescription([...description, ""]);
-              }
-            }}
-          ></textarea>
+          <div className="w-[80%]  h-auto my-1  sm:px-0 ">
+            <Editor value={description} setValue={setDescription} />
+          </div>
         </label>
-        <label className="flex justify-between items-center">
+        <label className="flex justify-between items-center ">
           <p className="w-[20%] font-[500]">Thành phần</p>
           <textarea
             value={ingredient.join("\n")}
@@ -744,20 +731,22 @@ function Adminproduct() {
             }
           />
         </label>
-        <label className="flex justify-center items-center">
+        <label className="flex justify-center items-center mb10">
           <p className="w-[20%] font-[500]">Mô tả</p>
-          <textarea
-            value={editProduct.description?.join("\n")}
-            className="w-[80%] md:px-4 h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) =>
-              setEditProduct({
-                ...editProduct,
-                description: e.target.value.split("\n"),
-              })
-            }
-          />
+          <div className="w-[80%]  h-auto my-1  sm:px-0 ">
+            <Editor
+              value={editProduct.description.join("\n")}
+              setValue={(value) =>
+                setEditProduct({
+                  ...editProduct,
+                  description: value.split("\n"),
+                })
+              }
+            />
+          </div>
         </label>
-        <label className="flex justify-center items-center">
+
+        <label className="flex justify-center items-center ">
           <p className="w-[20%] font-[500]">Thành phần</p>
           <textarea
             value={editProduct?.ingredient?.join("\n")}
