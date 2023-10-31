@@ -9,6 +9,7 @@ import {
   AiOutlineQuestionCircle,
   AiOutlineAppstoreAdd,
   AiOutlineBarChart,
+  AiOutlineLineChart,
 } from "react-icons/ai";
 import { LuTimerOff } from "react-icons/lu";
 import { FcExpired } from "react-icons/fc";
@@ -23,7 +24,7 @@ function SideBarAdmin({ active, setActive }) {
         onClick={() => setActive(1)}
       >
         <div className="flex w-full items-center">
-          <AiOutlineBarChart
+          <AiOutlineLineChart
             className={` text-[24px]  ${
               active === 1 ? "text-[#0e9c49]" : "text-black"
             }`}
@@ -268,7 +269,7 @@ function SideBarAdmin({ active, setActive }) {
         onClick={() => setActive(15)}
       >
         <div className="flex w-full items-center">
-          <TfiLayoutSliderAlt
+          <AiOutlineBarChart
             className={` text-[24px]  ${
               active === 15 ? "text-[#0e9c49]" : "text-black"
             }`}
@@ -276,6 +277,25 @@ function SideBarAdmin({ active, setActive }) {
           <p
             className={`800px:block hidden pl-2 text-[18px] font-[500] ${
               active === 15 ? "text-[#0e9c49]" : "text-black"
+            }`}
+          >
+            Doanh thu
+          </p>
+        </div>
+      </div>
+      <div
+        className="flex w-full items-center px-4 py-3"
+        onClick={() => setActive(16)}
+      >
+        <div className="flex w-full items-center">
+          <TfiLayoutSliderAlt
+            className={` text-[24px]  ${
+              active === 16 ? "text-[#0e9c49]" : "text-black"
+            }`}
+          />
+          <p
+            className={`800px:block hidden pl-2 text-[18px] font-[500] ${
+              active === 16 ? "text-[#0e9c49]" : "text-black"
             }`}
           >
             Slider

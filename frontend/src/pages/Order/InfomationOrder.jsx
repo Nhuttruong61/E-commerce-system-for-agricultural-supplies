@@ -7,7 +7,7 @@ import { Button, Modal, Rate } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { toast } from "react-toastify";
 import * as ProductService from "../../service/productService";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getAllProductRd } from "../../redux/action/productAction";
 function InfomationOrder() {
   const { id } = useParams();
@@ -20,7 +20,7 @@ function InfomationOrder() {
   const [showModalReview, setShowModalReview] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-  const [hasReviewed, setHasReviewed] = useState(false);
+
   const [priceProduct, setPriceProduct] = useState(0);
   const getOrder = async () => {
     setIsLoading(true);
@@ -101,14 +101,6 @@ function InfomationOrder() {
   const handleRatingChange = (value) => {
     setRating(value);
   };
-  useEffect(() => {
-    const hasReviewed = localStorage.getItem("hasReviewed");
-    if (orders) {
-      if (orders._id === hasReviewed) {
-        setHasReviewed(true);
-      }
-    }
-  }, [orders]);
   useEffect(() => {
     const total = orders?.cart.reduce((acc, item) => {
       const price = isNaN(item.price) ? 0 : item.price;

@@ -282,6 +282,7 @@ function AdminOrder() {
     dataTable = dataOrder.map((order, index) => {
       return {
         key: order._id,
+        id: order._id,
         stt: index + 1,
         name: order.user.name,
         phone: order.user.phoneNumber,

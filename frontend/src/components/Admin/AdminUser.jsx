@@ -2,7 +2,6 @@ import React, { memo, useEffect, useRef, useState } from "react";
 import * as UserSerVice from "../../service/userService";
 import TableComponent from "../Table";
 import { Button, Modal, Space } from "antd";
-import * as userService from "../../service/userService";
 import {
   SearchOutlined,
   DeleteOutlined,
@@ -39,14 +38,13 @@ function AdminUser() {
   const getAllUsers = async () => {
     setIsLoading(true);
     const res = await UserSerVice.getAllUser();
+    setIsLoading(false);
     try {
       if (res.success) {
         setDataUser(res?.users);
       }
     } catch (err) {
       console.log(err);
-    } finally {
-      setIsLoading(false);
     }
   };
   useEffect(() => {

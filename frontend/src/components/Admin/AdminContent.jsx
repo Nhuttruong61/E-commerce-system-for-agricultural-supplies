@@ -13,6 +13,7 @@ import CreateBlog from "./AdminBlog/CreateBlog";
 import AdminBlog from "./AdminBlog/AdminBlog";
 import Dashboard from "./Dashboard";
 import SliderAdmin from "./SliderAdmin";
+import AdminStatistical from "./AdminStatistical";
 
 function AdminContent({ active }) {
   let content = null;
@@ -42,9 +43,9 @@ function AdminContent({ active }) {
     content = <CreateBlog />;
   } else if (active === 13) {
     content = <AdminBlog />;
-  } else if (active === 14) {
-    content = <Dashboard />;
   } else if (active === 15) {
+    content = <AdminStatistical />;
+  } else if (active === 16) {
     content = <SliderAdmin />;
   }
   return (

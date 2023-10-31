@@ -39,7 +39,7 @@ export const LogoutUser = () => async (dispatch) => {
     dispatch({
       type: Type.LOGOUT_USER,
     });
-    const res = await UserService.Logout();
+    await UserService.Logout();
     dispatch({
       type: Type.LOG_OUT_USER_SUCCESS,
       data: null,

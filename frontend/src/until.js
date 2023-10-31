@@ -1,5 +1,6 @@
 import { startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";
 import { format } from "date-fns";
+
 export const converDataChart = (order, type) => {
   try {
     const object = {};
@@ -74,9 +75,9 @@ export const ConverChartComposed = ({ data }) => {
   try {
     const today = new Date();
     const twelveMonthsAgo = new Date();
-    twelveMonthsAgo.setMonth(today.getMonth() - 12);
-    const object = {};
+    twelveMonthsAgo.setFullYear(today.getFullYear() - 1);
 
+    const monthlyRevenue = Array(12).fill(0);
     data.forEach((order) => {
       const paidDate = new Date(order.paymentInfo.paidAt);
 
@@ -85,27 +86,19 @@ export const ConverChartComposed = ({ data }) => {
         paidDate >= twelveMonthsAgo &&
         paidDate <= today
       ) {
-        const monthKey = format(paidDate, "yyyy-MM");
-
-        if (!object[monthKey]) {
-          object[monthKey] = {
-            name: format(paidDate, "MM/yyyy"),
-            uv: order.totalPrice,
-          };
-        } else {
-          object[monthKey].uv += order.totalPrice;
-        }
+        const monthIndex = paidDate.getMonth();
+        monthlyRevenue[monthIndex] += order.totalPrice;
       }
     });
 
-    const result = Object.values(object).map((item) => {
-      return {
-        name: item.name,
-        uv: item.uv,
-      };
-    });
-    return result;
+    const chartData = monthlyRevenue.map((revenue, index) => ({
+      name: format(new Date(today.getFullYear(), index, 1), "MM/yyyy"),
+      uv: revenue,
+    }));
+
+    return chartData;
   } catch (e) {
+    console.error(e);
     return [];
   }
 };
@@ -121,6 +114,46 @@ export const converDataChartProduct = ({ data }) => {
     return formattedData;
   } catch (e) {
     console.error("Error:", e);
+    return [];
+  }
+};
+
+export const converdataLineChart = ({ data }) => {
+  try {
+    const today = new Date();
+    const sevenDays = new Date();
+    sevenDays.setDate(today.getDate() - 7);
+
+    let object = {};
+    data.forEach((order) => {
+      const paidDate = new Date(order.paymentInfo.paidAt);
+      const formattedDate = paidDate.toISOString().split("T")[0];
+
+      if (
+        order.paymentInfo.status === "Đã thanh toán" &&
+        paidDate >= sevenDays &&
+        paidDate <= today
+      ) {
+        if (!object[formattedDate]) {
+          object[formattedDate] = order.totalPrice;
+        } else {
+          object[formattedDate] += order.totalPrice;
+        }
+      }
+    });
+
+    const dataChart =
+      Array.isArray(Object.keys(object)) &&
+      Object.keys(object).map((item) => {
+        return {
+          name: item,
+          pv: object[item],
+        };
+      });
+
+    return dataChart;
+  } catch (e) {
+    console.log(e);
     return [];
   }
 };

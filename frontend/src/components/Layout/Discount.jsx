@@ -37,7 +37,7 @@ function Discount() {
       return item;
     });
     setDataProduct(updatedDataSort);
-  }, [productData]);
+  }, [productData, data]);
   useEffect(() => {
     const fillterDiscount = () => {
       if (dataProduct) {

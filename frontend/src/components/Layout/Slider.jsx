@@ -12,7 +12,6 @@ const SliderComponet = () => {
   useEffect(() => {
     getAllSlides();
   }, []);
-  console.log(dataSlider);
   return (
     <Carousel afterChange={onChange} className="w-full" autoplay>
       {dataSlider?.slider?.map((item) =>

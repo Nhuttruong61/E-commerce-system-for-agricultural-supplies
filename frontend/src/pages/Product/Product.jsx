@@ -99,7 +99,7 @@ function Product() {
     });
 
     setDataProductEvent(updatedDataSort);
-  }, [dataProduct, selectedOption]);
+  }, [dataProduct, selectedOption, data]);
   const isNotExpired = (expirationDate) => {
     const currentDate = new Date();
     return expirationDate > currentDate;
