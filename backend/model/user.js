@@ -24,6 +24,13 @@ const userSchema = new mongoose.Schema({
   tax: {
     type: String,
   },
+  giftPoints: {
+    type: Number,
+    default: 0,
+  },
+  voucher: {
+    type: Array,
+  },
   addresses: [
     {
       city: {

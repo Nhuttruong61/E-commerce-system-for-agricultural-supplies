@@ -2,18 +2,26 @@ const Order = require("../model/order");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 const Product = require("../model/product");
+const User = require("../model/user");
 
 // Create order
 const createOrder = catchAsyncErrors(async (req, res, next) => {
   try {
-    const { cart, shippingAddress, user, totalPrice, paymentInfo } = req.body;
+    const { cart, shippingAddress, user, totalPrice, paymentInfo, coupons } =
+      req.body;
     if (!cart || !shippingAddress || !user || !totalPrice || !paymentInfo) {
       return next(
         new ErrorHandler("Please provide complete order informations", 400)
       );
     }
     const orders = [];
-
+    if (coupons) {
+      const userData = await User.findById(user._id);
+      userData.voucher = userData.voucher.filter((item) => {
+        item.id = !coupons._id;
+      });
+      userData.save();
+    }
     const order = await Order.create({
       cart,
       shippingAddress,
@@ -22,7 +30,6 @@ const createOrder = catchAsyncErrors(async (req, res, next) => {
       paymentInfo,
     });
     orders.push(order);
-
     res.status(201).json({
       success: true,
       orders,
@@ -100,6 +107,7 @@ const cancelOrder = catchAsyncErrors(async (req, res, next) => {
 //update status order admin
 const updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
   try {
+    let totalPoints = 0;
     const order = await Order.findById(req.params.id);
     if (!order) {
       return next(new ErrorHandler("Order not found with this id", 400));
@@ -114,6 +122,10 @@ const updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
       order.deliveredAt = Date.now();
       order.paymentInfo.status = "Đã thanh toán";
       order.paymentInfo.paidAt = Date.now();
+      for (const item of order.cart) {
+        totalPoints += item.price / 100000;
+      }
+      await updateGiftPoint(totalPoints);
     }
     await order.save({ validateBeforeSave: false });
 
@@ -127,6 +139,12 @@ const updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
       product.quantity -= qty;
       product.sold_out += qty;
       await product.save({ validateBeforeSave: false });
+    }
+    async function updateGiftPoint(point) {
+      const user = await User.findById(order.user._id);
+      user.giftPoints += point;
+      console.log("user", user);
+      await user.save();
     }
   } catch (err) {
     return next(new ErrorHandler(err.message, 500));
