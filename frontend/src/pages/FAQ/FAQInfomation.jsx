@@ -170,7 +170,7 @@ function FAQInfomation() {
       <div className="flex md:p-[4%] p-2 ">
         <div className="flex flex-col w-2/12">
           <img
-            src={data?.question?.author.avatar.url}
+            src={data?.question?.author?.avatar?.url}
             alt=""
             className="md:w-[80px] md:h-[80px] w-[40px] h-[40px] rounded-[50%]"
           />
@@ -288,7 +288,7 @@ function FAQInfomation() {
                   <div key={item._id} className="flex w-full my-1 flex-col">
                     <div className="flex items-center w-full">
                       <img
-                        src={item?.author.avatar.url}
+                        src={item?.author?.avatar?.url}
                         alt=""
                         className="md:w-[40px] md:h-[40px] w-[30px] h-[30px] rounded-[50%]"
                       />

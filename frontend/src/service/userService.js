@@ -86,3 +86,9 @@ export const getUserById = async (id) => {
   });
   return res;
 };
+export const updateCoupon = async (id, data) => {
+  const res = await axios.put(`/user/update-coupon-user/${id}`, data, {
+    withCredentials: true,
+  });
+  return res;
+};

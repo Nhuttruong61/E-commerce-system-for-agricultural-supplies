@@ -93,7 +93,6 @@ function AdminOrder() {
     }
     setIsLoading(false);
   };
-
   const vietnameseStatus = {
     Processing: "Đang xử lý",
     Transferred: "Đã chuyển hàng",
@@ -291,7 +290,7 @@ function AdminOrder() {
         paymentInfoStatus: order.paymentInfo.status,
         address: order.shippingAddress.address,
         totalPrice: order.totalPrice,
-        date: moment(order.paymentInfo.createdAt).format("YYYY-MM-DD"),
+        date: moment(order.paymentInfo.createdAt).format("YYYY-MM-DD-HH"),
         status: order.status,
         more: {
           ...order,

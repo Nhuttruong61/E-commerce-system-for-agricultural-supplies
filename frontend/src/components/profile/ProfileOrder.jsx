@@ -73,7 +73,7 @@ function ProfileOrder() {
             quality: order?.cart?.length,
             status: statusText,
             createdAt: moment(order?.paymentInfo.createdAt).format(
-              "YYYY-MM-DD"
+              "YYYY-MM-DD-HH:"
             ),
           };
         }

@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { LogoutUser } from "../../redux/action/userAction";
 import { useNavigate } from "react-router-dom";
 import { clearQuantity } from "../../redux/action/cartAction";
+import { RiCoupon2Line } from "react-icons/ri";
 function ProfileSideBar({ setActive, active }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -56,12 +57,25 @@ function ProfileSideBar({ setActive, active }) {
       </div>
       <div
         className="flex items-center cursor-pointer w-full mb-8"
-        onClick={handleLogout}
+        onClick={() => setActive(4)}
       >
-        <CloseOutlined style={{ color: active === 4 ? "#0e9c49" : "" }} />
+        <RiCoupon2Line style={{ color: active === 4 ? "#0e9c49" : "" }} />
         <span
           className={`pl-3 ${
             active === 4 ? "text-[#0e9c49]" : ""
+          } 800px:block hidden`}
+        >
+          Phiếu giảm giá
+        </span>
+      </div>
+      <div
+        className="flex items-center cursor-pointer w-full mb-8"
+        onClick={handleLogout}
+      >
+        <CloseOutlined style={{ color: active === 5 ? "#0e9c49" : "" }} />
+        <span
+          className={`pl-3 ${
+            active === 5 ? "text-[#0e9c49]" : ""
           } 800px:block hidden`}
         >
           Đăng xuất

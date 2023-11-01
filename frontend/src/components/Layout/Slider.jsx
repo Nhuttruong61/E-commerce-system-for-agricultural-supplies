@@ -18,7 +18,7 @@ const SliderComponet = () => {
         item?.images?.map((i) => (
           <div
             key={i.id}
-            className="md:min-h-[50vh] min-h-[24vh] flex items-center justify-center"
+            className="md:min-h-[50vh] min-h-[24vh]  flex items-center justify-center"
           >
             <img src={i.url} alt="" className="object-cover h-full" />
           </div>

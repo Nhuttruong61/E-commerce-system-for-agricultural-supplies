@@ -480,6 +480,31 @@ const getUserByid = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(error.message, 500));
   }
 });
+const updateCouponsUser = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return next(new ErrorHandler("Invalid reset token", 400));
+    }
+    const { coupons } = req.body;
+
+    const existingCoupon = user.voucher.find(
+      (coupon) => coupon.code === coupons.code
+    );
+    if (existingCoupon) {
+      return next(new ErrorHandler("Coupon already exists for this user", 400));
+    }
+    user.giftPoints -= coupons.point;
+    user.voucher.push(coupons);
+    user.save();
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
 
 module.exports = {
   createUser,
@@ -500,4 +525,5 @@ module.exports = {
   createAccountBussenes,
   updateUserId,
   updateAddressId,
+  updateCouponsUser,
 };

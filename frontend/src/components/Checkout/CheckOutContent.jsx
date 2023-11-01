@@ -16,6 +16,7 @@ import * as OrderService from "../../service/orderService";
 import * as PaymentService from "../../service/payment";
 import { useNavigate } from "react-router-dom";
 import { getaProduct } from "../../service/productService";
+import voucher from "../.././assets/image/mgg.png";
 function CheckOutContent() {
   const { cart } = useSelector((state) => state.cart);
   const { account, isAuthenticated } = useSelector((state) => state.user);
@@ -32,6 +33,8 @@ function CheckOutContent() {
   const [idGifts, setIdGifts] = useState(null);
   const [dataGift, setDataGift] = useState(null);
   const [dataCart, setDataCart] = useState([]);
+  const [activeVouchers, setActiveVouchers] = useState([]);
+  const [coupon, setCoupon] = useState(null);
   const queryString = window.location.search;
   const queryParams = new URLSearchParams(queryString);
   const encodedParams = queryParams.toString();
@@ -74,17 +77,21 @@ function CheckOutContent() {
         return acc + item.price * item.quantity;
       }
     }, 0);
-
-    setPrice(total);
+    if (coupon) {
+      let couponPrice = total - coupon.discountAmount;
+      setPrice(couponPrice);
+    } else {
+      setPrice(total);
+    }
 
     if (total >= freeShip) {
-      setTotalPrice(total);
+      setTotalPrice(price);
       setShipCost(0);
     } else {
-      setTotalPrice(total + totalFeecost);
+      setTotalPrice(price + totalFeecost);
       setShipCost(totalFeecost);
     }
-  }, [cart, data]);
+  }, [cart, data, coupon, price]);
   useEffect(() => {
     if (account?.addresses.length === 0) {
       setShowModalAddress(true);
@@ -152,15 +159,16 @@ function CheckOutContent() {
           type: Paymentethods,
           status: "Chưa thanh toán",
         },
+        coupons: {
+          ...coupon,
+        },
       };
-      if (order.paymentInfo.type === "") {
-        toast.warning("Bạn chưa chọn phương thức thanh toán");
-      } else {
-        const res = await OrderService.createOrder(order);
-        if (res.success) {
-          navigate("/order/seccess");
-          dispatch(clearQuantity());
-        }
+      const res = await OrderService.createOrder(order);
+      if (res.success) {
+        navigate("/order/seccess");
+        dispatch(clearQuantity());
+        dispatch(getUser());
+        setCoupon([]);
       }
     }
   };
@@ -248,7 +256,6 @@ function CheckOutContent() {
   useEffect(() => {
     getGiftProduct();
   }, [idGifts, cart]);
-
   useEffect(() => {
     if (dataGift?.length > 0) {
       const updatedCart = [...cart];
@@ -269,6 +276,17 @@ function CheckOutContent() {
       setDataCart(cart);
     }
   }, [dataGift, cart]);
+
+  const handleAddCoupon = (item) => {
+    const isVoucherActive = activeVouchers.includes(item._id);
+    if (isVoucherActive) {
+      setActiveVouchers(activeVouchers.filter((Id) => Id !== item._id));
+      setCoupon(null);
+    } else {
+      setActiveVouchers([item._id]);
+      setCoupon(item);
+    }
+  };
 
   return (
     <Loading isLoading={isLoading}>
@@ -348,6 +366,44 @@ function CheckOutContent() {
             <RightOutlined className="md:text-[24px]" />
           </div>
         </div>
+        {account?.voucher.length > 0 && (
+          <div className="w-auto  items-center bg-white px-[10%] my-1">
+            <p className="text-[50%] md:text-[100%] font-[600] pt-2 text-red-600">
+              Mã giảm giá
+            </p>
+            <div className=" md:flex w-full">
+              {account?.voucher.map((item) => {
+                const isVoucherActive = activeVouchers.includes(item._id);
+                return (
+                  <div
+                    key={item._id}
+                    className="flex border px-4 py-2 rounded shadow w-full mx-2 my-2 items-center"
+                  >
+                    <div className="w-[40%]">
+                      <img src={voucher} alt="" className="h-[50px]" />
+                    </div>
+                    <div className="w-[45%]">
+                      <p className="text-[16px] font-[500]">{item?.name}</p>
+                      <p className="text-[16px] font-[500]">
+                        Giảm: {item?.discountAmount.toLocaleString()} đ
+                      </p>
+                    </div>
+                    <p
+                      className={`w-[15%] cursor-pointer hover:underline ${
+                        isVoucherActive
+                          ? "bg-[#9a9797] text-black "
+                          : "bg-[#009b49]"
+                      }  font-[500] text-white py-1 px-2 rounded flex justify-center`}
+                      onClick={() => handleAddCoupon(item)}
+                    >
+                      {isVoucherActive ? "Hủy" : "Áp dụng"}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
         <div className="w-auto  items-center bg-white px-[10%] my-1 ">
           <p className="text-[50%] md:text-[100%] font-[600] pt-2 text-red-600">
             Phương thức thanh toán
@@ -388,7 +444,7 @@ function CheckOutContent() {
                   Tổng thanh toán:{" "}
                 </p>
                 <p className="text-[50%] md:text-[90%] pl-2">
-                  {totalPrice.toLocaleString()}đ
+                  {totalPrice?.toLocaleString()}đ
                 </p>
               </span>
             </div>
@@ -404,7 +460,7 @@ function CheckOutContent() {
             </button>
 
             <p className="px-2 text-[50%] md:text-[100%] font-[600] text-red-600">
-              {totalPrice.toLocaleString()} đ
+              {totalPrice?.toLocaleString()} đ
             </p>
             <p className="text-[50%] md:text-[100%] font-[600] ">
               Tổng số tiền:{" "}

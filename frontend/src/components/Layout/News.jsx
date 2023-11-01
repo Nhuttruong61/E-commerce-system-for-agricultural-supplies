@@ -29,7 +29,7 @@ function News() {
           return (
             <div
               key={item._id}
-              className="shadow mx-2 py-2 px-2 cursor-pointer w-full hover:shadow-[#0e9c49] relative"
+              className="shadow mx-2 py-2 px-2 cursor-pointer w-full hover:shadow-[#0e9c49]"
               onClick={() => navigate(`/blog/${item._id}`)}
             >
               <div className="w-full flex justify-center md:h-[40vh]">
@@ -47,7 +47,7 @@ function News() {
               <p className="text-[#aba8a8] py-2">
                 {item?.content[0]?.description[0]?.slice(0, 200) + "..."}
               </p>
-              <p className="absolute bottom-0 py-2 right-0 text-[#ccc] px-2">
+              <p className=" bottom-0 py-2 right-0 text-[#ccc] px-2 flex justify-end ">
                 {moment(item?.createdAt).fromNow()}
               </p>
             </div>

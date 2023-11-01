@@ -169,17 +169,10 @@ function InfomationOrder() {
                 {priceProduct?.toLocaleString()} đ
               </p>
             </div>
+
             <div className="flex items-center pt-2">
               <p className="text-[50%] md:text-[100%] font-[600] pr-2">
-                Phí vận chuyển:
-              </p>
-              <p className="text-[50%] md:text-[100%] font-[600]  text-red-600">
-                {(orders?.totalPrice - priceProduct).toLocaleString()} đ
-              </p>
-            </div>
-            <div className="flex items-center pt-2">
-              <p className="text-[50%] md:text-[100%] font-[600] pr-2">
-                Tổng cộng:
+                Thành tiền:
               </p>
               <p className="text-[50%] md:text-[100%] font-[600]  text-red-600">
                 {orders?.totalPrice.toLocaleString()} đ

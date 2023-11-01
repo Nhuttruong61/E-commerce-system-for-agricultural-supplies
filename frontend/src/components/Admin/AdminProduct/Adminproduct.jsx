@@ -731,7 +731,7 @@ function Adminproduct() {
             }
           />
         </label>
-        <label className="flex justify-center items-center mb10">
+        <label className="flex justify-center items-center mb-10">
           <p className="w-[20%] font-[500]">Mô tả</p>
           <div className="w-[80%]  h-auto my-1  sm:px-0 ">
             <Editor
