@@ -21,7 +21,7 @@ function ProductCart(item) {
           />
         </div>
         {item?.item?.gifts.length > 0 ? (
-          <div className="bg-[#ee4d2d] z-1 md:w-[36%] py-2 w-[30%] absolute h-[10%] left-[-8px] text-white top-0 flex flex-col justify-center text-center font-[600]  rounded-r">
+          <div className="bg-[#ee4d2d] z-1 md:w-[36%] py-3 w-[40%] absolute h-[10%] left-[-8px] text-white top-0 flex flex-col justify-center text-center font-[600]  rounded-r">
             <span className="md:text-[80%] text-[60%] ">Khuyến mãi</span>
             <span
               className="absolute w-[8px]"

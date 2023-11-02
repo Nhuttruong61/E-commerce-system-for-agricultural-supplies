@@ -141,7 +141,7 @@ function ProductDetail(id) {
   }, [productData]);
   return (
     <div className=" mb-10 px-1">
-      <p className="text-[80%] md:text-[100%] font-[600] md:px-[10%]">
+      <p className="text-[18px] md:text-[24px] mx-2 font-[700] md:px-[10%]">
         Sản phẩm
       </p>
       <div className="w-full flex flex-col  md:flex-row md:justify-between md:px-[10%] ">
@@ -150,7 +150,7 @@ function ProductDetail(id) {
         </div>
 
         <div className="w-full sm:m-2 px-[4%] py-1">
-          <p className="md: md:text-[120%] text-[80%] font-[700] ">
+          <p className="text-[16px] md:text-[20px] font-[600] ">
             {productData?.name}
           </p>
           {productData?.ratings && (
@@ -158,12 +158,12 @@ function ProductDetail(id) {
               <Rating rating={productData?.ratings} />
             </div>
           )}
-          <div className="flex py-1 md: md:text-[100%] text-[80%]">
+          <div className="flex py-1 text-[14px] md:text-[18px]">
             <span className="flex items-center">
               <p className="mr-2">Đã bán:</p>
               <p className="font-bold">{productData?.sold_out}</p>
             </span>
-            <span className="flex ml-8 justify-center items-center">
+            <span className="flex ml-8 justify-center items-center  text-[14px] md:text-[18px]">
               <p className="mr-2 text-slate-400 ">Có sẳn:</p>
               <p className="text-slate-400">{productData?.quantity}</p>
             </span>
@@ -171,15 +171,15 @@ function ProductDetail(id) {
           <div className="flex">
             {productData?.distCount ? (
               <>
-                <h1 className="md: md:text-[100%] text-[80%] line-through font-bold text-red-600 pr-2">
+                <h1 className=" text-[14px] md:text-[18px] line-through font-bold text-red-600 pr-2">
                   {productData?.price.toLocaleString()} đ
                 </h1>
-                <h1 className="font-bold md: md:text-[100%] text-[80%]">
+                <h1 className="font-bold  text-[14px] md:text-[18px]">
                   {productPrice.toLocaleString()}đ
                 </h1>
               </>
             ) : (
-              <h1 className="font-bold md: md:text-[100%] text-[80%]">
+              <h1 className="font-bold  text-[14px] md:text-[18px]">
                 {dataProduct?.product?.price.toLocaleString()} đ
               </h1>
             )}
@@ -187,24 +187,24 @@ function ProductDetail(id) {
               <>
                 {productData?.distCount ? (
                   <div className="px-10 flex items-center">
-                    <p className="font-[600] pr-2 md:text-[100%] text-[80%]">
+                    <p className="font-[600] pr-2  text-[14px] md:text-[18px]">
                       Giá sỉ:
                     </p>
                     <div className="flex  pr-2 items-start">
-                      <h1 className="line-through font-bold text-red-600  md:text-[100%] text-[80%] pr-2">
+                      <h1 className="line-through font-bold text-red-600   text-[14px] md:text-[18px] pr-2">
                         {productData?.wholesalePrice.toLocaleString()} đ
                       </h1>
-                      <h1 className="font-bold  md:text-[100%] text-[80%]">
+                      <h1 className="font-bold   text-[14px] md:text-[18px]">
                         {productPriceWholesalePrice.toLocaleString()} đ
                       </h1>
                     </div>
                   </div>
                 ) : (
                   <div className="flex px-10 ">
-                    <p className="font-[600] pr-2 md:text-[100%] text-[80%]">
+                    <p className="font-[600] pr-2  text-[14px] md:text-[18px]">
                       Giá sỉ:
                     </p>
-                    <h1 className="font-bold md: md:text-[100%] text-[80%]">
+                    <h1 className="font-bold md:  text-[14px] md:text-[18px]">
                       {productData?.wholesalePrice.toLocaleString()} đ
                     </h1>
                   </div>
@@ -215,7 +215,7 @@ function ProductDetail(id) {
 
           <div className="flex items-center py-2">
             <button
-              className="p-2 flex items-center border bg-[#f9f9f9] md: md:text-[100%] text-[80%]"
+              className="p-2 flex items-center border bg-[#f9f9f9]  text-[14px] md:text-[18px]"
               onClick={handleDecrease}
               disabled={quantity <= 0}
             >
@@ -232,14 +232,14 @@ function ProductDetail(id) {
             />
 
             <button
-              className="p-2 flex items-center border bg-[#f9f9f9] md: md:text-[100%] text-[80%]"
+              className="p-2 flex items-center border bg-[#f9f9f9] md:text-[100%] text-[80%]"
               onClick={handleIncrease}
               disabled={quantity >= dataProduct?.product.quantity}
             >
               <PlusOutlined />
             </button>
             <button
-              className="bg-[#009b49] p-1 border mx-2 font-[600] text-white px-2 md: md:text-[100%] text-[80%]"
+              className="bg-[#009b49] p-1 border mx-2 font-[600] text-white px-2 md:text-[100%] text-[80%]"
               onClick={handleAddToCart}
               disabled={productData?.quantity < 1}
             >
@@ -247,7 +247,7 @@ function ProductDetail(id) {
             </button>
           </div>
           <div className="relative py-2">
-            <p className="md: md:text-[100%] text-[80%] font-[600] pb-2">
+            <p className="text-[16px] md:text-[20px] font-[600] pb-2">
               Chi tiết sản phẩm
             </p>
             <div
@@ -255,7 +255,7 @@ function ProductDetail(id) {
                 expanded ? "h-auto" : "h-[10vh] overflow-hidden"
               }`}
             >
-              <div className="md: md:text-[100%] text-[80%] px-2 py-2">
+              <div className=" text-[14px] md:text-[18px] px-2 py-2">
                 {dataProduct?.product?.description.map((item, index) => {
                   return (
                     <div
@@ -265,46 +265,41 @@ function ProductDetail(id) {
                   );
                 })}
               </div>
-              {dataProduct?.product?.ingredient &&
-                dataProduct?.product?.ingredient.length > 0 && (
-                  <div className="text-[60%] md:text-[100%]">
-                    <p className="font-[600] py-2 px-2">Thành phần:</p>
-                    {dataProduct?.product?.ingredient.map((item, index) => {
-                      return (
-                        <p className="ml-2" key={index}>
-                          - {item}
-                        </p>
-                      );
-                    })}
-                  </div>
-                )}
             </div>
             <p
-              className="absolute bottom-[-20px] w-full text-center text-blue-600 cursor-pointer pl-4 text-[60%] md:text-[100%] "
+              className="absolute bottom-[-20px] w-full text-center text-blue-600 cursor-pointer pl-4  text-[14px] md:text-[18px] "
               onClick={toggleExpand}
             >
               {expanded ? "Thu gọn" : "Xem thêm"}
             </p>
           </div>
           <div className="py-2 flex items-center">
-            <p className="text-[60%] md:text-[100%] font-[600] pr-2">
+            <p className=" text-[14px] md:text-[18px] font-[600] pr-2">
               Quy cách:
             </p>
             {dataProduct?.product.capacity ? (
               dataProduct?.product.capacity < 1 ? (
-                <p>{dataProduct?.product.capacity * 1000} ml</p>
+                <p className="text-[14px] md:text-[18px]">
+                  {dataProduct?.product.capacity * 1000} ml
+                </p>
               ) : (
-                <p>{dataProduct?.product.capacity} lít</p>
+                <p className="text-[14px] md:text-[18px]">
+                  {dataProduct?.product.capacity} lít
+                </p>
               )
             ) : dataProduct?.product.weight < 1 ? (
-              <p>{dataProduct?.product.weight * 1000} gam</p>
+              <p className="text-[14px] md:text-[18px]">
+                {dataProduct?.product.weight * 1000} gam
+              </p>
             ) : (
-              <p>{dataProduct?.product.weight} kg</p>
+              <p className="text-[14px] md:text-[18px]">
+                {dataProduct?.product.weight} kg
+              </p>
             )}
           </div>
           {dataGift?.length > 0 && (
             <div className="my-4 flex items-center h-[10vh]">
-              <p className="text-[60%] md:text-[100%] font-[600] pr-2">
+              <p className="text-[14px] md:text-[18px] font-[600] pr-2">
                 Tặng kèm:
               </p>
               <div className="flex ">
@@ -330,7 +325,7 @@ function ProductDetail(id) {
         </div>
       </div>
       <div className="flex flex-col md:px-[10%] px-2">
-        <p className="font-[600] md: md:text-[100%] text-[80%]">
+        <p className="font-[600] md: text-[16px] md:text-[20px]">
           Sản phẩm tương tự
         </p>
         <div className="flex ">
@@ -352,7 +347,7 @@ function ProductDetail(id) {
       {productData?.reviews?.length > 0 && (
         <div className="w-full md:px-[10%]">
           <div className="relative">
-            <p className=" md:text-[100%] text-[80%] font-[600]">Đánh giá</p>
+            <p className="  text-[14px] md:text-[18px] font-[600]">Đánh giá</p>
             <div
               className={`shadow shadow-[#a8a7a7] h-full ${
                 activeReview ? "w-auto" : "h-[30.5vh] overflow-hidden"
@@ -361,14 +356,17 @@ function ProductDetail(id) {
               <div className="bg-[#009b49] py-1 px-1  items-center text-white">
                 <span className="flex items-center px-1">
                   {dataProduct?.product?.ratings ? (
-                    <p className=" md:text-[100%] text-[80%] font-[600]">
+                    <p className="  text-[14px] md:text-[18px] font-[600]">
                       {dataProduct?.product?.ratings?.slice(0, 4)}
                     </p>
                   ) : (
-                    <p className=" md:text-[100%] text-[80%] font-[600]">5</p>
+                    <p className="  text-[14px] md:text-[18px] font-[600]">5</p>
                   )}
 
-                  <p className="md: md:text-[100%] text-[80%] pl-1"> trên 5</p>
+                  <p className="md:  text-[14px] md:text-[18px] pl-1">
+                    {" "}
+                    trên 5
+                  </p>
                 </span>
                 <div className="text-[10px] md:text-[14px] ">
                   <Rating rating={dataProduct?.product?.ratings} />
@@ -391,7 +389,7 @@ function ProductDetail(id) {
                         </div>
                       )}
                       <div className=" flex flex-col w-full">
-                        <p className="md: md:text-[100%] text-[80%]">
+                        <p className="md:  text-[14px] md:text-[18px]">
                           {review?.user?.name}
                         </p>
                         <span className=" text-[8px] md:text-[10px]">
@@ -402,7 +400,7 @@ function ProductDetail(id) {
                             ? format(new Date(review.createAt), "dd/MM/yyyy")
                             : null}
                         </p>
-                        <p className="md: md:text-[100%] text-[80%]">
+                        <p className="md:  text-[14px] md:text-[18px]">
                           {review?.comment}
                         </p>
                       </div>
@@ -414,7 +412,7 @@ function ProductDetail(id) {
             {dataReviews?.length > 2 && (
               <div className="flex justify-center">
                 <p
-                  className="md: md:text-[100%] text-[80%] text-blue-700 "
+                  className="md:  text-[14px] md:text-[18px] text-blue-700 "
                   onClick={() => setActiveReview(true)}
                 >
                   Tải thêm

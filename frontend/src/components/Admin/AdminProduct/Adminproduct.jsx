@@ -36,14 +36,12 @@ function Adminproduct() {
   const [origin, setOrigin] = useState("");
   const [expirationDate, setExpirationDate] = useState(null);
   const [distCount, setdistCount] = useState(0);
-  const [ingredient, setIngredient] = useState([]);
   const [quantity, setQuantity] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [editProduct, setEditProduct] = useState({
     _id: "",
     name: "",
     description: [],
-    ingredient: [],
     category,
     weight: "",
     capacity: "",
@@ -173,7 +171,6 @@ function Adminproduct() {
               _id: item._id,
               name: item.name,
               description: item.description,
-              ingredient: item.ingredient,
               category: item.category.categoryid,
               weight: item.weight,
               capacity: item.capacity,
@@ -213,10 +210,10 @@ function Adminproduct() {
       title: "STT",
       dataIndex: "stt",
     },
-    {
-      title: "Mã sản phẩm",
-      dataIndex: "id",
-    },
+    // {
+    //   title: "Mã sản phẩm",
+    //   dataIndex: "id",
+    // },
     {
       title: "Tên sản phẩm",
       dataIndex: "name",
@@ -328,7 +325,6 @@ function Adminproduct() {
         const product = {
           name,
           description,
-          ingredient,
           category: {
             _id: category,
           },
@@ -536,31 +532,11 @@ function Adminproduct() {
             placeholder="Tên sản phảm"
           />
         </label>
-        <label className="flex justify-center items-center mb-10">
+        <label className="flex justify-center items-center pb-10">
           <p className="w-[20%] font-[500]">Mô tả</p>
           <div className="w-[80%]  h-auto my-1  sm:px-0 ">
             <Editor value={description} setValue={setDescription} />
           </div>
-        </label>
-        <label className="flex justify-between items-center ">
-          <p className="w-[20%] font-[500]">Thành phần</p>
-          <textarea
-            value={ingredient.join("\n")}
-            rows={4}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            placeholder="Thàn phần"
-            onChange={(e) =>
-              setIngredient(
-                e.target.value.split("\n").filter((line) => line.trim() !== "")
-              )
-            }
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                setIngredient([...ingredient, ""]);
-              }
-            }}
-          />
         </label>
         <label className="flex justify-between items-center">
           <p className="w-[20%] font-[500]">Loại</p>
@@ -731,7 +707,7 @@ function Adminproduct() {
             }
           />
         </label>
-        <label className="flex justify-center items-center mb-10">
+        <label className="flex justify-center items-center ">
           <p className="w-[20%] font-[500]">Mô tả</p>
           <div className="w-[80%]  h-auto my-1  sm:px-0 ">
             <Editor
@@ -745,21 +721,7 @@ function Adminproduct() {
             />
           </div>
         </label>
-
-        <label className="flex justify-center items-center ">
-          <p className="w-[20%] font-[500]">Thành phần</p>
-          <textarea
-            value={editProduct?.ingredient?.join("\n")}
-            className="w-[80%] md:px-4 h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) =>
-              setEditProduct({
-                ...editProduct,
-                ingredient: e.target.value.split("\n"),
-              })
-            }
-          />
-        </label>
-        <label className="flex justify-between items-center">
+        <label className="flex justify-between items-center mt-16">
           <p className="w-[20%] font-[500]">Loại</p>
           <select
             value={editProduct.category._id}
@@ -960,7 +922,7 @@ function Adminproduct() {
               <p className=" font-[500] w-[30%] py-1">Tên:</p>
               <p className="pl-2">{inforProduct?.name}</p>
             </label>
-            <label className="flex items-center">
+            <label className="flex items-center mt-16">
               <p className=" font-[500] w-[30%] py-1">Loại:</p>
               <p className="pl-2">{inforProduct?.category?.name}</p>
             </label>
@@ -974,16 +936,6 @@ function Adminproduct() {
                   : null}
               </div>
             </label>
-            {inforProduct?.ingredient.length > 0 && (
-              <label className="flex items-center">
-                <p className=" font-[500] w-[30%] py-1">Thành phần:</p>
-                <div className="pl-2 py-2">
-                  {inforProduct.ingredient.map((item, index) => {
-                    return <p key={index}>{item}</p>;
-                  })}
-                </div>
-              </label>
-            )}
             <label className="flex items-center">
               <p className=" font-[500] w-[30%] py-1">Giảm giá:</p>
               <p className="pl-2">{inforProduct?.distCount}</p>
