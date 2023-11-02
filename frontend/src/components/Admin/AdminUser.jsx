@@ -209,6 +209,11 @@ function AdminUser() {
       dataIndex: "role",
     },
     {
+      title: "Tổng tiền",
+      dataIndex: "price",
+      sorter: (a, b) => a.price - b.price,
+    },
+    {
       title: "Xem thêm",
       dataIndex: "review",
       render: renderReview,
@@ -222,6 +227,7 @@ function AdminUser() {
   let dataTable = [];
   if (dataUser && dataUser.length > 0) {
     dataTable = dataUser.map((user, index) => {
+      console.log(user);
       return {
         key: user._id,
         id: user._id,
@@ -233,6 +239,7 @@ function AdminUser() {
         role: user.role,
         avatar: user?.avatar?.url,
         addresses: user.addresses[0],
+        price: user.totalAmount,
         review: {
           ...user,
         },
@@ -437,6 +444,7 @@ function AdminUser() {
                     }
                   >
                     <option value="user">user</option>
+                    <option value="member">member</option>
                     <option value="business">business</option>
                   </select>
                 </label>

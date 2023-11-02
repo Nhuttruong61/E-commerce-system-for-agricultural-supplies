@@ -126,7 +126,7 @@ const updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
       for (const item of order.cart) {
         totalPoints += item.price / 100000;
       }
-      await updateGiftPoint(totalPoints);
+      await updateGiftPoint(totalPoints, order.totalPrice);
     }
     await order.save({ validateBeforeSave: false });
 
@@ -141,9 +141,10 @@ const updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
       product.sold_out += qty;
       await product.save({ validateBeforeSave: false });
     }
-    async function updateGiftPoint(point) {
+    async function updateGiftPoint(point, price) {
       const user = await User.findById(order.user._id);
       user.giftPoints += point;
+      user.totalAmount += price;
       await user.save();
     }
   } catch (err) {

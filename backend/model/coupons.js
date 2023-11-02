@@ -20,6 +20,11 @@ const couponsSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Please enter the point"],
     },
+    userType: {
+      type: String,
+      default: "user",
+      required: true,
+    },
   },
   { timestamps: true }
 );

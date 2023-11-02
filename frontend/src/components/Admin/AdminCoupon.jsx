@@ -17,12 +17,14 @@ function AdminCoupon() {
     code: "",
     discountAmount: "",
     point: "",
+    userType: "",
   });
   const [editCoupons, setEditCoupons] = useState({
     name: "",
     code: "",
     discountAmount: "",
     point: "",
+    userType: "",
   });
   const fetchdataCoupon = async () => {
     try {
@@ -60,6 +62,7 @@ function AdminCoupon() {
               code: item.code,
               discountAmount: item.discountAmount,
               point: item.point,
+              userType: item.userType,
             });
           }}
         >
@@ -90,6 +93,10 @@ function AdminCoupon() {
       title: "Sổ điểm cần đổi",
       dataIndex: "point",
       sorter: (a, b) => a.point - b.point,
+    },
+    {
+      title: "Đối tượng",
+      dataIndex: "userType",
     },
 
     {
@@ -136,7 +143,7 @@ function AdminCoupon() {
         if (res.success) {
           fetchdataCoupon();
           toast.success("Thêm mã giảm giá thành công");
-          setDataCoupon({
+          setAddCoupons({
             name: "",
             code: "",
             discountAmount: "",
@@ -166,12 +173,6 @@ function AdminCoupon() {
         if (res.success) {
           fetchdataCoupon();
           toast.success("Thay đổi thành công");
-          setDataCoupon({
-            name: "",
-            code: "",
-            discountAmount: "",
-            point: "",
-          });
         }
       }
     } catch (e) {
@@ -264,6 +265,20 @@ function AdminCoupon() {
             placeholder="Nhập số điểm càn dùng để đổi "
           />
         </label>
+        <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Đối tượng</p>
+          <select
+            value={addCoupons.userType}
+            className="w-[80%] md:px-4  h-auto my-1 py-2 sm:px-0 border-[2px] outline-none rounded-[4px"
+            id=""
+            onChange={(e) =>
+              setAddCoupons({ ...addCoupons, userType: e.target.value })
+            }
+          >
+            <option value="user">User</option>
+            <option value="Thành viên">Thành viên</option>
+          </select>
+        </label>
       </Modal>
       <Modal
         title="Chỉnh sửa mã giảm giá"
@@ -316,6 +331,20 @@ function AdminCoupon() {
             }
             placeholder="Nhập số điểm càn dùng để đổi "
           />
+        </label>
+        <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Đối tượng</p>
+          <select
+            value={editCoupons.userType}
+            className="w-[80%] md:px-4  h-auto my-1 py-2 sm:px-0 border-[2px] outline-none rounded-[4px"
+            id=""
+            onChange={(e) =>
+              setEditCoupons({ ...editCoupons, userType: e.target.value })
+            }
+          >
+            <option value="user">User</option>
+            <option value="Thành viên">Thành viên</option>
+          </select>
         </label>
       </Modal>
       <Modal

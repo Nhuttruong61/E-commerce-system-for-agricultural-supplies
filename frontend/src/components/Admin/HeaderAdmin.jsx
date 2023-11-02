@@ -8,7 +8,7 @@ function HeaderAdmin() {
     <div className="flex justify-between h-[74px] items-center md:px-8 w-full px-1 bg-white z-20 shadow">
       <Link to="/" className=" w-[50%] flex items-center">
         <img src={logo} alt="" className="  w-[50px]" />
-        <p className="text-xs md:text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#0e9c49] to-[#e49200]">
+        <p className="text-sm md:text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#0e9c49] to-[#e49200]">
           Nông Nghiệp Xanh
         </p>
       </Link>

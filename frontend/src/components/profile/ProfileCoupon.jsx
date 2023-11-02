@@ -17,6 +17,7 @@ function ProfileCoupon() {
       setDataCoupon(res.coupons);
     }
   };
+
   useEffect(() => {
     fetchDataCoupon();
   }, []);
@@ -24,11 +25,15 @@ function ProfileCoupon() {
     try {
       setIsLoading(true);
       const data = { coupons: { ...item } };
-      const res = await updateCoupon(account._id, data);
-      setIsLoading(false);
-      if (res.success) {
-        toast.success("Đỗi mã thành công");
-        dispatch(getUser());
+      if (account?.giftPoints >= item.point) {
+        const res = await updateCoupon(account._id, data);
+        setIsLoading(false);
+        if (res.success) {
+          toast.success("Đỗi mã thành công");
+          dispatch(getUser());
+        }
+      } else {
+        toast.warning("Bạn không đủ điểm để đổi vocher này");
       }
     } catch (e) {
       toast.error("Bạn đẫ có mã giảm giá này");
@@ -36,6 +41,7 @@ function ProfileCoupon() {
       setIsLoading(false);
     }
   };
+  console.log(dataCoupon);
   return (
     <Loading isLoading={isLoading}>
       <div className="w-full  h-auto bg-white rounded-[10px] px-2">
@@ -79,41 +85,86 @@ function ProfileCoupon() {
           <p className="font-[500] text-[16px]">Nhận thêm voucher</p>
           <div className="grid md:grid-cols-2 w-full gap-2">
             {dataCoupon?.length > 0 &&
-              dataCoupon?.map((item) => {
-                return (
-                  <div
-                    key={item._id}
-                    className="flex border px-4 py-2 rounded shadow items-center w-full mx-2 my-2"
-                  >
-                    <div className="md:w-[40%] w-[30%]">
-                      <img
-                        src={voucher}
-                        alt=""
-                        className="md:h-[50px] h-[40px]"
-                      />
-                    </div>
-                    <div className="md:w-[40%] w-[45%] px-2">
-                      <p className="md:text-[16px] font-[500] text-[14px]">
-                        {item?.name}
-                      </p>
-                      <p className="md:text-[16px] font-[500] text-[14px]">
-                        Giảm: {item?.discountAmount.toLocaleString()} đ
-                      </p>
-                      <p className="md:text-[16px] font-[500] text-[14px]">
-                        Điểm đổi: {item?.point.toLocaleString()}
-                      </p>
-                    </div>
-                    <p
-                      className="md:w-[15%] w-[25%] md:text-[16px] text-[12px] cursor-pointer bg-[#009b49] text-white flex hover:underline justify-center rounded"
-                      onClick={() => handleAddVorcher(item)}
+              dataCoupon
+                .filter((item) => item.userType === "user")
+                .map((item) => {
+                  return (
+                    <div
+                      key={item._id}
+                      className="flex border px-4 py-2 rounded shadow items-center w-full mx-2 my-2"
                     >
-                      Đổi mã
-                    </p>
-                  </div>
-                );
-              })}
+                      <div className="md:w-[40%] w-[30%]">
+                        <img
+                          src={voucher}
+                          alt=""
+                          className="md:h-[50px] h-[40px]"
+                        />
+                      </div>
+                      <div className="md:w-[40%] w-[45%] px-2">
+                        <p className="md:text-[16px] font-[500] text-[14px]">
+                          {item?.name}
+                        </p>
+                        <p className="md:text-[16px] font-[500] text-[14px]">
+                          Giảm: {item?.discountAmount.toLocaleString()} đ
+                        </p>
+                        <p className="md:text-[16px] font-[500] text-[14px]">
+                          Điểm đổi: {item?.point.toLocaleString()}
+                        </p>
+                      </div>
+                      <p
+                        className="md:w-[15%] w-[25%] md:text-[16px] text-[12px] cursor-pointer bg-[#009b49] text-white flex hover:underline justify-center rounded"
+                        onClick={() => handleAddVorcher(item)}
+                      >
+                        Đổi mã
+                      </p>
+                    </div>
+                  );
+                })}
           </div>
         </div>
+        {account?.role === "member" && (
+          <div className="w-full">
+            <p className="font-[500] text-[16px]">Dành riêng cho bạn</p>
+            <div className="grid md:grid-cols-2 w-full gap-2">
+              {dataCoupon?.length > 0 &&
+                dataCoupon
+                  .filter((item) => item.userType === "Thành viên")
+                  .map((item) => {
+                    return (
+                      <div
+                        key={item._id}
+                        className="flex border px-4 py-2 rounded shadow items-center w-full mx-2 my-2"
+                      >
+                        <div className="md:w-[40%] w-[30%]">
+                          <img
+                            src={voucher}
+                            alt=""
+                            className="md:h-[50px] h-[40px]"
+                          />
+                        </div>
+                        <div className="md:w-[40%] w-[45%] px-2">
+                          <p className="md:text-[16px] font-[500] text-[14px]">
+                            {item?.name}
+                          </p>
+                          <p className="md:text-[16px] font-[500] text-[14px]">
+                            Giảm: {item?.discountAmount.toLocaleString()} đ
+                          </p>
+                          <p className="md:text-[16px] font-[500] text-[14px]">
+                            Điểm đổi: {item?.point.toLocaleString()}
+                          </p>
+                        </div>
+                        <p
+                          className="md:w-[15%] w-[25%] md:text-[16px] text-[12px] cursor-pointer bg-[#009b49] text-white flex hover:underline justify-center rounded"
+                          onClick={() => handleAddVorcher(item)}
+                        >
+                          Đổi mã
+                        </p>
+                      </div>
+                    );
+                  })}
+            </div>
+          </div>
+        )}
       </div>
     </Loading>
   );

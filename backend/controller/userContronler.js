@@ -6,6 +6,7 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const sendToken = require("../utils/jwtToken");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const { response } = require("express");
+const bcrypt = require("bcrypt");
 // const createUser = catchAsyncErrors(async (req, res, next) => {
 //   try {
 //     const { name, email, password } = req.body;
@@ -137,7 +138,7 @@ const loginUser = catchAsyncErrors(async (req, res, next) => {
     if (!user) {
       return next(new ErrorHandler("User doesn't exists!", 400));
     }
-    const isPassword = await user.comparePassword(password);
+    const isPassword = await bcrypt.compare(password, user.password);
     if (!isPassword) {
       return next(
         new ErrorHandler("Please provide the correct information", 400)

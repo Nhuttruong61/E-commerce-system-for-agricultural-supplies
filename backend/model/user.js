@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema({
   voucher: {
     type: Array,
   },
+  totalAmount: {
+    type: Number,
+    default: 0,
+  },
   addresses: [
     {
       city: {

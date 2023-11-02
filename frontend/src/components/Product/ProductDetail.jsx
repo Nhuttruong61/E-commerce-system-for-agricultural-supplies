@@ -77,36 +77,40 @@ function ProductDetail(id) {
     setCheckQuantity(filteredItems);
   }, [cart, _id]);
   const handleAddToCart = () => {
-    if (quantity > 0) {
-      dispatch(
-        increaseQuantity({
-          _id: productData?._id,
-          name: productData?.name,
-          description: productData?.description,
-          price: productPrice,
-          wholesalePrice: productPriceWholesalePrice,
-          disCount: productData?.distCount,
-          gifts: productData?.gifts,
-          weight: productData?.weight,
-          image: productData?.images[0].url,
-          quantityProduct: productData?.quantity,
-          quantity,
-        })
-      );
-      if (
-        checkQuantity &&
-        checkQuantity.length > 0 &&
-        checkQuantity[0].quantity < checkQuantity[0].quantityProduct
-      ) {
-        toast.success("Thêm sản phẩm thành công");
-      } else if (
-        checkQuantity &&
-        checkQuantity.length > 0 &&
-        checkQuantity[0].quantity === checkQuantity[0].quantityProduct
-      ) {
-        toast.error("Đã đạt số lượng tối đa");
-      } else {
-        toast.success("Thêm sản phẩm thành công");
+    if (productData?.quantity < 1) {
+      toast.warning("Sản phẩm tạm hết hàng");
+    } else {
+      if (quantity > 0) {
+        dispatch(
+          increaseQuantity({
+            _id: productData?._id,
+            name: productData?.name,
+            description: productData?.description,
+            price: productPrice,
+            wholesalePrice: productPriceWholesalePrice,
+            disCount: productData?.distCount,
+            gifts: productData?.gifts,
+            weight: productData?.weight,
+            image: productData?.images[0].url,
+            quantityProduct: productData?.quantity,
+            quantity,
+          })
+        );
+        if (
+          checkQuantity &&
+          checkQuantity.length > 0 &&
+          checkQuantity[0].quantity < checkQuantity[0].quantityProduct
+        ) {
+          toast.success("Thêm sản phẩm thành công");
+        } else if (
+          checkQuantity &&
+          checkQuantity.length > 0 &&
+          checkQuantity[0].quantity === checkQuantity[0].quantityProduct
+        ) {
+          toast.error("Đã đạt số lượng tối đa");
+        } else {
+          toast.success("Thêm sản phẩm thành công");
+        }
       }
     }
   };
@@ -217,7 +221,7 @@ function ProductDetail(id) {
             <button
               className="p-2 flex items-center border bg-[#f9f9f9]  text-[14px] md:text-[18px]"
               onClick={handleDecrease}
-              disabled={quantity <= 0}
+              disabled={quantity <= 1}
             >
               <MinusOutlined />
             </button>
@@ -241,7 +245,6 @@ function ProductDetail(id) {
             <button
               className="bg-[#009b49] p-1 border mx-2 font-[600] text-white px-2 md:text-[100%] text-[80%]"
               onClick={handleAddToCart}
-              disabled={productData?.quantity < 1}
             >
               Thêm vào giỏ hàng
             </button>
