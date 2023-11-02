@@ -4,7 +4,6 @@ import CartCard from "./CartCard";
 import { useSelector } from "react-redux";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
-import "../../assets/css/left.css";
 function Cart({ setOpenCart }) {
   const { cart } = useSelector((state) => state.cart);
   const navigate = useNavigate();

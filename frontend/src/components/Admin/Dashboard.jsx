@@ -9,9 +9,9 @@ function Dashboard() {
   const orders = useSelector((state) => state.orders);
 
   return (
-    <div className="w-full">
-      <div className=" flex w-full py-2">
-        <div className="h-[400px] w-[50%] flex-col ">
+    <div className="w-full overflow-x-auto">
+      <div className=" md:flex   w-full py-2 ">
+        <div className="h-[400px] md:w-[50%] w-full flex-col ">
           <ComposedChartComponent orders={orders} />
           <div className="flex justify-center">
             <p className="font-[600]">
@@ -19,7 +19,7 @@ function Dashboard() {
             </p>
           </div>
         </div>
-        <div className="h-[400px] w-[50%] flex-col">
+        <div className="h-[400px] md:w-[50%] w-full flex-col md:my-0 my-10">
           <BarChartNoPaddingComponent products={products} />
           <div className="flex justify-center">
             <p className="font-[600]">
@@ -29,7 +29,7 @@ function Dashboard() {
         </div>
       </div>
       <div className=" my-10">
-        <div className="h-[400px] w-[50%]">
+        <div className="h-[400px] md:w-[50%] w-full">
           <BarChartComponent orders={orders} />
           <div className="w-full flex justify-center">
             <p className="font-[600]">

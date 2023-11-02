@@ -96,10 +96,14 @@ function CreateBlog() {
   };
   return (
     <div className="flex  items-center w-full flex-col ">
-      <h1 className="text-[2.6rem] font-[600]">Thêm tin tức mới</h1>
+      <h1 className="md:text-[2.6rem] text-[2rem] font-[600]">
+        Thêm tin tức mới
+      </h1>
       <div className=" w-[90%]">
         <label htmlFor="" className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Tiêu đề bài viết</p>
+          <p className="w-[20%] font-[500] md:text-[100%] text-[80%]">
+            Tiêu đề bài viết
+          </p>
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -107,10 +111,14 @@ function CreateBlog() {
           />
         </label>
         <label htmlFor="" className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Nội dung</p>
+          <p className="w-[20%] font-[500] md:text-[100%] text-[80%]">
+            Nội dung
+          </p>
           <div className="w-[80%] md:px-4  h-[52vh] my-1 py-2 border-[2px] sm:px-0 rounded-[4px] overflow-auto ">
             <label htmlFor="" className="flex justify-between items-center">
-              <p className="w-[20%] font-[500]">Tiêu đề nội dung</p>
+              <p className="w-[20%] font-[500 md:text-[100%] text-[80%]">
+                Tiêu đề nội dung
+              </p>
               <input
                 value={titleContent}
                 onChange={(e) => setTitleContent(e.target.value)}
@@ -118,7 +126,9 @@ function CreateBlog() {
               />
             </label>
             <label htmlFor="" className="flex justify-between items-center">
-              <p className="w-[20%] font-[500]">Mô tả nội dung</p>
+              <p className="w-[20%] font-[500] md:text-[100%] text-[80%]">
+                Mô tả nội dung
+              </p>
               <textarea
                 className="w-[80%] md:px-4 my-1 py-2 border-[2px] sm:px-0 rounded-[4px] outline-none"
                 rows={5}
@@ -135,7 +145,7 @@ function CreateBlog() {
             <label className="flex items-center my-4 w-[30%] ">
               <label
                 htmlFor="inport"
-                className="bg-[#0e9c49] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2 px-2"
+                className="bg-[#0e9c49] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2 px-2 md:text-[100%] text-[80%]"
               >
                 Ảnh
               </label>
@@ -156,7 +166,7 @@ function CreateBlog() {
             </label>
             <div className="w-full justify-end flex">
               <button
-                className="px-2 py-1 bg-[#009B49] hover:bg-[#2B4706] rounded text-white"
+                className="px-2 py-1 bg-[#009B49] hover:bg-[#2B4706] rounded text-white md:text-[100%] text-[80%]"
                 onClick={handleAddContent}
               >
                 Thêm nội dung
@@ -167,13 +177,13 @@ function CreateBlog() {
       </div>
       <div className="flex w-[90%] justify-between">
         <p
-          className="underline text-blue-600 cursor-pointer ml-[20%]"
+          className="underline text-blue-600 cursor-pointer ml-[20%] md:text-[100%] text-[80%]"
           onClick={() => setShowModalReviewBlog(true)}
         >
           Xem lại nội dung
         </p>
         <p
-          className="underline text-blue-600 cursor-pointer"
+          className="underline text-blue-600 cursor-pointer md:text-[100%] text-[80%]"
           onClick={handleResetContent}
         >
           Cài lại nội dung
@@ -181,7 +191,7 @@ function CreateBlog() {
       </div>
       <div className="my-2">
         <button
-          className="py-1 px-2 bg-[#009B49] hover:bg-[#2B4706] rounded font-[600] text-white"
+          className="py-1 px-2 bg-[#009B49] hover:bg-[#2B4706] rounded font-[600] text-white md:text-[100%] text-[80%]"
           onClick={handleCreateBlog}
         >
           Tạo tin tức

@@ -35,14 +35,14 @@ function BlogPage() {
           {dataBlogs?.map((item) => {
             return (
               <div
-                className="flex py-2 cursor-pointer "
+                className="md:flex py-2 cursor-pointer "
                 key={item._id}
                 onClick={() => handleNavigate(item._id)}
               >
-                <div className="w-[20%]">
+                <div className="md:w-[20%]">
                   <img src={item?.content[0]?.images.url} alt="" />
                 </div>
-                <div className="w-[80%]  px-2">
+                <div className="md:w-[80%]  px-2">
                   <p className="font-[600] md:text-[1.8rem] hover:text-[#4D8208]">
                     {item?.title}
                   </p>

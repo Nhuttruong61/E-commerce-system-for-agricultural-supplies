@@ -18,8 +18,6 @@ import logo from "../../assets/logo/logo.png";
 import Cart from "../Cart/Cart";
 import { clearQuantity } from "../../redux/action/cartAction";
 import { HiOutlineMenu } from "react-icons/hi";
-import "../../assets/css/right.css";
-import "../../assets/css/left.css";
 
 function Header() {
   const user = useSelector((state) => state.user);
@@ -366,7 +364,10 @@ function Header() {
                   {user?.isAuthenticated && (
                     <p
                       className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
-                      onClick={handleNavigateProfile}
+                      onClick={() => {
+                        handleNavigateProfile();
+                        setActiveMobile(false);
+                      }}
                     >
                       Tài khoản
                     </p>

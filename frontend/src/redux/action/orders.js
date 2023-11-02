@@ -6,7 +6,6 @@ export const getAllOrder = () => async (dispatch) => {
       type: Type.GET_ALL_ORDER,
     });
     const res = await OrderService.getAllOrder();
-    console.log(res.order);
     dispatch({
       type: Type.GET_ALL_ORDER_SUCCESS,
       data: res.order,

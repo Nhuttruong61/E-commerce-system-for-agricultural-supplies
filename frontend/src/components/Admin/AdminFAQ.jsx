@@ -149,9 +149,13 @@ function AdminFAQ() {
   });
   const columns = [
     {
-      title: "Id",
-      dataIndex: "_id",
+      title: "STT",
+      dataIndex: "sst",
     },
+    // {
+    //   title: "Id",
+    //   dataIndex: "_id",
+    // },
     {
       title: "Người đăng",
       dataIndex: "author",
@@ -188,9 +192,11 @@ function AdminFAQ() {
   ];
   let dataTable = [];
   if (questions && questions.data?.length > 0) {
-    dataTable = questions.data.map((question) => {
+    dataTable = questions.data.map((question, index) => {
       return {
         ...question,
+        key: question._id,
+        sst: index + 1,
         author: question.author.name,
       };
     });

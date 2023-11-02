@@ -3,7 +3,6 @@ import { AiOutlineMessage, AiOutlineClose } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as ConventionService from "../../service/conventionService";
-import "../../assets/css/fade.css";
 import socketIO from "socket.io-client";
 import * as MessageService from "../../service/messageService";
 import imageCompression from "browser-image-compression";

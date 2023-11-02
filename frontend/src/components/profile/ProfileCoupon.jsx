@@ -47,19 +47,25 @@ function ProfileCoupon() {
         {account?.voucher.length > 0 && (
           <div className="w-full py-2">
             <p className="font-[500] text-[16px]">Voucher của bạn</p>
-            <div className=" md:flex w-full">
+            <div className=" grid md:grid-cols-2 w-full gap-2">
               {account?.voucher.map((item) => {
                 return (
                   <div
                     key={item._id}
                     className="flex border px-4 py-2 rounded shadow w-full mx-2 my-2 "
                   >
-                    <div className="w-[50%]">
-                      <img src={voucher} alt="" className="h-[50px]" />
+                    <div className=" w-[50%]">
+                      <img
+                        src={voucher}
+                        alt=""
+                        className="md:h-[50px] h-[40px]"
+                      />
                     </div>
                     <div className="w-[50%]">
-                      <p className="text-[16px] font-[500]">{item?.name}</p>
-                      <p className="text-[16px] font-[500]">
+                      <p className="md:text-[16px] font-[500] text-[14px]">
+                        {item?.name}
+                      </p>
+                      <p className="md:text-[16px] font-[500] text-[14px]">
                         Giảm: {item?.discountAmount.toLocaleString()} đ
                       </p>
                     </div>
@@ -71,7 +77,7 @@ function ProfileCoupon() {
         )}
         <div className="w-full">
           <p className="font-[500] text-[16px]">Nhận thêm voucher</p>
-          <div className="w-full md:flex">
+          <div className="grid md:grid-cols-2 w-full gap-2">
             {dataCoupon?.length > 0 &&
               dataCoupon?.map((item) => {
                 return (
@@ -79,20 +85,26 @@ function ProfileCoupon() {
                     key={item._id}
                     className="flex border px-4 py-2 rounded shadow items-center w-full mx-2 my-2"
                   >
-                    <div className="w-[50%]">
-                      <img src={voucher} alt="" className="h-[50px]" />
+                    <div className="md:w-[40%] w-[30%]">
+                      <img
+                        src={voucher}
+                        alt=""
+                        className="md:h-[50px] h-[40px]"
+                      />
                     </div>
-                    <div className="w-[40%]">
-                      <p className="text-[16px] font-[500]">{item?.name}</p>
-                      <p className="text-[16px] font-[500]">
+                    <div className="md:w-[40%] w-[45%] px-2">
+                      <p className="md:text-[16px] font-[500] text-[14px]">
+                        {item?.name}
+                      </p>
+                      <p className="md:text-[16px] font-[500] text-[14px]">
                         Giảm: {item?.discountAmount.toLocaleString()} đ
                       </p>
-                      <p className="text-[16px] font-[500]">
+                      <p className="md:text-[16px] font-[500] text-[14px]">
                         Điểm đổi: {item?.point.toLocaleString()}
                       </p>
                     </div>
                     <p
-                      className="w-[10%] cursor-pointer hover:text-[#009b49] hover:underline"
+                      className="md:w-[15%] w-[25%] md:text-[16px] text-[12px] cursor-pointer bg-[#009b49] text-white flex hover:underline justify-center rounded"
                       onClick={() => handleAddVorcher(item)}
                     >
                       Đổi mã

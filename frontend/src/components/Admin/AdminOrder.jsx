@@ -381,7 +381,7 @@ function AdminOrder() {
   return (
     <div className="w-full">
       <div className="flex">
-        <div className="flex w-[50%] flex-col px-2">
+        <div className="md:flex md:w-[50%]  md:flex-col w-full px-2">
           <div className="h-[180px] w-[180px]">
             <PieChartComponent order={dataOrder} />
           </div>

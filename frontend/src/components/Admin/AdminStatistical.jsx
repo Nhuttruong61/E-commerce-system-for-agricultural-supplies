@@ -13,14 +13,14 @@ function AdminStatistical() {
   }, 0);
   return (
     <div className="w-full">
-      <div className=" flex w-full py-2">
-        <div className="h-[400px] w-[50%] flex-col ">
+      <div className=" md:flex w-full py-2 ">
+        <div className=" md:w-[50%] w-full flex-col ">
           <div className="px-4 py-2 flex">
             <p className="font-[600] text-[20px] pr-2">Tổng danh thu:</p>
             <p className="text-[20px]"> {totalPrice.toLocaleString()} đ</p>
           </div>
         </div>
-        <div className="h-[400px] w-[50%] flex-col ">
+        <div className="h-[400px] md:w-[50%] w-full flex-col ">
           <ComposedChartComponent orders={orders} />
           <div className="flex justify-center">
             <p className="font-[600]">
@@ -29,8 +29,8 @@ function AdminStatistical() {
           </div>
         </div>
       </div>
-      <div className=" my-10 flex w-full py-2">
-        <div className="h-[400px] w-[50%]">
+      <div className=" my-10 md:flex w-full py-2 ">
+        <div className="h-[400px] md:w-[50%] w-full">
           <BarChartComponent orders={orders} />
           <div className="w-full flex justify-center">
             <p className="font-[600]">
@@ -38,7 +38,7 @@ function AdminStatistical() {
             </p>
           </div>
         </div>
-        <div className="h-[400px] w-[50%]">
+        <div className="h-[400px] md:w-[50%] w-full md:my-0 my-10">
           <CustomizedLabelLineChart orders={orders} />
           <div className="w-full flex justify-center">
             <p className="font-[600]">

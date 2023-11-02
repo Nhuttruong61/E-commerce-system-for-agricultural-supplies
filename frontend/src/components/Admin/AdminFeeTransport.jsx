@@ -63,9 +63,13 @@ function AdminFeeTransport() {
   };
   const columns = [
     {
-      title: "Id",
-      dataIndex: "_id",
+      title: "STT",
+      dataIndex: "stt",
     },
+    // {
+    //   title: "Id",
+    //   dataIndex: "_id",
+    // },
     {
       title: "Tiêu đề",
       dataIndex: "title",
@@ -90,9 +94,11 @@ function AdminFeeTransport() {
   ];
   let dataTable = [];
   if (data && data) {
-    dataTable = data.map((item) => {
+    dataTable = data.map((item, index) => {
       return {
         ...item,
+        key: item._id,
+        stt: index + 1,
       };
     });
   }
@@ -165,10 +171,7 @@ function AdminFeeTransport() {
   };
   return (
     <div className="w-full flex flex-col">
-      <div
-        className=" flex  md:flex-row m-2 cursor-pointer rounded w-[25%]"
-        onClick={() => setShowModalAdd(true)}
-      >
+      <div className=" flex  p-2" onClick={() => setShowModalAdd(true)}>
         <span className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-red-500  text-white">
           <AiOutlineCloudUpload className="md:text-[30px] text-[20px]" />
           <h2 className="font-[600] px-1 ">Tạo mới</h2>

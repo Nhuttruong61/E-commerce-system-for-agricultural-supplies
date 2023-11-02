@@ -14,7 +14,7 @@ import { getAllFee } from "../../redux/action/feeAction";
 import Loading from "../Loading";
 import * as OrderService from "../../service/orderService";
 import * as PaymentService from "../../service/payment";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getaProduct } from "../../service/productService";
 import voucher from "../.././assets/image/mgg.png";
 function CheckOutContent() {
@@ -330,11 +330,9 @@ function CheckOutContent() {
                   />
                 </div>
                 <div className="md:w-[90%] w-[70%] flex md:items-center md:justify-between  flex-col md:flex-row ">
-                  <p className="text-[50%] md:text-[100%] px-4 md:w-[30%] ">
-                    {item.name}
-                  </p>
+                  <p className="text-[100%] px-4 md:w-[30%] ">{item.name}</p>
                   <div className="flex items-center md:justify-center  ml-2 md:w-[50%]  ">
-                    <p className="text-[50%] md:text-[100%] px-2">Số lượng:</p>
+                    <p className="text-[100%] px-2">Số lượng:</p>
                     <div className="flex items-center justify-center  rounded ml-2">
                       <button
                         className="flex items-center p-1 bg-[#0e9c49] h-full rounded"
@@ -357,10 +355,8 @@ function CheckOutContent() {
                     </div>
                   </div>
                   <div className="flex md:items-center md:justify-center  ml-2 md:w-[30%] ">
-                    <p className="text-[50%] md:text-[100%] px-2">Giá tiền:</p>
-                    <p className="text-[50%] md:text-[100%]">
-                      {price?.toLocaleString()}đ
-                    </p>
+                    <p className="text-[100%] px-2">Giá tiền:</p>
+                    <p className="text-[100%]">{price?.toLocaleString()}đ</p>
                   </div>
                 </div>
               </div>
@@ -372,17 +368,13 @@ function CheckOutContent() {
             className="cursor-pointer"
             onClick={() => setShowModalAddress(true)}
           >
-            <p className="text-[50%] md:text-[100%] font-[600] pt-2 text-red-600">
+            <p className="text-[100%] font-[600] pt-2 text-red-600">
               Địa chỉ nhận hàng
             </p>
             {account?.addresses.length > 0 ? (
               <div>
-                <p className="text-[50%] md:text-[100%] ">
-                  {account?.addresses[0].city}
-                </p>
-                <p className="text-[50%] md:text-[100%]">
-                  {account?.addresses[0].address}
-                </p>
+                <p className="text-[100%] ">{account?.addresses[0].city}</p>
+                <p className="text-[100%]">{account?.addresses[0].address}</p>
               </div>
             ) : null}
           </div>
@@ -395,10 +387,10 @@ function CheckOutContent() {
         </div>
         {account?.voucher.length > 0 && (
           <div className="w-auto  items-center bg-white px-[10%] my-1">
-            <p className="text-[50%] md:text-[100%] font-[600] pt-2 text-red-600">
+            <p className="text-[100%]  font-[600] pt-2 text-red-600">
               Mã giảm giá
             </p>
-            <div className=" md:flex w-full">
+            <div className="grid md:grid-cols-2 w-full gap-2">
               {account?.voucher.map((item) => {
                 const isVoucherActive = activeVouchers.includes(item._id);
                 return (
@@ -406,17 +398,23 @@ function CheckOutContent() {
                     key={item._id}
                     className="flex border px-4 py-2 rounded shadow w-full mx-2 my-2 items-center"
                   >
-                    <div className="w-[40%]">
-                      <img src={voucher} alt="" className="h-[50px]" />
+                    <div className="md:w-[40%] w-[30%]">
+                      <img
+                        src={voucher}
+                        alt=""
+                        className="md:h-[50px] h-[40px]"
+                      />
                     </div>
-                    <div className="w-[45%]">
-                      <p className="text-[16px] font-[500]">{item?.name}</p>
-                      <p className="text-[16px] font-[500]">
+                    <div className="md:w-[40%] w-[45%] px-2">
+                      <p className="md:text-[16px] font-[500] text-[14px]">
+                        {item?.name}
+                      </p>
+                      <p className="md:text-[16px] font-[500] text-[14px]">
                         Giảm: {item?.discountAmount?.toLocaleString()} đ
                       </p>
                     </div>
                     <p
-                      className={`w-[15%] cursor-pointer hover:underline ${
+                      className={`md:w-[15%] w-[25%] cursor-pointer hover:underline md:text-[16px] text-[12px] ${
                         isVoucherActive
                           ? "bg-[#9a9797] text-black "
                           : "bg-[#009b49]"
@@ -432,7 +430,7 @@ function CheckOutContent() {
           </div>
         )}
         <div className="w-auto  items-center bg-white px-[10%] my-1 ">
-          <p className="text-[50%] md:text-[100%] font-[600] pt-2 text-red-600">
+          <p className="text-[100%] font-[600] pt-2 text-red-600">
             Phương thức thanh toán
           </p>
           <select
@@ -445,32 +443,22 @@ function CheckOutContent() {
           </select>
         </div>
         {Paymentethods === "paymentDelivery" && (
-          <div className="flex flex-row-reverse md:px-8 w-full shadow shadow-black bottom-[41%] py-2 bg-white items-center">
+          <div className="flex md:flex-row-reverse  md:px-8 w-full shadow shadow-black bottom-[41%] py-2 bg-white items-center px-[10%]">
             <div className="flex flex-col ">
-              <p className="text-[50%] md:text-[100%] font-[600] ">
-                Chi tiết thanh toán:{" "}
-              </p>
+              <p className="text-[100%] font-[600] ">Chi tiết thanh toán: </p>
               <span className="flex">
-                <p className="text-[50%] md:text-[90%] font-[600]">
-                  Tổng tiền hàng:{" "}
-                </p>
-                <p className="text-[50%] md:text-[90%] pl-2">
-                  {price?.toLocaleString()}đ
-                </p>
+                <p className="text-[100%] font-[600]">Tổng tiền hàng: </p>
+                <p className="text-[100%] pl-2">{price?.toLocaleString()}đ</p>
               </span>
               <span className="flex">
-                <p className="text-[50%] md:text-[90%] font-[600]">
-                  Tổng phí vận chuyển:{" "}
-                </p>
-                <p className="text-[50%] md:text-[90%] pl-2">
+                <p className="text-[100%] font-[600]">Tổng phí vận chuyển: </p>
+                <p className="text-[100%] pl-2">
                   {shipCost?.toLocaleString()}đ
                 </p>
               </span>
               <span className="flex">
-                <p className="text-[50%] md:text-[90%] font-[600]">
-                  Tổng thanh toán:{" "}
-                </p>
-                <p className="text-[50%] md:text-[90%] pl-2">
+                <p className="text-[100%] font-[600]">Tổng thanh toán: </p>
+                <p className="text-[100%] pl-2">
                   {totalPrice?.toLocaleString()}đ
                 </p>
               </span>
@@ -478,7 +466,7 @@ function CheckOutContent() {
           </div>
         )}
         {Paymentethods === "paymentDelivery" && (
-          <div className="flex flex-row-reverse md:px-8 w-full shadow shadow-black bottom-[41%] py-2 bg-white items-center">
+          <div className="flex md:flex-row-reverse md:px-8 w-full shadow shadow-black bottom-[41%] py-2 bg-white items-center px-[10%]">
             <button
               className="bg-[#0e9c49] text-white px-2 font-[600] py-1 rounded"
               onClick={handleOrder}
@@ -486,12 +474,12 @@ function CheckOutContent() {
               Đặt hàng
             </button>
 
-            <p className="px-2 text-[50%] md:text-[100%] font-[600] text-red-600">
-              {totalPrice?.toLocaleString()} đ
-            </p>
-            <p className="text-[50%] md:text-[100%] font-[600] ">
-              Tổng số tiền:{" "}
-            </p>
+            <div className="flex items-center px-2">
+              <p className="text-[100%] font-[600] ">Tổng số tiền </p>
+              <p className="px-2 text-[100%] font-[600] text-red-600">
+                {totalPrice?.toLocaleString()} đ
+              </p>
+            </div>
           </div>
         )}
         {Paymentethods === "onlinePayment" && (
@@ -500,7 +488,7 @@ function CheckOutContent() {
               Thông tin thanh toán
             </h1>
             <label className="items-center">
-              <p className="w-[20%] font-[400]">Loại thanh toán</p>
+              <p className="w-full font-[400]">Loại thanh toán</p>
               <input
                 type="text"
                 value="Thanh toán hóa đơn"

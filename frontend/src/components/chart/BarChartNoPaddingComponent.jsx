@@ -13,6 +13,26 @@ import { converDataChartProduct } from "../../until";
 
 function BarChartNoPaddingComponent({ products }) {
   const data = converDataChartProduct(products);
+  class CustomizedAxisTick extends PureComponent {
+    render() {
+      const { x, y, stroke, payload } = this.props;
+
+      return (
+        <g transform={`translate(${x},${y})`}>
+          <text
+            x={0}
+            y={0}
+            dy={16}
+            textAnchor="end"
+            fill="#666"
+            transform="rotate(-20)"
+          >
+            {payload.value}
+          </text>
+        </g>
+      );
+    }
+  }
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
@@ -27,15 +47,15 @@ function BarChartNoPaddingComponent({ products }) {
         }}
         barSize={20}
       >
-        <XAxis dataKey="name" scale="point" padding={{ left: 10, right: 10 }} />
+        <XAxis dataKey="name" height={60} tick={<CustomizedAxisTick />} />
         <YAxis />
         <Tooltip />
         <Legend />
         <CartesianGrid strokeDasharray="3 3" />
         <Bar
-          name="Lượt bán"
           dataKey="sold_out"
-          fill="#2ca02c"
+          name="Số lượng"
+          fill="#8884d8"
           background={{ fill: "#eee" }}
         />
       </BarChart>

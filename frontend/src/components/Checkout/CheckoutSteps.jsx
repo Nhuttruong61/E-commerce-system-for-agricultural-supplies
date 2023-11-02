@@ -14,16 +14,12 @@ function CheckoutSteps({ current }) {
     },
   ];
 
-  const stepsStyle = {
-    borderColor: "#4caf50",
-    color: "white",
-  };
   return (
     <Steps
       items={item}
-      style={stepsStyle}
       current={current}
-      className="md:px-[10%] py-4"
+      className="px-[10%] py-4  "
+      progressDot={false}
     />
   );
 }
