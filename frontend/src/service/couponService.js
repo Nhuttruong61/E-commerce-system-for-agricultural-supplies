@@ -22,13 +22,13 @@ export const getCoupoun = async (id) => {
 };
 
 export const editCoupoun = async (id, data) => {
-  const res = await axios.get(`/coupon/edit-coupon/${id}`, data, {
+  const res = await axios.put(`/coupon/edit-coupon/${id}`, data, {
     withCredentials: true,
   });
   return res;
 };
 export const deleteCoupoun = async (id) => {
-  const res = await axios.get(`/coupon/delete-coupon/${id}`, {
+  const res = await axios.delete(`/coupon/delete-coupon/${id}`, {
     withCredentials: true,
   });
   return res;
