@@ -16,6 +16,7 @@ import { FcExpired } from "react-icons/fc";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { BiCategory, BiBorderAll } from "react-icons/bi";
 import { TfiLayoutSliderAlt } from "react-icons/tfi";
+import { RiCoupon2Line } from "react-icons/ri";
 function SideBarAdmin({ active, setActive }) {
   return (
     <div className="w-full h-[90vh] shadow overflow-y-auto sticky top-0 left-0 z-10 cursor-pointer">
@@ -288,7 +289,7 @@ function SideBarAdmin({ active, setActive }) {
         onClick={() => setActive(16)}
       >
         <div className="flex w-full items-center">
-          <TfiLayoutSliderAlt
+          <RiCoupon2Line
             className={` text-[24px]  ${
               active === 16 ? "text-[#0e9c49]" : "text-black"
             }`}
@@ -296,6 +297,25 @@ function SideBarAdmin({ active, setActive }) {
           <p
             className={`800px:block hidden pl-2 text-[18px] font-[500] ${
               active === 16 ? "text-[#0e9c49]" : "text-black"
+            }`}
+          >
+            Phiếu giảm giá
+          </p>
+        </div>
+      </div>
+      <div
+        className="flex w-full items-center px-4 py-3"
+        onClick={() => setActive(17)}
+      >
+        <div className="flex w-full items-center">
+          <TfiLayoutSliderAlt
+            className={` text-[24px]  ${
+              active === 17 ? "text-[#0e9c49]" : "text-black"
+            }`}
+          />
+          <p
+            className={`800px:block hidden pl-2 text-[18px] font-[500] ${
+              active === 17 ? "text-[#0e9c49]" : "text-black"
             }`}
           >
             Slider

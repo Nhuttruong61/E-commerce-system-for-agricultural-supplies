@@ -14,7 +14,7 @@ import { getAllFee } from "../../redux/action/feeAction";
 import Loading from "../Loading";
 import * as OrderService from "../../service/orderService";
 import * as PaymentService from "../../service/payment";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import { getaProduct } from "../../service/productService";
 import voucher from "../.././assets/image/mgg.png";
 function CheckOutContent() {
@@ -79,7 +79,9 @@ function CheckOutContent() {
     }, 0);
     if (coupon) {
       let couponPrice = total - coupon.discountAmount;
-      setPrice(couponPrice);
+      if (couponPrice < 0) {
+        setPrice(0);
+      } else setPrice(couponPrice);
     } else {
       setPrice(total);
     }
@@ -169,6 +171,8 @@ function CheckOutContent() {
         dispatch(clearQuantity());
         dispatch(getUser());
         setCoupon([]);
+        localStorage.setItem("voucher", null);
+        localStorage.setItem("activeVouchers", null);
       }
     }
   };
@@ -206,18 +210,23 @@ function CheckOutContent() {
               type: "onlinePayment",
               status: "Đã thanh toán",
             },
+            coupons: {
+              ...coupon,
+            },
           };
           const res = await OrderService.createOrder(order);
           if (res.success) {
             navigate("/order/seccess");
             dispatch(clearQuantity());
+            localStorage.setItem("voucher", null);
+            localStorage.setItem("activeVouchers", null);
           }
         }
       }
     }
   };
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && totalPrice) {
       handleOrderPayment();
     }
   }, [totalPrice]);
@@ -279,14 +288,32 @@ function CheckOutContent() {
 
   const handleAddCoupon = (item) => {
     const isVoucherActive = activeVouchers.includes(item._id);
+
     if (isVoucherActive) {
       setActiveVouchers(activeVouchers.filter((Id) => Id !== item._id));
+      localStorage.setItem(
+        "activeVouchers",
+        setActiveVouchers(activeVouchers.filter((Id) => Id !== item._id))
+      );
       setCoupon(null);
+      localStorage.setItem("voucher", null);
     } else {
       setActiveVouchers([item._id]);
       setCoupon(item);
+      localStorage.setItem("activeVouchers", item._id);
+      localStorage.setItem("voucher", JSON.stringify(item));
     }
   };
+  useEffect(() => {
+    const activeVoucher = localStorage.getItem("activeVouchers");
+    const voucher = JSON.parse(localStorage.getItem("voucher"));
+    if (activeVoucher) {
+      setActiveVouchers(activeVoucher);
+    }
+    if (voucher) {
+      setCoupon(voucher);
+    }
+  }, []);
 
   return (
     <Loading isLoading={isLoading}>
@@ -385,7 +412,7 @@ function CheckOutContent() {
                     <div className="w-[45%]">
                       <p className="text-[16px] font-[500]">{item?.name}</p>
                       <p className="text-[16px] font-[500]">
-                        Giảm: {item?.discountAmount.toLocaleString()} đ
+                        Giảm: {item?.discountAmount?.toLocaleString()} đ
                       </p>
                     </div>
                     <p

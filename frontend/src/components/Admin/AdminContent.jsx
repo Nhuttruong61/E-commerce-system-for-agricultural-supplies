@@ -14,6 +14,7 @@ import AdminBlog from "./AdminBlog/AdminBlog";
 import Dashboard from "./Dashboard";
 import SliderAdmin from "./SliderAdmin";
 import AdminStatistical from "./AdminStatistical";
+import AdminCoupon from "./AdminCoupon";
 
 function AdminContent({ active }) {
   let content = null;
@@ -46,6 +47,8 @@ function AdminContent({ active }) {
   } else if (active === 15) {
     content = <AdminStatistical />;
   } else if (active === 16) {
+    content = <AdminCoupon />;
+  } else if (active === 17) {
     content = <SliderAdmin />;
   }
   return (

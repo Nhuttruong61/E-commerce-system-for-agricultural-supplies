@@ -34,7 +34,7 @@ function AdminStatistical() {
           <BarChartComponent orders={orders} />
           <div className="w-full flex justify-center">
             <p className="font-[600]">
-              Biểu đồ thể hiện danh thu các ngày trong tuần
+              Biểu đồ thể hiện danh thu các tuần trong tháng
             </p>
           </div>
         </div>

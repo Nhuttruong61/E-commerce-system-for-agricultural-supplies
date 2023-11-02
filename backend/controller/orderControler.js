@@ -144,7 +144,6 @@ const updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
     async function updateGiftPoint(point) {
       const user = await User.findById(order.user._id);
       user.giftPoints += point;
-      console.log("user", user);
       await user.save();
     }
   } catch (err) {
