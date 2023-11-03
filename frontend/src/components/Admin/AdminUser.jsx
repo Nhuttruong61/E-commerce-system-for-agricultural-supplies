@@ -212,6 +212,7 @@ function AdminUser() {
       title: "Tổng tiền",
       dataIndex: "price",
       sorter: (a, b) => a.price - b.price,
+      ...getColumnSearchProps("price"),
     },
     {
       title: "Xem thêm",

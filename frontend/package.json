@@ -12,6 +12,7 @@
     "browser-image-compression": "^2.0.2",
     "country-state-city": "^3.1.4",
     "date-fns": "^2.30.0",
+    "html2canvas": "^1.4.1",
     "image-compression": "^0.0.6",
     "jspdf": "^2.5.1",
     "moment": "^2.29.4",

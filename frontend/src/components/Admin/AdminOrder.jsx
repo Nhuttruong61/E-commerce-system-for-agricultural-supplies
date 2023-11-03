@@ -3,7 +3,7 @@ import * as OrderSerVice from "../../service/orderService";
 import TableComponent from "../Table";
 import { Button, Modal, Select, Space } from "antd";
 import jsPDF from "jspdf";
-
+import html2canvas from "html2canvas";
 import {
   SearchOutlined,
   DeleteOutlined,
@@ -349,34 +349,24 @@ function AdminOrder() {
       setDataExport(res);
     }
   };
-
   const handleExportOrder = () => {
     setShowModalPrint(false);
-    const {
-      name,
-      address,
-      paymentInfoStatus,
-      product,
-      totalPrice,
-      phoneNumber,
-    } = dataExportAUser || {};
-    const formattedName = unidecode(name);
-    const formattedAddress = unidecode(address);
-    const formattedPaymentStatus = unidecode(paymentInfoStatus);
-    const formattedProduct = unidecode(
-      product.map(({ name, quantity }) => `${name} (${quantity})`).join(", ")
-    );
-    const doc = new jsPDF();
-    doc.setFont("Arial");
-    doc.text("Thong tin", 20, 10);
-    doc.text(`Ten: ${formattedName}`, 20, 20);
-    doc.text(`Dien thoai: ${phoneNumber}`, 20, 30);
-    doc.text(`Dia chi: ${formattedAddress}`, 20, 40);
-    doc.text(`Thanh toan: ${formattedPaymentStatus}`, 20, 50);
-    doc.text(`Gia: ${totalPrice}`, 20, 60);
-    doc.text(`San pham: ${formattedProduct}`, 20, 70);
-
-    doc.save("order.pdf");
+    html2canvas(document.querySelector("#pdf-content")).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF();
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      pdf.addImage(
+        { imageData: imgData, format: "PNG", x: 0, y: 0, autoResize: true },
+        "PNG",
+        0,
+        0,
+        pdfWidth,
+        pdfHeight
+      );
+      pdf.save("order.pdf");
+    });
   };
   return (
     <div className="w-full">
@@ -564,8 +554,92 @@ function AdminOrder() {
         onCancel={handleCancel}
         okButtonProps={okButtonDelete}
         okType="none"
+        width={800}
       >
-        <p>{`Bạn có muốn in hóa đơn này`} </p>
+        <div id="pdf-content" className="w-full">
+          <div className="w-full p-5 px-[10%]">
+            {dataExportAUser?.product?.length > 0 ? (
+              <div>
+                {dataExportAUser?.product?.map((item) => {
+                  return (
+                    <div key={item.id} className="flex border-t py-2">
+                      <div className="md:w-[90%] w-[70%] flex md:items-center md:justify-between  flex-col md:flex-row ">
+                        <p className="text-[50%] md:text-[100%] px-4 md:w-[30%] ">
+                          {item.name}
+                        </p>
+                        <div className="flex items-center md:justify-center  ml-2 md:w-[50%]  ">
+                          <p className="text-[50%] md:text-[100%] px-2">
+                            Số lượng:
+                          </p>
+                          <p className="px-2 text-[50%] md:text-[100%]">
+                            {item.quantity}
+                          </p>
+                        </div>
+                        <div className="flex md:items-center md:justify-center  ml-2 md:w-[30%] ">
+                          <p className="text-[50%] md:text-[100%] px-2">
+                            Giá tiền:
+                          </p>
+                          <p className="text-[50%] md:text-[100%]">
+                            {`${(isNaN(item.price) || isNaN(item.quantity)
+                              ? 0
+                              : item.price * item.quantity
+                            ).toLocaleString()} đ`}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : null}
+          </div>
+          <div className="w-full  items-center bg-white px-[10%] my-1  md:flex md:justify-between">
+            <div className="w-full">
+              <p className="text-[16px] font-[600] pt-2 ">Thông tin đơn hàng</p>
+              <div className="flex justify-between">
+                <div>
+                  <div className="flex">
+                    <p className="Text-[14px] pr-2">Tên:</p>
+                    <p className="text-[50%] md:text-[100%]">
+                      {dataExportAUser?.name}
+                    </p>
+                  </div>
+                  <div className="flex">
+                    <p className="Text-[14px] pr-2">Điện thoại:</p>
+                    <p className="text-[50%] md:text-[100%]">
+                      {dataExportAUser?.phone}
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex">
+                    <p className="Text-[14px] pr-2">Địa chỉ:</p>
+                    <p className="text-[50%] md:text-[100%]">
+                      {dataExportAUser?.address}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="w-auto  items-center bg-white px-[10%] my-1 ">
+            <div>
+              <p className="Text-[14px] pt-2 ">Trạng thái</p>
+              <p className="Text-[14px] pt-2 text-red-600">
+                {dataExportAUser?.paymentInfoStatus}
+              </p>
+            </div>
+            <div>
+              <p className="Text-[14px] pt-2 ">Tổng thanh toán</p>
+              <p className="Text-[14px] pt-2 text-red-600">
+                {dataExportAUser?.totalPrice.toLocaleString()} đ
+              </p>
+              <br />
+              <br />
+              <br />
+            </div>
+          </div>
+        </div>
       </Modal>
     </div>
   );
