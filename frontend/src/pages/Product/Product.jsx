@@ -221,6 +221,7 @@ function Product() {
                 <div key={item._id} className="flex px-2 py-1">
                   <input
                     type="checkbox"
+                    className="mr-1"
                     value={item._id}
                     onChange={() => handleCheckboxChange(item._id)}
                   />
@@ -236,6 +237,7 @@ function Product() {
                   name="under100"
                   id="under100"
                   checked={priceRanges.under100}
+                  className="mr-1"
                   onChange={handleCheckboxChangePrice}
                 />
                 <label>Dưới 100 nghìn</label>
@@ -245,6 +247,7 @@ function Product() {
                   type="checkbox"
                   id="from100to500"
                   name="from100to500"
+                  className="mr-1"
                   checked={priceRanges.from100to500}
                   onChange={handleCheckboxChangePrice}
                 />
@@ -254,6 +257,7 @@ function Product() {
                 <input
                   type="checkbox"
                   id="over500"
+                  className="mr-1"
                   name="over500"
                   checked={priceRanges.over500}
                   onChange={handleCheckboxChangePrice}

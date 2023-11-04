@@ -41,7 +41,6 @@ function ProfileCoupon() {
       setIsLoading(false);
     }
   };
-  console.log(dataCoupon);
   return (
     <Loading isLoading={isLoading}>
       <div className="w-full  h-auto bg-white rounded-[10px] px-2">

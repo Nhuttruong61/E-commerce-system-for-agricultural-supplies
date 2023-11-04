@@ -250,7 +250,7 @@ function AdminEvent() {
   return (
     <div className="w-full">
       <div
-        className=" flex  md:flex-row m-2 cursor-pointer rounded w-[25%]"
+        className="flex md:flex-row m-2 justify-between"
         onClick={() => setShowModalAdd(true)}
       >
         <span className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-red-500  text-white">

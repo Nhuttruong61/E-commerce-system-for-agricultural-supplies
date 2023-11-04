@@ -157,3 +157,22 @@ export const converdataLineChart = ({ data }) => {
     return [];
   }
 };
+
+export const coverVertialChart = (user) => {
+  try {
+    const object = [];
+    const userSort = user
+      .sort((a, b) => b.totalAmount - a.totalAmount)
+      .slice(0, 9);
+    userSort.forEach((item) => {
+      object.push({
+        name: item.name,
+        pv: item.totalAmount,
+      });
+    });
+    return object;
+  } catch (e) {
+    console.log(e);
+    return [];
+  }
+};

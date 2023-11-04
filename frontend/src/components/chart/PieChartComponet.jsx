@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { converDataChart } from "../../until";
 
 function PieChartComponent({ order }) {
@@ -49,6 +49,7 @@ function PieChartComponent({ order }) {
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
+        <Tooltip />
       </PieChart>
     </ResponsiveContainer>
   );

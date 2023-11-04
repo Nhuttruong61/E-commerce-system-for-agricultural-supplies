@@ -1,4 +1,4 @@
-import React, { PureComponent, memo } from "react";
+import React, { memo } from "react";
 import {
   BarChart,
   Bar,
@@ -7,8 +7,8 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 import { converDataChartBar } from "../../until";
 
@@ -31,15 +31,10 @@ function BarChartComponent({ orders }) {
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
-        <Bar
-          name="Lợi nhuận"
-          dataKey="pv"
-          fill="#8884d8"
-          activeBar={<Rectangle fill="pink" stroke="blue" />}
-        />
+        <Legend />
         <Bar
           dataKey="revenue"
-          name="danh thu"
+          name="Danh thu"
           fill="#82ca9d"
           activeBar={<Rectangle fill="gold" stroke="purple" />}
         />

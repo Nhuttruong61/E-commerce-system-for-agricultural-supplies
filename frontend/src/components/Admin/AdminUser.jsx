@@ -101,6 +101,15 @@ function AdminUser() {
       </div>
     );
   };
+  const vietnameseRole = {
+    admin: "admin",
+    user: "user",
+    member: "Thành viên",
+    business: "Danh nghiệp",
+  };
+  const handleRenderRole = (item) => {
+    return vietnameseRole[item] || item;
+  };
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchedColumn(dataIndex);
@@ -207,6 +216,7 @@ function AdminUser() {
     {
       title: "Vai trò",
       dataIndex: "role",
+      render: handleRenderRole,
     },
     {
       title: "Tổng tiền",
@@ -228,7 +238,6 @@ function AdminUser() {
   let dataTable = [];
   if (dataUser && dataUser.length > 0) {
     dataTable = dataUser.map((user, index) => {
-      console.log(user);
       return {
         key: user._id,
         id: user._id,
@@ -445,8 +454,8 @@ function AdminUser() {
                     }
                   >
                     <option value="user">user</option>
-                    <option value="member">member</option>
-                    <option value="business">business</option>
+                    <option value="member">Thành viên</option>
+                    <option value="business">Doanh nghiệp</option>
                   </select>
                 </label>
               )}

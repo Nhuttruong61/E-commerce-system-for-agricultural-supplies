@@ -6,8 +6,20 @@ import {
   YoutubeFilled,
   TwitterCircleFilled,
 } from "@ant-design/icons";
+import { AiOutlineHome, AiOutlineMail } from "react-icons/ai";
+import { BsTelephone } from "react-icons/bs";
+import { FaEarthAsia } from "react-icons/fa6";
 import { footerProductLinks, footerSupportLinks } from "../../static/data";
 function Footer() {
+  const handlePhoneClick = () => {
+    const callPhone = "tel:0384999999";
+    window.location.href = callPhone;
+  };
+  const handleEmailClick = () => {
+    const email = "Nongnghiepxanh.com";
+    const mailtoLink = `mailto:${email}`;
+    window.location.href = mailtoLink;
+  };
   return (
     <div className=" flex flex-col ">
       <div className=" md:flex md:justify-between md:items-center bg-[#009b49] p-2">
@@ -28,11 +40,41 @@ function Footer() {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3  grap-6 sm:px-8 px-5 py-8 sm:text-center">
         <ul className="px-5 text-center sm:text-start flex sm:block flex-col items-center">
-          <img src={logo} alt="" className="w-[90px]" />
-          <p className=" font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#0e9c49] to-[#e49200]">
-            Nông Nghiệp Xanh
-          </p>
-          <p className="font-[600]">Uy tính - Chất lượng - Bền vững </p>
+          <div className="md:flex items-center">
+            <div className="flex justify-center">
+              <img src={logo} alt="" className="w-[60px]" />
+            </div>
+            <div className="flex flex-col">
+              <p className=" font-extrabold text-[18px] text-transparent bg-clip-text bg-gradient-to-r from-[#0e9c49] to-[#e49200]">
+                Nông Nghiệp Xanh
+              </p>
+              <p className="font-[600] text-[16px]">
+                Uy tính - Chất lượng - Bền vững{" "}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center pl-2 pt-2">
+            <AiOutlineHome style={{ fontSize: "18px", fontWeight: "700" }} />
+            <p className=" pl-2">Add: Vĩnh Xuân, Trà ôn, Vĩnh Long</p>
+          </div>
+          <div
+            className="flex items-center pl-2 pt-2 cursor-pointer hover:text-[#0e9c49]"
+            onClick={handlePhoneClick}
+          >
+            <BsTelephone style={{ fontSize: "18px", fontWeight: "700" }} />
+            <p className=" pl-2">Phone: 0384 999 999</p>
+          </div>
+          <div className="flex items-center pl-2 pt-2 ">
+            <FaEarthAsia style={{ fontSize: "18px", fontWeight: "700" }} />
+            <p className=" pl-2">Website: Nongnghiepxanh.com</p>
+          </div>
+          <div
+            className="flex items-center pl-2 pt-2 cursor-pointer hover:text-[#0e9c49]"
+            onClick={handleEmailClick}
+          >
+            <AiOutlineMail style={{ fontSize: "18px", fontWeight: "700" }} />
+            <p className=" pl-2">Email: Nongnghiepxanh@gmail.com</p>
+          </div>
           <div className="flex my-2">
             <Link to="https://www.facebook.com/profile.php?id=100007950272205">
               <FacebookFilled
@@ -55,7 +97,7 @@ function Footer() {
           </div>
         </ul>
         <ul className="text-center sm:text-start">
-          <h1 className="font-[600]">Công ty</h1>
+          <h1 className="font-[700] text-[18px]">Công ty</h1>
           {footerProductLinks.map((link) => {
             return (
               <li key={link.name}>
@@ -70,7 +112,7 @@ function Footer() {
           })}
         </ul>
         <ul className="text-center sm:text-start">
-          <h1 className="font-[600]">Hổ trợ</h1>
+          <h1 className="font-[700] text-[18px]">Trang</h1>
           {footerSupportLinks.map((link) => {
             return (
               <li key={link.name}>

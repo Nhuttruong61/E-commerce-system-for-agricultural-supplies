@@ -233,10 +233,10 @@ function AdminCategory() {
   return (
     <div className="w-full flex flex-col">
       <div
-        className=" flex  md:flex-row m-2 cursor-pointer rounded w-[25%]"
+        className=" flex  md:flex-row m-2 justify-between"
         onClick={() => setShowModalAdd(true)}
       >
-        <span className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-red-500  text-white">
+        <span className="border-[2px] flex justify-center rounded cursor-pointer items-center px-2 py-1 bg-red-500  text-white">
           <AiOutlineCloudUpload className="md:text-[30px] text-[20px]" />
           <h2 className="font-[600] px-1 ">Tạo mới</h2>
         </span>

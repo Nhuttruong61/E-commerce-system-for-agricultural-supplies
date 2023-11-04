@@ -30,11 +30,11 @@ export const navItems = [
 export const footerProductLinks = [
   {
     name: "Về chúng tôi",
-    link: "/about",
+    link: "/",
   },
   {
     name: "Chính sách bảo mật",
-    link: "/privacy-policy",
+    link: "/",
   },
   {
     name: "Địa chỉ",
@@ -44,17 +44,22 @@ export const footerProductLinks = [
 export const footerSupportLinks = [
   {
     name: "Diễn đàn",
+    link: "/faq",
   },
   {
-    name: "Reviews",
-  },
-  {
-    name: "Liên hệ",
+    name: "Phổ biến",
+    link: "/best-selling",
   },
   {
     name: "Sản phẩm",
+    link: "/products",
   },
   {
-    name: "Live chat",
+    name: "Sự kiện",
+    link: "/events",
+  },
+  {
+    name: "Tin tức",
+    link: "/blog",
   },
 ];

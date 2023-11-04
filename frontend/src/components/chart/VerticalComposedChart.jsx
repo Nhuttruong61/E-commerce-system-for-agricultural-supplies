@@ -1,4 +1,4 @@
-import React, { PureComponent, memo } from "react";
+import React, { PureComponent } from "react";
 import {
   ComposedChart,
   Line,
@@ -11,13 +11,14 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { ConverChartComposed } from "../../until";
+import { coverVertialChart } from "../../until";
 
-function ComposedChartComponent({ orders }) {
-  const data = ConverChartComposed(orders);
+function VerticalComposedChart({ user }) {
+  const data = coverVertialChart(user);
   return (
     <ResponsiveContainer width="100%" height="100%">
       <ComposedChart
+        layout="vertical"
         width={500}
         height={400}
         data={data}
@@ -29,15 +30,18 @@ function ComposedChartComponent({ orders }) {
         }}
       >
         <CartesianGrid stroke="#f5f5f5" />
-        <XAxis dataKey="name" scale="band" />
-        <YAxis />
+        <XAxis type="number" />
         <Tooltip />
         <Legend />
-        <Bar name="Danh thu" dataKey="uv" barSize={20} fill="#413ea0" />
-        <Line name="Danh thu" type="monotone" dataKey="uv" stroke="#ff7300" />
+        <XAxis dataKey="name" scale="band" />
+        <YAxis dataKey="name" type="category" />
+        <Tooltip />
+        <Legend />
+
+        <Bar dataKey="pv" name="Số tiền" barSize={20} fill="#413ea0" />
       </ComposedChart>
     </ResponsiveContainer>
   );
 }
 
-export default memo(ComposedChartComponent);
+export default VerticalComposedChart;

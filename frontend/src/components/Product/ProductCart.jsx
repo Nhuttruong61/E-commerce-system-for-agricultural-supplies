@@ -60,10 +60,10 @@ function ProductCart(item) {
         </div>
         {item?.item.ratings && <Rating rating={item?.item.ratings} />}
 
-        <div className="flex justify-between font-[500]   md:text-[80%] md:px-[4%] ">
+        <div className="flex justify-between font-[500]   md:text-[80%] md:px-[4%] items-center">
           <div className="flex py-1">
             {item?.item?.distCount > 0 && (
-              <p className="text-red-600 line-through pr-2">
+              <p className="text-red-600 line-through pr-2 text-[10px]">
                 {item.item.price.toLocaleString()}đ
               </p>
             )}
