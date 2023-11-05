@@ -34,6 +34,7 @@ function ProfileCoupon() {
         }
       } else {
         toast.warning("Bạn không đủ điểm để đổi vocher này");
+        setIsLoading(false);
       }
     } catch (e) {
       toast.error("Bạn đẫ có mã giảm giá này");

@@ -31,6 +31,43 @@ const createCategory = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(err.message, 500));
   }
 });
+const updateCategory = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const category = await Category.findById(req.params.id);
+    if (!category) {
+      return next(new ErrorHandler("category not found", 404));
+    }
+    const { name, images } = req.body;
+    if (!name || !images) {
+      return next(
+        new ErrorHandler("Please provide complete category informations", 400)
+      );
+    }
+
+    const isCloudinaryImage = await images?.includes("cloudinary");
+    if (images && !isCloudinaryImage) {
+      if (category.images.length > 0) {
+        await cloudinary.v2.uploader.destroy(category.images[0].public_id);
+      }
+      const myCloud = await cloudinary.v2.uploader.upload(images, {
+        forder: "imgCategorie",
+      });
+
+      category.images = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      };
+    }
+    category.name = name;
+    await category.save();
+    res.status(201).json({
+      success: true,
+      category,
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err.message, 500));
+  }
+});
 //get all  categories
 const getallCategories = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -63,4 +100,9 @@ const deleteCategory = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(err.message, 500));
   }
 });
-module.exports = { createCategory, getallCategories, deleteCategory };
+module.exports = {
+  createCategory,
+  getallCategories,
+  deleteCategory,
+  updateCategory,
+};

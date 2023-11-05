@@ -162,11 +162,11 @@ function Adminproduct() {
         <div
           className="mx-1"
           onClick={() => {
+            setIdProduct(item._id);
             item?.gifts?.length > 0
               ? setIsShowGift(true)
               : setIsShowGift(false);
             setShowModalEdit(true);
-            setIdProduct(item._id);
             setEditProduct({
               _id: item._id,
               name: item.name,
@@ -182,7 +182,6 @@ function Adminproduct() {
               quantity: item.quantity,
               origin: item.origin,
               expirationDate: item.expirationDate,
-              images: item.images[0].url,
               newImage: item.images[0].url,
             });
           }}
@@ -389,18 +388,14 @@ function Adminproduct() {
     setShowModalEdit(false);
     setShowModalDelete(false);
     setSelectedImage(null);
+    setSelectedImage(null);
   };
   useEffect(() => {
     if (selectedImage) {
-      setEditProduct((prevEditProduct) => ({
-        ...prevEditProduct,
+      setEditProduct({
+        ...editProduct,
         newImage: selectedImage,
-      }));
-    } else {
-      setEditProduct((prevEditProduct) => ({
-        ...prevEditProduct,
-        newImage: prevEditProduct.newImage,
-      }));
+      });
     }
   }, [selectedImage]);
 
@@ -881,7 +876,7 @@ function Adminproduct() {
           ) : (
             <img
               className="w-[50px] h-[50px]"
-              src={editProduct.images}
+              src={editProduct.newImage}
               alt=""
             />
           )}

@@ -29,7 +29,7 @@ function News() {
           return (
             <div
               key={item._id}
-              className="shadow mx-2 py-2 px-2 cursor-pointer w-full hover:shadow-[#0e9c49]"
+              className="shadow mx-2 py-2 px-2 cursor-pointer w-full hover:shadow-[#0e9c49] hover:-translate-y-1"
               onClick={() => navigate(`/blog/${item._id}`)}
             >
               <div className="w-full flex justify-center md:h-[40vh]">

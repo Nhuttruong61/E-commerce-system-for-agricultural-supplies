@@ -219,6 +219,7 @@ function FAQInfomation() {
                             onCancel={handleCancel}
                             okButtonProps={okButtonEdit}
                             okType="none"
+                            width={800}
                             footer={[
                               <Button key="cancel" onClick={handleCancel}>
                                 Hủy
@@ -236,6 +237,7 @@ function FAQInfomation() {
                             />
                             <textarea
                               type="text"
+                              rows={8}
                               value={questionContent}
                               onChange={handleOnchageContent}
                               className="w-full md:px-4 h-auto py-2 border-[2px] sm:px-0 rounded-[4px] break-words"

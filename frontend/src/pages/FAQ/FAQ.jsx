@@ -95,6 +95,7 @@ export default function FAQ() {
               onCancel={handleCancel}
               okButtonProps={okButtonAdd}
               okType="none"
+              width={800}
               footer={[
                 <Button key="cancel" onClick={handleCancel}>
                   Hủy
@@ -113,6 +114,7 @@ export default function FAQ() {
               />
               <textarea
                 value={questionContent}
+                rows={8}
                 placeholder="Nội dung"
                 onChange={handleOnchageContent}
                 className="w-full md:px-4 px-2 h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"

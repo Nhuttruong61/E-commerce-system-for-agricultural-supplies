@@ -2,7 +2,11 @@ import React, { memo, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TableComponent from "../Table";
 import { Button, Modal, Space } from "antd";
-import { SearchOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  DeleteOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import imageCompression from "browser-image-compression";
 import * as CategoryService from "../../service/categoryService";
@@ -19,7 +23,11 @@ function AdminCategory() {
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const [idCategory, setIdCategory] = useState("");
-
+  const [showModalEdit, setShowModalEdit] = useState(false);
+  const [editcategory, setEditCategory] = useState({
+    name: "",
+    images: null,
+  });
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchedColumn(dataIndex);
@@ -117,6 +125,19 @@ function AdminCategory() {
         >
           <DeleteOutlined className="text-red-600 border border-[red] py-2 px-1 rounded-[4px]" />
         </div>
+        <div
+          className="mx-1"
+          onClick={() => {
+            setShowModalEdit(true);
+            setIdCategory(item._id);
+            setEditCategory({
+              name: item.name,
+              images: item.images[0].url,
+            });
+          }}
+        >
+          <EditOutlined className="text-green-600 border border-[green] py-2 px-1 rounded-[4px]" />{" "}
+        </div>
       </div>
     );
   };
@@ -202,6 +223,8 @@ function AdminCategory() {
   const handleCancel = () => {
     setShowModalAdd(false);
     setShowModalDelete(false);
+    setShowModalEdit(false);
+    setSelectedImage(null);
   };
   const handleDelete = async () => {
     setShowModalDelete(false);
@@ -230,6 +253,32 @@ function AdminCategory() {
   useEffect(() => {
     dispatch(getCaterogy());
   }, []);
+  useEffect(() => {
+    if (selectedImage) {
+      setEditCategory({
+        ...editcategory,
+        images: selectedImage,
+      });
+    }
+  }, [selectedImage]);
+  const handleEditCategory = async () => {
+    try {
+      setShowModalEdit(false);
+      setIsLoading(true);
+      const res = await CategoryService.updateCategory(
+        idCategory,
+        editcategory
+      );
+      setIsLoading(false);
+      if (res.success) {
+        toast.success("Cập nhật danh mục thành công");
+        dispatch(getCaterogy());
+      }
+    } catch (e) {
+      setIsLoading(false);
+      dispatch(getCaterogy());
+    }
+  };
   return (
     <div className="w-full flex flex-col">
       <div
@@ -286,6 +335,54 @@ function AdminCategory() {
               value={selectedImage}
             />
           ) : null}
+        </label>
+      </Modal>
+      <Modal
+        title="Chỉnh sửa danh mục"
+        open={showModalEdit}
+        onOk={handleEditCategory}
+        onCancel={handleCancel}
+        okButtonProps={okButtonAdd}
+        okType="none"
+      >
+        <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Tên</p>
+          <input
+            value={editcategory.name}
+            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            onChange={(e) =>
+              setEditCategory({ ...editcategory, name: e.target.value })
+            }
+            placeholder="Nhập tên danh mục..."
+          />
+        </label>
+
+        <label className="flex items-center my-8 w-[30%] ">
+          <label
+            htmlFor="inport"
+            className="bg-[#0e9c49] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2 px-2"
+          >
+            Ảnh
+          </label>
+          <input
+            id="inport"
+            type="file"
+            hidden
+            onChange={handleOnchangeImage}
+          />
+          {selectedImage ? (
+            <img
+              className="w-[40px] h-[40px] object-cover "
+              src={selectedImage}
+              alt=""
+            />
+          ) : (
+            <img
+              className="w-[50px] h-[50px]"
+              src={editcategory.images}
+              alt=""
+            />
+          )}
         </label>
       </Modal>
       <Modal

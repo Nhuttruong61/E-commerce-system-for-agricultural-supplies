@@ -11,7 +11,6 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
     const {
       name,
       description,
-
       category,
       weight,
       capacity,
@@ -156,6 +155,9 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
     }
     const isCloudinaryImage = newImage && newImage.includes("cloudinary");
     if (newImage && !isCloudinaryImage) {
+      if (product?.images[0]?.public_id) {
+        await cloudinary.v2.uploader.destroy(product.images[0].public_id);
+      }
       const myCloud = await cloudinary.v2.uploader.upload(newImage, {
         folder: "imgProducts",
       });
@@ -163,9 +165,6 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
         public_id: myCloud.public_id,
         url: myCloud.secure_url,
       };
-      if (product?.images[0]?.public_id) {
-        await cloudinary.v2.uploader.destroy(product.images[0].public_id);
-      }
     }
 
     product.name = name;

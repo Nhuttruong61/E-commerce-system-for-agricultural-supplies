@@ -21,7 +21,7 @@ function Categories() {
 
             return (
               <div
-                className="w-full h-auto flex items-center justify-center cursor-pointer overflow-hidden  p-2 rounded-[4px] shadow hover:shadow-[#5b5959]"
+                className="w-full h-auto flex items-center justify-center cursor-pointer overflow-hidden  p-2 rounded-[4px] shadow hover:shadow-[#0e9c49] hover:-translate-y-1"
                 key={i._id}
                 onClick={() => handleSubmit(i)}
               >

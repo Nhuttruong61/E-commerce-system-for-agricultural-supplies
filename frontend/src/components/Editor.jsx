@@ -3,8 +3,10 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 function Editor({ value, setValue }) {
   var toolbarOptions = [
-    ["bold", "italic", "underline", "strike"], // toggled buttons
+    [{ font: [] }],
+    [{ align: [] }],
     ["blockquote", "code-block"],
+    ["bold", "italic", "underline", "strike"], // toggled buttons
 
     [{ header: 1 }, { header: 2 }], // custom button values
     [{ list: "ordered" }, { list: "bullet" }],
@@ -16,8 +18,6 @@ function Editor({ value, setValue }) {
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
     [{ color: ["black", "red"] }, { background: [] }], // dropdown with defaults from theme
-    [{ font: [] }],
-    [{ align: [] }],
 
     ["clean"], // remove formatting button
   ];

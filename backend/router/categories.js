@@ -10,6 +10,12 @@ router.post(
   categoryControler.createCategory
 );
 router.get("/get-all-categories", categoryControler.getallCategories);
+router.put(
+  "/update-category/:id",
+  isAuthenticated,
+  isAdmin("admin"),
+  categoryControler.updateCategory
+);
 router.delete(
   "/delete-category/:id",
   isAuthenticated,

@@ -1,6 +1,6 @@
 import React from "react";
 import SliderComponet from "../components/Layout/Slider";
-import Categories from "../components/Categories";
+import Categories from "../components/Layout/Categories";
 import Popular from "../components/Layout/Popular";
 import Newproduct from "../components/Layout/Newproduct";
 import Event from "../components/Events/Event";

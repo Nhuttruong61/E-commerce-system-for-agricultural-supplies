@@ -11,6 +11,12 @@ export const createCategory = async (data) => {
   });
   return res;
 };
+export const updateCategory = async (id, data) => {
+  const res = await axios.put(`/category/update-category/${id}`, data, {
+    withCredentials: true,
+  });
+  return res;
+};
 
 export const deleteCategory = async (id) => {
   const res = await axios.delete(`/category/delete-category/${id}`, {

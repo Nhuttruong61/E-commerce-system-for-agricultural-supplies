@@ -37,6 +37,15 @@ function AdminFeeTransport() {
         <div
           className="mx-1"
           onClick={() => {
+            setIdFee(item._id);
+            setShowModalDelete(true);
+          }}
+        >
+          <DeleteOutlined className="text-red-600 border border-[red] py-2 px-1 rounded-[4px]" />
+        </div>
+        <div
+          className="mx-1"
+          onClick={() => {
             setShowModalEdit(true);
             setIdFeeStransport(item._id);
             setEditFeeCost({
@@ -48,15 +57,6 @@ function AdminFeeTransport() {
           }}
         >
           <EditOutlined className="text-green-600 border border-[green] py-2 px-1 rounded-[4px]" />{" "}
-        </div>
-        <div
-          className="mx-1"
-          onClick={() => {
-            setIdFee(item._id);
-            setShowModalDelete(true);
-          }}
-        >
-          <DeleteOutlined className="text-red-600 border border-[red] py-2 px-1 rounded-[4px]" />
         </div>
       </div>
     );

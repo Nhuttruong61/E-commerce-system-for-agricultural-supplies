@@ -258,7 +258,7 @@ function ProductDetail(id) {
                 expanded ? "h-auto" : "h-[10vh] overflow-hidden"
               }`}
             >
-              <div className=" text-[14px] md:text-[18px] px-2 py-2">
+              <div className=" text-[14px] md:text-[16px] px-2 py-2">
                 {dataProduct?.product?.description.map((item, index) => {
                   return (
                     <div
