@@ -24,7 +24,7 @@ function News() {
       <p className="  my-8 font-[700] md:text-[32px] text-[20px] px-6 bg-[#0e9c49] text-white rounded-[20px]">
         TIN TỨC MỚI NHẤT
       </p>
-      <div className="  justify-center px-3 mx-3  md:flex flex-1">
+      <div className="  justify-center   grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
         {dataBog?.map((item) => {
           return (
             <div

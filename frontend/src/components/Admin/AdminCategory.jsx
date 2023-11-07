@@ -12,6 +12,7 @@ import imageCompression from "browser-image-compression";
 import * as CategoryService from "../../service/categoryService";
 import { toast } from "react-toastify";
 import { getCaterogy } from "../../redux/action/cateroryAction";
+import { handleOnchangeImage } from "../../until";
 function AdminCategory() {
   const { data } = useSelector((state) => state.category);
   const dispatch = useDispatch();
@@ -179,25 +180,6 @@ function AdminCategory() {
       };
     });
   }
-  const handleOnchangeImage = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const options = {
-      maxSizeMB: 1,
-      maxWidthOrHeight: 800,
-    };
-    try {
-      const compressedFile = await imageCompression(file, options);
-      const reader = new FileReader();
-      reader.onload = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(compressedFile);
-    } catch (error) {
-      console.error("Lỗi khi nén ảnh:", error);
-    }
-  };
   const handleAddCategory = async () => {
     if (!name || !selectedImage) {
       toast.warning("Xin hãy nhập đầy đủ thông tin");
@@ -325,7 +307,7 @@ function AdminCategory() {
             id="inport"
             type="file"
             hidden
-            onChange={handleOnchangeImage}
+            onChange={(e) => handleOnchangeImage(e, setSelectedImage)}
           />
           {selectedImage ? (
             <img
@@ -368,7 +350,7 @@ function AdminCategory() {
             id="inport"
             type="file"
             hidden
-            onChange={handleOnchangeImage}
+            onChange={(e) => handleOnchangeImage(e, setSelectedImage)}
           />
           {selectedImage ? (
             <img

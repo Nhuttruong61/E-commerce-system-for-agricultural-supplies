@@ -1,6 +1,6 @@
 import { startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";
 import { format } from "date-fns";
-
+import imageCompression from "browser-image-compression";
 export const converDataChart = (order, type) => {
   try {
     const object = {};
@@ -174,5 +174,26 @@ export const coverVertialChart = (user) => {
   } catch (e) {
     console.log(e);
     return [];
+  }
+};
+
+// onchange image
+export const handleOnchangeImage = async (e, setSelectedImage) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const options = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 800,
+  };
+  try {
+    const compressedFile = await imageCompression(file, options);
+    const reader = new FileReader();
+    reader.onload = () => {
+      setSelectedImage(reader.result);
+    };
+    reader.readAsDataURL(compressedFile);
+  } catch (error) {
+    console.error("Lỗi khi nén ảnh:", error);
   }
 };

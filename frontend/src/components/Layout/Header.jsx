@@ -277,123 +277,125 @@ function Header() {
               <HiOutlineMenu className="text-[30px] my-2 mx-4" />
             </div>
             {activeMobile && (
-              <div className="w-[70%] shadow z-50 bg-white h-[90vh] fixed top-0 slide-right-animation ">
-                <div className="flex relative">
-                  <div className=" flex items-center bg-[#0e9c49] w-full h-[10vh]">
-                    <div
-                      className=" text-white"
+              <div className="bg-[#0000004b] w-full fixed h-full z-40 ">
+                <div className="w-[60%] shadow z-50  h-full bg-white fixed top-0 slide-right-animation ">
+                  <div className="flex relative">
+                    <div className=" flex items-center bg-[#0e9c49] w-full h-[10vh]">
+                      <div
+                        className=" text-white"
+                        onClick={() => {
+                          navigate("/");
+                          setActiveMobile(false);
+                        }}
+                      >
+                        <p className="px-2 py-1 text-[20px] font-[600]">
+                          Nông nghiệp xanh
+                        </p>
+                      </div>
+                      <span
+                        className="absolute top-[15px] right-0 px-2"
+                        onClick={() => setActiveMobile(false)}
+                      >
+                        <CloseOutlined className="text-white" />
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex flex-col py-2 ">
+                    <p
+                      className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
                       onClick={() => {
                         navigate("/");
                         setActiveMobile(false);
                       }}
                     >
-                      <p className="px-2 py-1 text-[20px] font-[600]">
-                        Nông nghiệp xanh
-                      </p>
-                    </div>
-                    <span
-                      className="absolute top-[15px] right-0 px-2"
-                      onClick={() => setActiveMobile(false)}
+                      Trang chủ
+                    </p>
+                    {user?.account?.role === "admin" && (
+                      <div className="hover:bg-[#0e9c49]  hover:text-white cursor-pointer  flex items-center">
+                        <p className="py-2 px-2" onClick={handleNavigateAdmin}>
+                          Quản lý
+                        </p>
+                      </div>
+                    )}
+                    <p
+                      className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
+                      onClick={() => {
+                        navigate("/products");
+                        setActiveMobile(false);
+                      }}
                     >
-                      <CloseOutlined className="text-white" />
-                    </span>
+                      Sản phẩm
+                    </p>
+                    <p
+                      className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
+                      onClick={() => {
+                        navigate("/best-selling");
+                        setActiveMobile(false);
+                      }}
+                    >
+                      Phổ biến
+                    </p>
+                    <p
+                      className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
+                      onClick={() => {
+                        navigate("/events");
+                        setActiveMobile(false);
+                      }}
+                    >
+                      Sự kiện
+                    </p>
+                    <p
+                      className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
+                      onClick={() => {
+                        navigate("/faq");
+                        setActiveMobile(false);
+                      }}
+                    >
+                      Diễn đàn
+                    </p>
+                    <p
+                      className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
+                      onClick={() => {
+                        navigate("/blog");
+                        setActiveMobile(false);
+                      }}
+                    >
+                      Tin tức
+                    </p>
+                    {user?.isAuthenticated && (
+                      <p
+                        className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
+                        onClick={() => {
+                          handleNavigateProfile();
+                          setActiveMobile(false);
+                        }}
+                      >
+                        Tài khoản
+                      </p>
+                    )}
+                    {user?.isAuthenticated ? null : (
+                      <p
+                        className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
+                        onClick={() => {
+                          navigate("/login");
+                          setActiveMobile(false);
+                        }}
+                      >
+                        Đăng nhập/ đăng kí
+                      </p>
+                    )}
+                    {user?.isAuthenticated && (
+                      <p
+                        className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
+                        onClick={() => {
+                          handleLogout();
+                          setActiveMobile(false);
+                        }}
+                      >
+                        Thoát
+                      </p>
+                    )}
                   </div>
-                </div>
-                <div className="flex flex-col py-2 ">
-                  <p
-                    className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
-                    onClick={() => {
-                      navigate("/");
-                      setActiveMobile(false);
-                    }}
-                  >
-                    Trang chủ
-                  </p>
-                  {user?.account?.role === "admin" && (
-                    <div className="hover:bg-[#0e9c49]  hover:text-white cursor-pointer  flex items-center">
-                      <p className="py-2 px-2" onClick={handleNavigateAdmin}>
-                        Quản lý
-                      </p>
-                    </div>
-                  )}
-                  <p
-                    className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
-                    onClick={() => {
-                      navigate("/products");
-                      setActiveMobile(false);
-                    }}
-                  >
-                    Sản phẩm
-                  </p>
-                  <p
-                    className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
-                    onClick={() => {
-                      navigate("/best-selling");
-                      setActiveMobile(false);
-                    }}
-                  >
-                    Phổ biến
-                  </p>
-                  <p
-                    className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
-                    onClick={() => {
-                      navigate("/events");
-                      setActiveMobile(false);
-                    }}
-                  >
-                    Sự kiện
-                  </p>
-                  <p
-                    className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
-                    onClick={() => {
-                      navigate("/faq");
-                      setActiveMobile(false);
-                    }}
-                  >
-                    Diễn đàn
-                  </p>
-                  <p
-                    className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
-                    onClick={() => {
-                      navigate("/blog");
-                      setActiveMobile(false);
-                    }}
-                  >
-                    Tin tức
-                  </p>
-                  {user?.isAuthenticated && (
-                    <p
-                      className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
-                      onClick={() => {
-                        handleNavigateProfile();
-                        setActiveMobile(false);
-                      }}
-                    >
-                      Tài khoản
-                    </p>
-                  )}
-                  {user?.isAuthenticated ? null : (
-                    <p
-                      className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
-                      onClick={() => {
-                        navigate("/login");
-                        setActiveMobile(false);
-                      }}
-                    >
-                      Đăng nhập/ đăng kí
-                    </p>
-                  )}
-                  {user?.isAuthenticated && (
-                    <p
-                      className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
-                      onClick={() => {
-                        handleLogout();
-                        setActiveMobile(false);
-                      }}
-                    >
-                      Thoát
-                    </p>
-                  )}
                 </div>
               </div>
             )}

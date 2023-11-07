@@ -6,6 +6,7 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import imageCompression from "browser-image-compression";
 import * as SliderService from "../../service/sliderService";
 import { toast } from "react-toastify";
+import { handleOnchangeImage } from "../../until";
 
 function SliderAdmin() {
   const [dataSlider, setDataSlider] = useState([]);
@@ -90,26 +91,6 @@ function SliderAdmin() {
       };
     });
   }
-
-  const handleOnchangeImage = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const options = {
-      maxSizeMB: 1,
-      maxWidthOrHeight: 800,
-    };
-    try {
-      const compressedFile = await imageCompression(file, options);
-      const reader = new FileReader();
-      reader.onload = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(compressedFile);
-    } catch (error) {
-      console.error("Lỗi khi nén ảnh:", error);
-    }
-  };
   const handleCancel = () => {
     setShowModalAdd(false);
     setShowModalDelete(false);
@@ -222,7 +203,7 @@ function SliderAdmin() {
             id="inport"
             type="file"
             hidden
-            onChange={handleOnchangeImage}
+            onChange={(e) => handleOnchangeImage(e, setSelectedImage)}
           />
           {selectedImage ? (
             <img
@@ -236,16 +217,6 @@ function SliderAdmin() {
       </Modal>
       <Modal
         title="Xóa ảnh"
-        open={showModalDelete}
-        onOk={handleDelete}
-        onCancel={handleCancel}
-        okButtonProps={okButtonDelete}
-        okType="none"
-      >
-        <p>{`Bạn có muốn chắc xóa ảnh này?`} </p>
-      </Modal>
-      <Modal
-        title="Chỉnh sửa ảnh"
         open={showModalDelete}
         onOk={handleDelete}
         onCancel={handleCancel}
@@ -273,7 +244,7 @@ function SliderAdmin() {
             id="inport"
             type="file"
             hidden
-            onChange={handleOnchangeImage}
+            onChange={(e) => handleOnchangeImage(e, setSelectedImage)}
           />
           {selectedImage ? (
             <img

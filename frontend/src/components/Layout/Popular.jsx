@@ -55,7 +55,7 @@ function Popular() {
           PHỔ BIẾN
         </p>
       </div>
-      <div className="grid gap-[5px] mx-1 md:grid-cols-4 grid-cols-2  md:gap-[10px] lg:grid-cols-5 lg:gap-[20px]  xl:gap-[30px]">
+      <div className="grid gap-[5px] mx-1 lg:grid-cols-5 md:grid-cols-3 grid-cols-2  md:gap-[10px]  lg:gap-[20px]  xl:gap-[30px]">
         {dataPopular && dataPopular.length !== 0 && (
           <>
             {dataPopular &&

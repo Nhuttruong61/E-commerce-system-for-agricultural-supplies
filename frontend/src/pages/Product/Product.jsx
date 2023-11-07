@@ -195,7 +195,7 @@ function Product() {
               phẩm
             </span>
             <div className="flex items-center">
-              <p className="font-[600] pr-4">Sắp xếp theo:</p>
+              <p className="font-[600] pr-4 ">Sắp xếp theo:</p>
               <select
                 className="outline-none font-[600] py-1 rounded px-2"
                 value={selectedOption}

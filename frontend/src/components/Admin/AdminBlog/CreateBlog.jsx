@@ -4,6 +4,7 @@ import { Modal } from "antd";
 import { toast } from "react-toastify";
 import * as BlogService from "../../../service/blogService.js";
 import Loading from "../../Loading";
+import { handleOnchangeImage } from "../../../until.js";
 function CreateBlog() {
   const [title, setTitle] = useState("");
   const [titleContent, setTitleContent] = useState("");
@@ -16,25 +17,6 @@ function CreateBlog() {
     setDescriptionContent(
       e.target.value.split("\n").filter((line) => line.trim() !== "")
     );
-  };
-  const handleOnchangeImage = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const options = {
-      maxSizeMB: 1,
-      maxWidthOrHeight: 800,
-    };
-    try {
-      const compressedFile = await imageCompression(file, options);
-      const reader = new FileReader();
-      reader.onload = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(compressedFile);
-    } catch (error) {
-      console.error("Lỗi khi nén ảnh:", error);
-    }
   };
   const handleAddContent = () => {
     const newContent = {
@@ -153,7 +135,7 @@ function CreateBlog() {
                 id="inport"
                 type="file"
                 hidden
-                onChange={handleOnchangeImage}
+                onChange={(e) => handleOnchangeImage(e, setSelectedImage)}
               />
               {selectedImage ? (
                 <img

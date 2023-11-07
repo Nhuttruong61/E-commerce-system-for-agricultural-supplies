@@ -6,6 +6,7 @@ import { getUser, updateUser } from "../../redux/action/userAction";
 import Loading from "../Loading";
 import imageCompression from "browser-image-compression";
 import { toast } from "react-toastify";
+import { handleOnchangeImage } from "../../until";
 function Profile() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [name, setName] = useState("");
@@ -14,26 +15,6 @@ function Profile() {
   const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const handleOnchangeImage = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const options = {
-      maxSizeMB: 1,
-      maxWidthOrHeight: 800,
-    };
-
-    try {
-      const compressedFile = await imageCompression(file, options);
-      const reader = new FileReader();
-      reader.onload = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(compressedFile);
-    } catch (error) {
-      console.error("Lỗi khi nén ảnh:", error);
-    }
-  };
   useEffect(() => {
     if (user.isAuthenticated) {
       setName(user.account.name);
@@ -135,7 +116,7 @@ function Profile() {
                 id="inport"
                 type="file"
                 hidden
-                onChange={handleOnchangeImage}
+                onChange={(e) => handleOnchangeImage(e, setSelectedImage)}
               />
               {selectedImage ? (
                 <img

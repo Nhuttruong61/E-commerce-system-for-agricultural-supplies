@@ -32,7 +32,7 @@ const Dropdown = ({ Text, items }) => {
     getDataCategory();
   }, []);
   return (
-    <div className="relative z-10 px-1 w-[200px]">
+    <div className="relative z-10 px-1 w-[200px] ">
       <span
         className="cursor-pointer h-[100%] w-auto flex justify-between items-center pl-4  font-[600] select-none rounded-t-md text-white"
         onClick={() => setOpen(!open)}
@@ -46,12 +46,12 @@ const Dropdown = ({ Text, items }) => {
         ) : null}
       </span>
       {open && (
-        <div className="absolute bg-white border rounded shadow-md mt-2 w-[160px]">
+        <div className="absolute bg-white border rounded shadow-md mt-2 w-[160px] fade-in-from-top-animation">
           <ul>
             {dataCategory?.data?.categories?.map((item) => (
               <li
                 key={item._id}
-                className="px-4 py-2 cursor-pointer hover:bg-gray-200 flex items-center "
+                className="px-4 py-2 cursor-pointer hover:bg-gray-200 flex items-center  rounded"
                 onClick={() => handleSelect(item)}
               >
                 <img

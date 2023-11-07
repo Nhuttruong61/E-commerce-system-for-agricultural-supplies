@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { getAllProductRd } from "../../../redux/action/productAction";
 import { CSVLink } from "react-csv";
 import { CiExport } from "react-icons/ci";
+import { handleOnchangeImage } from "../../../until";
 
 function ProductExpire() {
   const { data } = useSelector((state) => state.category);
@@ -254,25 +255,6 @@ function ProductExpire() {
       };
     });
   }
-  const handleOnchangeImage = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const options = {
-      maxSizeMB: 1,
-      maxWidthOrHeight: 800,
-    };
-    try {
-      const compressedFile = await imageCompression(file, options);
-      const reader = new FileReader();
-      reader.onload = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(compressedFile);
-    } catch (error) {
-      console.error("Error compressing image:", error);
-    }
-  };
 
   const okButtonEdit = {
     style: {
@@ -506,7 +488,7 @@ function ProductExpire() {
             id="inport"
             type="file"
             hidden
-            onChange={handleOnchangeImage}
+            onChange={(e) => handleOnchangeImage(e, setSelectedImage)}
           />
           {selectedImage ? (
             <img
