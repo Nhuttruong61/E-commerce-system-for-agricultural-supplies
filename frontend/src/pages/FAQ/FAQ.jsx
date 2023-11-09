@@ -12,6 +12,7 @@ import { getAllQuestionRd } from "../../redux/action/questionAction";
 
 export default function FAQ() {
   const questionData = useSelector((state) => state.question);
+  const { isAuthenticated } = useSelector((state) => state.user);
   const [dataQuetion, setDataQuetion] = useState(null);
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +45,11 @@ export default function FAQ() {
     navigate(`/faq/${id}`);
   };
   const showModalAdd = () => {
-    setIsModalAdd(true);
+    if (isAuthenticated === true) {
+      setIsModalAdd(true);
+    } else {
+      navigate("/login");
+    }
   };
   const handleOnchageTitle = (e) => {
     setQuestionTitle(e.target.value);
@@ -53,17 +58,23 @@ export default function FAQ() {
     setQuestionContent(e.target.value);
   };
   const handleAdd = async () => {
-    const data = {
-      title: questionTitle,
-      content: questionContent,
-    };
-    const res = await questionService.createQuestion(data);
-    if (res?.success) {
-      dispatch(getAllQuestionRd());
-      toast.success("Xin chờ admin kiểm duyệt");
+    try {
+      const data = {
+        title: questionTitle,
+        content: questionContent,
+      };
+
+      const res = await questionService.createQuestion(data);
+      if (res?.success) {
+        dispatch(getAllQuestionRd());
+        toast.success("Xin chờ admin kiểm duyệt");
+        setQuestionTitle("");
+        setQuestionContent("");
+      }
+      setIsModalAdd(false);
+    } catch (e) {
+      console.log(e);
     }
-    setIsModalAdd(false);
-    return res;
   };
 
   const handleCancel = () => {

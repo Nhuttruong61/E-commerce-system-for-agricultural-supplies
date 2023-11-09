@@ -1,7 +1,6 @@
 import React, { memo } from "react";
 import Slider from "react-slick";
-import ProductCart from "./Product/ProductCart";
-function Slick({ data }) {
+function Slick({ children }) {
   var settings = {
     dots: true,
     infinite: true,
@@ -21,11 +20,7 @@ function Slick({ data }) {
 
   return (
     <Slider {...settings} className="custom-slider">
-      {data?.map((item, index) => (
-        <div key={index} className="px-4">
-          <ProductCart item={item} />
-        </div>
-      ))}
+      {children}
     </Slider>
   );
 }

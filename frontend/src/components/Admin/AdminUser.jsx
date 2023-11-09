@@ -9,7 +9,6 @@ import {
   UserOutlined,
   EditOutlined,
 } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
 import { CSVLink } from "react-csv";
 import { CiExport } from "react-icons/ci";
 import { toast } from "react-toastify";
@@ -22,7 +21,6 @@ function AdminUser() {
   const [isLoading, setIsLoading] = useState(false);
   const [showModalReview, setShowModalReview] = useState(false);
   const [infoUser, setInfoUser] = useState(null);
-  const dispatch = useDispatch();
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [editUser, setEditUser] = useState({
     name: "",

@@ -7,7 +7,7 @@ function Activation() {
   useEffect(() => {
     const ActivetionToken = async () => {
       try {
-        const res = await Userservice.Activation_token(accessToken);
+        await Userservice.Activation_token(accessToken);
         setError(false);
       } catch (e) {
         setError(true);

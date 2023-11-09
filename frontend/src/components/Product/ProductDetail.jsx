@@ -9,6 +9,7 @@ import ProductCart from "./ProductCart";
 import { increaseQuantity } from "../../redux/action/cartAction";
 import { toast } from "react-toastify";
 import Zoom from "../Zoom";
+import { isNotExpired } from "../../until";
 function ProductDetail(id) {
   const { data } = useSelector((state) => state.product);
   const dataEvent = useSelector((state) => state.event);
@@ -119,10 +120,7 @@ function ProductDetail(id) {
       setQuantity(1);
     }
   }, [quantity]);
-  const isNotExpired = (expirationDate) => {
-    const currentDate = new Date();
-    return expirationDate > currentDate;
-  };
+
   useEffect(() => {
     const unExpiredProducts = data.filter((item) => {
       return isNotExpired(new Date(item.expirationDate));

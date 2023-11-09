@@ -7,37 +7,38 @@ const sendToken = require("../utils/jwtToken");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const { response } = require("express");
 const bcrypt = require("bcrypt");
-// const createUser = catchAsyncErrors(async (req, res, next) => {
-//   try {
-//     const { name, email, password } = req.body;
-//     const userEmail = await User.findOne({ email });
-//     if (userEmail) {
-//       return next(new ErrorHandler("User already exists", 400));
-//     }
-//     const user = {
-//       name: name,
-//       email: email,
-//       password: password,
-//     };
-//     const activationToken = createActivationToken(user);
-//     const activationUrl = `http://localhost:3000/activation/${activationToken}`;
-//     try {
-//       await sendMail({
-//         email: user.email,
-//         subject: "Active your account",
-//         message: `Hello ${user.name}, please activate your account: ${activationUrl}`,
-//       });
-//       res.status(201).json({
-//         success: true,
-//         message: `please check your email: ${user.email} to activate your account`,
-//       });
-//     } catch (e) {
-//       return next(new ErrorHandler(e.message, 500));
-//     }
-//   } catch (err) {
-//     return next(new ErrorHandler(err.message, 400));
-//   }
-// });
+const createUser = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { name, email, password, phoneNumber } = req.body;
+    const userEmail = await User.findOne({ email });
+    if (userEmail) {
+      return next(new ErrorHandler("User already exists", 400));
+    }
+    const user = {
+      name: name,
+      email: email,
+      password: password,
+      phoneNumber: phoneNumber,
+    };
+    const activationToken = createActivationToken(user);
+    const activationUrl = `http://localhost:3000/activation/${activationToken}`;
+    try {
+      await sendMail({
+        email: user.email,
+        subject: "Active your account",
+        message: `Chào bạn ${user.name}, vui lòng nhấn vào link để xác nhận kích hoạt tài khoản: ${activationUrl}`,
+      });
+      res.status(201).json({
+        success: true,
+        message: `please check your email: ${user.email} to activate your account`,
+      });
+    } catch (e) {
+      return next(new ErrorHandler(e.message, 500));
+    }
+  } catch (err) {
+    return next(new ErrorHandler(err.message, 400));
+  }
+});
 
 // create activation Token
 const createActivationToken = (user) => {
@@ -50,11 +51,11 @@ const activation = catchAsyncErrors(async (req, res, next) => {
   try {
     const { accessToken } = req.body;
     const newUser = jwt.verify(accessToken, process.env.ACTIVATION_SECRET);
-
+    console.log(newUser);
     if (!newUser) {
       return next(new ErrorHandler("Invalid token", 400));
     }
-    const { name, email, password } = newUser;
+    const { name, email, password, phoneNumber, tax } = newUser;
 
     let user = await User.findOne({ email });
 
@@ -64,7 +65,9 @@ const activation = catchAsyncErrors(async (req, res, next) => {
     user = await User.create({
       name,
       email,
+      phoneNumber,
       password,
+      tax,
     });
     sendToken(user, 201, res);
   } catch (error) {
@@ -72,58 +75,65 @@ const activation = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-const createUser = catchAsyncErrors(async (req, res, next) => {
-  try {
-    const { name, email, password, phoneNumber } = req.body;
-    if (!name || !email || !password || !phoneNumber) {
-      return next(new ErrorHandler("Please provide all fields!", 400));
-    }
+// const createUser = catchAsyncErrors(async (req, res, next) => {
+//   try {
+//     const { name, email, password, phoneNumber } = req.body;
+//     if (!name || !email || !password || !phoneNumber) {
+//       return next(new ErrorHandler("Please provide all fields!", 400));
+//     }
 
-    let user = await User.findOne({ email });
-    if (user) {
-      return next(new ErrorHandler("User already exists", 400));
-    }
+//     let user = await User.findOne({ email });
+//     if (user) {
+//       return next(new ErrorHandler("User already exists", 400));
+//     }
 
-    const newUser = await User.create({
-      name,
-      email,
-      password,
-      phoneNumber,
-    });
+//     const newUser = await User.create({
+//       name,
+//       email,
+//       password,
+//       phoneNumber,
+//     });
 
-    res.status(201).json({
-      success: true,
-      user: newUser,
-    });
-  } catch (err) {
-    return next(new ErrorHandler(err.message, 500));
-  }
-});
+//     res.status(201).json({
+//       success: true,
+//       user: newUser,
+//     });
+//   } catch (err) {
+//     return next(new ErrorHandler(err.message, 500));
+//   }
+// });
 //create create account for business
 const createAccountBussenes = catchAsyncErrors(async (req, res, next) => {
   try {
     const { name, email, password, phoneNumber, tax } = req.body;
-    if (!name || !email || !password || !phoneNumber || !tax) {
-      return next(new ErrorHandler("Please provide all fields!", 400));
-    }
-    let user = await User.findOne({ email });
-    if (user) {
+    const userEmail = await User.findOne({ email });
+    if (userEmail) {
       return next(new ErrorHandler("User already exists", 400));
     }
-    const newUser = await User.create({
-      name,
-      email,
-      tax,
-      password,
-      phoneNumber,
-      role: "business",
-    });
-    res.status(201).json({
-      success: true,
-      user: newUser,
-    });
+    const user = {
+      name: name,
+      email: email,
+      password: password,
+      phoneNumber: phoneNumber,
+      tax: tax,
+    };
+    const activationToken = createActivationToken(user);
+    const activationUrl = `http://localhost:3000/activation/${activationToken}`;
+    try {
+      await sendMail({
+        email: user.email,
+        subject: "Active your account",
+        message: `Chào bạn ${user.name}, vui lòng nhấn vào link để xác nhận kích hoạt tài khoản: ${activationUrl}`,
+      });
+      res.status(201).json({
+        success: true,
+        message: `please check your email: ${user.email} to activate your account`,
+      });
+    } catch (e) {
+      return next(new ErrorHandler(e.message, 500));
+    }
   } catch (err) {
-    return next(new ErrorHandler(err.message, 500));
+    return next(new ErrorHandler(err.message, 400));
   }
 });
 

@@ -4,7 +4,6 @@ import { UserOutlined } from "@ant-design/icons";
 import { updateAUser } from "../../service/userService";
 import { getUser, updateUser } from "../../redux/action/userAction";
 import Loading from "../Loading";
-import imageCompression from "browser-image-compression";
 import { toast } from "react-toastify";
 import { handleOnchangeImage } from "../../until";
 function Profile() {

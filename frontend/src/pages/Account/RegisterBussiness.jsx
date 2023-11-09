@@ -64,8 +64,8 @@ function RegisterBussiness() {
     try {
       const response = await Userservice.RegisterService(data);
       if (response.success === true) {
-        // toast.success("Vui lòng kiểm tra email để kích hoạt tài khoản!");
-        toast.success("Đăng kí kí tài khoản thành công");
+        toast.success("Vui lòng kiểm tra email để kích hoạt tài khoản!");
+        // toast.success("Đăng kí kí tài khoản thành công");
         navigate("/login");
       }
     } catch (error) {

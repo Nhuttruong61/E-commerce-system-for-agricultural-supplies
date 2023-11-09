@@ -3,7 +3,6 @@ import { Carousel } from "antd";
 import { getAllSlider } from "../../service/sliderService";
 const SliderComponet = () => {
   const [dataSlider, setDataSlider] = useState(null);
-  const onChange = (currentSlide) => {};
   const getAllSlides = async () => {
     const res = await getAllSlider();
     setDataSlider(res);
@@ -13,14 +12,11 @@ const SliderComponet = () => {
     getAllSlides();
   }, []);
   return (
-    <Carousel afterChange={onChange} className="w-full" autoplay>
+    <Carousel className="w-full" autoplay>
       {dataSlider?.slider?.map((item) =>
         item?.images?.map((i) => (
-          <div
-            key={i.id}
-            className="md:min-h-[50vh] min-h-[24vh]  flex items-center justify-center"
-          >
-            <img src={i.url} alt="" className="object-cover h-full" />
+          <div key={i.id} className=" w-full  flex items-center justify-center">
+            <img src={i.url} alt="" className="object-contain w-full  " />
           </div>
         ))
       )}

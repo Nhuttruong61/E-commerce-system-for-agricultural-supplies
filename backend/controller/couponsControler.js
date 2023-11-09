@@ -5,14 +5,13 @@ const ErrorHandler = require("../utils/ErrorHandler");
 //create a new coupon
 const createCoupons = catchAsyncErrors(async (req, res, next) => {
   try {
-    const { name, code, discountAmount, point, userType } = req.body;
-    if (!name || !code || !discountAmount || !point)
+    const { name, discountAmount, point, userType } = req.body;
+    if (!name || !discountAmount || !point)
       return next(
         new ErrorHandler("Please provide complete coupon informations", 400)
       );
     const coupon = await Coupons.create({
       name,
-      code,
       discountAmount,
       point,
       userType,
@@ -54,12 +53,11 @@ const getCoupon = catchAsyncErrors(async (req, res, next) => {
 });
 const editCoupon = catchAsyncErrors(async (req, res, next) => {
   try {
-    const { name, code, discountAmount, point, userType } = req.body;
+    const { name, discountAmount, point, userType } = req.body;
     const coupons = await Coupons.findById(req.params.id);
     if (!coupons) return next(new ErrorHandler("Coupons not default", 400));
 
     coupons.name = name;
-    coupons.code = code;
     coupons.discountAmount = discountAmount;
     coupons.point = point;
     coupons.userType = userType;

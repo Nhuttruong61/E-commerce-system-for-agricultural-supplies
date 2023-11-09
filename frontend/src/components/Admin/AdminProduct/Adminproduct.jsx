@@ -515,7 +515,7 @@ function Adminproduct() {
             <Editor value={description} setValue={setDescription} />
           </div>
         </label>
-        <label className="flex justify-between items-center">
+        <label className="flex justify-between items-center mt-10">
           <p className="w-[20%] font-[500]">Loại</p>
           <select
             value={category}

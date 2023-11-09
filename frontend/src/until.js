@@ -197,3 +197,8 @@ export const handleOnchangeImage = async (e, setSelectedImage) => {
     console.error("Lỗi khi nén ảnh:", error);
   }
 };
+
+export const isNotExpired = (expirationDate) => {
+  const currentDate = new Date();
+  return expirationDate > currentDate;
+};

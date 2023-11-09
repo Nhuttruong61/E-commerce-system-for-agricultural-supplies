@@ -6,6 +6,7 @@ import Loading from "../../components/Loading";
 import Footer from "../../components/Layout/Footer";
 import { Pagination } from "antd";
 import Inbox from "../../components/Inbox/Inbox";
+import { isNotExpired } from "../../until";
 
 function Product() {
   const category = useSelector((state) => state.category);
@@ -100,10 +101,7 @@ function Product() {
 
     setDataProductEvent(updatedDataSort);
   }, [dataProduct, selectedOption, data]);
-  const isNotExpired = (expirationDate) => {
-    const currentDate = new Date();
-    return expirationDate > currentDate;
-  };
+
   useEffect(() => {
     if (selectedOption === "all") {
       setDataProductArrange(dataProductEvent);

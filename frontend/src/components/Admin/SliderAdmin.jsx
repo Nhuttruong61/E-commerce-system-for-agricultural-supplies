@@ -3,7 +3,6 @@ import TableComponent from "../Table";
 import { Modal } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import imageCompression from "browser-image-compression";
 import * as SliderService from "../../service/sliderService";
 import { toast } from "react-toastify";
 import { handleOnchangeImage } from "../../until";

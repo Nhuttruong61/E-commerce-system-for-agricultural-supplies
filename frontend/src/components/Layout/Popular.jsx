@@ -2,6 +2,7 @@ import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProductRd } from "../../redux/action/productAction";
 import ProductCart from "../Product/ProductCart";
+import { isNotExpired } from "../../until";
 function Popular() {
   const dispatch = useDispatch();
   const productData = useSelector((state) => state.product);
@@ -23,14 +24,14 @@ function Popular() {
     setDataSort(data);
   }, []);
   useEffect(() => {
-    const eventId = data.map((item) => {
+    const eventId = data?.map((item) => {
       return {
         idProductEvent: item.product[0]._id,
         discount: item.discount,
       };
     });
-    const updatedDataSort = dataSort.map((item) => {
-      const event = eventId.find(
+    const updatedDataSort = dataSort?.map((item) => {
+      const event = eventId?.find(
         (eventItem) => eventItem.idProductEvent === item._id
       );
       if (event) {
@@ -44,10 +45,7 @@ function Popular() {
 
     setDataPopular(updatedDataSort);
   }, [dataSort]);
-  const isNotExpired = (expirationDate) => {
-    const currentDate = new Date();
-    return expirationDate > currentDate;
-  };
+
   return (
     <div className=" p-6 rounded-lg mb-12  md:px-[10%]">
       <div className=" flex justify-center text-center items-center">

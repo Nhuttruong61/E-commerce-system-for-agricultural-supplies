@@ -6,7 +6,6 @@ import socketIO from "socket.io-client";
 import ListMessage from "./ListMessage";
 import SeleteInbox from "./SeleteInbox";
 import imageCompression from "browser-image-compression";
-import moment from "moment";
 const ENDPOINT = "http://localhost:8000/";
 const socketId = socketIO(ENDPOINT, {
   transport: ["websocket"],

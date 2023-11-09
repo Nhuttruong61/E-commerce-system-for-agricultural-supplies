@@ -4,6 +4,7 @@ import ProductCart from "../components/Product/ProductCart";
 import Loading from "../components/Loading";
 import Footer from "../components/Layout/Footer";
 import Inbox from "../components/Inbox/Inbox";
+import { isNotExpired } from "../until";
 
 function BestSelling() {
   const products = useSelector((state) => state.product);
@@ -47,10 +48,7 @@ function BestSelling() {
       setDataProductFillter(res);
     }
   }, [selectedOption, data]);
-  const isNotExpired = (expirationDate) => {
-    const currentDate = new Date();
-    return expirationDate > currentDate;
-  };
+
   return (
     <Loading isLoading={isLoading}>
       <div className="bg-[#f4f1f4] min-h-[100vh]">

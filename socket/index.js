@@ -69,29 +69,6 @@ io.on("connection", (socket) => {
 
     io.to(user?.socketId).emit("getMessage", message);
   });
-  // Xử lý khi người dùng xác nhận đã đọc tin nhắn.
-  // Cập nhật trạng thái "đã đọc" của tin nhắn và thông báo người gửi.
-  socket.on("messageSeen", ({ senderId, receiverId, messageId }) => {
-    const user = getUser(senderId);
-
-    // update the seen flag for the message
-    if (messages[senderId]) {
-      const message = messages[senderId].find(
-        (message) =>
-          message.receiverId === receiverId && message.id === messageId
-      );
-      if (message) {
-        message.seen = true;
-
-        // send a message seen event to the sender
-        io.to(user?.socketId).emit("messageSeen", {
-          senderId,
-          receiverId,
-          messageId,
-        });
-      }
-    }
-  });
 
   // Xử lý khi người dùng cập nhật tin nhắn cuối cùng.
   // Gửi tin nhắn cuối cùng đến tất cả clients.

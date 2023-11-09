@@ -14,14 +14,12 @@ function AdminCoupon() {
   const [idcoupon, setIdCoupon] = useState(null);
   const [addCoupons, setAddCoupons] = useState({
     name: "",
-    code: "",
     discountAmount: "",
     point: "",
     userType: "",
   });
   const [editCoupons, setEditCoupons] = useState({
     name: "",
-    code: "",
     discountAmount: "",
     point: "",
     userType: "",
@@ -59,7 +57,6 @@ function AdminCoupon() {
             setShowModalEdit(true);
             setEditCoupons({
               name: item.name,
-              code: item.code,
               discountAmount: item.discountAmount,
               point: item.point,
               userType: item.userType,
@@ -79,10 +76,6 @@ function AdminCoupon() {
     {
       title: "Tên mã",
       dataIndex: "name",
-    },
-    {
-      title: "Mã code",
-      dataIndex: "code",
     },
     {
       title: "Sổ tiền",
@@ -128,12 +121,7 @@ function AdminCoupon() {
   };
   const handleAddCoupon = async () => {
     try {
-      if (
-        !addCoupons.name ||
-        !addCoupons.code ||
-        !addCoupons.discountAmount ||
-        !addCoupons.point
-      ) {
+      if (!addCoupons.name || !addCoupons.discountAmount || !addCoupons.point) {
         toast.warning("Vui lòng nhập đầy đủ thông tin");
       } else {
         setShowModalAdd(false);
@@ -145,7 +133,6 @@ function AdminCoupon() {
           toast.success("Thêm mã giảm giá thành công");
           setAddCoupons({
             name: "",
-            code: "",
             discountAmount: "",
             point: "",
           });
@@ -160,7 +147,6 @@ function AdminCoupon() {
     try {
       if (
         !editCoupons.name ||
-        !editCoupons.code ||
         !editCoupons.discountAmount ||
         !editCoupons.point
       ) {
@@ -232,17 +218,7 @@ function AdminCoupon() {
             placeholder="Nhập tên mã giảm giá"
           />
         </label>
-        <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Mã code</p>
-          <input
-            value={addCoupons.code}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) =>
-              setAddCoupons({ ...addCoupons, code: e.target.value })
-            }
-            placeholder="Nhập mã giảm giá"
-          />
-        </label>
+
         <label className="flex justify-between items-center">
           <p className="w-[20%] font-[500]">Số tiền</p>
           <input
@@ -299,17 +275,7 @@ function AdminCoupon() {
             placeholder="Nhập tên mã giảm giá"
           />
         </label>
-        <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Mã code</p>
-          <input
-            value={editCoupons.code}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) =>
-              setEditCoupons({ ...editCoupons, code: e.target.value })
-            }
-            placeholder="Nhập mã giảm giá"
-          />
-        </label>
+
         <label className="flex justify-between items-center">
           <p className="w-[20%] font-[500]">Số tiền</p>
           <input

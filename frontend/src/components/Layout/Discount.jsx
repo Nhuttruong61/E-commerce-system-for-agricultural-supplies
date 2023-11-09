@@ -1,6 +1,7 @@
 import React, { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ProductCart from "../Product/ProductCart";
+import { isNotExpired } from "../../until";
 
 function Discount() {
   const products = useSelector((state) => state.product);
@@ -18,14 +19,14 @@ function Discount() {
   }, [products]);
 
   useEffect(() => {
-    const eventId = data.map((item) => {
+    const eventId = data?.map((item) => {
       return {
         idProductEvent: item.product[0]._id,
         discount: item.discount,
       };
     });
     const updatedDataSort = productData?.map((item) => {
-      const event = eventId.find(
+      const event = eventId?.find(
         (eventItem) => eventItem.idProductEvent === item._id
       );
       if (event) {
@@ -50,10 +51,7 @@ function Discount() {
     };
     fillterDiscount();
   }, [dataProduct]);
-  const isNotExpired = (expirationDate) => {
-    const currentDate = new Date();
-    return expirationDate > currentDate;
-  };
+
   return (
     <div>
       <div className=" p-6 rounded-lg mb-12  md:px-[10%]">

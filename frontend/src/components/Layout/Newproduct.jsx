@@ -1,7 +1,8 @@
 import React, { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Slick from "../Slick";
-
+import { isNotExpired } from "../../until";
+import ProductCart from "../Product/ProductCart";
 function Newproduct() {
   const products = useSelector((state) => state.product);
   const { data } = useSelector((state) => state.event);
@@ -10,7 +11,7 @@ function Newproduct() {
   const [dataNewProduct, setDataNewProduct] = useState([]);
   useEffect(() => {
     if (products) {
-      let res = products.data;
+      let res = products?.data;
       setProductData(res);
     }
   }, [products]);
@@ -28,14 +29,14 @@ function Newproduct() {
     filterProduct();
   }, [productData]);
   useEffect(() => {
-    const eventId = data.map((item) => {
+    const eventId = data?.map((item) => {
       return {
         idProductEvent: item.product[0]._id,
         discount: item.discount,
       };
     });
-    const updatedDataSort = dataSort.map((item) => {
-      const event = eventId.find(
+    const updatedDataSort = dataSort?.map((item) => {
+      const event = eventId?.find(
         (eventItem) => eventItem.idProductEvent === item._id
       );
       if (event) {
@@ -53,11 +54,6 @@ function Newproduct() {
     setDataNewProduct(unExpiredProducts);
   }, [dataSort]);
 
-  const isNotExpired = (expirationDate) => {
-    const currentDate = new Date();
-    return expirationDate > currentDate;
-  };
-
   return (
     <div className=" p-6 rounded-lg mb-12  md:px-[2%]">
       <div className=" flex justify-center text-center items-center">
@@ -65,7 +61,13 @@ function Newproduct() {
           SẢN PHẨM MỚI
         </p>
       </div>
-      <Slick data={dataNewProduct} />
+      <Slick>
+        {dataNewProduct?.map((item, index) => (
+          <div key={index} className="px-4">
+            <ProductCart item={item} />
+          </div>
+        ))}
+      </Slick>
     </div>
   );
 }

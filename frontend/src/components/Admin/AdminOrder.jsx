@@ -12,7 +12,6 @@ import {
 } from "@ant-design/icons";
 import { CSVLink } from "react-csv";
 import { CiExport } from "react-icons/ci";
-import unidecode from "unidecode";
 import { toast } from "react-toastify";
 import PieChartComponent from "../chart/PieChartComponet";
 import moment from "moment";
@@ -294,7 +293,7 @@ function AdminOrder() {
         paymentInfoStatus: order.paymentInfo.status,
         address: order.shippingAddress.address,
         totalPrice: order.totalPrice,
-        date: moment(order.paymentInfo.createdAt).format("YYYY-MM-DD-HH"),
+        date: moment(order.paymentInfo.createdAt).format("YYYY-MM-DD-HH:mm"),
         status: order.status,
         more: {
           ...order,

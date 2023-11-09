@@ -8,7 +8,6 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import imageCompression from "browser-image-compression";
 import * as CategoryService from "../../service/categoryService";
 import { toast } from "react-toastify";
 import { getCaterogy } from "../../redux/action/cateroryAction";

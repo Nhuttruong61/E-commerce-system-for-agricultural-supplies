@@ -67,7 +67,7 @@ function CheckOutContent() {
       (option) => totalWeight <= option.weight
     );
 
-    const totalFeecost = selectedShippingOption.cost * totalWeight;
+    const totalFeecost = selectedShippingOption?.cost * totalWeight;
     const freeShip = selectedShippingOption.freeShipping;
 
     const total = cart.reduce((acc, item) => {

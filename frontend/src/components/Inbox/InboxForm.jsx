@@ -34,6 +34,7 @@ function InboxForm({
 
     getUser();
   }, [currentChat, account]);
+
   return (
     <div
       className="fixed bottom-2 z-50 right-24 bg-white w-[280px] rounded fadeIn min-h-[48vh]"
@@ -82,6 +83,9 @@ function InboxForm({
                   )}
                   <p>{item.text}</p>
                 </div>
+                <p className="text-[10px]">
+                  {moment(item.createdAt).fromNow()}
+                </p>
                 <p className="text-[10px]">{moment(item.createdAt).fromNow}</p>
               </div>
             </div>
