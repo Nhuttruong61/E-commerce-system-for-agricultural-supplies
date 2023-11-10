@@ -23,9 +23,9 @@ const createUser = catchAsyncErrors(async (req, res, next) => {
     const activationToken = createActivationToken(user);
     const activationUrl = `http://localhost:3000/activation/${activationToken}`;
     try {
-      await sendMail({
+      await sendMail.sendMail({
         email: user.email,
-        subject: "Active your account",
+        subject: "Xác nhận đăng kí tài khoản",
         message: `Chào bạn ${user.name}, vui lòng nhấn vào link để xác nhận kích hoạt tài khoản: ${activationUrl}`,
       });
       res.status(201).json({
@@ -51,7 +51,6 @@ const activation = catchAsyncErrors(async (req, res, next) => {
   try {
     const { accessToken } = req.body;
     const newUser = jwt.verify(accessToken, process.env.ACTIVATION_SECRET);
-    console.log(newUser);
     if (!newUser) {
       return next(new ErrorHandler("Invalid token", 400));
     }
@@ -433,7 +432,6 @@ const requestPasswordReset = catchAsyncErrors(async (req, res, next) => {
   try {
     const { email } = req.body;
     const userEmail = await User.findOne({ email });
-    console.log(userEmail);
 
     if (!userEmail) {
       return next(new ErrorHandler("User not found", 404));

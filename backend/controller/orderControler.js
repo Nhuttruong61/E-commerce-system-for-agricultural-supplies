@@ -3,7 +3,7 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 const Product = require("../model/product");
 const User = require("../model/user");
-
+const sendMail = require("../utils/sendMail");
 // Create order
 const createOrder = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -21,7 +21,7 @@ const createOrder = catchAsyncErrors(async (req, res, next) => {
         (item) => item._id !== coupons._id
       );
 
-      userData.save();
+      await userData.save();
     }
     const order = await Order.create({
       cart,
@@ -31,6 +31,7 @@ const createOrder = catchAsyncErrors(async (req, res, next) => {
       paymentInfo,
     });
     orders.push(order);
+    await sendMail.sendMailCreateOrder({ order });
     res.status(201).json({
       success: true,
       orders,
