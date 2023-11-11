@@ -10,16 +10,12 @@ import {
   EyeOutlined,
   PrinterOutlined,
 } from "@ant-design/icons";
-import { CSVLink } from "react-csv";
-import { CiExport } from "react-icons/ci";
+
 import { toast } from "react-toastify";
 import PieChartComponent from "../chart/PieChartComponet";
 import moment from "moment";
-import { getAllOrder } from "../../redux/action/orders";
-import { useDispatch } from "react-redux";
 
 function AdminOrder() {
-  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [dataOrder, setDataOrder] = useState([]);
   const [idOrder, setIdOrder] = useState("");
@@ -28,20 +24,18 @@ function AdminOrder() {
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
   const [dataSeeMore, setDataSeeMore] = useState(null);
-  const [dataExport, setDataExport] = useState([]);
   const [dataExportAUser, setDataExportAUser] = useState(null);
   const [showModalPrint, setShowModalPrint] = useState(false);
   const getAllOrders = async () => {
     setIsLoading(true);
     const res = await OrderSerVice.getAllOrder();
+    setIsLoading(false);
     if (res.success) {
       setDataOrder(res.order);
     }
-    setIsLoading(false);
   };
   useEffect(() => {
     getAllOrders();
-    dispatch(getAllOrder());
   }, []);
   const renderAction = (text, item) => {
     return (
@@ -293,7 +287,7 @@ function AdminOrder() {
         paymentInfoStatus: order.paymentInfo.status,
         address: order.shippingAddress.address,
         totalPrice: order.totalPrice,
-        date: moment(order.paymentInfo.createdAt).format("YYYY-MM-DD-HH:mm"),
+        date: moment(order.paymentInfo.createdAt).format("YYYY-MM-DD HH:mm:ss"),
         status: order.status,
         more: {
           ...order,
@@ -314,6 +308,7 @@ function AdminOrder() {
       setshowModalDelete(false);
       setIsLoading(true);
       const res = await OrderSerVice.deleteOrder(idOrder);
+      setIsLoading(false);
       if (res.success) {
         toast.success("Xóa đơn hàng hành công");
         getAllOrders();
@@ -328,29 +323,6 @@ function AdminOrder() {
       color: "red",
       border: "1px solid #ccc",
     },
-  };
-  const handleExportAllOrder = () => {
-    let res = [];
-    if (dataTable && dataTable.length > 0) {
-      dataTable.forEach((item) => {
-        const products = item.product
-          .map((product) => {
-            return `${product.name} (${product.quantity})`;
-          })
-          .join(", ");
-        let orders = {
-          _id: item.id,
-          product: products,
-          name: item.name,
-          address: item.address,
-          phone: item.phone,
-          payment: item.paymentInfo,
-          price: item.totalPrice,
-        };
-        res.push(orders);
-      });
-      setDataExport(res);
-    }
   };
   const handleExportOrder = () => {
     setShowModalPrint(false);
@@ -381,17 +353,7 @@ function AdminOrder() {
           <p className="font-[600]">Biểu đồ thể hiện trại thái của đơn hàng</p>
         </div>
       </div>
-      <div className="flex flex-row-reverse p-2 ">
-        <CSVLink
-          filename="order.csv"
-          className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-[#009b49]  text-white"
-          onClick={handleExportAllOrder}
-          data={dataExport}
-        >
-          <CiExport className="md:text-[30px] text-[20px] " />
-          <h2 className="font-[600] px-1">Export</h2>
-        </CSVLink>
-      </div>
+
       <div className="w-full justify-center items-center">
         <TableComponent
           columns={columns}

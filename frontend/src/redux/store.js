@@ -12,7 +12,6 @@ import { orderReducer } from "./reducer/orderReducer";
 import { cartReducer } from "./reducer/cartReducer";
 import { feeReducer } from "./reducer/feeReducer";
 import { blogReducer } from "./reducer/blogReducer";
-import { ordersReducer } from "./reducer/ordersReducer";
 
 const persistConfig = {
   key: "root",
@@ -30,7 +29,6 @@ const rootReducer = combineReducers({
   order: orderReducer,
   fee: feeReducer,
   blog: blogReducer,
-  orders: ordersReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

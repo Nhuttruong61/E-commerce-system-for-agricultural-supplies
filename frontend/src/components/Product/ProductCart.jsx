@@ -5,6 +5,10 @@ function ProductCart(item) {
   const navigate = useNavigate();
   const handleClick = (e) => {
     navigate(`/product/details/${e.item._id}`);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
   const productPrice = item?.item?.price * (1 - item?.item?.distCount / 100);
   return (
@@ -15,12 +19,12 @@ function ProductCart(item) {
       <div className="relative py-2">
         <div className=" lg:h-[28vh] sm:h-[16vh] md:h-[18vh]  flex justify-center">
           <img
-            src={item.item.images[0].url}
+            src={item?.item.images[0].url}
             alt=""
             className=" h-[140px] md:w-full object-contain w-[100px]"
           />
         </div>
-        {item?.item?.gifts.length > 0 ? (
+        {item?.item?.gifts?.length > 0 ? (
           <div className="bg-[#ee4d2d] z-1 md:w-[36%] py-3 w-[40%] absolute h-[10%] left-[-8px] text-white top-0 flex flex-col justify-center text-center font-[600]  rounded-r">
             <span className="md:text-[80%] text-[60%] ">Khuyến mãi</span>
             <span

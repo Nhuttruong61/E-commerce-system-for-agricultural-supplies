@@ -27,7 +27,7 @@ export const converDataChart = (order, type) => {
   }
 };
 
-export const converDataChartBar = ({ data }) => {
+export const converDataChartBar = (data) => {
   try {
     const today = new Date();
     const monthStart = startOfMonth(today);
@@ -71,7 +71,7 @@ export const converDataChartBar = ({ data }) => {
   }
 };
 
-export const ConverChartComposed = ({ data }) => {
+export const ConverChartComposed = (data) => {
   try {
     const today = new Date();
     const twelveMonthsAgo = new Date();
@@ -118,7 +118,7 @@ export const converDataChartProduct = ({ data }) => {
   }
 };
 
-export const converdataLineChart = ({ data }) => {
+export const converdataLineChart = (data) => {
   try {
     const today = new Date();
     const sevenDays = new Date();

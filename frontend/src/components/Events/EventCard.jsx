@@ -9,6 +9,10 @@ function EventCard(item) {
 
   const handleNavigate = (item) => {
     navigate(`/product/details/${item.data.product[0]._id}`);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
   return (
     <div

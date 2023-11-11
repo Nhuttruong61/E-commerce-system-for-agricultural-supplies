@@ -14,6 +14,7 @@ import { converDataChartBar } from "../../until";
 
 function BarChartComponent({ orders }) {
   const data = converDataChartBar(orders);
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart

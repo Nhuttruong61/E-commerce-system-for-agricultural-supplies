@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import logo from "../../assets/logo/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FacebookFilled,
   YoutubeFilled,
@@ -11,6 +11,7 @@ import { BsTelephone } from "react-icons/bs";
 import { FaEarthAsia } from "react-icons/fa6";
 import { footerProductLinks, footerSupportLinks } from "../../static/data";
 function Footer() {
+  const navigate = useNavigate();
   const handlePhoneClick = () => {
     const callPhone = "tel:0384999999";
     window.location.href = callPhone;
@@ -116,12 +117,18 @@ function Footer() {
           {footerSupportLinks.map((link) => {
             return (
               <li key={link.name}>
-                <Link
-                  className="hover:text-[#0e9c49] duration-300"
-                  to={link.link}
+                <div
+                  className="hover:text-[#0e9c49] duration-300 cursor-pointer"
+                  onClick={() => {
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                    navigate(`${link.link}`);
+                  }}
                 >
                   {link.name}
-                </Link>
+                </div>
               </li>
             );
           })}

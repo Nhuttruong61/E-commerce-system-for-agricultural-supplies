@@ -11,7 +11,7 @@ function Discount() {
   const [dataProduct, setDataProduct] = useState([]);
   useEffect(() => {
     if (products) {
-      let res = products.data.filter((item) => {
+      let res = products?.data?.filter((item) => {
         return isNotExpired(new Date(item.expirationDate));
       });
       setProductData(res);
@@ -43,15 +43,15 @@ function Discount() {
     const fillterDiscount = () => {
       if (dataProduct) {
         const clonedProductData = [...dataProduct];
-        const res = clonedProductData.filter(
-          (item) => item.distCount > 0 || item.gifts.length > 0
+        const res = clonedProductData?.filter(
+          (item) => item.distCount > 0 || item?.gifts?.length > 0
         );
         setDataSort(res);
       }
     };
     fillterDiscount();
   }, [dataProduct]);
-
+  console.log(dataProduct);
   return (
     <div>
       <div className=" p-6 rounded-lg mb-12  md:px-[10%]">
@@ -61,10 +61,10 @@ function Discount() {
           </p>
         </div>
         <div className="grid gap-[5px] mx-1 lg:grid-cols-5 md:grid-cols-3 grid-cols-2  md:gap-[10px]  lg:gap-[20px]  xl:gap-[30px]">
-          {dataSort && dataSort.length !== 0 && (
+          {dataSort && dataSort?.length !== 0 && (
             <>
               {dataSort &&
-                dataSort.map((i, index) => (
+                dataSort?.map((i, index) => (
                   <ProductCart key={index} item={i} />
                 ))}
             </>

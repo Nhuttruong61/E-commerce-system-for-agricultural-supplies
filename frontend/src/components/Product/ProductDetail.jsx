@@ -129,15 +129,21 @@ function ProductDetail(id) {
   }, [data]);
 
   const getGiftData = async () => {
-    if (productData) {
-      const promises = productData?.gifts?.map(async (id) => {
+    if (productData && productData.gifts && Array.isArray(productData.gifts)) {
+      const promises = productData.gifts.map(async (id) => {
         const res = await getaProduct(id);
         return res?.product;
       });
-      const gifts = await Promise.all(promises);
-      setDataGift(gifts);
+
+      try {
+        const gifts = await Promise.all(promises);
+        setDataGift(gifts);
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu quà tặng", error);
+      }
     }
   };
+
   useEffect(() => {
     getGiftData();
   }, [productData]);

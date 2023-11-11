@@ -17,7 +17,6 @@ function ResetPassword() {
   const handleOnchanforgotPassword = (value) => {
     setforgotPassword(value);
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);

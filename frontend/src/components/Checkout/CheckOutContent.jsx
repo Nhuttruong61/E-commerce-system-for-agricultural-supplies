@@ -165,7 +165,9 @@ function CheckOutContent() {
           ...coupon,
         },
       };
+      setIsLoading(true);
       const res = await OrderService.createOrder(order);
+      setIsLoading(false);
       if (res.success) {
         navigate("/order/seccess");
         dispatch(clearQuantity());
@@ -214,12 +216,18 @@ function CheckOutContent() {
               ...coupon,
             },
           };
-          const res = await OrderService.createOrder(order);
-          if (res.success) {
-            navigate("/order/seccess");
-            dispatch(clearQuantity());
-            localStorage.setItem("voucher", null);
-            localStorage.setItem("activeVouchers", null);
+          try {
+            setIsLoading(true);
+            const res = await OrderService.createOrder(order);
+            setIsLoading(false);
+            if (res.success) {
+              navigate("/order/seccess");
+              dispatch(clearQuantity());
+              localStorage.setItem("voucher", null);
+              localStorage.setItem("activeVouchers", null);
+            }
+          } catch (e) {
+            console.log(e);
           }
         }
       }

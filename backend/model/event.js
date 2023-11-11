@@ -21,9 +21,7 @@ const eventSchema = new mongoose.Schema({
     type: String,
     default: "running",
   },
-  tags: {
-    type: String,
-  },
+
   discount: {
     type: Number,
   },
@@ -32,10 +30,6 @@ const eventSchema = new mongoose.Schema({
     required: true,
   },
 
-  sold_out: {
-    type: Number,
-    default: 0,
-  },
   createdAt: {
     type: Date,
     default: Date.now(),

@@ -17,6 +17,10 @@ function Categories() {
           categories?.categories.map((i) => {
             const handleSubmit = (i) => {
               navigate(`/products?category=${i.name}`);
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
             };
 
             return (

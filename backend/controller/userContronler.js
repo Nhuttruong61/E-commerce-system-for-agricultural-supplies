@@ -147,12 +147,6 @@ const loginUser = catchAsyncErrors(async (req, res, next) => {
     if (!user) {
       return next(new ErrorHandler("User doesn't exists!", 400));
     }
-    const isPassword = await bcrypt.compare(password, user.password);
-    if (!isPassword) {
-      return next(
-        new ErrorHandler("Please provide the correct information", 400)
-      );
-    }
     sendToken(user, 201, res);
   } catch (err) {
     return next(new ErrorHandler(err.message, 500));
@@ -419,7 +413,7 @@ const sendResetEmail = async (user) => {
   const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
 
   try {
-    await sendMail({
+    await sendMail.sendMail({
       email: user.email,
       subject: "Lấy lại mật khẩu",
       message: `Xin chào, vui lòng nhấn vào đường link này: ${resetUrl}`,
@@ -459,12 +453,21 @@ const resetPassword = catchAsyncErrors(async (req, res, next) => {
     const { resetToken, newPassword } = req.body;
 
     const user = jwt.verify(resetToken, process.env.RESET_SECRET);
-
     if (!user) {
       return next(new ErrorHandler("Invalid reset token", 400));
     }
-    user.password = newPassword;
-    await user.save();
+    const email = user.email;
+    const userToUpdate = await User.findOne({ email });
+    if (!userToUpdate) {
+      return next(new ErrorHandler("User not found", 404));
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await User.findOneAndUpdate(
+      { email },
+      { password: hashedPassword },
+      { new: true }
+    );
 
     res.status(200).json({
       success: true,

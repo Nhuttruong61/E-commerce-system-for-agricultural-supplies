@@ -5,11 +5,11 @@ import BarChartNoPaddingComponent from "../chart/BarChartNoPaddingComponent";
 import BarChartComponent from "../chart/BarChartComponent";
 import { getAllUser } from "../../service/userService";
 import VerticalComposedChart from "../chart/VerticalComposedChart";
-
+import * as OrderSerVice from "../../service/orderService";
 function Dashboard() {
   const products = useSelector((state) => state.product);
-  const orders = useSelector((state) => state.orders);
   const [dataUser, setDataUser] = useState([]);
+  const [dataOrder, setDataOrder] = useState([]);
   const fetchDataUser = async () => {
     try {
       const res = await getAllUser();
@@ -20,9 +20,18 @@ function Dashboard() {
       console.log(e);
     }
   };
+  const getAllOrders = async () => {
+    const res = await OrderSerVice.getAllOrder();
+    if (res.success) {
+      setDataOrder(res.order);
+    }
+  };
+
   useEffect(() => {
+    getAllOrders();
     fetchDataUser();
   }, []);
+
   return (
     <div className="w-full overflow-x-auto">
       <div className="md:flex py-2 w-full px-2">
@@ -104,7 +113,7 @@ function Dashboard() {
       </div>
       <div className=" md:flex w-full py-2 ">
         <div className="h-[400px] md:w-[50%] w-full flex-col ">
-          <ComposedChartComponent orders={orders} />
+          <ComposedChartComponent orders={dataOrder} />
           <div className="flex justify-center">
             <p className="font-[600]">
               Biểu đồ thể hiện danh thu theo từng tháng{" "}
@@ -112,7 +121,7 @@ function Dashboard() {
           </div>
         </div>
         <div className="h-[400px] md:w-[50%] w-full flex-col ">
-          <BarChartComponent orders={orders} />
+          <BarChartComponent orders={dataOrder} />
           <div className="w-full flex justify-center">
             <p className="font-[600]">
               Biểu đồ thể hiện danh thu các tuần trong tháng

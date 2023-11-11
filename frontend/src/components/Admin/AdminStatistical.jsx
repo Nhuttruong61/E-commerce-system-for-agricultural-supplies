@@ -1,16 +1,26 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import * as OrderSerVice from "../../service/orderService";
 import ComposedChartComponent from "../chart/ComposedChartComponent";
 import BarChartComponent from "../chart/BarChartComponent";
 import CustomizedLabelLineChart from "../chart/CustomizedLabelLineChart";
 function AdminStatistical() {
-  const orders = useSelector((state) => state.order);
-  const totalPrice = orders?.data.reduce((acc, item) => {
+  const [dataOrder, setDataOrder] = useState([]);
+  const getAllOrders = async () => {
+    const res = await OrderSerVice.getAllOrder();
+    if (res.success) {
+      setDataOrder(res.order);
+    }
+  };
+  useEffect(() => {
+    getAllOrders();
+  }, []);
+  const totalPrice = dataOrder?.reduce((acc, item) => {
     if (item.paymentInfo.status === "Đã thanh toán") {
       return (acc += item.totalPrice);
     }
     return acc;
   }, 0);
+
   return (
     <div className="w-full">
       <div className=" md:flex w-full py-2 ">
@@ -21,7 +31,7 @@ function AdminStatistical() {
           </div>
         </div>
         <div className="h-[400px] md:w-[50%] w-full flex-col ">
-          <ComposedChartComponent orders={orders} />
+          <ComposedChartComponent orders={dataOrder} />
           <div className="flex justify-center">
             <p className="font-[600]">
               Biểu đồ thể hiện danh thu theo từng tháng{" "}
@@ -31,7 +41,7 @@ function AdminStatistical() {
       </div>
       <div className=" my-10 md:flex w-full py-2 ">
         <div className="h-[400px] md:w-[50%] w-full">
-          <BarChartComponent orders={orders} />
+          <BarChartComponent orders={dataOrder} />
           <div className="w-full flex justify-center">
             <p className="font-[600]">
               Biểu đồ thể hiện danh thu các tuần trong tháng
@@ -39,7 +49,7 @@ function AdminStatistical() {
           </div>
         </div>
         <div className="h-[400px] md:w-[50%] w-full md:my-0 my-10">
-          <CustomizedLabelLineChart orders={orders} />
+          <CustomizedLabelLineChart orders={dataOrder} />
           <div className="w-full flex justify-center">
             <p className="font-[600]">
               Biểu đồ thể hiện danh thu các ngày trong tuần
