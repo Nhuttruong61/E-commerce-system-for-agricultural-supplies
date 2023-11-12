@@ -48,7 +48,7 @@ function Profile() {
         toast.success("Thay đổi thành công");
       }
     } catch (error) {
-      toast.success("Đã xãy ra lỗi vui lòng thử lại sao", error);
+      toast.error("Đã xãy ra lỗi vui lòng thử lại sao", error);
       console.error(error);
     } finally {
       dispatch(getUser());

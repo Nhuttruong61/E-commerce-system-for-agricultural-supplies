@@ -10,25 +10,40 @@ import Loading from "../../components/Loading";
 function ResetPassword() {
   const { resetToken } = useParams();
   const [forgotPassword, setforgotPassword] = useState("");
+  const [reforgotPassword, setreforgotPassword] = useState("");
   const [isShowforgotPassword, setIsShowforgotPassword] = useState(false);
+  const [isreShowforgotPassword, setIsreShowforgotPassword] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleOnchanforgotPassword = (value) => {
     setforgotPassword(value);
   };
+  const handleOnchanreforgotPassword = (value) => {
+    setreforgotPassword(value);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    const data = {
-      resetToken: resetToken,
-      newPassword: forgotPassword,
-    };
+    try {
+      if (forgotPassword === reforgotPassword) {
+        setIsLoading(true);
+        const data = {
+          resetToken: resetToken,
+          newPassword: forgotPassword,
+        };
 
-    const res = await Userservice.resetPassword(data);
-    if (res.success === true) {
-      navigate("/login");
-      toast.success("Đổi mật khẩu thành công");
+        const res = await Userservice.resetPassword(data);
+        setIsLoading(false);
+        if (res.success === true) {
+          navigate("/login");
+          toast.success("Đổi mật khẩu thành công");
+        }
+      } else {
+        toast.warning("Mật khẩu không trùng nhau");
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -49,7 +64,26 @@ function ResetPassword() {
                 value={forgotPassword}
                 placeholder="Mật khẩu mới"
                 onChange={handleOnchanforgotPassword}
-                type={isShowforgotPassword ? "text" : "forgotPassword"}
+                type={isShowforgotPassword ? "text" : "password"}
+              />
+              <span
+                onClick={() =>
+                  setIsreShowforgotPassword(!isreShowforgotPassword)
+                }
+                className="z-10 absolute right-2 top-[105px]"
+              >
+                {isreShowforgotPassword ? (
+                  <EyeFilled />
+                ) : (
+                  <EyeInvisibleFilled />
+                )}
+              </span>
+              <Input
+                name="Nhập lại mật khẩu"
+                value={reforgotPassword}
+                placeholder="Mật khẩu mới"
+                onChange={handleOnchanreforgotPassword}
+                type={isreShowforgotPassword ? "text" : "password"}
               />
             </div>
 

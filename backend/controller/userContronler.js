@@ -196,8 +196,16 @@ const updateUser = catchAsyncErrors(async (req, res, next) => {
     }
     const isCloudinaryImage = avatar && avatar.includes("cloudinary");
 
-    if (avatar && !isCloudinaryImage) {
+    if (avatar && !isCloudinaryImage && user.avatar.public_id) {
       await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+      const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+        folder: "avatars",
+      });
+      user.avatar = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      };
+    } else {
       const myCloud = await cloudinary.v2.uploader.upload(avatar, {
         folder: "avatars",
       });
