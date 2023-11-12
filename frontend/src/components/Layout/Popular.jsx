@@ -20,7 +20,16 @@ function Popular() {
     const unExpiredProducts = sortedProduct.filter((item) => {
       return isNotExpired(new Date(item.expirationDate));
     });
-    const data = unExpiredProducts?.slice(0, 5);
+    const filterProductgift = unExpiredProducts
+      ?.map((item) =>
+        item?.gifts?.length > 0 ? item.gifts?.map((gift) => gift) : null
+      )
+      .filter((item) => item !== null)
+      .flat();
+    const dataProductgift = unExpiredProducts?.filter((item) => {
+      return !filterProductgift.includes(item._id);
+    });
+    const data = dataProductgift?.slice(0, 5);
     setDataSort(data);
   }, []);
   useEffect(() => {

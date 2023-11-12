@@ -68,7 +68,7 @@ function CheckOutContent() {
     );
 
     const totalFeecost = selectedShippingOption?.cost * totalWeight;
-    const freeShip = selectedShippingOption.freeShipping;
+    const freeShip = selectedShippingOption?.freeShipping;
 
     const total = cart.reduce((acc, item) => {
       if (account?.role === "business" && item?.quantity >= 10) {
@@ -273,6 +273,7 @@ function CheckOutContent() {
   useEffect(() => {
     getGiftProduct();
   }, [idGifts, cart]);
+
   useEffect(() => {
     if (dataGift?.length > 0) {
       const updatedCart = [...cart];
@@ -293,7 +294,6 @@ function CheckOutContent() {
       setDataCart(cart);
     }
   }, [dataGift, cart]);
-
   const handleAddCoupon = (item) => {
     const isVoucherActive = activeVouchers.includes(item._id);
 
@@ -364,7 +364,9 @@ function CheckOutContent() {
                   </div>
                   <div className="flex md:items-center md:justify-center  ml-2 md:w-[30%] ">
                     <p className="text-[100%] px-2">Giá tiền:</p>
-                    <p className="text-[100%]">{price?.toLocaleString()}đ</p>
+                    <p className="text-[100%]">
+                      {(item?.price * item?.quantity).toLocaleString()}đ
+                    </p>
                   </div>
                 </div>
               </div>

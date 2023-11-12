@@ -86,7 +86,7 @@ function Inbox() {
           });
       }
     } catch (err) {
-      console.log("err", err);
+      console.log(err);
     }
   };
   //get message

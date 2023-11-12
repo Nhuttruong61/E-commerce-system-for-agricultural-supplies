@@ -14,7 +14,17 @@ function Discount() {
       let res = products?.data?.filter((item) => {
         return isNotExpired(new Date(item.expirationDate));
       });
-      setProductData(res);
+      const filterProductgift = res
+        ?.map((item) =>
+          item?.gifts?.length > 0 ? item.gifts.map((gift) => gift) : null
+        )
+        .filter((item) => item !== null)
+        .flat();
+      const dataProductgift = res?.filter((item) => {
+        return !filterProductgift.includes(item._id);
+      });
+
+      setProductData(dataProductgift);
     }
   }, [products]);
 
@@ -51,7 +61,6 @@ function Discount() {
     };
     fillterDiscount();
   }, [dataProduct]);
-  console.log(dataProduct);
   return (
     <div>
       <div className=" p-6 rounded-lg mb-12  md:px-[10%]">

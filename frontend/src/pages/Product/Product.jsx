@@ -47,7 +47,17 @@ function Product() {
         const unExpiredProducts = res.filter((item) => {
           return isNotExpired(new Date(item.expirationDate));
         });
-        setProductData(unExpiredProducts);
+        const filterProductgift = unExpiredProducts
+          ?.map((item) =>
+            item?.gifts?.length > 0 ? item.gifts?.map((gift) => gift) : null
+          )
+          .filter((item) => item !== null)
+          .flat();
+        const dataProductgift = unExpiredProducts?.filter((item) => {
+          return !filterProductgift.includes(item._id);
+        });
+
+        setProductData(dataProductgift);
       }
     }, 300);
   }, [products]);
