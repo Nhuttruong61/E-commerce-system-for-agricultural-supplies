@@ -168,11 +168,11 @@ function SliderAdmin() {
   };
   return (
     <div className="w-full flex flex-col">
-      <div
-        className=" flex  md:flex-row m-2 cursor-pointer rounded w-[25%]"
-        onClick={() => setShowModalAdd(true)}
-      >
-        <span className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-red-500  text-white">
+      <div className=" flex  md:flex-row m-2 cursor-pointer rounded w-[25%]">
+        <span
+          className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-red-500  text-white"
+          onClick={() => setShowModalAdd(true)}
+        >
           <AiOutlineCloudUpload className="md:text-[30px] text-[20px]" />
           <h2 className="font-[600] px-1 ">Tạo mới</h2>
         </span>

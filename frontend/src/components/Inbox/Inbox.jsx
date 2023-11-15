@@ -138,7 +138,7 @@ function Inbox() {
 
   return (
     <div className="">
-      <div className="fixed bottom-10 z-50 right-5 ">
+      <div className="fixed bottom-10 z-30 right-5 ">
         {isModalOpen ? (
           <div
             className="cursor-pointer border rounded-full p-2 bg-[#009b49]"

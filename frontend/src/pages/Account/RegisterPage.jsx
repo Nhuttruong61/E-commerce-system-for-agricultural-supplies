@@ -36,36 +36,30 @@ function RegisterPage() {
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     if (!name || !email || !phoneNumber || !password || !forGotPassword) {
       toast.warning("Vui lòng điền đầy đủ thông tin");
-      setIsLoading(false);
-      return;
-    }
-
-    if (password !== forGotPassword) {
+    } else if (password !== forGotPassword) {
       toast.error("Mật khẩu không khớp vui lòng nhập lại");
-      setIsLoading(false);
-      return;
-    }
-    const newUser = {
-      name: name,
-      email: email,
-      phoneNumber: phoneNumber,
-      password: password,
-    };
+    } else {
+      const newUser = {
+        name: name,
+        email: email,
+        phoneNumber: phoneNumber,
+        password: password,
+      };
 
-    try {
-      const response = await Userservice.RegisterService(newUser);
-      if (response.success === true) {
-        toast.success("Vui lòng kiểm tra email để kích hoạt tài khoản!");
-        // toast.success("Đăng kí kí tài khoản thành công");
-        navigate("/login");
+      try {
+        setIsLoading(true);
+        const response = await Userservice.RegisterService(newUser);
+        if (response.success === true) {
+          toast.success("Vui lòng kiểm tra email để kích hoạt tài khoản!");
+          navigate("/login");
+        }
+      } catch (error) {
+        toast.warning("Email đã tồn tại");
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      toast.warning("Email đã tồn tại");
-    } finally {
-      setIsLoading(false);
     }
   };
   return (
@@ -93,7 +87,8 @@ function RegisterPage() {
               onChange={handleOnchanPhone}
             />
             <Input
-              name="Tên tài khoản hoặc địa chỉ email"
+              name="Hãy nhập địa email của bạn"
+              type="email"
               value={email}
               placeholder="Nhập email"
               onChange={handleOnchanEmail}
@@ -141,7 +136,6 @@ function RegisterPage() {
             <button
               className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#0e9c49] hover:bg-[#345409]"
               type="submit"
-              disabled={!email || !password}
             >
               Đăng Ký
             </button>

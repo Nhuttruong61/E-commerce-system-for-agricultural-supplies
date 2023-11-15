@@ -158,7 +158,7 @@ export const converdataLineChart = (data) => {
   }
 };
 
-export const coverVertialChart = (user) => {
+export const coverVertialUserChart = (user) => {
   try {
     const object = [];
     const userSort = user

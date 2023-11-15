@@ -16,7 +16,7 @@ function EventCard(item) {
   };
   return (
     <div
-      className="w-full rounded-lg md:flex p-2 shadow-lg cursor-pointer"
+      className="w-full rounded-lg md:flex  shadow-sm cursor-pointer bg-white hover:shadow-[#009b49]"
       onClick={() => handleNavigate(item)}
     >
       <div className="w-full md:w-[50%] m-auto justify-center items-center flex">
@@ -30,7 +30,7 @@ function EventCard(item) {
         <h1 className="font-[700] text-[140%] md:text-[160%] py-2">
           {item?.data.name}
         </h1>
-        <p>{item?.data.description} </p>
+        <p className="font-[600]">{item?.data.description} </p>
         <div className="flex justify-between">
           <div className="flex">
             <h5 className=" font-[500] text-red-500 pl-3 line-through">

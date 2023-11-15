@@ -8,7 +8,6 @@ import {
   EditOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-import imageCompression from "browser-image-compression";
 import * as ProductService from "../../../service/productService";
 import { toast } from "react-toastify";
 import { getAllProductRd } from "../../../redux/action/productAction";

@@ -112,9 +112,9 @@ function AdminFeeTransport() {
     );
     if (res.success) {
       dispatch(getAllFee());
-      toast.success(res.message);
+      toast.success("Cập nhật phí vận chuyển thành công");
     } else {
-      toast.error(res.message);
+      toast.error("Đã có lỗi xảy ra");
     }
     setIsLoading(false);
   };
@@ -171,8 +171,11 @@ function AdminFeeTransport() {
   };
   return (
     <div className="w-full flex flex-col">
-      <div className=" flex  p-2" onClick={() => setShowModalAdd(true)}>
-        <span className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-red-500  text-white">
+      <div className=" flex  p-2 cursor-pointer">
+        <span
+          className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-red-500  text-white"
+          onClick={() => setShowModalAdd(true)}
+        >
           <AiOutlineCloudUpload className="md:text-[30px] text-[20px]" />
           <h2 className="font-[600] px-1 ">Tạo mới</h2>
         </span>

@@ -83,3 +83,15 @@
 .fade-in-from-top-animation {
   animation: fade-in-from-top 0.5s ease-out;
 }
+
+.ant-steps-item-icon {
+  background: #0e9c49 !important;
+  border: #0e9c49 !important;
+}
+
+.ant-steps-icon {
+  color: white !important;
+}
+.ant-steps-item-title::after {
+  background: #0e9c49 !important;
+}

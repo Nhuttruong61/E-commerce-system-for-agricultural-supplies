@@ -131,9 +131,6 @@ function FAQInfomation() {
     return res;
   };
 
-  const handleOnchageEdit = (e) => {
-    setComment(e.target.value);
-  };
   const handleEdit = async () => {
     const data = {
       content: comment,
@@ -143,16 +140,6 @@ function FAQInfomation() {
     getAdata();
     return res;
   };
-  const handleOnchageTitle = (e) => {
-    setQuestionTitle(e.target.value);
-  };
-  const handleOnchageContent = (e) => {
-    setQuestionContent(e.target.value);
-  };
-  const handleOnchangeNewComment = (e) => {
-    setNewComment(e.target.value);
-  };
-
   const handleSubmitCommmet = async () => {
     if (user && user.isAuthenticated) {
       const data = {
@@ -232,14 +219,16 @@ function FAQInfomation() {
                             <input
                               type="text"
                               value={questionTitle}
-                              onChange={handleOnchageTitle}
+                              onChange={(e) => setQuestionTitle(e.target.value)}
                               className="w-full md:px-4 h-auto py-2 border-[2px] sm:px-0 rounded-[4px] my-2 break-words"
                             />
                             <textarea
                               type="text"
                               rows={8}
                               value={questionContent}
-                              onChange={handleOnchageContent}
+                              onChange={(e) =>
+                                setQuestionContent(e.target.value)
+                              }
                               className="w-full md:px-4 h-auto py-2 border-[2px] sm:px-0 rounded-[4px] break-words"
                             />
                           </Modal>
@@ -356,7 +345,7 @@ function FAQInfomation() {
                               >
                                 <textarea
                                   value={comment}
-                                  onChange={handleOnchageEdit}
+                                  onChange={(e) => setComment(e.target.value)}
                                   className="w-full md:px-4  h-auto py-2 border-[2px] sm:px-0 rounded-[4px]"
                                 />
                               </Modal>
@@ -392,7 +381,7 @@ function FAQInfomation() {
                   type="text"
                   value={newComment}
                   className="w-full h-auto outline-none py-2 pl-2"
-                  onChange={handleOnchangeNewComment}
+                  onChange={(e) => setNewComment(e.target.value)}
                 />
                 <button
                   className="bg-[#0e9c49] px-4 rounded-r-[4px] text-white"

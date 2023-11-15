@@ -1,8 +1,7 @@
-import React, { PureComponent, memo } from "react";
+import React, { memo } from "react";
 import {
   ComposedChart,
   Line,
-  Area,
   Bar,
   XAxis,
   YAxis,

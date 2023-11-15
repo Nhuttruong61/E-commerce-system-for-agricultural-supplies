@@ -12,23 +12,35 @@ function Cart({ setOpenCart }) {
     setOpenCart(false);
   };
   return (
-    <div className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-20 ">
-      <div className="fixed top-0 right-0 h-full w-[80%] 800px:w-[25%] bg-white flex flex-col overflow-y-scroll justify-between shadow-sm slide-left-animation">
+    <div
+      className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-20"
+      onClick={() => setOpenCart(false)}
+    >
+      <div
+        className="fixed top-0 right-0 h-full w-[80%] 800px:w-[25%] bg-white flex flex-col overflow-y-scroll justify-between shadow-sm slide-left-animation"
+        onClick={(e) => e.stopPropagation()}
+      >
         {cart && cart.length === 0 ? (
-          <div className="w-full h-screen flex items-center justify-center">
-            <div className="flex w-full justify-end pt-5 pr-5 fixed top-3 right-3">
+          <div className="w-full h-full flex flex-col items-center ">
+            <div className="flex w-full  p-2">
               <CloseOutlined onClick={() => setOpenCart(false)} />
             </div>
-            <p>Không có sản phẩm nào trong giỏ hàng!</p>
+            <div className="w-full  h-full flex justify-center items-center">
+              <p>Không có sản phẩm nào trong giỏ hàng!</p>
+            </div>
           </div>
         ) : (
           <div>
-            <div className="flex w-full justify-end pt-5 pr-5">
-              <CloseOutlined onClick={() => setOpenCart(false)} />
-            </div>
-            <div className="p-4 flex items-center">
-              <ShoppingCartOutlined size={25} />
-              <p className="pl-2  font-[500]">{cart && cart.length} Sản phẩm</p>
+            <div className="flex items-center">
+              <div className="flex p-2">
+                <CloseOutlined onClick={() => setOpenCart(false)} />
+              </div>
+              <div className="p-4 flex items-center">
+                <ShoppingCartOutlined size={25} />
+                <p className="pl-2 font-[500]">
+                  {cart && cart.length} Sản phẩm
+                </p>
+              </div>
             </div>
             <div className="w-full border-t">
               {cart &&

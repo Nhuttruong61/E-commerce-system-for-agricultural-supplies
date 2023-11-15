@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-distracting-elements */
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import {
   SearchOutlined,
   UserOutlined,
@@ -18,7 +18,7 @@ import logo from "../../assets/logo/logo.png";
 import Cart from "../Cart/Cart";
 import { clearQuantity } from "../../redux/action/cartAction";
 import { HiOutlineMenu } from "react-icons/hi";
-
+import { RiCoupon2Line } from "react-icons/ri";
 function Header() {
   const user = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
@@ -33,7 +33,7 @@ function Header() {
   const [activeMobile, setActiveMobile] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const refOutSide = useRef(null);
   useEffect(() => {
     const handleResize = () => {
       setShow(window.innerWidth > 768);
@@ -48,7 +48,7 @@ function Header() {
     };
   }, []);
   useEffect(() => {
-    if (products && products.data.length > 0) {
+    if (products && products?.data?.length > 0) {
       let res = products.data;
       setProductData(res);
     }
@@ -87,6 +87,10 @@ function Header() {
     setIsShownInUser(false);
     navigate(`/profile?${3}`);
   };
+  const handleNavigateCoupons = () => {
+    setIsShownInUser(false);
+    navigate(`/profile?${4}`);
+  };
   const handleNavigateAdmin = () => {
     setIsShownInUser(false);
     navigate("/system/admin");
@@ -98,7 +102,18 @@ function Header() {
       setActive(false);
     }
   });
+  const handleClickOutside = () => {
+    if (refOutSide.current) {
+      setIsShownInUser(false);
+    }
+  };
 
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
   return (
     <div>
       {user?.account?.role === "business" && (
@@ -168,7 +183,10 @@ function Header() {
               : " flex justify-between items-center w-[40%]"
           }
         >
-          <div className="flex justify-center items-center px-4">
+          <div
+            className="flex justify-center items-center px-4"
+            onClick={(e) => e.stopPropagation()}
+          >
             {show ? (
               <div className="border border-[#009b49] rounded-full mx-2 ">
                 {user?.account?.avatar ? (
@@ -182,7 +200,11 @@ function Header() {
                 )}
               </div>
             ) : null}
-            <div className="relative z-10 text-[100%] font-[600]">
+            <div
+              className="relative z-10 text-[100%] font-[600]"
+              ref={refOutSide}
+              onClick={(e) => e.stopPropagation()}
+            >
               {user?.isAuthenticated ? (
                 <div
                   className="cursor-pointer "
@@ -211,7 +233,7 @@ function Header() {
                 </div>
               )}
               {ishownInUser && (
-                <div className="absolute h-auto w-[120px] bg-white rounded-[4px]">
+                <div className="absolute h-auto w-[160px] bg-white rounded-[4px]">
                   <div
                     className="hover:bg-[#0e9c49] hover:text-white cursor-pointer p-2 flex items-center"
                     onClick={handleNavigateProfile}
@@ -221,7 +243,7 @@ function Header() {
                   </div>
 
                   {user?.account?.role === "admin" && (
-                    <div className="hover:bg-[#0e9c49] hover:text-white cursor-pointer p-2 flex items-center">
+                    <div className="hover:bg-[#0e9c49] hover:text-white cursor-pointer p-2 flex items-center shadow">
                       <SettingOutlined />
                       <p className="ml-1" onClick={handleNavigateAdmin}>
                         Quản lý
@@ -238,6 +260,12 @@ function Header() {
                     <HomeOutlined />
                     <p className="ml-1" onClick={handleNavigateAddress}>
                       Địa chỉ
+                    </p>
+                  </div>
+                  <div className="hover:bg-[#0e9c49] cursor-pointer hover:text-white p-2 flex items-center">
+                    <RiCoupon2Line />
+                    <p className="ml-1" onClick={handleNavigateCoupons}>
+                      Phiếu giảm giá
                     </p>
                   </div>
                   <div className="hover:bg-[#0e9c49] cursor-pointer hover:text-white p-2 flex items-center">
@@ -268,7 +296,7 @@ function Header() {
         <div
           className={`${
             active === true
-              ? " shadow-sm fixed top-0 left-0  z-10 w-full bg-white py-2 "
+              ? " shadow-sm fixed top-0 left-0  z-10 w-full bg-white pb-2 "
               : null
           } transition 800px:flex items-center justify-between w-full cursor-pointer bg-white`}
         >
@@ -277,8 +305,14 @@ function Header() {
               <HiOutlineMenu className="text-[30px] my-2 mx-4" />
             </div>
             {activeMobile && (
-              <div className="bg-[#0000004b] w-full fixed h-full z-40 ">
-                <div className="w-[60%] shadow z-50  h-full bg-white fixed top-0 slide-right-animation ">
+              <div
+                className="bg-[#0000004b] w-full fixed h-full z-40 "
+                onClick={() => setActiveMobile(false)}
+              >
+                <div
+                  className="w-[60%] shadow z-50  h-full bg-white fixed top-0 slide-right-animation "
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <div className="flex relative">
                     <div className=" flex items-center bg-[#0e9c49] w-full h-[10vh]">
                       <div

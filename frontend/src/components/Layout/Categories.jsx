@@ -6,13 +6,13 @@ function Categories() {
   const categories = useSelector((state) => state?.category.data);
   const navigate = useNavigate();
   return (
-    <div className="  p-6 rounded-lg mb-12  md:px-[10%]">
+    <div className="  p-6 rounded-lg   md:px-[10%]">
       <div className=" flex justify-center text-center items-center">
-        <p className="  my-8 font-[700] md:text-[32px] text-[20px] border px-6 bg-[#0e9c49] text-white rounded-[20px]">
+        <p className="  mt-4 mb-8 font-[700] md:text-[32px] text-[20px] border px-6 bg-[#0e9c49] text-white rounded-[20px]">
           LOẠI SẢN PHẨM
         </p>
       </div>
-      <div className="grid grid-cols-1 gap-[5px] md:grid-cols-2 md:gap-[10px] lg:grid-cols-4 lg:gap-[20px] xl:grid-cols-5 xl:gap-[30px] ">
+      <div className="grid grid-cols-1 gap-[5px] md:grid-cols-2 md:gap-[10px] lg:grid-cols-4 lg:gap-[20px] xl:grid-cols-5 xl:gap-[30px]  ">
         {categories &&
           categories?.categories.map((i) => {
             const handleSubmit = (i) => {
@@ -25,7 +25,7 @@ function Categories() {
 
             return (
               <div
-                className="w-full h-auto flex items-center justify-center cursor-pointer overflow-hidden  p-2 rounded-[4px] shadow hover:shadow-[#0e9c49] hover:-translate-y-1"
+                className="w-full h-auto flex items-center justify-center cursor-pointer overflow-hidden  p-2 rounded-[4px] shadow hover:shadow-[#0e9c49] hover:-translate-y-1 bg-white"
                 key={i._id}
                 onClick={() => handleSubmit(i)}
               >

@@ -48,7 +48,9 @@ function ProfileCoupon() {
         <p className="text-[24px] font-[600] py-1 ">Tất cả voucher</p>
         <div className="w-full flex items-center">
           <p className="font-[500] text-[16px]">Điểm khả dụng:</p>
-          <p className="pl-2 text-[16px]">{account?.giftPoints}</p>
+          <p className="pl-2 text-[16px]">
+            {Math.round(account?.giftPoints * 100) / 100}
+          </p>
         </div>
         {account?.voucher.length > 0 && (
           <div className="w-full py-2">

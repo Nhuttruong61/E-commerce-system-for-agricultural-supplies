@@ -1,8 +1,6 @@
-import React, { PureComponent } from "react";
+import React from "react";
 import {
   ComposedChart,
-  Line,
-  Area,
   Bar,
   XAxis,
   YAxis,
@@ -11,10 +9,10 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { coverVertialChart } from "../../until";
+import { coverVertialUserChart } from "../../until";
 
 function VerticalComposedChart({ user }) {
-  const data = coverVertialChart(user);
+  const data = coverVertialUserChart(user);
   return (
     <ResponsiveContainer width="100%" height="100%">
       <ComposedChart

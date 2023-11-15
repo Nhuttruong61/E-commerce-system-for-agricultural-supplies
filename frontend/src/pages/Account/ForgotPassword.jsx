@@ -7,12 +7,12 @@ import { toast } from "react-toastify";
 import Loading from "../../components/Loading";
 
 function ForgotPassword() {
-  const [email, sêtmail] = useState("");
+  const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleOnchanEmail = (value) => {
-    sêtmail(value);
+    setEmail(value);
   };
 
   const handleSubmit = async (e) => {

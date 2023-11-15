@@ -191,10 +191,10 @@ function AdminCategory() {
       };
       const res = await CategoryService.createCategory(category);
       if (res.success) {
-        toast.success(res.message);
+        toast.success("Tạo danh mục thành công");
         dispatch(getCaterogy());
       } else {
-        toast.error(res.message);
+        toast.error("Đã có lỗi xảy ra");
       }
       setName("");
       setSelectedImage(null);
@@ -213,9 +213,9 @@ function AdminCategory() {
     const res = await CategoryService.deleteCategory(idCategory);
     if (res.success) {
       dispatch(getCaterogy());
-      toast.success(res.message);
+      toast.success("Xóa danh mục thành công");
     } else {
-      toast.error(res.message);
+      toast.error("Đã có lỗi xảy ra");
     }
     setIsLoading(false);
   };
@@ -262,11 +262,11 @@ function AdminCategory() {
   };
   return (
     <div className="w-full flex flex-col">
-      <div
-        className=" flex  md:flex-row m-2 justify-between"
-        onClick={() => setShowModalAdd(true)}
-      >
-        <span className="border-[2px] flex justify-center rounded cursor-pointer items-center px-2 py-1 bg-red-500  text-white">
+      <div className=" flex  md:flex-row m-2 justify-between">
+        <span
+          className="border-[2px] flex justify-center rounded cursor-pointer items-center px-2 py-1 bg-red-500  text-white"
+          onClick={() => setShowModalAdd(true)}
+        >
           <AiOutlineCloudUpload className="md:text-[30px] text-[20px]" />
           <h2 className="font-[600] px-1 ">Tạo mới</h2>
         </span>

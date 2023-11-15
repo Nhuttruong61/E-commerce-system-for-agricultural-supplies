@@ -9,7 +9,6 @@ import {
   EyeOutlined,
 } from "@ant-design/icons";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import imageCompression from "browser-image-compression";
 import * as ProductService from "../../../service/productService";
 import { toast } from "react-toastify";
 import { getAllProductRd } from "../../../redux/action/productAction";
@@ -416,11 +415,15 @@ function Adminproduct() {
     if (dataTable && dataTable.length > 0) {
       dataTable.forEach((item) => {
         let product = {
-          _id: item._id,
-          name: item.name,
-          category: item.categoryName,
-          weight: item.weight,
-          createdAt: item.createdAt,
+          id: item._id,
+          Tên: item.name,
+          Loại_sản_phẩm: item.categoryName,
+          Giá_nhập: item.originPrice,
+          Giá_bán: item.price,
+          Giá_bán_sỉ: item.wholesalePrice,
+          Số_lượng_còn_lại: item.quantity,
+          Đã_bán: item.sold_out,
+          HSD: item.expirationDate,
         };
         res.push(product);
       });
@@ -482,7 +485,7 @@ function Adminproduct() {
           onClick={handleExportProducts}
         >
           <CiExport className="md:text-[30px] text-[20px] " />
-          <h2 className="font-[600] px-1">Export</h2>
+          <h2 className="font-[600] px-1">Xuất File</h2>
         </CSVLink>
       </div>
 

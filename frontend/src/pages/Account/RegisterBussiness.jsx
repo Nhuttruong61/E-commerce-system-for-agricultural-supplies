@@ -20,58 +20,40 @@ function RegisterBussiness() {
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowForGotPassword, setIsShowForGotPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const handleOnchanName = (value) => {
-    setName(value);
-  };
-  const handleOnchanEmail = (value) => {
-    setEmail(value);
-  };
-  const handleOnchanPassword = (value) => {
-    setPassword(value);
-  };
-  const handleOnchanForgotPassword = (value) => {
-    setForGotPassword(value);
-  };
-  const handleOnchanPhone = (value) => {
-    setPhoneNumber(value);
-  };
-  const handleOnchanTax = (value) => {
-    setTax(value);
-  };
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+
     if (!name || !email || !phoneNumber || !password || !forGotPassword) {
       toast.warning("Vui lòng điền đầy đủ thông tin");
       setIsLoading(false);
       return;
-    }
-
-    if (password !== forGotPassword) {
+    } else if (password !== forGotPassword) {
       toast.error("Mật khẩu không khớp vui lòng nhập lại");
       setIsLoading(false);
       return;
-    }
-    const data = {
-      name: name,
-      email: email,
-      tax: tax,
-      phoneNumber: phoneNumber,
-      password: password,
-    };
+    } else {
+      const data = {
+        name: name,
+        email: email,
+        tax: tax,
+        phoneNumber: phoneNumber,
+        password: password,
+      };
 
-    try {
-      const response = await Userservice.RegisterService(data);
-      if (response.success === true) {
-        toast.success("Vui lòng kiểm tra email để kích hoạt tài khoản!");
-        // toast.success("Đăng kí kí tài khoản thành công");
-        navigate("/login");
+      try {
+        setIsLoading(true);
+        const response = await Userservice.RegisterService(data);
+        if (response.success === true) {
+          toast.success("Vui lòng kiểm tra email để kích hoạt tài khoản!");
+          // toast.success("Đăng kí kí tài khoản thành công");
+          navigate("/login");
+        }
+      } catch (error) {
+        toast.warning("Email đã tồn tại");
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      toast.warning("Email đã tồn tại");
-    } finally {
-      setIsLoading(false);
     }
   };
   return (
@@ -87,25 +69,26 @@ function RegisterBussiness() {
               name="Tên người dùng"
               value={name}
               placeholder="Nhập tên đăng nhập"
-              onChange={handleOnchanName}
+              onChange={(value) => setName(value)}
             />
             <Input
               name="Sô điện thoại"
               value={phoneNumber}
               placeholder="Nhập số điện thoại của bạn"
-              onChange={handleOnchanPhone}
+              onChange={(value) => setPhoneNumber(value)}
             />
             <Input
-              name="Tên tài khoản hoặc địa chỉ email"
+              name="Hãy nhập địa email của bạn"
               value={email}
+              type="email"
               placeholder="Nhập email"
-              onChange={handleOnchanEmail}
+              onChange={(value) => setEmail(value)}
             />
             <Input
               name="Mã số thuế"
               value={tax}
               placeholder="Nhập mã số thuế của bạn"
-              onChange={handleOnchanTax}
+              onChange={(value) => setTax(value)}
             />
 
             <div className="relative">
@@ -119,7 +102,7 @@ function RegisterBussiness() {
                 name="Mật khẩu"
                 value={password}
                 placeholder="Mật khẩu"
-                onChange={handleOnchanPassword}
+                onChange={(value) => setPassword(value)}
                 type={isShowPassword ? "text" : "password"}
               />
               <div className="relative">
@@ -133,7 +116,7 @@ function RegisterBussiness() {
                   name="Nhập lại mật khẩu"
                   value={forGotPassword}
                   placeholder="Nhập lại mật khẩu"
-                  onChange={handleOnchanForgotPassword}
+                  onChange={(value) => setForGotPassword(value)}
                   type={isShowForGotPassword ? "text" : "password"}
                 />
               </div>

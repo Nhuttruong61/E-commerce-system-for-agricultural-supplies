@@ -242,7 +242,7 @@ function SideBarAdmin({ active, setActive }) {
               active === 12 ? "text-[#0e9c49]" : "text-black"
             }`}
           >
-            Thêm blog
+            Thêm bài viết
           </p>
         </div>
       </div>
@@ -261,7 +261,7 @@ function SideBarAdmin({ active, setActive }) {
               active === 13 ? "text-[#0e9c49]" : "text-black"
             }`}
           >
-            Tất cả blog
+            Tất cả bài viết
           </p>
         </div>
       </div>

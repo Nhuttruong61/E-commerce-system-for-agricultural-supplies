@@ -1,15 +1,16 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DownOutlined, MenuOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getCaterogy } from "../redux/action/cateroryAction.js";
-const Dropdown = ({ Text, items }) => {
+const Dropdown = ({ Text }) => {
   const [open, setOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [showText, setShowText] = useState(window.innerWidth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const dataCategory = useSelector((state) => state.category);
+  const ref = useRef(null);
   const handleSelect = (item) => {
     setSelectedItem(item);
     setOpen(false);
@@ -31,8 +32,25 @@ const Dropdown = ({ Text, items }) => {
   useEffect(() => {
     getDataCategory();
   }, []);
+
+  const handleClickOutside = () => {
+    if (ref.current) {
+      setOpen(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="relative z-10 px-1 w-[200px] ">
+    <div
+      className="relative z-10 px-1 w-[200px]"
+      ref={ref}
+      onClick={(e) => e.stopPropagation()}
+    >
       <span
         className="cursor-pointer h-[100%] w-auto flex justify-between items-center pl-4  font-[600] select-none rounded-t-md text-white"
         onClick={() => setOpen(!open)}

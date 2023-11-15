@@ -39,7 +39,7 @@ function Footer() {
           </button>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3  grap-6 sm:px-8 px-5 py-8 sm:text-center">
+      <div className="grid grid-cols-1 sm:grid-cols-3  grap-6 sm:px-8 px-5 py-8 sm:text-center bg-white">
         <ul className="px-5 text-center sm:text-start flex sm:block flex-col items-center">
           <div className="md:flex items-center">
             <div className="flex justify-center">

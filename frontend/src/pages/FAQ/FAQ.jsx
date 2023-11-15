@@ -89,7 +89,7 @@ export default function FAQ() {
   return (
     <Loading isLoading={isLoading}>
       <div className="grid-cols-1 min-h-[100vh] bg-[#f4f1f4f4]">
-        <div className="flex justify-between md:px-[10%] py-4 items-center px-4 text-[100%]  shadow">
+        <div className="flex justify-between md:px-[10%] py-4 items-center px-4 text-[100%]  shadow bg-white">
           <h1 className="font-[600]">Diễn đàn nông nghiệp</h1>
 
           <div>
@@ -140,7 +140,7 @@ export default function FAQ() {
               if (item.status === "Confirm") {
                 return (
                   <div
-                    className="flex  shadow-md px-10 py-2 rounded hover:bg-slate-200 cursor-pointer mb-2"
+                    className="flex  shadow-md px-10 py-2 rounded hover:bg-slate-200 cursor-pointer mb-2 bg-white"
                     key={item._id}
                     onClick={() => handleNavigate(item._id)}
                   >
@@ -165,6 +165,7 @@ export default function FAQ() {
                   </div>
                 );
               }
+              return null;
             })}
         </div>
       </div>

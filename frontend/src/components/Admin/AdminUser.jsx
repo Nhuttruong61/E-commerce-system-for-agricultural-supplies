@@ -33,6 +33,7 @@ function AdminUser() {
       address: "",
     },
   });
+  const [dataExport, setDataExport] = useState([]);
   const getAllUsers = async () => {
     setIsLoading(true);
     const res = await UserSerVice.getAllUser();
@@ -51,17 +52,19 @@ function AdminUser() {
   const renderAction = (text, item) => {
     return (
       <div className=" flex">
+        {item?.role !== "admin" && (
+          <div
+            className="cursor-pointer pr-2"
+            onClick={() => {
+              setIdUser(item.id);
+              setShowModalAdd(true);
+            }}
+          >
+            <DeleteOutlined className="text-red-600 border border-[red] py-2 px-1 rounded-[4px]" />
+          </div>
+        )}
         <div
           className="cursor-pointer"
-          onClick={() => {
-            setIdUser(item.id);
-            setShowModalAdd(true);
-          }}
-        >
-          <DeleteOutlined className="text-red-600 border border-[red] py-2 px-1 rounded-[4px]" />
-        </div>
-        <div
-          className="cursor-pointer pl-2"
           onClick={() => {
             setEditUser({
               name: item.name,
@@ -305,16 +308,30 @@ function AdminUser() {
       setIsLoading(false);
     }
   };
+  const handleDataExport = () => {
+    const res = dataTable.map((item) => {
+      return {
+        id: item.id,
+        Tên: item.name,
+        email: item.email,
+        vai_trò: item.role,
+        SDT: item.phoneNumber,
+        Địa_chỉ: item.addresses.address,
+      };
+    });
+    setDataExport(res);
+  };
   return (
     <div className="w-full">
       <div className="flex flex-row-reverse p-2 ">
         <CSVLink
           filename="user.csv"
           className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-[#009b49]  text-white"
-          data={dataTable}
+          data={dataExport}
+          onClick={handleDataExport}
         >
           <CiExport className="md:text-[30px] text-[20px] " />
-          <h2 className="font-[600] px-1">Export</h2>
+          <h2 className="font-[600] px-1">Xuất File</h2>
         </CSVLink>
       </div>
       <div className="w-full justify-center items-center">

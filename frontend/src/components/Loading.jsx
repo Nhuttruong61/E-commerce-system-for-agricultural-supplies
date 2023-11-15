@@ -3,7 +3,7 @@ import React from "react";
 
 const Loading = ({ children, isLoading, deday = 200 }) => {
   return (
-    <Spin spinning={isLoading} delay={deday}>
+    <Spin spinning={isLoading} delay={deday} size="large">
       {children}
     </Spin>
   );

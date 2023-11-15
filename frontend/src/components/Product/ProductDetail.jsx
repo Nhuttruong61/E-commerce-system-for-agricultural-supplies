@@ -10,11 +10,12 @@ import { increaseQuantity } from "../../redux/action/cartAction";
 import { toast } from "react-toastify";
 import Zoom from "../Zoom";
 import { isNotExpired } from "../../until";
+import { useNavigate } from "react-router-dom";
 function ProductDetail(id) {
   const { data } = useSelector((state) => state.product);
   const dataEvent = useSelector((state) => state.event);
   const { cart } = useSelector((state) => state.cart);
-  const { account } = useSelector((state) => state.user);
+  const { account, isAuthenticated } = useSelector((state) => state.user);
   const _id = id?.id;
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
@@ -26,6 +27,7 @@ function ProductDetail(id) {
   const [dataSuggest, setDataSuggest] = useState(null);
   const [activeReview, setActiveReview] = useState(false);
   const [dataGift, setDataGift] = useState([]);
+  const navigate = useNavigate();
   const getProduct = async () => {
     const res = await getaProduct(_id);
     setDataProduct(res);
@@ -78,39 +80,44 @@ function ProductDetail(id) {
     setCheckQuantity(filteredItems);
   }, [cart, _id]);
   const handleAddToCart = () => {
-    if (productData?.quantity < 1) {
-      toast.warning("Sản phẩm tạm hết hàng");
+    if (!isAuthenticated) {
+      localStorage.setItem("redirectPath", window.location.pathname);
+      navigate("/login");
     } else {
-      if (quantity > 0) {
-        dispatch(
-          increaseQuantity({
-            _id: productData?._id,
-            name: productData?.name,
-            description: productData?.description,
-            price: productPrice,
-            wholesalePrice: productPriceWholesalePrice,
-            disCount: productData?.distCount,
-            gifts: productData?.gifts,
-            weight: productData?.weight,
-            image: productData?.images[0].url,
-            quantityProduct: productData?.quantity,
-            quantity,
-          })
-        );
-        if (
-          checkQuantity &&
-          checkQuantity.length > 0 &&
-          checkQuantity[0].quantity < checkQuantity[0].quantityProduct
-        ) {
-          toast.success("Thêm sản phẩm thành công");
-        } else if (
-          checkQuantity &&
-          checkQuantity.length > 0 &&
-          checkQuantity[0].quantity === checkQuantity[0].quantityProduct
-        ) {
-          toast.error("Đã đạt số lượng tối đa");
-        } else {
-          toast.success("Thêm sản phẩm thành công");
+      if (productData?.quantity < 1) {
+        toast.warning("Sản phẩm tạm hết hàng");
+      } else {
+        if (quantity > 0) {
+          dispatch(
+            increaseQuantity({
+              _id: productData?._id,
+              name: productData?.name,
+              description: productData?.description,
+              price: productPrice,
+              wholesalePrice: productPriceWholesalePrice,
+              disCount: productData?.distCount,
+              gifts: productData?.gifts,
+              weight: productData?.weight,
+              image: productData?.images[0].url,
+              quantityProduct: productData?.quantity,
+              quantity,
+            })
+          );
+          if (
+            checkQuantity &&
+            checkQuantity.length > 0 &&
+            checkQuantity[0].quantity < checkQuantity[0].quantityProduct
+          ) {
+            toast.success("Thêm sản phẩm thành công");
+          } else if (
+            checkQuantity &&
+            checkQuantity.length > 0 &&
+            checkQuantity[0].quantity === checkQuantity[0].quantityProduct
+          ) {
+            toast.error("Đã đạt số lượng tối đa");
+          } else {
+            toast.success("Thêm sản phẩm thành công");
+          }
         }
       }
     }
@@ -253,13 +260,13 @@ function ProductDetail(id) {
               Thêm vào giỏ hàng
             </button>
           </div>
-          <div className="relative py-2">
+          <div className="py-2">
             <p className="text-[16px] md:text-[20px] font-[600] pb-2">
               Chi tiết sản phẩm
             </p>
             <div
               className={`shadow shadow-[#a8a7a7] ${
-                expanded ? "h-auto" : "h-[10vh] overflow-hidden"
+                expanded ? "h-auto" : "h-[11vh] overflow-hidden"
               }`}
             >
               <div className=" text-[14px] md:text-[16px] px-2 py-2">
@@ -274,7 +281,7 @@ function ProductDetail(id) {
               </div>
             </div>
             <p
-              className="absolute bottom-[-20px] w-full text-center text-blue-600 cursor-pointer pl-4  text-[14px] md:text-[18px] "
+              className=" w-full text-center text-blue-600 cursor-pointer pl-4  text-[14px] md:text-[18px] "
               onClick={toggleExpand}
             >
               {expanded ? "Thu gọn" : "Xem thêm"}

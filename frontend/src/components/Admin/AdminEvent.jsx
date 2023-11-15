@@ -35,6 +35,10 @@ function AdminEvent() {
   });
   const [idEvent, setIdEvent] = useState("");
   const searchInput = useRef(null);
+
+  useEffect(() => {
+    dispatch(getAllEvents());
+  }, []);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchedColumn(dataIndex);
@@ -176,6 +180,8 @@ function AdminEvent() {
   const handleAddEvent = async () => {
     if (!name || !description || !product) {
       toast.warning("Xin hãy nhập đầy đủ thông tin");
+    } else if (discount <= 0) {
+      toast.warning("Mức giảm giá không hợp lệ");
     } else {
       setShowModalAdd(false);
       setIsLoading(true);
@@ -192,7 +198,7 @@ function AdminEvent() {
       const res = await EventService.createEvent(event);
       if (res.success) {
         dispatch(getAllEvents());
-        toast.success(res.message);
+        toast.success("Tạo sự kiện thành công");
       }
       setIsLoading(false);
     }
@@ -207,7 +213,7 @@ function AdminEvent() {
     const res = await EventService.deleteEvent(idEvent);
     if (res.success) {
       dispatch(getAllEvents());
-      toast.success(res.message);
+      toast.success("Xóa sự kiện thành công");
     }
     setIsLoading(false);
   };
@@ -250,7 +256,7 @@ function AdminEvent() {
   return (
     <div className="w-full">
       <div
-        className="flex md:flex-row m-2 justify-between"
+        className="flex md:flex-row m-2 justify-between cursor-pointer"
         onClick={() => setShowModalAdd(true)}
       >
         <span className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-red-500  text-white">

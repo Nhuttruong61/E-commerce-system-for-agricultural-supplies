@@ -24,12 +24,12 @@ function News() {
       <p className="  my-8 font-[700] md:text-[32px] text-[20px] px-6 bg-[#0e9c49] text-white rounded-[20px]">
         TIN TỨC MỚI NHẤT
       </p>
-      <div className="  justify-center   grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+      <div className="  justify-center   grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 ">
         {dataBog?.map((item) => {
           return (
             <div
               key={item._id}
-              className="shadow mx-2 py-2 px-2 cursor-pointer w-full hover:shadow-[#0e9c49] hover:-translate-y-1"
+              className="shadow mx-2 py-2 px-2 cursor-pointer w-full hover:shadow-[#0e9c49] hover:-translate-y-1 bg-white"
               onClick={() => {
                 navigate(`/blog/${item._id}`);
                 window.scrollTo({

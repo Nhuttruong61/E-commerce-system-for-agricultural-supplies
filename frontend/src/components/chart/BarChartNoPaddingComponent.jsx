@@ -1,4 +1,4 @@
-import React, { PureComponent, memo } from "react";
+import React, { memo } from "react";
 import {
   BarChart,
   Bar,
@@ -27,7 +27,7 @@ function BarChartNoPaddingComponent({ products }) {
         }}
         barSize={20}
       >
-        <XAxis dataKey="name" scale="point" padding={{ left: 10, right: 10 }} />
+        <XAxis dataKey="name" scale="auto" padding={{ left: 10, right: 10 }} />
         <YAxis />
         <Tooltip />
         <Legend />

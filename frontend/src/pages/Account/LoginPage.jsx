@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import Loading from "../../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../redux/action/userAction";
-
+import { BsArrowLeft } from "react-icons/bs";
 function LoginPage() {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.user);
@@ -26,23 +26,28 @@ function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+
     const user = {
       email: email,
       password: password,
     };
-    try {
-      const response = await Userservice.LoginService(user);
-      if (response.success === true) {
-        const redirectPath = localStorage.getItem("redirectPath") || "/";
-        navigate(redirectPath);
-        localStorage.removeItem("redirectPath");
-        dispatch(getUser());
+    if (!email || !password) {
+      toast.warning("Vui lòng điền đầy đủ thông tin");
+    } else {
+      try {
+        setIsLoading(true);
+        const response = await Userservice.LoginService(user);
+        if (response.success === true) {
+          const redirectPath = localStorage.getItem("redirectPath") || "/";
+          navigate(redirectPath);
+          localStorage.removeItem("redirectPath");
+          dispatch(getUser());
+        }
+      } catch (err) {
+        toast.error("Tài khoản hoặc mật khẩu không chính xác!");
+      } finally {
+        setIsLoading(false);
       }
-    } catch (err) {
-      toast.error("Tài khoản hoặc mật khẩu không chính xác!");
-    } finally {
-      setIsLoading(false);
     }
   };
   useEffect(() => {
@@ -55,9 +60,14 @@ function LoginPage() {
       <Loading isLoading={isLoading}>
         <Login title="Đăng Nhập">
           <form onSubmit={handleSubmit}>
+            <Link to="/register" className="flex items-center text-orange-400">
+              <BsArrowLeft />
+              <p className="pl-2">Trang chủ</p>
+            </Link>
             <Input
               name="Tên tài khoản hoặc địa chỉ email"
               value={email}
+              type="email"
               placeholder="Email"
               onChange={handleOnchanEmail}
             />
@@ -98,7 +108,6 @@ function LoginPage() {
             <button
               className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#0e9c49] hover:bg-[#345409]"
               type="submit"
-              disabled={!email || !password}
             >
               Đăng Nhập
             </button>

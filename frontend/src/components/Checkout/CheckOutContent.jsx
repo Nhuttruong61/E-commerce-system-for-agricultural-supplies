@@ -238,7 +238,6 @@ function CheckOutContent() {
       handleOrderPayment();
     }
   }, [totalPrice]);
-
   const getGiftData = async () => {
     const giftIds = cart.flatMap((item) => item.gifts);
     setIdGifts(giftIds);
@@ -326,10 +325,10 @@ function CheckOutContent() {
   return (
     <Loading isLoading={isLoading}>
       <div>
-        <div className="w-full p-5 pb-8 px-[10%]">
+        <div className="w-full p-5 pb-8 px-[10%] ">
           {cart.map((item) => {
             return (
-              <div key={item._id} className="flex border-t py-2">
+              <div key={item._id} className="flex border-t border-black py-2 ">
                 <div className="md:w-[10%] w-[30%]">
                   <img
                     src={item.image}
@@ -340,7 +339,9 @@ function CheckOutContent() {
                 <div className="md:w-[90%] w-[70%] flex md:items-center md:justify-between  flex-col md:flex-row ">
                   <p className="text-[100%] px-4 md:w-[30%] ">{item.name}</p>
                   <div className="flex items-center md:justify-center  ml-2 md:w-[50%]  ">
-                    <p className="text-[100%] px-2">Số lượng:</p>
+                    <p className="text-[100%] px-2 hidden sm:block">
+                      Số lượng:
+                    </p>
                     <div className="flex items-center justify-center  rounded ml-2">
                       <button
                         className="flex items-center p-1 bg-[#0e9c49] h-full rounded"

@@ -10,12 +10,12 @@ function BlogPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [dataBlogs, setDataBlogs] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setIsLoading(true);
     dispatch(getAllBlog());
     setIsLoading(false);
   }, []);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleNavigate = (id) => {
     navigate(`/blog/${id}`);
@@ -35,7 +35,7 @@ function BlogPage() {
           {dataBlogs?.map((item) => {
             return (
               <div
-                className="md:flex py-2 cursor-pointer "
+                className="md:flex my-2 cursor-pointer bg-white"
                 key={item._id}
                 onClick={() => handleNavigate(item._id)}
               >
