@@ -123,9 +123,8 @@ const updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
     if (req.body.status === "Delivered") {
       order.paymentInfo.status = "Đã thanh toán";
       order.paymentInfo.paidAt = Date.now();
-      for (const item of order.cart) {
-        totalPoints += item.price / 100000;
-      }
+      totalPoints = order.totalPrice / 100000;
+
       await updateGiftPoint(totalPoints, order.totalPrice);
     }
     await order.save({ validateBeforeSave: false });

@@ -44,7 +44,7 @@ const sendMailCreateOrder = async ({ order }) => {
     from: process.env.SMPT_MAIL,
     to: order.user.email,
     subject: "Thông tin đơn hàng",
-    html: `<div><b style="font-size: 40px; font-weight: 600;">Bạn đã đặt hàng thành công tại shop</b>${listItem}
+    html: `<div><b style="font-size: 40px; font-weight: 600;">Bạn đã đặt hàng thành công tại shop Nông Nghiệp Xanh</b>${listItem}
     <br/>
     <p style="font-size: 16px; ">Trạng thái: ${order.paymentInfo.status}</p>
     <p style="font-size: 20px; font-weight: 600;">Tổng giá ${order.totalPrice}</p>
