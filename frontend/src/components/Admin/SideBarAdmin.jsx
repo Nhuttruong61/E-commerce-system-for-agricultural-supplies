@@ -12,7 +12,7 @@ import {
   AiOutlineLineChart,
 } from "react-icons/ai";
 import { LuTimerOff } from "react-icons/lu";
-import { FcExpired } from "react-icons/fc";
+import { IoTimeOutline } from "react-icons/io5";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { BiCategory, BiBorderAll } from "react-icons/bi";
 import { TfiLayoutSliderAlt } from "react-icons/tfi";
@@ -194,7 +194,7 @@ function SideBarAdmin({ active, setActive }) {
         onClick={() => setActive(10)}
       >
         <div className="flex w-full items-center">
-          <FcExpired
+          <IoTimeOutline
             className={` text-[24px]  ${
               active === 10 ? "text-[#0e9c49]" : "text-black"
             }`}

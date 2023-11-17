@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as QuestionService from "../../service/questionService";
 import { toast } from "react-toastify";
 import { getAllQuestionRd } from "../../redux/action/questionAction";
-function AdminFAQ() {
+import { EyeOutlined } from "@ant-design/icons";
+function AdminForum() {
   const questions = useSelector((state) => state.question);
   const dispatch = useDispatch();
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -14,6 +15,8 @@ function AdminFAQ() {
   const [isLoading, setIsLoading] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [idDelete, setIdDelete] = useState("");
+  const [isShowModalInfor, setIsShowModalInfor] = useState(false);
+  const [dataInforQuestion, setdataInforQuestion] = useState({});
   useEffect(() => {
     setIsLoading(true);
     dispatch(getAllQuestionRd());
@@ -30,6 +33,23 @@ function AdminFAQ() {
           }}
         >
           <DeleteOutlined className="text-red-600 border border-[red] py-2 px-1 rounded-[4px]" />
+        </div>
+      </div>
+    );
+  };
+  const renderInfor = (text, item) => {
+    return (
+      <div className="cursor-pointer ">
+        <div
+          className="mx-1"
+          onClick={() => {
+            setIsShowModalInfor(true);
+            setdataInforQuestion({
+              ...item,
+            });
+          }}
+        >
+          <EyeOutlined className="text-blue-600 border border-[blue] py-2 px-1 rounded-[4px]" />
         </div>
       </div>
     );
@@ -152,10 +172,6 @@ function AdminFAQ() {
       title: "STT",
       dataIndex: "sst",
     },
-    // {
-    //   title: "Id",
-    //   dataIndex: "_id",
-    // },
     {
       title: "Người đăng",
       dataIndex: "author",
@@ -177,6 +193,11 @@ function AdminFAQ() {
           rows="2"
         ></textarea>
       ),
+    },
+    {
+      title: "Xem thêm",
+      dataIndex: "data",
+      render: renderInfor,
     },
     {
       title: "Trạng thái",
@@ -203,6 +224,7 @@ function AdminFAQ() {
   }
   const handleCancel = () => {
     setShowModalDelete(false);
+    setIsShowModalInfor(false);
   };
   const handleDelete = async () => {
     setShowModalDelete(false);
@@ -222,6 +244,7 @@ function AdminFAQ() {
       border: "1px solid #ccc",
     },
   };
+  console.log(dataInforQuestion);
   return (
     <div className="w-full flex flex-col">
       <TableComponent
@@ -239,8 +262,28 @@ function AdminFAQ() {
       >
         <p>{`Bạn có muốn chắc xóa bài đăng?`} </p>
       </Modal>
+      <Modal
+        title="Chi tiết"
+        open={isShowModalInfor}
+        onOk={() => setIsShowModalInfor(false)}
+        onCancel={handleCancel}
+        okButtonProps={okButtonDelete}
+        okType="none"
+      >
+        <div className="flex flex-col">
+          <p className="font-[600] ">{dataInforQuestion?.title}</p>
+          {dataInforQuestion?.images?.length > 0 && (
+            <img
+              src={dataInforQuestion?.images[0]?.url}
+              alt=""
+              className="h-[120px] w-[120px] object-cover"
+            />
+          )}
+          <p>{dataInforQuestion?.content}</p>
+        </div>
+      </Modal>
     </div>
   );
 }
 
-export default memo(AdminFAQ);
+export default memo(AdminForum);

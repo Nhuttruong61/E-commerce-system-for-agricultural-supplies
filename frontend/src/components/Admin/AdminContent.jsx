@@ -5,7 +5,6 @@ import AdminOrder from "./AdminOrder";
 import AdminEvent from "./AdminEvent";
 import AdminInbox from "./Inbox/AdminInbox";
 import AdminCategory from "./AdminCategory";
-import AdminFAQ from "./AdminFAQ";
 import AdminFeeTransport from "./AdminFeeTransport";
 import ProductAboutToExpire from "./AdminProduct/ProductAboutToExpire";
 import ProductExpire from "./AdminProduct/ProductExpire";
@@ -15,7 +14,7 @@ import Dashboard from "./Dashboard";
 import SliderAdmin from "./SliderAdmin";
 import AdminStatistical from "./AdminStatistical";
 import AdminCoupon from "./AdminCoupon";
-
+import AdminForum from "./Adminforum";
 function AdminContent({ active }) {
   let content = null;
   if (active === 1) {
@@ -33,7 +32,7 @@ function AdminContent({ active }) {
   } else if (active === 7) {
     content = <AdminInbox />;
   } else if (active === 8) {
-    content = <AdminFAQ />;
+    content = <AdminForum />;
   } else if (active === 9) {
     content = <AdminFeeTransport />;
   } else if (active === 10) {

@@ -19,7 +19,7 @@ export const navItems = [
   },
   {
     title: "Diễn đàn",
-    url: "/faq",
+    url: "/forum",
   },
   {
     title: "Tin tức",
@@ -44,7 +44,7 @@ export const footerProductLinks = [
 export const footerSupportLinks = [
   {
     name: "Diễn đàn",
-    link: "/faq",
+    link: "/forum",
   },
   {
     name: "Phổ biến",

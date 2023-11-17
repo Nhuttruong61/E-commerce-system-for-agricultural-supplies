@@ -16,7 +16,6 @@ import DropdownComponet from "../Dropdown";
 import Navbar from "../Navbar";
 import logo from "../../assets/logo/logo.png";
 import Cart from "../Cart/Cart";
-import { clearQuantity } from "../../redux/action/cartAction";
 import { HiOutlineMenu } from "react-icons/hi";
 import { RiCoupon2Line } from "react-icons/ri";
 function Header() {
@@ -71,7 +70,6 @@ function Header() {
   };
   const handleLogout = () => {
     dispatch(LogoutUser());
-    dispatch(clearQuantity());
     setIsShownInUser(false);
     navigate("/login");
   };

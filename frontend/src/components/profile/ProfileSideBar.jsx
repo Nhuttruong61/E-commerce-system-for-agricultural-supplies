@@ -4,14 +4,12 @@ import { BsBox } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { LogoutUser } from "../../redux/action/userAction";
 import { useNavigate } from "react-router-dom";
-import { clearQuantity } from "../../redux/action/cartAction";
 import { RiCoupon2Line } from "react-icons/ri";
 function ProfileSideBar({ setActive, active }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(LogoutUser());
-    dispatch(clearQuantity());
     navigate("/login");
   };
   return (

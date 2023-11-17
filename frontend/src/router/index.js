@@ -5,11 +5,11 @@ import NotFoundPage from "../pages/NotFoundPage";
 import RegisterPage from "../pages/Account/RegisterPage";
 import BestSelling from "../pages/BestSelling";
 import Product from "../pages/Product/Product";
-import FAQ from "../pages/FAQ/FAQ";
+import Forum from "../pages/Forum/Forum";
 import ProductDetailPage from "../pages/Product/ProductDetailPage";
 import AdminPage from "../pages/AdminPage";
 import EventPage from "../pages/EventPage";
-import FAQInfomation from "../pages/FAQ/FAQInfomation";
+import ForumInfomation from "../pages/Forum/ForumInfomation.jsx";
 import Profile from "../pages/Profile";
 import InfomationOrder from "../pages/Order/InfomationOrder";
 import OrderSuccessPage from "../pages/Order/OrderSuccessPage";
@@ -71,8 +71,8 @@ const routers = [
     isShowHeader: true,
   },
   {
-    path: "/faq",
-    page: FAQ,
+    path: "/forum",
+    page: Forum,
     isShowHeader: true,
   },
   {
@@ -91,8 +91,8 @@ const routers = [
     isShowHeader: true,
   },
   {
-    path: "/faq/:id",
-    page: FAQInfomation,
+    path: "/forum/:id",
+    page: ForumInfomation,
     isShowHeader: true,
   },
   {

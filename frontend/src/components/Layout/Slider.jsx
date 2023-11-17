@@ -15,8 +15,15 @@ const SliderComponet = () => {
     <Carousel className="w-full" autoplay>
       {dataSlider?.slider?.map((item) =>
         item?.images?.map((i) => (
-          <div key={i.id} className=" w-full  flex items-center justify-center">
-            <img src={i.url} alt="" className="object-contain w-full  " />
+          <div
+            key={i.id}
+            className=" w-full  flex items-center justify-center max-h-[476px]"
+          >
+            <img
+              src={i.url}
+              alt=""
+              className="object-contain w-full max-h-[476px] "
+            />
           </div>
         ))
       )}

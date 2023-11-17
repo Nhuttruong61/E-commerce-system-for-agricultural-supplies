@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 function EventCard(item) {
   const navigate = useNavigate();
   const productPrice =
-    item?.data?.product[0]?.originPrice *
+    item?.data?.product[0]?.price *
     (1 - (item?.data?.product[0]?.distCount / 100 + item?.data.discount / 100));
 
   const handleNavigate = (item) => {

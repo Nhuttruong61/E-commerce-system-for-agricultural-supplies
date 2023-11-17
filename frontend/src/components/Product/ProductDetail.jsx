@@ -338,12 +338,12 @@ function ProductDetail(id) {
           )}
         </div>
       </div>
-      <div className="flex flex-col md:px-[10%] px-2">
+      <div className="flex w-full flex-col md:px-[10%] px-2">
         <p className="font-[600] md: text-[16px] md:text-[20px]">
           Sản phẩm tương tự
         </p>
-        <div className="flex ">
-          <div className="grid grid-cols-2 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-4 lg:gap-[25px] xl:grid-cols-5 xl:gap-[30px] mb-12 md:p-6">
+        <div className="flex w-full">
+          <div className="grid grid-cols-2 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-4 lg:gap-[25px] xl:grid-cols-5 xl:gap-[30px] mb-12 md:p-6 w-full">
             {dataSuggest && dataSuggest.length > 0
               ? dataSuggest
                   .filter(

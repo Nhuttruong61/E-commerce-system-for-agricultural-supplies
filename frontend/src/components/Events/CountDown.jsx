@@ -16,11 +16,20 @@ function CountDown({ item }) {
       typeof timeLeft.phút === "undefined" &&
       typeof timeLeft.giây === "undefined"
     ) {
-      try {
-        EventService.deleteEvent(item.data._id);
-      } catch (error) {
-        console.error("Lỗi khi xóa sự kiện:", error);
-      }
+      const deleteEventAsync = async () => {
+        try {
+          const res = await EventService.deleteEvent(item.data._id);
+          if (res.success) {
+            dispatch(getAllEvents());
+          } else {
+            console.success("Xóa sự kiện không thành công");
+          }
+        } catch (error) {
+          console.error("Lỗi khi xóa sự kiện:", error);
+        }
+      };
+
+      deleteEventAsync();
     }
 
     return () => clearTimeout(timer);

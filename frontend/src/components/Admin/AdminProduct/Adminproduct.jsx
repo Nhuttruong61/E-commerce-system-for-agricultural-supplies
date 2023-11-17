@@ -16,6 +16,7 @@ import { CSVLink } from "react-csv";
 import { CiExport } from "react-icons/ci";
 import Editor from "../../Editor";
 import { handleOnchangeImage } from "../../../until";
+import moment from "moment";
 function Adminproduct() {
   const { data } = useSelector((state) => state.category);
   const product = useSelector((state) => state.product);
@@ -902,20 +903,11 @@ function Adminproduct() {
               <p className=" font-[500] w-[30%] py-1">Tên:</p>
               <p className="pl-2">{inforProduct?.name}</p>
             </label>
-            <label className="flex items-center mt-16">
+            <label className="flex items-center ">
               <p className=" font-[500] w-[30%] py-1">Loại:</p>
               <p className="pl-2">{inforProduct?.category?.name}</p>
             </label>
-            <label className="flex items-center">
-              <p className=" font-[500] w-[30%] py-1">Mô tả:</p>
-              <div className="pl-2 py-2">
-                {inforProduct?.description.length > 0
-                  ? inforProduct.description.map((item, index) => {
-                      return <p key={index}>{item}</p>;
-                    })
-                  : null}
-              </div>
-            </label>
+
             <label className="flex items-center">
               <p className=" font-[500] w-[30%] py-1">Giảm giá:</p>
               <p className="pl-2">{inforProduct?.distCount}</p>
@@ -956,7 +948,9 @@ function Adminproduct() {
             </label>
             <label className="flex items-center">
               <p className=" font-[500] w-[30%] py-1">Ngày hết hạn:</p>
-              <p className="pl-2">{inforProduct?.expirationDate}</p>
+              <p className="pl-2">
+                {moment(inforProduct?.expirationDate).format("YYYY-MM-DD")}
+              </p>
             </label>
           </div>
         </div>

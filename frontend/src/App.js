@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "react-toastify/dist/ReactToastify.css";
 import routers from "./router";
 import Default from "./components/Default";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getUser } from "./redux/action/userAction";
 function App() {
   const dispatch = useDispatch();

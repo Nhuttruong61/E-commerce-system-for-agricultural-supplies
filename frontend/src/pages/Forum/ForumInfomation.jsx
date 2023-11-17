@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as questionService from "../../service/questionService";
 import { format } from "date-fns";
@@ -11,7 +11,8 @@ import { getAllQuestionRd } from "../../redux/action/questionAction";
 import { toast } from "react-toastify";
 import { AiOutlineSend } from "react-icons/ai";
 import moment from "moment/moment";
-function FAQInfomation() {
+import { MdReportGmailerrorred } from "react-icons/md";
+function ForumInfomation() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -22,22 +23,30 @@ function FAQInfomation() {
   const [isModalDeleteQuetion, setIsModalDeleteQuetion] = useState(false);
   const [isModalEdit, setIsModalEdit] = useState(false);
   const [isModalDelete, setIsModalDelete] = useState(false);
+  const [isModalReport, setIsModalReport] = useState(false);
   const [idQuestion, setIdQuestion] = useState(null);
-  const [questionTitle, setQuestionTitle] = useState("");
-  const [questionContent, setQuestionContent] = useState("");
+  const [editQuestion, setEditQuestion] = useState({
+    title: "",
+    content: "",
+    images: null,
+  });
   const [idComment, setIdComment] = useState(null);
   const [idQuestionUser, setIdQuestionUser] = useState(null);
   const [comment, setComment] = useState("");
   const [newComment, setNewComment] = useState("");
   const [isShow, setIsShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [images, setImages] = useState(null);
   const navigate = useNavigate();
   const getAdata = async () => {
     const res = await questionService.getAQuestion(id);
     if (res.success) {
       setData(res);
-      setQuestionTitle(res.question.title);
-      setQuestionContent(res.question.content);
+      setEditQuestion({
+        title: res?.question.title,
+        content: res?.question.content,
+        images: res?.question?.images[0]?.url,
+      });
       setIdQuestion(res?.question._id);
       setCommentData(res?.question?.comments);
       setIdQuestionUser(res?.question?.author._id);
@@ -59,38 +68,37 @@ function FAQInfomation() {
   const showModalDeleteQuetion = () => {
     setIsModalDeleteQuetion(true);
   };
-  const showModalEdit = (id) => {
+  const showModalEdit = (item) => {
     setIsModalEdit(true);
-    setIdComment(id);
+    setIdComment(item._id);
+    setComment(item?.content);
   };
   const showModalDelete = (id) => {
     setIsModalDelete(true);
     setIdComment(id);
   };
-
-  const getComment = async () => {
-    const res = await questionService.getComment(idQuestion, idComment);
-    if (res && res.success) {
-      setComment(res.comment?.content);
-    }
-  };
-  useEffect(() => {
-    if (idQuestion && idComment) {
-      getComment();
-    }
-  }, [idQuestion, idComment]);
-
   const handleDelete = async () => {
-    const res = await questionService.deleteComment(idQuestion, idComment);
-    getAdata();
-    setIsModalDelete(false);
-    return res;
+    try {
+      setIsModalDelete(false);
+      setIsLoading(true);
+      const res = await questionService.deleteComment(idQuestion, idComment);
+      setIsLoading(false);
+      if (res.success) {
+        toast.success("Xóa bình luận thành công");
+        getAdata();
+      }
+    } catch (e) {
+      console.log(e);
+      setIsLoading(false);
+    }
   };
 
   const handleCancel = () => {
     setIsModalEdit(false);
     setIdQuestionUser(false);
     setIsModalDelete(false);
+    setImages([]);
+    setIsModalReport(false);
   };
   const okButtonDelete = {
     style: {
@@ -105,16 +113,37 @@ function FAQInfomation() {
     },
   };
 
+  useEffect(() => {
+    if (images) {
+      setEditQuestion({
+        ...editQuestion,
+        images: images,
+      });
+    } else if (!images && editQuestion?.images?.length > 0) {
+      setEditQuestion({
+        ...editQuestion,
+        images: editQuestion.images,
+      });
+    } else {
+      setEditQuestion({
+        ...editQuestion,
+      });
+    }
+  }, [images]);
   const handleEditQuestion = async () => {
-    const data = {
-      title: questionTitle,
-      content: questionContent,
-    };
-    const res = await questionService.editQuestion(idQuestion, data);
-    getAdata();
-    setIsModalEditQuetion(false);
-    setIsShow(false);
-    return res;
+    try {
+      setIsLoading(true);
+      setIsShow(false);
+      const res = await questionService.editQuestion(idQuestion, editQuestion);
+      setIsLoading(false);
+      if (res.success) {
+        getAdata();
+        setIsModalEditQuetion(false);
+      }
+    } catch (e) {
+      setIsLoading(false);
+      console.log(e);
+    }
   };
   const handleDeleteQuestion = async () => {
     setIsShow(false);
@@ -127,18 +156,30 @@ function FAQInfomation() {
       toast.error("Có lỗi xãy ra");
     }
     setIsModalDeleteQuetion(false);
-    navigate("/faq");
+    navigate("/forum");
     return res;
   };
 
-  const handleEdit = async () => {
-    const data = {
-      content: comment,
-    };
-    const res = await questionService.editComment(idQuestion, idComment, data);
-    setIsModalEdit(false);
-    getAdata();
-    return res;
+  const handleEditComment = async () => {
+    try {
+      setIsModalEdit(false);
+      setIsLoading(true);
+      const data = {
+        content: comment,
+      };
+      const res = await questionService.editComment(
+        idQuestion,
+        idComment,
+        data
+      );
+      setIsLoading(false);
+      if (res.success) {
+        getAdata();
+      }
+    } catch (e) {
+      setIsLoading(false);
+      console.log(e);
+    }
   };
   const handleSubmitCommmet = async () => {
     if (user && user.isAuthenticated) {
@@ -152,6 +193,62 @@ function FAQInfomation() {
     }
     navigate("/login");
   };
+  const handlleOnchangeImage = (e) => {
+    const files = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function () {
+      setImages(reader.result);
+    };
+    reader.readAsDataURL(files);
+  };
+  const showModleReport = (id) => {
+    setIsModalReport(true);
+    setIdComment(id);
+  };
+
+  const handleReport = async () => {
+    try {
+      const userId = {
+        userid: idUser,
+      };
+      setIsModalReport(false);
+      setIsLoading(true);
+      const res = await questionService.reportComment(
+        idQuestion,
+        idComment,
+        userId
+      );
+      setIsLoading(false);
+      if (res.success) {
+        toast.success("Báo cáo bình luận thành công");
+        getAdata();
+      }
+    } catch (e) {
+      setIsLoading(false);
+      console.log(e);
+    }
+  };
+  const filterReport = data?.question?.comments.filter((el) => el.report >= 10);
+  const deleteCommentReport = async () => {
+    try {
+      if (filterReport?.length > 0) {
+        await Promise.all(
+          filterReport.map(async (item) => {
+            await questionService.deleteComment(idQuestion, item._id);
+          })
+        );
+        getAdata();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    if (filterReport?.length > 0) {
+      deleteCommentReport();
+    }
+  }, [filterReport]);
+
   return (
     <Loading isLoading={isLoading}>
       <div className="flex md:p-[4%] p-2 ">
@@ -176,6 +273,13 @@ function FAQInfomation() {
           <p className="font-[600] text-[50%]  md:text-[100%]">
             {data?.question?.title}
           </p>
+          {data?.question?.images?.length > 0 && (
+            <img
+              src={data?.question?.images[0].url}
+              className="h-[160px] w-[160px] object-cover"
+              alt=""
+            />
+          )}
           <p className="text-[50%]  md:text-[100%]">
             {data?.question?.content}
           </p>
@@ -218,19 +322,59 @@ function FAQInfomation() {
                           >
                             <input
                               type="text"
-                              value={questionTitle}
-                              onChange={(e) => setQuestionTitle(e.target.value)}
+                              value={editQuestion.title}
+                              onChange={(e) =>
+                                setEditQuestion({
+                                  ...editQuestion,
+                                  title: e.target.value,
+                                })
+                              }
                               className="w-full md:px-4 h-auto py-2 border-[2px] sm:px-0 rounded-[4px] my-2 break-words"
                             />
                             <textarea
                               type="text"
                               rows={8}
-                              value={questionContent}
+                              value={editQuestion.content}
                               onChange={(e) =>
-                                setQuestionContent(e.target.value)
+                                setEditQuestion({
+                                  ...editQuestion,
+                                  content: e.target.value,
+                                })
                               }
                               className="w-full md:px-4 h-auto py-2 border-[2px] sm:px-0 rounded-[4px] break-words"
                             />
+                            <div className="flex items-center my-8 w-[30%] ">
+                              <label
+                                htmlFor="input"
+                                className="bg-[#0e9c49] text-white font-[500] hover:bg-[#2b4706] p-1 rounded-[4px] mx-2 px-2"
+                              >
+                                Ảnh
+                              </label>
+                              <input
+                                id="input"
+                                type="file"
+                                hidden
+                                onChange={handlleOnchangeImage}
+                              />
+                              {images ? (
+                                <img
+                                  src={images}
+                                  value={images}
+                                  alt=""
+                                  className="w-[50px] h-[50px] object-cover "
+                                />
+                              ) : (
+                                <div>
+                                  {editQuestion?.images?.length > 0 ? (
+                                    <img
+                                      className="w-[50px] h-[50px] object-cover "
+                                      src={editQuestion?.images}
+                                      alt=""
+                                    />
+                                  ) : null}
+                                </div>
+                              )}
+                            </div>
                           </Modal>
                         </div>
                         <div>
@@ -290,7 +434,42 @@ function FAQInfomation() {
                         <p className="text-[50%]  md:text-[100%]">
                           {item?.content}
                         </p>
-                        <div className="w-full flex flex-row-reverse ">
+                        <div className="w-full flex justify-end ">
+                          {idUser === item.author._id && (
+                            <div>
+                              <p
+                                className="text-blue-600 px-2  cursor-pointer"
+                                onClick={() => showModalEdit(item)}
+                              >
+                                Chỉnh sửa
+                              </p>
+                              <Modal
+                                title="Chỉnh sửa"
+                                open={isModalEdit}
+                                onOk={handleEditComment}
+                                onCancel={handleCancel}
+                                okButtonProps={okButtonEdit}
+                                okType="none"
+                                footer={[
+                                  <Button key="cancel" onClick={handleCancel}>
+                                    Hủy
+                                  </Button>,
+                                  <Button
+                                    key="submit"
+                                    onClick={handleEditComment}
+                                  >
+                                    Xác nhận
+                                  </Button>,
+                                ]}
+                              >
+                                <textarea
+                                  value={comment}
+                                  onChange={(e) => setComment(e.target.value)}
+                                  className="w-full md:px-4  h-auto py-2 border-[2px] sm:px-0 rounded-[4px]"
+                                />
+                              </Modal>
+                            </div>
+                          )}
                           {idUser === item.author._id && (
                             <div>
                               <p
@@ -319,38 +498,40 @@ function FAQInfomation() {
                               </Modal>
                             </div>
                           )}
-                          {idUser === item.author._id && (
-                            <div>
-                              <p
-                                className="text-blue-600 px-2  cursor-pointer"
-                                onClick={() => showModalEdit(item._id)}
-                              >
-                                Chỉnh sửa
-                              </p>
-                              <Modal
-                                title="Chỉnh sửa"
-                                open={isModalEdit}
-                                onOk={handleEdit}
-                                onCancel={handleCancel}
-                                okButtonProps={okButtonEdit}
-                                okType="none"
-                                footer={[
-                                  <Button key="cancel" onClick={handleCancel}>
-                                    Hủy
-                                  </Button>,
-                                  <Button key="submit" onClick={handleEdit}>
-                                    Xác nhận
-                                  </Button>,
-                                ]}
-                              >
-                                <textarea
-                                  value={comment}
-                                  onChange={(e) => setComment(e.target.value)}
-                                  className="w-full md:px-4  h-auto py-2 border-[2px] sm:px-0 rounded-[4px]"
-                                />
-                              </Modal>
-                            </div>
-                          )}
+                          {idUser !== item.author._id &&
+                            !item.userReport.includes(idUser) && (
+                              <div onClick={(e) => e.stopPropagation()}>
+                                <div
+                                  className="relative cursor-pointer"
+                                  onClick={() => {
+                                    showModleReport(item._id);
+                                  }}
+                                >
+                                  <MdReportGmailerrorred className="text-[20px]" />
+                                </div>
+
+                                <Modal
+                                  title="Báo cáo"
+                                  open={isModalReport}
+                                  onOk={handleReport}
+                                  onCancel={handleCancel}
+                                  okButtonProps={okButtonDelete}
+                                  okType="none"
+                                  footer={[
+                                    <Button key="cancel" onClick={handleCancel}>
+                                      Hủy
+                                    </Button>,
+                                    <Button key="submit" onClick={handleReport}>
+                                      Xác nhận
+                                    </Button>,
+                                  ]}
+                                >
+                                  <p>
+                                    {`Bạn có chắc muốn báo cáo bình luận này!`}{" "}
+                                  </p>
+                                </Modal>
+                              </div>
+                            )}
                         </div>
                       </div>
                     </div>
@@ -376,23 +557,27 @@ function FAQInfomation() {
                 </div>
               )}
 
-              <div className="flex ml-4 w-full h-auto  border-[2px] sm:px-0 rounded-[4px]">
-                <input
+              <div className="flex flex-col ml-4 w-full h-auto  border-[2px] sm:px-0 rounded-[4px]">
+                <textarea
                   type="text"
                   value={newComment}
                   className="w-full h-auto outline-none py-2 pl-2"
+                  maxLength={1000}
                   onChange={(e) => setNewComment(e.target.value)}
                 />
-                <button
-                  className="bg-[#0e9c49] px-4 rounded-r-[4px] text-white"
-                  style={{
-                    cursor: newComment.length === 0 ? "not-allowed" : "pointer",
-                  }}
-                  disabled={newComment.length === 0}
-                  onClick={handleSubmitCommmet}
-                >
-                  <AiOutlineSend />
-                </button>
+                <div className="w-full flex justify-end">
+                  <button
+                    className="px-4 rounded-r-[4px] text-[#0e9c49]   pb-2 flex justify-end"
+                    style={{
+                      cursor:
+                        newComment.length === 0 ? "not-allowed" : "pointer",
+                    }}
+                    disabled={newComment.length === 0}
+                    onClick={handleSubmitCommmet}
+                  >
+                    <AiOutlineSend className="text-[28px]" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -402,4 +587,4 @@ function FAQInfomation() {
   );
 }
 
-export default FAQInfomation;
+export default memo(ForumInfomation);

@@ -78,9 +78,7 @@ function CreateBlog() {
   };
   return (
     <div className="flex  items-center w-full flex-col ">
-      <h1 className="md:text-[2.6rem] text-[2rem] font-[600]">
-        Thêm tin tức mới
-      </h1>
+      <h1 className="md:text-[2.6rem] text-[2rem] font-[600]">Thêm bài viết</h1>
       <div className=" w-[90%]">
         <label htmlFor="" className="flex justify-between items-center">
           <p className="w-[20%] font-[500] md:text-[100%] text-[80%]">

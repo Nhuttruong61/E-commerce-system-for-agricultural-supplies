@@ -9,7 +9,7 @@ function Event() {
   useEffect(() => {
     dispatch(getAllEvents());
   }, []);
-  const sortEvents = data.sort((a, b) => {
+  const sortEvents = data?.sort((a, b) => {
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
 
