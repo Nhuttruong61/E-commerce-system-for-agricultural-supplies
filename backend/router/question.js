@@ -53,4 +53,11 @@ router.delete(
   isAuthenticated,
   questionControler.deleteComment
 );
+router.put("/updateView/:id", questionControler.updateView);
+
+router.put(
+  "/report-comment/:questionId/comment/:commentId",
+  isAuthenticated,
+  questionControler.reportComment
+);
 module.exports = router;

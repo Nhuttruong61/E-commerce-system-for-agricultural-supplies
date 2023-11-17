@@ -2,12 +2,11 @@ const Question = require("../model/question");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 const User = require("../model/user");
-
+const cloudinary = require("cloudinary");
 //create question
 const createQuestion = catchAsyncErrors(async (req, res, next) => {
   try {
-    const { title, content } = req.body;
-
+    const { title, content, images } = req.body;
     if (!title || !content) {
       return res.status(400).json({
         success: false,
@@ -16,12 +15,28 @@ const createQuestion = catchAsyncErrors(async (req, res, next) => {
     }
 
     const userId = await User.findById(req.user._id);
+    let question;
 
-    const question = await Question.create({
-      title,
-      content,
-      author: userId,
-    });
+    if (images.length > 0) {
+      const myCloud = await cloudinary.v2.uploader.upload(images, {
+        folder: "imgQuestion",
+      });
+      question = await Question.create({
+        title,
+        content,
+        author: userId,
+        images: {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        },
+      });
+    } else {
+      question = await Question.create({
+        title,
+        content,
+        author: userId,
+      });
+    }
 
     res.status(201).json({
       success: true,
@@ -83,7 +98,7 @@ const getaQuestion = catchAsyncErrors(async (req, res, next) => {
 const editQuestionUser = catchAsyncErrors(async (req, res, next) => {
   try {
     const question = await Question.findById(req.params.id);
-    const { title, content } = req.body;
+    const { title, content, images } = req.body;
     if (!question) {
       return next(new ErrorHandler("Question not found", 404));
     }
@@ -94,6 +109,27 @@ const editQuestionUser = catchAsyncErrors(async (req, res, next) => {
           403
         )
       );
+    }
+    if (images.length > 0) {
+      let isCloudinaryImage = await images?.includes("cloudinary");
+      if (images && !isCloudinaryImage && question?.images.length > 0) {
+        await cloudinary.v2.uploader.destroy(question.images[0].public_id);
+        const myCloud = await cloudinary.v2.uploader.upload(images, {
+          folder: "imgQuestion",
+        });
+        question.images = {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        };
+      } else if (images && question?.images.length === 0) {
+        const myCloud = await cloudinary.v2.uploader.upload(images, {
+          folder: "imgQuestion",
+        });
+        question.images = {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        };
+      }
     }
     question.title = title;
     question.content = content;
@@ -122,6 +158,9 @@ const deleteQuestionUser = catchAsyncErrors(async (req, res, next) => {
           403
         )
       );
+    }
+    if (question.images.length > 0) {
+      await cloudinary.v2.uploader.destroy(question.images.public_id);
     }
     await Question.findByIdAndDelete(question);
     res.status(200).json({
@@ -243,11 +282,11 @@ const deleteComment = catchAsyncErrors(async (req, res, next) => {
     if (!comment) {
       return next(new ErrorHandler("Comment not found", 404));
     }
-    if (comment.author._id.toString() !== req.user._id.toString()) {
-      return next(
-        new ErrorHandler("You do not have permission to edit this comment", 403)
-      );
-    }
+    // if (comment.author._id.toString() !== req.user._id.toString()) {
+    //   return next(
+    //     new ErrorHandler("You do not have permission to edit this comment", 403)
+    //   );
+    // }
     const index = comments.indexOf(comment);
     if (index > -1) {
       comments.splice(index, 1);
@@ -258,6 +297,58 @@ const deleteComment = catchAsyncErrors(async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "Comment has been deleted successfully",
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err.message, 500));
+  }
+});
+
+const updateView = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const question = await Question.findById(req.params.id);
+    if (!question) {
+      return next(new ErrorHandler("Question not found", 404));
+    }
+    question.view += 1;
+    await question.save();
+
+    res.status(200).json({
+      success: true,
+      question,
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err.message, 500));
+  }
+});
+const reportComment = catchAsyncErrors(async (req, res, next) => {
+  const { questionId, commentId } = req.params;
+  const { userid } = req.body;
+  try {
+    const updatedQuestion = await Question.findOneAndUpdate(
+      {
+        _id: questionId,
+        "comments._id": commentId,
+      },
+      {
+        $inc: { "comments.$.report": 1 },
+        $addToSet: { "comments.$.userReport": userid },
+      },
+      { new: true }
+    );
+
+    if (!updatedQuestion) {
+      return next(new ErrorHandler("Question or Comment not found", 404));
+    }
+    const updatedComment = updatedQuestion.comments.find(
+      (comment) => comment._id.toString() === commentId
+    );
+    if (!updatedComment) {
+      return next(new ErrorHandler("Comment not found", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      comment: updatedComment,
     });
   } catch (err) {
     return next(new ErrorHandler(err.message, 500));
@@ -276,4 +367,6 @@ module.exports = {
   getComment,
   editComment,
   deleteComment,
+  updateView,
+  reportComment,
 };
