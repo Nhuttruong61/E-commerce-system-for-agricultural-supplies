@@ -85,8 +85,8 @@ function ProfileOrder() {
     navigate(`/information/order/${item._id}`);
   };
   return (
-    <div className="w-full ">
-      <div className="overflow-x-auto">
+    <div className="w-full overflow-auto ">
+      <div className="w-full ">
         <TableComponent columns={columns} data={dataTable} />
       </div>
     </div>

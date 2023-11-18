@@ -8,9 +8,9 @@ function Profile() {
   const numberValue = parseInt(queryStringCut);
   const [active, setActive] = useState(numberValue ? numberValue : 1);
   return (
-    <div className="flex flex-col bg-[#f4f1f4]">
-      <div className=" flex  py-10 md:min-h-[80vh]">
-        <div className="w-[50px] 800px:w-[335px] sticky 800px:mt-0 mt-[18%]">
+    <div className="flex flex-col bg-[#f4f1f4] w-full">
+      <div className=" flex  py-10 md:min-h-[80vh] w-full">
+        <div className="w-[50px] 800px:w-[335px] ">
           <ProfileSideBar active={active} setActive={setActive} />
         </div>
         <ProfileContent active={active} />

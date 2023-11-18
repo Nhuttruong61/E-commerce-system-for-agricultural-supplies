@@ -4,7 +4,7 @@ import { BsBox } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { LogoutUser } from "../../redux/action/userAction";
 import { useNavigate } from "react-router-dom";
-import { RiCoupon2Line } from "react-icons/ri";
+import { RiCoupon2Line, RiLockPasswordLine } from "react-icons/ri";
 function ProfileSideBar({ setActive, active }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -68,12 +68,25 @@ function ProfileSideBar({ setActive, active }) {
       </div>
       <div
         className="flex items-center cursor-pointer w-full mb-8"
-        onClick={handleLogout}
+        onClick={() => setActive(5)}
       >
-        <CloseOutlined style={{ color: active === 5 ? "#0e9c49" : "" }} />
+        <RiLockPasswordLine style={{ color: active === 5 ? "#0e9c49" : "" }} />
         <span
           className={`pl-3 ${
             active === 5 ? "text-[#0e9c49]" : ""
+          } 800px:block hidden`}
+        >
+          Đổi mật khẩu
+        </span>
+      </div>
+      <div
+        className="flex items-center cursor-pointer w-full mb-8"
+        onClick={handleLogout}
+      >
+        <CloseOutlined style={{ color: active === 6 ? "#0e9c49" : "" }} />
+        <span
+          className={`pl-3 ${
+            active === 6 ? "text-[#0e9c49]" : ""
           } 800px:block hidden`}
         >
           Đăng xuất

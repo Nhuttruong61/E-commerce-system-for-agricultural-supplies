@@ -3,6 +3,7 @@ import ProfileUser from "../profile/ProfileUser";
 import ProfileAddress from "../profile/ProfileAddress";
 import ProfileOrder from "./ProfileOrder";
 import ProfileCoupon from "./ProfileCoupon";
+import ProfileChangePassword from "./ProfileChangePassword";
 
 function ProfileContent({ active }) {
   let content = null;
@@ -14,8 +15,14 @@ function ProfileContent({ active }) {
     content = <ProfileAddress />;
   } else if (active === 4) {
     content = <ProfileCoupon />;
+  } else if (active === 5) {
+    content = <ProfileChangePassword />;
   }
-  return <div className="w-full rounded-[10px] mx-4">{content}</div>;
+  return (
+    <div className="w-full rounded-[10px] mx-4 overflow-x-auto bg-white">
+      {content}
+    </div>
+  );
 }
 
 export default memo(ProfileContent);
