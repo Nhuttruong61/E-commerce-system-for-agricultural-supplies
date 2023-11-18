@@ -9,13 +9,9 @@ import { CiExport } from "react-icons/ci";
 import moment from "moment";
 
 function ProductAboutToExpire() {
-  const { data } = useSelector((state) => state.category);
   const product = useSelector((state) => state.product);
   const searchInput = useRef(null);
   const [searchedColumn, setSearchedColumn] = useState("");
-  const [showModalEdit, setShowModalEdit] = useState(false);
-  const [showModalDelete, setShowModalDelete] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [dataExport, setDataExport] = useState([]);
   const [showModalInfo, setShowModalInfor] = useState(false);
@@ -110,7 +106,7 @@ function ProductAboutToExpire() {
   const renderInfor = (text, item) => {
     return (
       <div
-        className="cursor-pointer"
+        className="cursor-pointer "
         onClick={() => {
           setShowModalInfor(true);
           setInfoUProduct(item.inforProduct);
@@ -185,21 +181,6 @@ function ProductAboutToExpire() {
       });
   }
 
-  let dataCategory = [];
-  if (data && data.categories) {
-    dataCategory = data.categories.map((item) => {
-      return {
-        ...item,
-      };
-    });
-  }
-
-  const okButtonEdit = {
-    style: {
-      color: "blue",
-      border: "1px solid #ccc",
-    },
-  };
   const okButtonDelete = {
     style: {
       color: "red",
@@ -208,9 +189,7 @@ function ProductAboutToExpire() {
   };
 
   const handleCancel = () => {
-    setShowModalEdit(false);
-    setShowModalDelete(false);
-    setSelectedImage(null);
+    setShowModalInfor(false);
   };
 
   const handleExportProducts = () => {

@@ -3,7 +3,9 @@ import * as OrderSerVice from "../../service/orderService";
 import ComposedChartComponent from "../chart/ComposedChartComponent";
 import BarChartComponent from "../chart/BarChartComponent";
 import CustomizedLabelLineChart from "../chart/CustomizedLabelLineChart";
+import { useSelector } from "react-redux";
 function AdminStatistical() {
+  const { data } = useSelector((state) => state.product);
   const [dataOrder, setDataOrder] = useState([]);
   const getAllOrders = async () => {
     const res = await OrderSerVice.getAllOrder();
@@ -20,6 +22,32 @@ function AdminStatistical() {
     }
     return acc;
   }, 0);
+  const totalCostPrice = dataOrder
+    .filter((el) => el.paymentInfo.status === "Đã thanh toán")
+    .map((el) => el.cart)
+    .flat()
+    .reduce((acc, el) => {
+      return (acc += (el.price !== undefined ? el.price : 0) * el.quantity);
+    }, 0);
+
+  const dataGifts = dataOrder
+    .filter((el) => el.paymentInfo.status === "Đã thanh toán")
+    .map((el) => el.cart)
+    .flat()
+    .filter((el) => el.price === undefined);
+  const takePriceGifts = dataGifts.map((gift) => {
+    const priceProduct = data.find((product) => product._id === gift._id);
+    if (priceProduct) {
+      return { ...gift, price: priceProduct.price };
+    }
+    return gift;
+  });
+  const totalPriceGift = takePriceGifts.reduce(
+    (acc, el) => (acc += el.price * el.quantity),
+    0
+  );
+
+  const totalProfit = totalPrice - (totalCostPrice + totalPriceGift);
 
   return (
     <div className="w-full">
@@ -28,6 +56,21 @@ function AdminStatistical() {
           <div className="px-4 py-2 flex">
             <p className="font-[600] text-[20px] pr-2">Tổng danh thu:</p>
             <p className="text-[20px]"> {totalPrice.toLocaleString()} đ</p>
+          </div>
+          <div className="px-4 py-2 flex">
+            <p className="font-[600] text-[20px] pr-2">Tổng giá nhập:</p>
+            <p className="text-[20px]"> {totalCostPrice.toLocaleString()} đ</p>
+          </div>
+          <div className="px-4 py-2 flex">
+            <p className="font-[600] text-[20px] pr-2">Chi phí quà tặng:</p>
+            <p className="text-[20px]">
+              {" "}
+              {totalPriceGift ? totalPriceGift.toLocaleString() : 0} đ
+            </p>
+          </div>
+          <div className="px-4 py-2 flex">
+            <p className="font-[600] text-[20px] pr-2">Tổng lợi nhuận</p>
+            <p className="text-[20px]"> {totalProfit.toLocaleString()} đ</p>
           </div>
         </div>
         <div className="h-[400px] md:w-[50%] w-full flex-col ">

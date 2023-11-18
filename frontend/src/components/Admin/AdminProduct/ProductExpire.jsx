@@ -11,13 +11,10 @@ import { CiExport } from "react-icons/ci";
 import moment from "moment";
 
 function ProductExpire() {
-  const { data } = useSelector((state) => state.category);
   const product = useSelector((state) => state.product);
   const searchInput = useRef(null);
   const [searchedColumn, setSearchedColumn] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const [idProduct, setIdProduct] = useState();
   const [dataExport, setDataExport] = useState([]);
   const [showModalInfo, setShowModalInfor] = useState(false);
   const [inforProduct, setInfoUProduct] = useState(null);
@@ -181,21 +178,6 @@ function ProductExpire() {
       });
   }
 
-  let dataCategory = [];
-  if (data && data.categories) {
-    dataCategory = data.categories.map((item) => {
-      return {
-        ...item,
-      };
-    });
-  }
-
-  const okButtonEdit = {
-    style: {
-      color: "blue",
-      border: "1px solid #ccc",
-    },
-  };
   const okButtonDelete = {
     style: {
       color: "red",

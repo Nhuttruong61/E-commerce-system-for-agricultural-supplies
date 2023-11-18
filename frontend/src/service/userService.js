@@ -92,3 +92,9 @@ export const updateCoupon = async (id, data) => {
   });
   return res;
 };
+export const chagePassword = async (data) => {
+  const res = await axios.put("/user/change-password", data, {
+    withCredentials: true,
+  });
+  return res;
+};
