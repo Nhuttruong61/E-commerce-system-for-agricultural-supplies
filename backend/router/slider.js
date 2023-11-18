@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const sliderControler = require("../controller/slidercontroler");
+const sliderControler = require("../controllers/slidercontroller");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
 
 router.post(

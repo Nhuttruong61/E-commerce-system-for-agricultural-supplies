@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { isAdmin, isAuthenticated } = require("../middleware/auth");
-const convertionController = require("../controller/convertionControler");
+const convertionController = require("../controllers/convertionController");
 
 router.post("/create-new-convention", convertionController.createConversation);
 router.get(

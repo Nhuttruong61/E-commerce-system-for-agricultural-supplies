@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const questionControler = require("../controller/questionControler");
+const questionControler = require("../controllers/questionController");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
 
 router.post(

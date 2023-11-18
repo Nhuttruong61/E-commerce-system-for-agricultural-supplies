@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const orderControler = require("../controller/orderControler");
+const orderControler = require("../controllers/orderController");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
 router.post("/create-order", isAuthenticated, orderControler.createOrder);
 router.get("/get-orders/:id", isAuthenticated, orderControler.getOrderUser);

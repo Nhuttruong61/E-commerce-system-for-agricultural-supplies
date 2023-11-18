@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const productControler = require("../controller/productControler");
+const productControler = require("../controllers/productController");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
 
 router.post(

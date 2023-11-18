@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const MessageController = require("../controller/messageControler");
+const MessageController = require("../controllers/messageController");
 const { isAuthenticated } = require("../middleware/auth");
 
 router.post(

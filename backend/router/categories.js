@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const categoryControler = require("../controller/categorycontroler");
+const categoryControler = require("../controllers/categorycontroller");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
 
 router.post(

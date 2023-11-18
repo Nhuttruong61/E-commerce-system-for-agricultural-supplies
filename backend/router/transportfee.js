@@ -6,7 +6,7 @@ const {
   editTransportFee,
   deleteTransportFee,
   ceatetransportFree,
-} = require("../controller/transportFeeControler");
+} = require("../controllers/transportFeeController");
 
 router.post(
   "/create-transport-fee",

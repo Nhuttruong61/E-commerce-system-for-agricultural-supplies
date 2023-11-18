@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
-const BlogControler = require("../controller/blogControler");
+const BlogControler = require("../controllers/blogController");
 
 router.post(
   "/create-blog",

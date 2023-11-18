@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const CouponsController = require("../controller/couponsControler");
+const CouponsController = require("../controllers/couponsController");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
 
 router.post(
