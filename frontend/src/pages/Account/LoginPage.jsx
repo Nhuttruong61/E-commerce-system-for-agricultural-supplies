@@ -1,5 +1,5 @@
 import { memo, useEffect, useState } from "react";
-import Login from "../../components/FormInput";
+import FormAccount from "../../components/FormAccount";
 import Input from "../../components/Input";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
@@ -44,7 +44,9 @@ function LoginPage() {
           dispatch(getUser());
         }
       } catch (err) {
-        toast.error("Tài khoản hoặc mật khẩu không chính xác!");
+        if (err.response.status === 400) {
+          toast.error("Tài khoản hoặc mật khẩu không chính xác!");
+        }
       } finally {
         setIsLoading(false);
       }
@@ -58,14 +60,14 @@ function LoginPage() {
   return (
     <div>
       <Loading isLoading={isLoading}>
-        <Login title="Đăng Nhập">
+        <FormAccount title="Đăng Nhập">
           <form onSubmit={handleSubmit}>
-            <Link to="/register" className="flex items-center text-orange-400">
+            <Link to="/" className="flex items-center text-orange-400">
               <BsArrowLeft />
               <p className="pl-2">Trang chủ</p>
             </Link>
             <Input
-              name="Tên tài khoản hoặc địa chỉ email"
+              name="Nhập địa chỉ email của bạn"
               value={email}
               type="email"
               placeholder="Email"
@@ -112,7 +114,7 @@ function LoginPage() {
               Đăng Nhập
             </button>
           </form>
-        </Login>
+        </FormAccount>
       </Loading>
     </div>
   );

@@ -270,9 +270,6 @@ const changePassword = catchAsyncErrors(async (req, res, next) => {
     if (!user) {
       return next(new ErrorHandler("User not found", 404));
     }
-    if (newPassword.length < 4) {
-      return next(new ErrorHandler("password is short", 401));
-    }
     const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
       return next(new ErrorHandler("Current password is incorrect", 400));

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Login from "../../components/FormInput";
+import FormAccount from "../../components/FormAccount";
 import Input from "../../components/Input";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
@@ -65,7 +65,7 @@ function RegisterPage() {
   return (
     <div>
       <Loading isLoading={isLoading}>
-        <Login title="Đăng Ký">
+        <FormAccount title="Đăng Ký">
           <Link
             to="/register-bussiness"
             className="flex justify-end items-center text-orange-400"
@@ -107,6 +107,7 @@ function RegisterPage() {
                 placeholder="Mật khẩu"
                 onChange={handleOnchanPassword}
                 type={isShowPassword ? "text" : "password"}
+                min={4}
               />
               <div className="relative">
                 <span
@@ -140,7 +141,7 @@ function RegisterPage() {
               Đăng Ký
             </button>
           </form>
-        </Login>
+        </FormAccount>
       </Loading>
     </div>
   );

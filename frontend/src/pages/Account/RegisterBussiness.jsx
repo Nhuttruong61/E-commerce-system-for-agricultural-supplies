@@ -1,5 +1,5 @@
 import { memo, useState } from "react";
-import Login from "../../components/FormInput";
+import FormAccount from "../../components/FormAccount";
 import Input from "../../components/Input";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
@@ -59,7 +59,7 @@ function RegisterBussiness() {
   return (
     <div>
       <Loading isLoading={isLoading}>
-        <Login title="Đăng Ký">
+        <FormAccount title="Đăng Ký">
           <Link to="/register" className="flex items-center text-orange-400">
             <BsArrowLeft />
             <p className="pl-2">Cá nhân</p>
@@ -138,7 +138,7 @@ function RegisterBussiness() {
               Đăng Ký
             </button>
           </form>
-        </Login>
+        </FormAccount>
       </Loading>
     </div>
   );

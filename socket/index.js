@@ -1,7 +1,6 @@
 const socketIO = require("socket.io");
 const http = require("http");
 const express = require("express");
-const cors = require("cors");
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server, {
@@ -27,12 +26,6 @@ let users = [];
 const addUser = (userId, socketId) => {
   !users.some((user) => user.userId === userId) &&
     users.push({ userId, socketId });
-};
-const getUser = (receiverId) => {
-  return users.find((user) => user.userId === receiverId);
-};
-const removeUser = (socketId) => {
-  users = users.filter((user) => user.socketId !== socketId);
 };
 // Xử lý sự kiện từ client
 const createMessage = ({ senderId, receiverId, text, images }) => ({

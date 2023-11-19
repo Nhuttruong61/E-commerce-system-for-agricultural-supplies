@@ -9,14 +9,14 @@ function Rating({ rating }) {
         <StarFilled
           key={i}
           className="mr-2 cursor-pointer"
-          style={{ color: "#f6b100", fontSize: "20" }}
+          style={{ color: "#f6b100", fontSize: "10" }}
         />
       );
     } else if (i === Math.ceil(rating) && !Number.isInteger(rating)) {
       starts.push(
         <BsStarHalf
           key={i}
-          size={17}
+          size={16}
           color="#f6ba00"
           className="mr-2 cursor-pointer"
         />
@@ -25,8 +25,8 @@ function Rating({ rating }) {
       starts.push(
         <StarOutlined
           key={i}
-          size={20}
-          style={{ color: "#f6b100", fontSize: "20" }}
+          size={10}
+          style={{ color: "#f6b100", fontSize: "10" }}
           className="mr-2 cursor-pointer"
         />
       );

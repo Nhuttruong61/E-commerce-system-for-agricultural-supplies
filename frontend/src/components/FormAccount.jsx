@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import background from "../assets/background/background.jpg";
-function FormInput(props) {
+function FormAccount(props) {
   const { title, children } = props;
   return (
     <div
@@ -25,4 +25,4 @@ function FormInput(props) {
   );
 }
 
-export default memo(FormInput);
+export default memo(FormAccount);

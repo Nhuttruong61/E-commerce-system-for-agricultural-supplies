@@ -68,9 +68,9 @@ function Header() {
     navigate(`/products?name=${search}`);
     setSearch("");
   };
-  const handleLogout = () => {
-    dispatch(LogoutUser());
-    setIsShownInUser(false);
+  const handleLogout = async () => {
+    await dispatch(LogoutUser());
+    await setIsShownInUser(false);
     navigate("/login");
   };
   const handleNavigateProfile = () => {
@@ -379,7 +379,7 @@ function Header() {
                     <p
                       className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
                       onClick={() => {
-                        navigate("/faq");
+                        navigate("/forum");
                         setActiveMobile(false);
                       }}
                     >

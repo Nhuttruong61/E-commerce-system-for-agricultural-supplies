@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Login from "../../components/FormInput";
+import FormAccount from "../../components/FormAccount";
 import Input from "../../components/Input";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router-dom";
@@ -50,7 +50,7 @@ function ResetPassword() {
   return (
     <div>
       <Loading isLoading={isLoading}>
-        <Login title="Mật khẩu mới">
+        <FormAccount title="Mật khẩu mới">
           <form onSubmit={handleSubmit}>
             <div className="relative py-2">
               <span
@@ -95,7 +95,7 @@ function ResetPassword() {
               Gửi
             </button>
           </form>
-        </Login>
+        </FormAccount>
       </Loading>
     </div>
   );

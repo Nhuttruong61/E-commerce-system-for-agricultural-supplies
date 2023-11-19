@@ -1,9 +1,7 @@
 import React, { memo, useState } from "react";
-import imageCompression from "browser-image-compression";
 import { Modal } from "antd";
 import { toast } from "react-toastify";
 import * as BlogService from "../../../service/blogService.js";
-import Loading from "../../Loading";
 import { handleOnchangeImage } from "../../../until.js";
 function CreateBlog() {
   const [title, setTitle] = useState("");
@@ -24,11 +22,15 @@ function CreateBlog() {
       description: descriptionContent,
       images: selectedImage,
     };
-    setContent([...content, newContent]);
+    if (!newContent.heading || !newContent.description || !newContent.images) {
+      toast.warning("Vui lòng điền đầy đủ thông tin");
+    } else {
+      setContent([...content, newContent]);
 
-    setTitleContent("");
-    setDescriptionContent([]);
-    setSelectedImage(null);
+      setTitleContent("");
+      setDescriptionContent([]);
+      setSelectedImage(null);
+    }
   };
   const okButtonDelete = {
     style: {

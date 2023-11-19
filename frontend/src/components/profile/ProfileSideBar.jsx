@@ -8,8 +8,8 @@ import { RiCoupon2Line, RiLockPasswordLine } from "react-icons/ri";
 function ProfileSideBar({ setActive, active }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleLogout = () => {
-    dispatch(LogoutUser());
+  const handleLogout = async () => {
+    await dispatch(LogoutUser());
     navigate("/login");
   };
   return (

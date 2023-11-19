@@ -62,8 +62,20 @@ function ProductCart(item) {
               : item.item.name}{" "}
           </p>
         </div>
-        {item?.item.ratings && <Rating rating={item?.item.ratings} />}
-
+        {item?.item.ratings ? (
+          <div className="flex justify-between">
+            {item?.item.ratings && <Rating rating={item?.item.ratings} />}
+            <span className="text-[12px] flex justify-end">
+              Đã bán {item.item.sold_out}
+            </span>
+          </div>
+        ) : (
+          <div className="flex justify-end">
+            <span className="text-[12px] flex justify-end">
+              Đã bán {item.item.sold_out}
+            </span>
+          </div>
+        )}
         <div className="flex justify-between font-[500]   md:text-[80%] md:px-[4%] items-center">
           <div className="md:flex py-1">
             {item?.item?.distCount > 0 && (
@@ -73,7 +85,6 @@ function ProductCart(item) {
             )}
             <p>{productPrice.toLocaleString()}đ</p>
           </div>
-          <span>Đã bán {item.item.sold_out}</span>
         </div>
       </div>
     </div>

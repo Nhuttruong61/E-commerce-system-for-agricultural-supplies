@@ -33,11 +33,7 @@ function ProfileChangePassword() {
         setIsLoading(false);
         switch (e.response.status) {
           case 400:
-            toast.error("Mật khẩu không chính xác");
-            break;
-
-          case 401:
-            toast.warning("Mật khẩu phải nhiều hơn 4 kí tự");
+            toast.error("Mật khẩu hiện tại không chính xác");
             break;
           default:
             return;
@@ -76,6 +72,7 @@ function ProfileChangePassword() {
                 placeholder="Nhập mật khẩu mới"
                 value={form.newPassword}
                 className="w-[60%] md:px-4 xl:w-[85%] h-auto py-2 border-[2px] sm:px-0 px-1 rounded-[4px]"
+                minLength={4}
                 onChange={(e) =>
                   setForm({ ...form, newPassword: e.target.value })
                 }
@@ -87,6 +84,7 @@ function ProfileChangePassword() {
                 type="password"
                 placeholder="Nhập lại mật khẩu mới"
                 value={forgotPassword}
+                minLength={4}
                 className="w-[60%] md:px-4 xl:w-[85%] h-auto py-2 border-[2px] sm:px-0 px-1 rounded-[4px]"
                 onChange={(e) => setForgotPassword(e.target.value)}
               />

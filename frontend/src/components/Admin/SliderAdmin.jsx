@@ -168,7 +168,7 @@ function SliderAdmin() {
   };
   return (
     <div className="w-full flex flex-col">
-      <div className=" flex  md:flex-row m-2 cursor-pointer rounded w-[25%]">
+      <div className=" flex  m-2 md:justify-between">
         <span
           className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-red-500  text-white"
           onClick={() => setShowModalAdd(true)}

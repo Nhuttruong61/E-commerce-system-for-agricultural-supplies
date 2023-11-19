@@ -323,7 +323,7 @@ function AdminUser() {
   };
   return (
     <div className="w-full">
-      <div className="flex flex-row-reverse p-2 ">
+      <div className="flex md:justify-end p-2 ">
         <CSVLink
           filename="user.csv"
           className="border-[2px] flex justify-center rounded items-center px-2 py-1 bg-[#009b49]  text-white"

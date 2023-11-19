@@ -1,5 +1,5 @@
 import { memo, useState } from "react";
-import Login from "../../components/FormInput";
+import FormAccount from "../../components/FormAccount";
 import Input from "../../components/Input";
 import { Link, useNavigate } from "react-router-dom";
 import * as Userservice from "../../service/userService";
@@ -37,7 +37,7 @@ function ForgotPassword() {
   return (
     <div>
       <Loading isLoading={isLoading}>
-        <Login title="Quên mật khẩu">
+        <FormAccount title="Quên mật khẩu">
           <form onSubmit={handleSubmit}>
             <div className="relative py-2">
               <Input
@@ -62,7 +62,7 @@ function ForgotPassword() {
           >
             Đăng nhập
           </Link>
-        </Login>
+        </FormAccount>
       </Loading>
     </div>
   );

@@ -35,7 +35,7 @@ function Dashboard() {
   return (
     <div className="w-full overflow-x-auto">
       <div className="md:flex py-2 w-full px-2">
-        <div className=" h-auto grid md:grid-cols-5 grid-cols-3 w-full gap-2">
+        <div className=" h-auto grid md:grid-cols-5 grid-cols-1 w-full gap-2">
           <div className="h-full px-8 py-2 shadow rounded  flex flex-col justify-center text-white bg-[#c795ff]">
             <p className="md:text-[18px] text-[12px] font-[600] text-center">
               Tài khoản
@@ -94,7 +94,7 @@ function Dashboard() {
         </div>
       </div>
       <div className=" md:flex w-full py-2 ">
-        <div className="h-[400px] md:w-[50%] w-full flex-col ">
+        <div className="h-[400px]  md:w-[50%] w-full flex-col ">
           <VerticalComposedChart user={dataUser} />
           <div className="w-full flex justify-center">
             <p className="font-[600]">

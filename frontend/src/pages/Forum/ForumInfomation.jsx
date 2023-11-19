@@ -156,7 +156,7 @@ function ForumInfomation() {
       toast.error("Có lỗi xãy ra");
     }
     setIsModalDeleteQuetion(false);
-    navigate("/forum");
+    navigate("/m");
     return res;
   };
 
@@ -258,11 +258,11 @@ function ForumInfomation() {
             alt=""
             className="md:w-[80px] md:h-[80px] w-[40px] h-[40px] rounded-[50%]"
           />
-          <p className="text-[50%] md:text-[100%]">
+          <p className="text-[80%] md:text-[100%]">
             {" "}
             {data?.question?.author.name}
           </p>
-          <p className="text-[50%]  md:text-[100%]">
+          <p className="text-[80%]  md:text-[100%]">
             Ngày đăng:{" "}
             {data?.question?.createdAt.length > 0
               ? format(new Date(data?.question?.createdAt), "dd/MM/yyyy")
@@ -270,7 +270,7 @@ function ForumInfomation() {
           </p>
         </div>
         <div className="flex flex-col w-10/12 ml-4">
-          <p className="font-[600] text-[50%]  md:text-[100%]">
+          <p className="font-[600] text-[80%]  md:text-[100%]">
             {data?.question?.title}
           </p>
           {data?.question?.images?.length > 0 && (
@@ -280,7 +280,7 @@ function ForumInfomation() {
               alt=""
             />
           )}
-          <p className="text-[50%]  md:text-[100%]">
+          <p className="text-[80%]  md:text-[100%]">
             {data?.question?.content}
           </p>
           <div className="flex w-full  flex-col">
@@ -428,10 +428,10 @@ function ForumInfomation() {
                         className="md:w-[40px] md:h-[40px] w-[30px] h-[30px] rounded-[50%]"
                       />
                       <div className="ml-4 shadow-md px-2 py-1 w-full border rounded">
-                        <p className="font-[600] text-[50%]  md:text-[100%]">
+                        <p className="font-[600] text-[80%]  md:text-[100%]">
                           {item?.author.name}
                         </p>
-                        <p className="text-[50%]  md:text-[100%]">
+                        <p className="text-[80%]  md:text-[100%]">
                           {item?.content}
                         </p>
                         <div className="w-full flex justify-end ">

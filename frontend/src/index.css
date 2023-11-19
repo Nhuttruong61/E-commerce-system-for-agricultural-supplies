@@ -116,3 +116,7 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+/* collor spin */
+.ant-spin-dot-item {
+  background: #0e9c49 !important;
+}
