@@ -182,111 +182,114 @@ function Header() {
           }
         >
           <div
-            className="flex justify-center items-center px-4"
+            className="flex justify-between items-center px-4 w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            {show ? (
-              <div className="border border-[#009b49] rounded-full mx-2 ">
-                {user?.account?.avatar ? (
-                  <img
-                    className="w-[40px] h-[40px] object-cover rounded-full"
-                    src={user.account.avatar.url}
-                    alt=""
-                  />
-                ) : (
-                  <UserOutlined className="text-[24px] p-2 text-[#009b49]" />
-                )}
-              </div>
-            ) : null}
             <div
-              className="relative z-10 text-[100%] font-[600]"
-              ref={refOutSide}
-              onClick={(e) => e.stopPropagation()}
+              className="relative cursor-pointer"
+              onClick={() => setOpenCart(!openCart)}
             >
-              {user?.isAuthenticated ? (
-                <div
-                  className="cursor-pointer "
-                  onClick={() => setIsShownInUser(!ishownInUser)}
-                >
-                  <p>{user.account.name}</p>
+              <ShoppingCartOutlined className="text-[24px] mx-2 " />
+              <div className="absolute border border-[#ccc] rounded-[50%] right-[-4px] top-0 bg-[#009b49]">
+                <p className="text-[12px] px-[5px] text-white font-[800]">
+                  {cart.length ? cart.length : "0"}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center">
+              {show ? (
+                <div className="border border-[#009b49] rounded-full mx-2 ">
+                  {user?.account?.avatar ? (
+                    <img
+                      className="w-[40px] h-[40px] object-cover rounded-full"
+                      src={user.account.avatar.url}
+                      alt=""
+                    />
+                  ) : (
+                    <UserOutlined className="text-[24px] p-2 text-[#009b49]" />
+                  )}
                 </div>
-              ) : (
-                <div className="md:text-[0.8rem]  ">
-                  <p
-                    className="hover:text-red-500 cursor-pointer font-[600]"
-                    onClick={() => {
-                      navigate("/login");
-                    }}
-                  >
-                    Đăng nhập
-                  </p>
-                  <p
-                    className="hover:text-red-500 cursor-pointer font-[600]"
-                    onClick={() => {
-                      navigate("/register");
-                    }}
-                  >
-                    Đăng kí
-                  </p>
-                </div>
-              )}
-              {ishownInUser && (
-                <div className="absolute h-auto w-[160px] bg-white rounded-[4px]">
+              ) : null}
+              <div
+                className="relative z-10 text-[100%] font-[600]"
+                ref={refOutSide}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {user?.isAuthenticated ? (
                   <div
-                    className="hover:bg-[#0e9c49] hover:text-white cursor-pointer p-2 flex items-center"
-                    onClick={handleNavigateProfile}
+                    className="cursor-pointer "
+                    onClick={() => setIsShownInUser(!ishownInUser)}
                   >
-                    <UserOutlined />
-                    <p className="ml-1">Tài khoản</p>
+                    <p>{user.account.name}</p>
                   </div>
+                ) : (
+                  <div className="md:text-[0.8rem]  ">
+                    <p
+                      className="hover:text-red-500 cursor-pointer font-[600]"
+                      onClick={() => {
+                        navigate("/login");
+                      }}
+                    >
+                      Đăng nhập
+                    </p>
+                    <p
+                      className="hover:text-red-500 cursor-pointer font-[600]"
+                      onClick={() => {
+                        navigate("/register");
+                      }}
+                    >
+                      Đăng kí
+                    </p>
+                  </div>
+                )}
+                {ishownInUser && (
+                  <div className="absolute right-0 top-10 h-auto w-[160px] bg-white rounded-[4px]">
+                    <div
+                      className="hover:bg-[#0e9c49] hover:text-white cursor-pointer p-2 flex items-center"
+                      onClick={handleNavigateProfile}
+                    >
+                      <UserOutlined />
+                      <p className="ml-1">Tài khoản</p>
+                    </div>
 
-                  {user?.account?.role === "admin" && (
-                    <div className="hover:bg-[#0e9c49] hover:text-white cursor-pointer p-2 flex items-center shadow">
-                      <SettingOutlined />
-                      <p className="ml-1" onClick={handleNavigateAdmin}>
-                        Quản lý
+                    {user?.account?.role === "admin" && (
+                      <div className="hover:bg-[#0e9c49] hover:text-white cursor-pointer p-2 flex items-center ">
+                        <SettingOutlined />
+                        <p className="ml-1" onClick={handleNavigateAdmin}>
+                          Quản lý
+                        </p>
+                      </div>
+                    )}
+                    <div className="hover:bg-[#0e9c49] cursor-pointer hover:text-white p-2 flex items-center">
+                      <BsBox />
+                      <p className="ml-1" onClick={handleNavigateOrder}>
+                        Đơn hàng
                       </p>
                     </div>
-                  )}
-                  <div className="hover:bg-[#0e9c49] cursor-pointer hover:text-white p-2 flex items-center">
-                    <BsBox />
-                    <p className="ml-1" onClick={handleNavigateOrder}>
-                      Đơn hàng
-                    </p>
+                    <div className="hover:bg-[#0e9c49] cursor-pointer hover:text-white p-2 flex items-center">
+                      <HomeOutlined />
+                      <p className="ml-1" onClick={handleNavigateAddress}>
+                        Địa chỉ
+                      </p>
+                    </div>
+                    <div className="hover:bg-[#0e9c49] cursor-pointer hover:text-white p-2 flex items-center">
+                      <RiCoupon2Line />
+                      <p className="ml-1" onClick={handleNavigateCoupons}>
+                        Phiếu giảm giá
+                      </p>
+                    </div>
+                    <div className="hover:bg-[#0e9c49] cursor-pointer hover:text-white p-2 flex items-center">
+                      <CloseOutlined />
+                      <p className="ml-1" onClick={handleLogout}>
+                        Thoát
+                      </p>
+                    </div>
                   </div>
-                  <div className="hover:bg-[#0e9c49] cursor-pointer hover:text-white p-2 flex items-center">
-                    <HomeOutlined />
-                    <p className="ml-1" onClick={handleNavigateAddress}>
-                      Địa chỉ
-                    </p>
-                  </div>
-                  <div className="hover:bg-[#0e9c49] cursor-pointer hover:text-white p-2 flex items-center">
-                    <RiCoupon2Line />
-                    <p className="ml-1" onClick={handleNavigateCoupons}>
-                      Phiếu giảm giá
-                    </p>
-                  </div>
-                  <div className="hover:bg-[#0e9c49] cursor-pointer hover:text-white p-2 flex items-center">
-                    <CloseOutlined />
-                    <p className="ml-1" onClick={handleLogout}>
-                      Thoát
-                    </p>
-                  </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
-          <div
-            className="relative cursor-pointer"
-            onClick={() => setOpenCart(!openCart)}
-          >
-            <ShoppingCartOutlined className="text-[24px] mx-2 " />
-            <div className="absolute border border-[#ccc] rounded-[50%] right-[-4px] top-0 bg-[#009b49]">
-              <p className="text-[12px] px-[5px] text-white font-[800]">
-                {cart.length ? cart.length : "0"}
-              </p>
-            </div>
-          </div>
+
           {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
         </div>
       </div>
@@ -420,6 +423,17 @@ function Header() {
                       <p
                         className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
                         onClick={() => {
+                          handleNavigateOrder();
+                          setActiveMobile(false);
+                        }}
+                      >
+                        Đơn hàng
+                      </p>
+                    )}
+                    {user?.isAuthenticated && (
+                      <p
+                        className="hover:bg-[#0e9c49] px-2 hover:text-white cursor-pointer  flex items-center py-2"
+                        onClick={() => {
                           handleLogout();
                           setActiveMobile(false);
                         }}
@@ -435,7 +449,7 @@ function Header() {
               className="flex justify-center items-center"
               onClick={() => navigate("/")}
             >
-              <p className=" font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#0e9c49] to-[#e49200] text-[140%]">
+              <p className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#0e9c49] to-[#e49200] text-[140%]">
                 Nông Nghiệp Xanh
               </p>
             </div>

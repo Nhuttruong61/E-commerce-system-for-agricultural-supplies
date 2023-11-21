@@ -30,7 +30,7 @@ export const converDataChart = (order, type) => {
 export const converDataChartBar = (data) => {
   try {
     const today = new Date();
-    const monthStart = startOfMonth(today);
+    const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
     const monthEnd = endOfMonth(today);
     const object = {};
     let weekNumber = 1;

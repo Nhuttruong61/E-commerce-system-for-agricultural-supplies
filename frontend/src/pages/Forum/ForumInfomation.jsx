@@ -95,10 +95,11 @@ function ForumInfomation() {
 
   const handleCancel = () => {
     setIsModalEdit(false);
-    setIdQuestionUser(false);
+    setIsModalEditQuetion(false);
+    setIsModalDeleteQuetion(false);
     setIsModalDelete(false);
-    setImages([]);
     setIsModalReport(false);
+    setImages([]);
   };
   const okButtonDelete = {
     style: {
@@ -249,6 +250,13 @@ function ForumInfomation() {
     }
   }, [filterReport]);
 
+  const handleClickOutside = () => {
+    setIsShow(false);
+  };
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
   return (
     <Loading isLoading={isLoading}>
       <div className="flex md:p-[4%] p-2 ">
@@ -286,7 +294,10 @@ function ForumInfomation() {
           <div className="flex w-full  flex-col">
             <div className="w-full flex ">
               {idQuestionUser && idQuestionUser === idUser ? (
-                <div className="flex justify-between w-full ">
+                <div
+                  className="flex justify-between w-full "
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <div className="flex flex-col items-start">
                     <span onClick={() => setIsShow(!isShow)}>
                       <BsThreeDots
@@ -356,7 +367,7 @@ function ForumInfomation() {
                                 hidden
                                 onChange={handlleOnchangeImage}
                               />
-                              {images ? (
+                              {images?.length > 0 ? (
                                 <img
                                   src={images}
                                   value={images}

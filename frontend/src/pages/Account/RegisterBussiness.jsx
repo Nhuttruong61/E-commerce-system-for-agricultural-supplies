@@ -94,7 +94,7 @@ function RegisterBussiness() {
             <div className="relative">
               <span
                 onClick={() => setIsShowPassword(!isShowPassword)}
-                className="z-10 absolute right-2 top-6"
+                className="z-10 absolute right-2 top-[29.5px]"
               >
                 {isShowPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
               </span>
@@ -108,7 +108,7 @@ function RegisterBussiness() {
               <div className="relative">
                 <span
                   onClick={() => setIsShowForGotPassword(!isShowForGotPassword)}
-                  className="z-10 absolute right-2 top-6"
+                  className="z-10 absolute right-2 top-[29.5px]"
                 >
                   {isShowPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
                 </span>

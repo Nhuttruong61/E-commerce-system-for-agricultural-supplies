@@ -86,7 +86,7 @@ const routers = [
     isShowHeader: true,
   },
   {
-    path: "/order/seccess",
+    path: "/order/success",
     page: OrderSuccessPage,
     isShowHeader: true,
   },

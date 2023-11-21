@@ -124,7 +124,7 @@ function ProductDetail(id) {
   };
   useEffect(() => {
     if (quantity > productData?.quantity) {
-      setQuantity(1);
+      setQuantity(productData?.quantity);
     }
   }, [quantity]);
 
@@ -312,23 +312,23 @@ function ProductDetail(id) {
             )}
           </div>
           {dataGift?.length > 0 && (
-            <div className="my-4 flex items-center h-[10vh]">
+            <div className=" flex items-center ">
               <p className="text-[14px] md:text-[18px] font-[600] pr-2">
                 Tặng kèm:
               </p>
-              <div className="flex ">
+              <div className="flex justify-center items-center ">
                 {dataGift &&
                   dataGift?.map((item) => {
                     return (
                       <div
                         key={item._id}
-                        className="shadow py-1 px-2 mx-2 flex justify-center flex-col items-center"
+                        className="flex justify-center flex-col items-center"
                       >
-                        <p className="px-2 font-[600] pb-2">{item.name}</p>
+                        <p className=" font-[400] ">{item.name}</p>
                         <img
                           src={item?.images[0].url}
                           alt=""
-                          className="h-[50px] w-[50px]"
+                          className="h-[50px] w-[50px] hidden"
                         />
                       </div>
                     );
@@ -387,49 +387,60 @@ function ProductDetail(id) {
                 </div>
               </div>
 
-              {dataReviews?.map((review) => {
-                return (
-                  <div key={review._id} className="w-full py-1 px-1 border-b-2">
-                    <div className="flex w-full items-center ">
-                      {review && review.user?.avatar?.url ? (
-                        <img
-                          src={review.user.avatar.url}
-                          alt=""
-                          className=" md:w-[40px] md:h-[40px] w-[30px] h-[30px] rounded-[50%] mr-1 "
-                        />
-                      ) : (
-                        <div className="border rounded-[50%] ">
-                          <UserOutlined className="text-[24px] p-2 text-[#009b49]" />
+              <div
+                className={`
+             ${
+               activeReview && dataReviews?.length > 2 ? "h-auto" : "h-[25vh]"
+             } overflow-hidden
+             `}
+              >
+                {dataReviews?.map((review) => {
+                  return (
+                    <div
+                      key={review._id}
+                      className="w-full py-1 px-1 border-b-2"
+                    >
+                      <div className="flex w-full items-center ">
+                        {review && review.user?.avatar?.url ? (
+                          <img
+                            src={review.user.avatar.url}
+                            alt=""
+                            className=" md:w-[40px] md:h-[40px] w-[30px] h-[30px] rounded-[50%] mr-1 "
+                          />
+                        ) : (
+                          <div className="border rounded-[50%] ">
+                            <UserOutlined className="text-[24px] p-2 text-[#009b49]" />
+                          </div>
+                        )}
+                        <div className=" flex flex-col w-full">
+                          <p className="md:  text-[14px] md:text-[18px]">
+                            {review?.user?.name}
+                          </p>
+                          <span className=" text-[8px] md:text-[10px]">
+                            <Rating rating={review?.rating} />
+                          </span>
+                          <p className="md: md:text-[100%] text-[50%] ">
+                            {review.createAt
+                              ? format(new Date(review.createAt), "dd/MM/yyyy")
+                              : null}
+                          </p>
+                          <p className="md:  text-[14px] md:text-[18px]">
+                            {review?.comment}
+                          </p>
                         </div>
-                      )}
-                      <div className=" flex flex-col w-full">
-                        <p className="md:  text-[14px] md:text-[18px]">
-                          {review?.user?.name}
-                        </p>
-                        <span className=" text-[8px] md:text-[10px]">
-                          <Rating rating={review?.rating} />
-                        </span>
-                        <p className="md: md:text-[100%] text-[50%] ">
-                          {review.createAt
-                            ? format(new Date(review.createAt), "dd/MM/yyyy")
-                            : null}
-                        </p>
-                        <p className="md:  text-[14px] md:text-[18px]">
-                          {review?.comment}
-                        </p>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
             {dataReviews?.length > 2 && (
               <div className="flex justify-center">
                 <p
-                  className="md:  text-[14px] md:text-[18px] text-blue-700 "
-                  onClick={() => setActiveReview(true)}
+                  className="md:  text-[14px] md:text-[18px] text-blue-700 cursor-pointer "
+                  onClick={() => setActiveReview(!activeReview)}
                 >
-                  Tải thêm
+                  {!activeReview ? "Tải thêm" : "Thu nhỏ"}
                 </p>
               </div>
             )}

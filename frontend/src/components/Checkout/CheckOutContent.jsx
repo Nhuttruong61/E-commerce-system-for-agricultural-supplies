@@ -169,7 +169,7 @@ function CheckOutContent() {
       const res = await OrderService.createOrder(order);
       setIsLoading(false);
       if (res.success) {
-        navigate("/order/seccess");
+        navigate("/order/success");
         dispatch(clearQuantity());
         dispatch(getUser());
         setCoupon([]);
@@ -221,7 +221,7 @@ function CheckOutContent() {
             const res = await OrderService.createOrder(order);
             setIsLoading(false);
             if (res.success) {
-              navigate("/order/seccess");
+              navigate("/order/success");
               dispatch(clearQuantity());
               localStorage.setItem("voucher", null);
               localStorage.setItem("activeVouchers", null);
@@ -321,7 +321,6 @@ function CheckOutContent() {
       setCoupon(voucher);
     }
   }, []);
-
   return (
     <Loading isLoading={isLoading}>
       <div>
@@ -373,6 +372,40 @@ function CheckOutContent() {
               </div>
             );
           })}
+          {dataGift?.length > 0 && (
+            <div className="w-full">
+              {dataGift?.map((item) => {
+                return (
+                  <div
+                    key={item._id}
+                    className="flex border-t border-black py-2 "
+                  >
+                    <div className="md:w-[10%] w-[30%]">
+                      <img
+                        src={item.image}
+                        alt=""
+                        className="md:w-[80px] md:h-[80px] w-[60px] h-[60px] "
+                      />
+                    </div>
+                    <div className="md:w-[90%] w-[70%] flex md:items-center md:justify-between  flex-col md:flex-row ">
+                      <p className="text-[100%] px-4 md:w-[30%] ">
+                        {item.name}
+                      </p>
+                      <div className="flex items-center md:justify-center  ml-2 md:w-[50%]  ">
+                        <p className="text-[100%] px-2 hidden sm:block">
+                          Số lượng: {item.quantity}
+                        </p>
+                      </div>
+                      <div className="flex md:items-center md:justify-center  ml-2 md:w-[30%] ">
+                        <p className="text-[100%] px-2">Giá tiền:</p>
+                        <p className="text-[100%]">0đ</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
         <div className="w-auto md:flex items-center bg-white px-[10%] my-1">
           <div

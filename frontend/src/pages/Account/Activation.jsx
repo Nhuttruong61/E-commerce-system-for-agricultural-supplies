@@ -1,14 +1,18 @@
 import React, { memo, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as Userservice from "../../service/userService";
 function Activation() {
+  const naviage = useNavigate();
   const { accessToken } = useParams();
   const [error, setError] = useState(false);
   useEffect(() => {
     const ActivetionToken = async () => {
       try {
-        await Userservice.Activation_token(accessToken);
-        setError(false);
+        const res = await Userservice.Activation_token(accessToken);
+        if (res.success) {
+          setError(false);
+          naviage("/login");
+        }
       } catch (e) {
         setError(true);
       }

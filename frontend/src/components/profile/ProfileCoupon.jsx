@@ -33,7 +33,7 @@ function ProfileCoupon() {
           dispatch(getUser());
         }
       } else {
-        toast.warning("Bạn không đủ điểm để đổi vocher này");
+        toast.warning("Bạn không đủ điểm để đổi phiếu giảm giá này");
         setIsLoading(false);
       }
     } catch (e) {

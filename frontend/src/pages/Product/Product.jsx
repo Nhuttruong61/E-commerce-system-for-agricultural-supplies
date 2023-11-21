@@ -229,11 +229,14 @@ function Product() {
                 <div key={item._id} className="flex px-2 py-1">
                   <input
                     type="checkbox"
+                    id={item._id}
                     className="mr-1"
                     value={item._id}
                     onChange={() => handleCheckboxChange(item._id)}
                   />
-                  <label htmlFor={item._id}>{item.name}</label>
+                  <label className="cursor-pointer" htmlFor={item._id}>
+                    {item.name}
+                  </label>
                 </div>
               ))}
             </div>
@@ -248,7 +251,9 @@ function Product() {
                   className="mr-1"
                   onChange={handleCheckboxChangePrice}
                 />
-                <label>Dưới 100 nghìn</label>
+                <label htmlFor="under100" className="cursor-pointer">
+                  Dưới 100 nghìn
+                </label>
               </div>
               <div className="flex px-2 py-1">
                 <input
@@ -259,7 +264,9 @@ function Product() {
                   checked={priceRanges.from100to500}
                   onChange={handleCheckboxChangePrice}
                 />
-                <label htmlFor="from100to500">Từ 100 nghìn đến 500 nghìn</label>
+                <label htmlFor="from100to500" className="cursor-pointer">
+                  Từ 100 nghìn đến 500 nghìn
+                </label>
               </div>
               <div className="flex px-2 py-1">
                 <input
@@ -270,7 +277,9 @@ function Product() {
                   checked={priceRanges.over500}
                   onChange={handleCheckboxChangePrice}
                 />
-                <label htmlFor="orver200">Hơn 500 nghìn</label>
+                <label htmlFor="over500" className="cursor-pointer">
+                  Hơn 500 nghìn
+                </label>
               </div>
             </div>
           </div>

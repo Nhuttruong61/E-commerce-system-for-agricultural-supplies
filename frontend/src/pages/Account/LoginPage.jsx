@@ -77,7 +77,7 @@ function LoginPage() {
             <div className="relative">
               <span
                 onClick={() => setIsShowPassword(!isShowPassword)}
-                className="z-10 absolute right-2 top-6"
+                className="z-10 absolute right-2 top-[29.5px]"
               >
                 {isShowPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
               </span>

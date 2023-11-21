@@ -14,8 +14,10 @@ function ProfileChangePassword() {
 
     if (!form.password || !form.newPassword || !forgotPassword) {
       toast.warning("Vui lòng nhập đầy đủ thông tin");
+    } else if (form.password === form.newPassword) {
+      toast.warning("Mật khẩu mới trùng với mật khẩu hiện tại");
     } else if (form.newPassword !== forgotPassword) {
-      toast.warning("Mật khẩu nhập lại không chính xác");
+      toast.warning("Mật khẩu nhập lại không trùng nhau");
     } else {
       try {
         setIsLoading(true);

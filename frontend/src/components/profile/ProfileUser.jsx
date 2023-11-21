@@ -45,7 +45,7 @@ function Profile() {
       const response = await updateAUser(user);
       if (response.success) {
         dispatch(updateUser(response));
-        toast.success("Thay đổi thành công");
+        toast.success("Thay đổi thông tin thành công");
       }
     } catch (error) {
       toast.error("Đã xãy ra lỗi vui lòng thử lại sao", error);
@@ -80,6 +80,7 @@ function Profile() {
                 type="text"
                 name="name"
                 value={name}
+                required
                 className="w-[70%] md:px-4 xl:w-[85%] h-auto py-2 border-[2px] sm:px-0 rounded-[4px]"
                 onChange={handleOnchangeName}
               />
@@ -89,6 +90,7 @@ function Profile() {
               <input
                 type="text"
                 name="email"
+                required
                 value={email}
                 className="w-[70%] md:px-4 xl:w-[85%] h-auto py-2 border-[2px] sm:px-0 rounded-[4px]"
                 readOnly
@@ -99,6 +101,7 @@ function Profile() {
               <input
                 type="text"
                 value={phoneNumber}
+                required
                 name="phone"
                 className="w-[70%] md:px-4 xl:w-[85%] h-auto py-2 border-[2px] sm:px-0 rounded-[4px]"
                 onChange={handleOnchangeNumber}

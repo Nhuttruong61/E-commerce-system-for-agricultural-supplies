@@ -27,6 +27,12 @@ const addUser = (userId, socketId) => {
   !users.some((user) => user.userId === userId) &&
     users.push({ userId, socketId });
 };
+const getUser = (receiverId) => {
+  return users.find((user) => user.userId === receiverId);
+};
+const removeUser = (socketId) => {
+  users = users.filter((user) => user.socketId !== socketId);
+};
 // Xử lý sự kiện từ client
 const createMessage = ({ senderId, receiverId, text, images }) => ({
   senderId,

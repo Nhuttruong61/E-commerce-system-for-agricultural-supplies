@@ -127,22 +127,16 @@ function InfomationOrder() {
                       />
                     </div>
                     <div className="md:w-[90%] w-[70%] flex md:items-center md:justify-between  flex-col md:flex-row ">
-                      <p className="text-[50%] md:text-[100%] px-4 md:w-[30%] ">
+                      <p className=" text-[100%] px-4 md:w-[30%] ">
                         {item.name}
                       </p>
                       <div className="flex items-center md:justify-center  ml-2 md:w-[50%]  ">
-                        <p className="text-[50%] md:text-[100%] px-2">
-                          Số lượng:
-                        </p>
-                        <p className="px-2 text-[50%] md:text-[100%]">
-                          {item.quantity}
-                        </p>
+                        <p className=" text-[100%] px-2">Số lượng:</p>
+                        <p className="px-2  text-[100%]">{item.quantity}</p>
                       </div>
                       <div className="flex md:items-center md:justify-center  ml-2 md:w-[30%] ">
-                        <p className="text-[50%] md:text-[100%] px-2">
-                          Giá tiền:
-                        </p>
-                        <p className="text-[50%] md:text-[100%]">
+                        <p className=" text-[100%] px-2">Giá tiền:</p>
+                        <p className=" text-[100%]">
                           {`${(isNaN(item.price) || isNaN(item.quantity)
                             ? 0
                             : item.price * item.quantity
@@ -158,40 +152,30 @@ function InfomationOrder() {
         </div>
         <div className="w-auto  items-center bg-white px-[10%] my-2  md:flex md:justify-between">
           <div>
-            <p className="text-[50%] md:text-[100%] font-[600] pt-2 ">
-              Chi tiết thanh toán
-            </p>
+            <p className=" text-[100%] font-[600] pt-2 ">Chi tiết thanh toán</p>
             <div className="flex items-center pt-2">
-              <p className="text-[50%] md:text-[100%] font-[600] pr-2">
-                Giá sản phẩm:
-              </p>
-              <p className="text-[50%] md:text-[100%] font-[600]  text-red-600">
+              <p className=" text-[100%] font-[600] pr-2">Giá sản phẩm:</p>
+              <p className=" text-[100%] font-[600]  text-red-600">
                 {priceProduct?.toLocaleString()} đ
               </p>
             </div>
 
             <div className="flex items-center pt-2">
-              <p className="text-[50%] md:text-[100%] font-[600] pr-2">
-                Thành tiền:
-              </p>
-              <p className="text-[50%] md:text-[100%] font-[600]  text-red-600">
+              <p className=" text-[100%] font-[600] pr-2">Thành tiền:</p>
+              <p className=" text-[100%] font-[600]  text-red-600">
                 {orders?.totalPrice.toLocaleString()} đ
               </p>
             </div>
           </div>
           <div className="bg-[#0e9c49] text-white rounded">
             {orders?.status === "Processing" ? (
-              <p className="px-2 py-1 text-[50%] md:text-[100%] font-[600]">
-                Chờ xử lý
-              </p>
+              <p className="px-2 py-1  text-[100%] font-[600]">Chờ xử lý</p>
             ) : orders?.status === "Transferred" ? (
-              <p className="px-2 py-1 text-[50%] md:text-[100%] font-[600]">
+              <p className="px-2 py-1  text-[100%] font-[600]">
                 Đang vận chuyển
               </p>
             ) : (
-              <p className="px-2 py-1 text-[50%] md:text-[100%] font-[600]">
-                Đã giao hàng
-              </p>
+              <p className="px-2 py-1  text-[100%] font-[600]">Đã giao hàng</p>
             )}
           </div>
         </div>
@@ -199,7 +183,7 @@ function InfomationOrder() {
           <div className="w-auto items-center bg-white px-[10%] my-1 md:flex md:justify-between">
             <div className="bg-[#0e9c49] text-white rounded flex justify-center items-center my-2">
               <button
-                className="text-[50%] md:text-[100%] font-[600] px-2 py-1 "
+                className=" text-[100%] font-[600] px-2 py-1 "
                 onClick={() => setShowModalReview(true)}
               >
                 Đánh giá
@@ -212,7 +196,7 @@ function InfomationOrder() {
           <div className="w-auto  items-center bg-white px-[10%] my-1  md:flex md:justify-between">
             <div className="bg-red-600 text-white rounded flex justify-center items-center my-2">
               <button
-                className="text-[50%] md:text-[100%] font-[600] px-2 py-1 "
+                className=" text-[100%] font-[600] px-2 py-1 "
                 onClick={() => setShowModalCancel(true)}
               >
                 Hủy đơn

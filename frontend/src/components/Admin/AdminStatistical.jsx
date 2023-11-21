@@ -51,28 +51,28 @@ function AdminStatistical() {
 
   return (
     <div className="w-full">
-      <div className=" md:flex w-full py-2 ">
-        <div className=" md:w-[50%] w-full flex-col ">
-          <div className="px-4 py-2 flex">
-            <p className="font-[600] text-[20px] pr-2">Tổng danh thu:</p>
-            <p className="text-[20px]"> {totalPrice.toLocaleString()} đ</p>
-          </div>
-          <div className="px-4 py-2 flex">
-            <p className="font-[600] text-[20px] pr-2">Tổng giá nhập:</p>
-            <p className="text-[20px]"> {totalCostPrice.toLocaleString()} đ</p>
-          </div>
-          <div className="px-4 py-2 flex">
-            <p className="font-[600] text-[20px] pr-2">Chi phí quà tặng:</p>
-            <p className="text-[20px]">
-              {" "}
-              {totalPriceGift ? totalPriceGift.toLocaleString() : 0} đ
-            </p>
-          </div>
-          <div className="px-4 py-2 flex">
-            <p className="font-[600] text-[20px] pr-2">Tổng lợi nhuận</p>
-            <p className="text-[20px]"> {totalProfit.toLocaleString()} đ</p>
-          </div>
+      <div className=" grid xl:grid-cols-4 md:grid-cols-2 w-full py-2 gap-2 grid-cols-1">
+        <div className="px-4 py-2 flex shadow">
+          <p className="font-[600] text-[20px] pr-2">Tổng danh thu:</p>
+          <p className="text-[20px]"> {totalPrice.toLocaleString()} đ</p>
         </div>
+        <div className="px-4 py-2 flex shadow bg-[#328073] text-white">
+          <p className="font-[600] text-[20px] pr-2">Tổng giá nhập:</p>
+          <p className="text-[20px]"> {totalCostPrice.toLocaleString()} đ</p>
+        </div>
+        <div className="px-4 py-2 flex shadow">
+          <p className="font-[600] text-[20px] pr-2">Chi phí quà tặng:</p>
+          <p className="text-[20px]">
+            {" "}
+            {totalPriceGift ? totalPriceGift.toLocaleString() : 0} đ
+          </p>
+        </div>
+        <div className="px-4 py-2 flex shadow bg-[#e4d155] text-white">
+          <p className="font-[600] text-[20px] pr-2 ">Tổng lợi nhuận</p>
+          <p className="text-[20px]"> {totalProfit.toLocaleString()} đ</p>
+        </div>
+      </div>
+      <div className=" my-10 md:flex w-full py-2 ">
         <div className="h-[400px] md:w-[50%] w-full flex-col ">
           <ComposedChartComponent orders={dataOrder} />
           <div className="flex justify-center">
@@ -81,8 +81,6 @@ function AdminStatistical() {
             </p>
           </div>
         </div>
-      </div>
-      <div className=" my-10 md:flex w-full py-2 ">
         <div className="h-[400px] md:w-[50%] w-full">
           <BarChartComponent orders={dataOrder} />
           <div className="w-full flex justify-center">
@@ -91,6 +89,8 @@ function AdminStatistical() {
             </p>
           </div>
         </div>
+      </div>
+      <div className="my-10 md:flex w-full py-2">
         <div className="h-[400px] md:w-[50%] w-full md:my-0 my-10">
           <CustomizedLabelLineChart orders={dataOrder} />
           <div className="w-full flex justify-center">

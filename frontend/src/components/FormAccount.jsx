@@ -12,7 +12,7 @@ function FormAccount(props) {
       }}
     >
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center font-[800] text-3xl font-Roboto text-white">
+        <h2 className="mt-6 text-center font-[800] text-3xl  text-white">
           {title}
         </h2>
       </div>

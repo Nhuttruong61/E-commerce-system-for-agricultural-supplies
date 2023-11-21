@@ -17,13 +17,9 @@ const SliderComponet = () => {
         item?.images?.map((i) => (
           <div
             key={i.id}
-            className=" w-full  flex items-center justify-center max-h-[476px]"
+            className=" w-full  flex items-center justify-center max-h-[476px] md:px-[10%]"
           >
-            <img
-              src={i.url}
-              alt=""
-              className="object-contain w-full max-h-[476px] "
-            />
+            <img src={i.url} alt="" className=" w-full max-h-[500px] " />
           </div>
         ))
       )}
