@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import moment from "moment";
 import "moment/locale/vi";
 import { AiOutlineClose, AiOutlineSend } from "react-icons/ai";
@@ -18,6 +18,7 @@ function SeleteInbox({
   setSelectedImage,
 }) {
   const [user, setUser] = useState(null);
+  const bottomRef = useRef();
 
   const handleExit = () => {
     setOpenMessage(false);
@@ -30,6 +31,11 @@ function SeleteInbox({
     };
     getUser();
   }, [currentChat]);
+  useEffect(() => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
+    }
+  }, [messages]);
   return (
     <div className="w-full min-h-full flex flex-col justify-between">
       <div className="flex shadow">
@@ -52,7 +58,7 @@ function SeleteInbox({
           onClick={handleExit}
         />
       </div>
-      <div className="px-3 h-[60vh]  overflow-y-scroll py-2">
+      <div className="px-3 h-[60vh]  overflow-y-scroll py-2" ref={bottomRef}>
         {messages?.map((item, index) => {
           return (
             <div

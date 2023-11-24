@@ -21,14 +21,12 @@ app.get("/", (req, res) => {
   res.send("Hello socket");
 });
 let users = [];
-
 //Quản lý kết nối Socket
 const addUser = (userId, socketId) => {
-  !users.some((user) => user.userId === userId) &&
-    users.push({ userId, socketId });
+  !users.some((user) => user === userId) && users.push(userId, socketId);
 };
 const getUser = (receiverId) => {
-  return users.find((user) => user.userId === receiverId);
+  return users.find((user) => user === receiverId);
 };
 const removeUser = (socketId) => {
   users = users.filter((user) => user.socketId !== socketId);
@@ -49,7 +47,6 @@ io.on("connection", (socket) => {
   // Thêm người dùng mới vào danh sách và gửi danh sách người dùng đến tất cả các clients.
   socket.on("addUser", (userId) => {
     addUser(userId, socket.id);
-    io.emit("getUsers", users);
   });
 
   const messages = {};
@@ -57,16 +54,14 @@ io.on("connection", (socket) => {
   // Lưu tin nhắn vào danh sách và gửi tin nhắn đến người nhận.
   socket.on("sendMessage", ({ senderId, receiverId, text, images }) => {
     const message = createMessage({ senderId, receiverId, text, images });
-
     const user = getUser(receiverId);
-
     if (!messages[receiverId]) {
       messages[receiverId] = [message];
     } else {
       messages[receiverId].push(message);
     }
 
-    io.to(user?.socketId).emit("getMessage", message);
+    io.emit("getMessage", message);
   });
 
   // Xử lý khi người dùng cập nhật tin nhắn cuối cùng.

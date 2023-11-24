@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import moment from "moment";
 import { AiOutlineSend } from "react-icons/ai";
 import { CloseOutlined } from "@ant-design/icons";
@@ -18,7 +18,12 @@ function InboxForm({
   account,
   setListUser,
 }) {
-  const animation = {};
+  const bottomRef = useRef();
+  useEffect(() => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
+    }
+  }, [messages]);
   useEffect(() => {
     const userId = currentChat?.members.find((user) => user !== account._id);
     const getUser = async () => {
@@ -36,10 +41,7 @@ function InboxForm({
   }, [currentChat, account]);
 
   return (
-    <div
-      className="fixed bottom-2 z-50 right-24 bg-white w-[280px] rounded fadeIn min-h-[48vh]"
-      style={animation}
-    >
+    <div className="fixed bottom-2 z-50 right-24 bg-white w-[280px] rounded fadeIn min-h-[48vh]">
       <div className="flex shadow  p-2">
         <img
           src={listUser?.avatar.url}
@@ -50,7 +52,7 @@ function InboxForm({
           <h1 className="font-[600]">{listUser?.name}</h1>
         </div>
       </div>
-      <div className="px-3 h-[34vh]  overflow-y-scroll ">
+      <div className="px-3 h-[34vh]  overflow-y-scroll " ref={bottomRef}>
         {messages?.map((item, index) => {
           return (
             <div

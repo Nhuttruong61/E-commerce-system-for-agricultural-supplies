@@ -31,7 +31,9 @@ function Inbox() {
       });
     });
   }, []);
-
+  useEffect(() => {
+    socketId.emit("addUser", account?._id);
+  }, [account]);
   useEffect(() => {
     arrivalMessage &&
       currentChat?.members.includes(arrivalMessage.sender) &&
@@ -64,7 +66,7 @@ function Inbox() {
       conversationId: currentChat._id,
     };
     const receiverId = currentChat.members.find(
-      (member) => member._id === account._id
+      (member) => member === account._id
     );
     socketId.emit("sendMessage", {
       senderId: account._id,

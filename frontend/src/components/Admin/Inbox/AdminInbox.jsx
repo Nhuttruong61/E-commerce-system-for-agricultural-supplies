@@ -30,6 +30,9 @@ function AdminInbox() {
   useEffect(() => {
     getConvertion();
   }, []);
+  useEffect(() => {
+    socketId.emit("addUser", account._id);
+  }, [account]);
 
   useEffect(() => {
     socketId.on("getMessage", (data) => {
@@ -42,9 +45,7 @@ function AdminInbox() {
   }, []);
   useEffect(() => {
     arrivalMessage &&
-      currentChat?.members.some(
-        (member) => member._id === arrivalMessage.sender
-      ) &&
+      currentChat?.members.includes(arrivalMessage.sender) &&
       setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage, currentChat]);
   const handleOnchangeImage = async (e) => {
@@ -76,7 +77,7 @@ function AdminInbox() {
       conversationId: currentChat._id,
     };
     const receiverId = currentChat.members.find(
-      (member) => member._id === account._id
+      (member) => member === account._id
     );
     socketId.emit("sendMessage", {
       senderId: account._id,
