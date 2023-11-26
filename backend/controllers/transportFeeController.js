@@ -6,10 +6,6 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const ceatetransportFree = catchAsyncErrors(async (req, res, next) => {
   try {
     const { title, cost, freeShipping, weight } = req.body;
-    if (!title || !cost || !weight || !freeShipping)
-      return next(
-        new ErrorHandler("Please provide complete event information", 400)
-      );
     const transportfee = await TransportFree.create({
       title,
       cost,
@@ -38,14 +34,6 @@ const editTransportFee = catchAsyncErrors(async (req, res, next) => {
     const transportFee = await TransportFree.findById(req.params.id);
     if (!transportFee) {
       return next(new ErrorHandler("TransportFee not found", 404));
-    }
-    if (!title || !cost || !weight || !freeShipping) {
-      return next(
-        new ErrorHandler(
-          "Please provide complete transport fee information",
-          400
-        )
-      );
     }
     transportFee.title = title;
     transportFee.cost = cost;

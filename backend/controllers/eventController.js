@@ -6,13 +6,6 @@ const ErrorHandler = require("../utils/ErrorHandler");
 //create event
 const createEvent = catchAsyncErrors(async (req, res, next) => {
   const { name, description, discount, product, start, finish } = req.body;
-
-  if (!name || !description || !product || !start || !finish) {
-    return next(
-      new ErrorHandler("Please provide complete event information", 400)
-    );
-  }
-
   try {
     const products = await Product.findById(product);
 

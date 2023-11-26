@@ -6,10 +6,6 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const createCoupons = catchAsyncErrors(async (req, res, next) => {
   try {
     const { name, discountAmount, point, userType } = req.body;
-    if (!name || !discountAmount || !point)
-      return next(
-        new ErrorHandler("Please provide complete coupon informations", 400)
-      );
     const coupon = await Coupons.create({
       name,
       discountAmount,
