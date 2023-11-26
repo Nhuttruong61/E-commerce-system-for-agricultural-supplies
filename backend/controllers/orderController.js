@@ -9,11 +9,6 @@ const createOrder = catchAsyncErrors(async (req, res, next) => {
   try {
     const { cart, shippingAddress, user, totalPrice, paymentInfo, coupons } =
       req.body;
-    if (!cart || !shippingAddress || !user || !totalPrice || !paymentInfo) {
-      return next(
-        new ErrorHandler("Please provide complete order informations", 400)
-      );
-    }
     const orders = [];
     if (coupons) {
       const userData = await User.findById(user._id);

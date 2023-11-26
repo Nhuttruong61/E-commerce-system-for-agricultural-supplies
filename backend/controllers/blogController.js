@@ -7,11 +7,6 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const createBlog = catchAsyncErrors(async (req, res, next) => {
   try {
     const { title, content } = req.body;
-    if (!title || !content) {
-      return next(
-        new ErrorHandler("Please provide complete category informations", 400)
-      );
-    }
 
     const contentData = await Promise.all(
       content.map(async (item) => {

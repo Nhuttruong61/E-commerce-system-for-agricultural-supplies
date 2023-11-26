@@ -24,23 +24,7 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
       quantity,
       images,
     } = req.body;
-    if (
-      !name ||
-      !description ||
-      !category ||
-      !weight ||
-      !price ||
-      !expirationDate ||
-      !origin ||
-      !originPrice ||
-      !wholesalePrice ||
-      !quantity ||
-      !images
-    ) {
-      return next(
-        new ErrorHandler("Please provide complete product informations", 400)
-      );
-    }
+
     const categoryid = await Category.findById(category);
     if (!categoryid) {
       return next(new ErrorHandler("category not found", 404));

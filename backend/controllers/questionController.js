@@ -7,12 +7,6 @@ const cloudinary = require("cloudinary");
 const createQuestion = catchAsyncErrors(async (req, res, next) => {
   try {
     const { title, content, images } = req.body;
-    if (!title || !content) {
-      return res.status(400).json({
-        success: false,
-        message: "Please provide complete question information.",
-      });
-    }
 
     const userId = await User.findById(req.user._id);
     let question;

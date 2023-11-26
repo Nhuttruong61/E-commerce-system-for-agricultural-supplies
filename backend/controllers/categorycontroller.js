@@ -8,11 +8,6 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const createCategory = catchAsyncErrors(async (req, res, next) => {
   try {
     const { name, images } = req.body;
-    if (!name || !images) {
-      return next(
-        new ErrorHandler("Please provide complete category informations", 400)
-      );
-    }
     const myCloud = await cloudinary.v2.uploader.upload(images, {
       forder: "imgCategorie",
     });

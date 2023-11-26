@@ -6,11 +6,6 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const createSlider = catchAsyncErrors(async (req, res, next) => {
   try {
     const { images } = req.body;
-    if (!images) {
-      return next(
-        new ErrorHandler("Please provide complete informations", 400)
-      );
-    }
     const myCloud = await cloudinary.v2.uploader.upload(images, {
       folder: "imgSlider",
     });
