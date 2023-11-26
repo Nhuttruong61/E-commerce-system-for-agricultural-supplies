@@ -21,6 +21,8 @@ function AdminInbox() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
+  const [userOnline, setUserOnline] = useState(null);
+  const [lastMessage, setLastMessage] = useState(null);
   const getConvertion = async () => {
     const data = await ConvertionService.getAllConversations(account._id);
     if (data?.success) {
@@ -29,6 +31,11 @@ function AdminInbox() {
   };
   useEffect(() => {
     getConvertion();
+  }, [lastMessage]);
+  useEffect(() => {
+    socketId.on("getLastMessage", (updateLastMessage) => {
+      setLastMessage(updateLastMessage);
+    });
   }, []);
   useEffect(() => {
     socketId.emit("addUser", account._id);
@@ -36,11 +43,17 @@ function AdminInbox() {
 
   useEffect(() => {
     socketId.on("getMessage", (data) => {
+      console.log(data);
       setArrivalMessage({
         sender: data.senderId,
         text: data.text,
         createAt: data.now,
       });
+    });
+  }, []);
+  useEffect(() => {
+    socketId.on("getUsers", (listUser) => {
+      setUserOnline(listUser);
     });
   }, []);
   useEffect(() => {
@@ -142,6 +155,7 @@ function AdminInbox() {
                 createMessageHandler={createMessageHandler}
                 setCurrentChat={setCurrentChat}
                 me={account._id}
+                userOnline={userOnline}
               />
             );
           })}
@@ -150,6 +164,7 @@ function AdminInbox() {
         <>
           <SeleteInbox
             setOpenMessage={setOpenMessage}
+            userOnline={userOnline}
             newMessage={newMessage}
             setNewMessage={setNewMessage}
             createMessageHandler={createMessageHandler}

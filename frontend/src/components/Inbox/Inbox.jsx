@@ -22,6 +22,7 @@ function Inbox() {
   const [messages, setMessages] = useState([]);
   const [listUser, setListUser] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [userOnline, setUserOnline] = useState(null);
   useEffect(() => {
     socketId.on("getMessage", (data) => {
       setArrivalMessage({
@@ -100,6 +101,13 @@ function Inbox() {
       }
     }
   };
+
+  useEffect(() => {
+    socketId.on("getUsers", (listUser) => {
+      setUserOnline(listUser);
+    });
+  }, []);
+
   useEffect(() => {
     getMessage();
   }, [currentChat]);
@@ -171,6 +179,7 @@ function Inbox() {
           currentChat={currentChat}
           account={account}
           setListUser={setListUser}
+          userOnline={userOnline}
         />
       )}
     </div>

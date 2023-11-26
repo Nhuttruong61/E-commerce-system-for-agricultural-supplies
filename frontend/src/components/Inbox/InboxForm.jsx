@@ -17,6 +17,7 @@ function InboxForm({
   currentChat,
   account,
   setListUser,
+  userOnline,
 }) {
   const bottomRef = useRef();
   useEffect(() => {
@@ -39,7 +40,6 @@ function InboxForm({
 
     getUser();
   }, [currentChat, account]);
-
   return (
     <div className="fixed bottom-2 z-50 right-24 bg-white w-[280px] rounded fadeIn min-h-[48vh]">
       <div className="flex shadow  p-2">
@@ -50,6 +50,9 @@ function InboxForm({
         />
         <div className="px-2">
           <h1 className="font-[600]">{listUser?.name}</h1>
+          {userOnline.some((el) => el.userId === listUser?._id) && (
+            <p className="text-[12px]">Đang hoạt động</p>
+          )}
         </div>
       </div>
       <div className="px-3 h-[34vh]  overflow-y-scroll " ref={bottomRef}>
