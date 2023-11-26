@@ -16,6 +16,7 @@ function SeleteInbox({
   handleOnchangeImage,
   selectedImage,
   setSelectedImage,
+  userOnline,
 }) {
   const [user, setUser] = useState(null);
   const bottomRef = useRef();
@@ -36,6 +37,7 @@ function SeleteInbox({
       bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
     }
   }, [messages]);
+
   return (
     <div className="w-full min-h-full flex flex-col justify-between">
       <div className="flex shadow">
@@ -51,6 +53,9 @@ function SeleteInbox({
           )}
           <div className="px-2">
             <h1 className="font-[600]">{user?.name}</h1>
+            {userOnline?.some((el) => el.userId === user?._id) && (
+              <p className="text-[12px]">Đang hoạt động</p>
+            )}
           </div>
         </div>
         <AiOutlineClose

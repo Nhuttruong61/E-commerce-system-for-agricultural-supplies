@@ -23,10 +23,11 @@ app.get("/", (req, res) => {
 let users = [];
 //Quản lý kết nối Socket
 const addUser = (userId, socketId) => {
-  !users.some((user) => user === userId) && users.push(userId, socketId);
-};
-const getUser = (receiverId) => {
-  return users.find((user) => user === receiverId);
+  !users.some((user) => user.userId === userId) &&
+    users.push({
+      userId: userId,
+      socketId: socketId,
+    });
 };
 const removeUser = (socketId) => {
   users = users.filter((user) => user.socketId !== socketId);
@@ -39,7 +40,6 @@ const createMessage = ({ senderId, receiverId, text, images }) => ({
   images,
   seen: false,
 });
-
 io.on("connection", (socket) => {
   //// Xử lý sự kiện khi có kết nối mới được thiết lập.
   console.log(`user connect`);
@@ -47,6 +47,7 @@ io.on("connection", (socket) => {
   // Thêm người dùng mới vào danh sách và gửi danh sách người dùng đến tất cả các clients.
   socket.on("addUser", (userId) => {
     addUser(userId, socket.id);
+    io.emit("getUsers", users);
   });
 
   const messages = {};
@@ -54,7 +55,7 @@ io.on("connection", (socket) => {
   // Lưu tin nhắn vào danh sách và gửi tin nhắn đến người nhận.
   socket.on("sendMessage", ({ senderId, receiverId, text, images }) => {
     const message = createMessage({ senderId, receiverId, text, images });
-    const user = getUser(receiverId);
+    io.emit("getUsers", users);
     if (!messages[receiverId]) {
       messages[receiverId] = [message];
     } else {
@@ -66,10 +67,10 @@ io.on("connection", (socket) => {
 
   // Xử lý khi người dùng cập nhật tin nhắn cuối cùng.
   // Gửi tin nhắn cuối cùng đến tất cả clients.
-  socket.on("updateLastMessage", ({ lastMessage, lastMessagesId }) => {
+  socket.on("updateLastMessage", ({ lastMessage, lastMessageId }) => {
     io.emit("getLastMessage", {
       lastMessage,
-      lastMessagesId,
+      lastMessageId,
     });
   });
 

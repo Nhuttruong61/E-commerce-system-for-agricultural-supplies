@@ -3,7 +3,7 @@ import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import * as UserService from "../../../service/userService";
 
-function ListMessage({ data, setOpenMessage, setCurrentChat, me }) {
+function ListMessage({ data, setOpenMessage, setCurrentChat, me, userOnline }) {
   const [listUser, setListUser] = useState([]);
   const navigate = useNavigate();
   const handleClickConvertion = (id) => {
@@ -36,13 +36,23 @@ function ListMessage({ data, setOpenMessage, setCurrentChat, me }) {
       onClick={() => handleClickConvertion(data._id) || setCurrentChat(data)}
     >
       {listUser?.avatar ? (
-        <img
-          src={listUser?.avatar.url}
-          alt=""
-          className="w-[50px] h-[50px] object-cover rounded-full"
-        />
+        <div className="relative">
+          <img
+            src={listUser?.avatar.url}
+            alt=""
+            className="w-[50px] h-[50px] object-cover rounded-full"
+          />
+          {userOnline?.some((el) => el.userId === listUser._id) && (
+            <p className="absolute w-3 h-3 bg-green-500 rounded-full top-0 right-0"></p>
+          )}
+        </div>
       ) : (
-        <UserOutlined className="text-[24px] p-2" />
+        <div className="relative">
+          <UserOutlined className="text-[24px] p-2" />
+          {userOnline?.some((el) => el.userId === listUser._id) && (
+            <p className="absolute w-3 h-3 bg-green-500 rounded-full top-0 right-0"></p>
+          )}
+        </div>
       )}
       <div className="pl-3">
         <h1 className="font-[500]">{listUser.name}</h1>
