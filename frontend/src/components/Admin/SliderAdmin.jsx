@@ -122,7 +122,6 @@ function SliderAdmin() {
     } catch (e) {
       console.log(e);
       toast.error("Đã có lỗi xảy ra");
-    } finally {
       setIsLoading(false);
     }
   };
@@ -138,7 +137,6 @@ function SliderAdmin() {
       }
     } catch (e) {
       console.log(e);
-    } finally {
       setIsLoading(false);
     }
   };
@@ -157,12 +155,12 @@ function SliderAdmin() {
       setIsLoading(false);
       if (res.success) {
         getDataSlider();
+        setSelectedImage(null);
         toast.success("Cập nhật ảnh thành công");
       }
     } catch (e) {
       toast.error("Đã xãy ra lỗi");
       console.log(e);
-    } finally {
       setIsLoading(false);
     }
   };

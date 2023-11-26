@@ -9,7 +9,7 @@ function Navbar() {
     navigate(item.url);
   };
   return (
-    <div className="flex h-full items-center w-[100%] text-[82%] xl:text-[120%] pl-[4%] md:pl-[16%]">
+    <div className="flex h-full items-center w-[100%] text-[82%] xl:text-[120%] pl-[4%] md:pl-[8%]">
       {navItems?.map((item, i) => (
         <div key={i} className="mx-2 font-[600]">
           <Link

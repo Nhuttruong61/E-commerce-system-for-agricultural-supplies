@@ -338,25 +338,34 @@ function ProductDetail(id) {
           )}
         </div>
       </div>
-      <div className="flex w-full flex-col md:px-[10%] px-2">
-        <p className="font-[600] md: text-[16px] md:text-[20px]">
-          Sản phẩm tương tự
-        </p>
-        <div className="flex w-full">
-          <div className="grid grid-cols-2 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-4 lg:gap-[25px] xl:grid-cols-5 xl:gap-[30px] mb-12 md:p-6 w-full">
-            {dataSuggest && dataSuggest.length > 0
-              ? dataSuggest
-                  .filter(
-                    (item) =>
-                      item.category.categoryid._id ===
-                        dataProduct?.product.category.categoryid._id &&
-                      item._id !== dataProduct.product._id
-                  )
-                  .map((item, index) => <ProductCart item={item} key={index} />)
-              : null}
+      {dataSuggest?.filter(
+        (item) =>
+          item.category.categoryid._id ===
+            dataProduct?.product.category.categoryid._id &&
+          item._id !== dataProduct.product._id
+      ).length > 0 && (
+        <div className="flex w-full flex-col md:px-[10%] px-2">
+          <p className="font-[600] md: text-[16px] md:text-[20px]">
+            Sản phẩm tương tự
+          </p>
+          <div className="flex w-full">
+            <div className="grid grid-cols-2 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-4 lg:gap-[25px] xl:grid-cols-5 xl:gap-[30px] mb-12 md:p-6 w-full">
+              {dataSuggest && dataSuggest.length > 0
+                ? dataSuggest
+                    .filter(
+                      (item) =>
+                        item.category.categoryid._id ===
+                          dataProduct?.product.category.categoryid._id &&
+                        item._id !== dataProduct.product._id
+                    )
+                    .map((item, index) => (
+                      <ProductCart item={item} key={index} />
+                    ))
+                : null}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {productData?.reviews?.length > 0 && (
         <div className="w-full md:px-[10%]">
@@ -364,14 +373,14 @@ function ProductDetail(id) {
             <p className="  text-[14px] md:text-[18px] font-[600]">Đánh giá</p>
             <div
               className={`shadow shadow-[#a8a7a7] h-full ${
-                activeReview ? "w-auto" : "h-[30.5vh] overflow-hidden"
+                activeReview ? "w-auto" : "h-[31.5vh] overflow-hidden"
               }`}
             >
               <div className="bg-[#009b49] py-1 px-1  items-center text-white">
                 <span className="flex items-center px-1">
                   {dataProduct?.product?.ratings ? (
                     <p className="  text-[14px] md:text-[18px] font-[600]">
-                      {dataProduct?.product?.ratings?.slice(0, 4)}
+                      {dataProduct?.product?.ratings?.slice(0, 3)}
                     </p>
                   ) : (
                     <p className="  text-[14px] md:text-[18px] font-[600]">5</p>

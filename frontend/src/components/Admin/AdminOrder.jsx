@@ -81,12 +81,13 @@ function AdminOrder() {
     };
     try {
       const res = await OrderSerVice.updateOrderStatus(id, status);
+      setIsLoading(false);
       if (res.success) {
         toast.success("Cập nhật trạng thái thành công");
         getAllOrders();
       }
-      setIsLoading(false);
     } catch (e) {
+      setIsLoading(false);
       console.log(e);
     }
   };
@@ -315,6 +316,7 @@ function AdminOrder() {
       }
     } catch (e) {
       toast.error("Bạn không thể xóa đơn hàng khi đang vận chuyển");
+      setIsLoading(false);
       console.log(e);
     }
   };

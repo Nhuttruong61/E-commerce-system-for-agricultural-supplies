@@ -9,14 +9,14 @@ import Loading from "../../components/Loading";
 import { BsArrowLeft } from "react-icons/bs";
 
 function RegisterBussiness() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [tax, setTax] = useState("");
-
-  const [password, setPassword] = useState("");
   const [forGotPassword, setForGotPassword] = useState("");
-
+  const [userRerister, setUserRerister] = useState({
+    name: "",
+    email: "",
+    phoneNumber: "",
+    tax: "",
+    password: "",
+  });
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowForGotPassword, setIsShowForGotPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,26 +24,24 @@ function RegisterBussiness() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name || !email || !phoneNumber || !password || !forGotPassword) {
+    if (
+      !userRerister.name ||
+      !userRerister.email ||
+      !userRerister.phoneNumber ||
+      !userRerister.password ||
+      !forGotPassword
+    ) {
       toast.warning("Vui lòng điền đầy đủ thông tin");
       setIsLoading(false);
       return;
-    } else if (password !== forGotPassword) {
+    } else if (userRerister.password !== forGotPassword) {
       toast.error("Mật khẩu không khớp vui lòng nhập lại");
       setIsLoading(false);
       return;
     } else {
-      const data = {
-        name: name,
-        email: email,
-        tax: tax,
-        phoneNumber: phoneNumber,
-        password: password,
-      };
-
       try {
         setIsLoading(true);
-        const response = await Userservice.RegisterService(data);
+        const response = await Userservice.RegisterService(userRerister);
         if (response.success === true) {
           toast.success("Vui lòng kiểm tra email để kích hoạt tài khoản!");
           // toast.success("Đăng kí kí tài khoản thành công");
@@ -67,28 +65,36 @@ function RegisterBussiness() {
           <form onSubmit={handleSubmit}>
             <Input
               name="Tên người dùng"
-              value={name}
+              value={userRerister.name}
               placeholder="Nhập tên đăng nhập"
-              onChange={(value) => setName(value)}
+              onChange={(value) =>
+                setUserRerister({ ...userRerister, name: value })
+              }
             />
             <Input
               name="Sô điện thoại"
-              value={phoneNumber}
+              value={userRerister.phoneNumber}
               placeholder="Nhập số điện thoại của bạn"
-              onChange={(value) => setPhoneNumber(value)}
+              onChange={(value) =>
+                setUserRerister({ ...userRerister, phoneNumber: value })
+              }
             />
             <Input
               name="Hãy nhập địa email của bạn"
-              value={email}
+              value={userRerister.email}
               type="email"
               placeholder="Nhập email"
-              onChange={(value) => setEmail(value)}
+              onChange={(value) =>
+                setUserRerister({ ...userRerister, email: value })
+              }
             />
             <Input
               name="Mã số thuế"
-              value={tax}
+              value={userRerister.tax}
               placeholder="Nhập mã số thuế của bạn"
-              onChange={(value) => setTax(value)}
+              onChange={(value) =>
+                setUserRerister({ ...userRerister, tax: value })
+              }
             />
 
             <div className="relative">
@@ -100,9 +106,11 @@ function RegisterBussiness() {
               </span>
               <Input
                 name="Mật khẩu"
-                value={password}
+                value={userRerister.password}
                 placeholder="Mật khẩu"
-                onChange={(value) => setPassword(value)}
+                onChange={(value) =>
+                  setUserRerister({ ...userRerister, password: value })
+                }
                 type={isShowPassword ? "text" : "password"}
               />
               <div className="relative">
@@ -133,7 +141,6 @@ function RegisterBussiness() {
             <button
               className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#0e9c49] hover:bg-[#345409]"
               type="submit"
-              disabled={!email || !password}
             >
               Đăng Ký
             </button>

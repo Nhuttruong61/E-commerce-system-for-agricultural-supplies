@@ -1,18 +1,9 @@
 import React, { memo } from "react";
-import { StarFilled, StarOutlined } from "@ant-design/icons";
-import { BsStarHalf } from "react-icons/bs";
+import { BsStarHalf, BsStarFill } from "react-icons/bs";
 function Rating({ rating }) {
   const starts = [];
   for (let i = 1; i <= 5; i++) {
-    if (i <= rating) {
-      starts.push(
-        <StarFilled
-          key={i}
-          className="mr-2 cursor-pointer"
-          style={{ color: "#f6b100", fontSize: "10" }}
-        />
-      );
-    } else if (i === Math.ceil(rating) && !Number.isInteger(rating)) {
+    if (i === Math.ceil(rating) && !Number.isInteger(rating)) {
       starts.push(
         <BsStarHalf
           key={i}
@@ -23,9 +14,9 @@ function Rating({ rating }) {
       );
     } else {
       starts.push(
-        <StarOutlined
+        <BsStarFill
           key={i}
-          size={10}
+          size={16}
           style={{ color: "#f6b100", fontSize: "10" }}
           className="mr-2 cursor-pointer"
         />

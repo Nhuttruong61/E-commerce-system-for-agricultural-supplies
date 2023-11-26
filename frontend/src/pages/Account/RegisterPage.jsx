@@ -8,49 +8,33 @@ import * as Userservice from "../../service/userService";
 import Loading from "../../components/Loading";
 import { BsArrowRight } from "react-icons/bs";
 function RegisterPage() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-
-  const [password, setPassword] = useState("");
+  const [userRerister, setUserRerister] = useState({
+    name: "",
+    email: "",
+    phoneNumber: "",
+    password: "",
+  });
   const [forGotPassword, setForGotPassword] = useState("");
-
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowForGotPassword, setIsShowForGotPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const handleOnchanName = (value) => {
-    setName(value);
-  };
-  const handleOnchanEmail = (value) => {
-    setEmail(value);
-  };
-  const handleOnchanPassword = (value) => {
-    setPassword(value);
-  };
-  const handleOnchanForgotPassword = (value) => {
-    setForGotPassword(value);
-  };
-  const handleOnchanPhone = (value) => {
-    setPhoneNumber(value);
-  };
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !email || !phoneNumber || !password || !forGotPassword) {
+    if (
+      !userRerister.name ||
+      !userRerister.email ||
+      !userRerister.phoneNumber ||
+      !userRerister.password ||
+      !forGotPassword
+    ) {
       toast.warning("Vui lòng điền đầy đủ thông tin");
-    } else if (password !== forGotPassword) {
+    } else if (userRerister.password !== forGotPassword) {
       toast.error("Mật khẩu không khớp vui lòng nhập lại");
     } else {
-      const newUser = {
-        name: name,
-        email: email,
-        phoneNumber: phoneNumber,
-        password: password,
-      };
-
       try {
         setIsLoading(true);
-        const response = await Userservice.RegisterService(newUser);
+        const response = await Userservice.RegisterService(userRerister);
         if (response.success === true) {
           toast.success("Vui lòng kiểm tra email để kích hoạt tài khoản!");
           navigate("/login");
@@ -76,22 +60,28 @@ function RegisterPage() {
           <form onSubmit={handleSubmit}>
             <Input
               name="Tên người dùng"
-              value={name}
+              value={userRerister.name}
               placeholder="Nhập tên đăng nhập"
-              onChange={handleOnchanName}
+              onChange={(value) =>
+                setUserRerister({ ...userRerister, name: value })
+              }
             />
             <Input
               name="Sô điện thoại"
-              value={phoneNumber}
+              value={userRerister.phoneNumber}
               placeholder="Nhập số điện thoại của bạn"
-              onChange={handleOnchanPhone}
+              onChange={(value) =>
+                setUserRerister({ ...userRerister, phoneNumber: value })
+              }
             />
             <Input
               name="Hãy nhập địa email của bạn"
               type="email"
-              value={email}
+              value={userRerister.email}
               placeholder="Nhập email"
-              onChange={handleOnchanEmail}
+              onChange={(value) =>
+                setUserRerister({ ...userRerister, email: value })
+              }
             />
 
             <div className="relative">
@@ -103,9 +93,11 @@ function RegisterPage() {
               </span>
               <Input
                 name="Mật khẩu"
-                value={password}
+                value={userRerister.password}
                 placeholder="Mật khẩu"
-                onChange={handleOnchanPassword}
+                onChange={(value) =>
+                  setUserRerister({ ...userRerister, password: value })
+                }
                 type={isShowPassword ? "text" : "password"}
                 min={4}
               />
@@ -120,7 +112,7 @@ function RegisterPage() {
                   name="Nhập lại mật khẩu"
                   value={forGotPassword}
                   placeholder="Nhập lại mật khẩu"
-                  onChange={handleOnchanForgotPassword}
+                  onChange={(value) => setForGotPassword(value)}
                   type={isShowForGotPassword ? "text" : "password"}
                 />
               </div>

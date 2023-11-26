@@ -12,26 +12,24 @@ import { BsArrowLeft } from "react-icons/bs";
 function LoginPage() {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.user);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const handleOnchanEmail = (value) => {
-    setEmail(value);
+    setUser({ ...user, email: value });
   };
   const handleOnchanPassword = (value) => {
-    setPassword(value);
+    setUser({ ...user, password: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const user = {
-      email: email,
-      password: password,
-    };
-    if (!email || !password) {
+    if (!user.email || !user.password) {
       toast.warning("Vui lòng điền đầy đủ thông tin");
     } else {
       try {
@@ -68,7 +66,7 @@ function LoginPage() {
             </Link>
             <Input
               name="Nhập địa chỉ email của bạn"
-              value={email}
+              value={user.email}
               type="email"
               placeholder="Email"
               onChange={handleOnchanEmail}
@@ -83,7 +81,7 @@ function LoginPage() {
               </span>
               <Input
                 name="Mật khẩu của bạn"
-                value={password}
+                value={user.password}
                 placeholder="Password"
                 onChange={handleOnchanPassword}
                 type={isShowPassword ? "text" : "password"}

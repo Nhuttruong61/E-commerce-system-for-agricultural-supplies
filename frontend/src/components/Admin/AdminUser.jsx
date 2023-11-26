@@ -287,17 +287,21 @@ function AdminUser() {
   };
   const handleEditUser = async () => {
     try {
-      setShowModalEdit(false);
-      setIsLoading(true);
-      const res = await UserSerVice.updateUserId(idUser, editUser);
-      if (res.success) {
-        const res = await UserSerVice.updateAddressrId(
-          idUser,
-          editUser.addresses
-        );
+      if (editUser.role === "business" && editUser.tax === null) {
+        toast.warning("Không được bỏ trống mã thuế");
+      } else {
+        setIsLoading(true);
+        setShowModalEdit(false);
+        const res = await UserSerVice.updateUserId(idUser, editUser);
         if (res.success) {
-          getAllUsers();
-          toast.success("Cập nhật thông tin thành công");
+          const res = await UserSerVice.updateAddressrId(
+            idUser,
+            editUser.addresses
+          );
+          if (res.success) {
+            getAllUsers();
+            toast.success("Cập nhật thông tin thành công");
+          }
         }
       }
     } catch (e) {
