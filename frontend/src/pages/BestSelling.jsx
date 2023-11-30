@@ -15,14 +15,24 @@ function BestSelling() {
   useEffect(() => {
     setTimeout(() => {
       if (products?.data && products.data.length > 0) {
-        const sortedData = products.data
+        const unExpiredProducts = products?.data?.filter((item) => {
+          return isNotExpired(new Date(item.expirationDate));
+        });
+        const filterProductgift = unExpiredProducts
+          ?.map((item) =>
+            item?.gifts?.length > 0 ? item?.gifts?.map((gift) => gift) : null
+          )
+          .filter((item) => item !== null)
+          .flat();
+        const dataProductgift = unExpiredProducts?.filter((item) => {
+          return !filterProductgift.includes(item._id);
+        });
+        const sortedData = dataProductgift
           .slice()
           .sort((a, b) => b.sold_out - a.sold_out)
           .slice(0, 10);
-        const unExpiredProducts = sortedData.filter((item) => {
-          return isNotExpired(new Date(item.expirationDate));
-        });
-        setData(unExpiredProducts);
+
+        setData(sortedData);
       }
       setIsLoading(false);
     }, 300);

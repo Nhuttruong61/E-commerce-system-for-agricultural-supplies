@@ -47,24 +47,24 @@ const Dropdown = ({ Text }) => {
 
   return (
     <div
-      className="relative z-10 px-1 w-[200px]"
+      className="relative z-10 px-1 w-[220px]"
       ref={ref}
       onClick={(e) => e.stopPropagation()}
     >
       <span
-        className="cursor-pointer h-[100%] w-auto flex justify-between items-center pl-4  font-[600] select-none rounded-t-md text-white"
+        className="cursor-pointer h-[100%] w-auto flex items-center pl-4  font-[600] select-none rounded-t-md text-white"
         onClick={() => setOpen(!open)}
       >
         <MenuOutlined style={{ fontSize: "20px" }} className="px-1" />
         {showText ? (
-          <div className=" flex items-center justify-center text-[80%] md:text-[100%] ">
+          <div className=" flex items-center min-w-[120px] justify-center text-[80%] md:text-[100%] ">
             {selectedItem ? selectedItem.name : Text}
             <DownOutlined className="text-[80%] mt-1 mx-2" />
           </div>
         ) : null}
       </span>
       {open && (
-        <div className="absolute bg-white border rounded shadow-md mt-2 w-[160px] fade-in-from-top-animation">
+        <div className="absolute bg-white border rounded shadow-md mt-5 w-[180px] fade-in-from-top-animation right-0">
           <ul>
             {dataCategory?.data?.categories?.map((item) => (
               <li

@@ -21,7 +21,7 @@ function News() {
   }, []);
   return (
     <div className=" flex justify-center text-center items-center flex-col md:px-[10%] py-2">
-      <p className="  my-8 font-[700] md:text-[32px] text-[20px] px-6 bg-[#0e9c49] text-white rounded-[20px]">
+      <p className="   mt-4 mb-8 font-[700] md:text-[32px] text-[20px]  px-6 text-[#555555] ">
         TIN TỨC MỚI NHẤT
       </p>
       <div className="  justify-center   grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 ">

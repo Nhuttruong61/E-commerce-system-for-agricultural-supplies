@@ -19,7 +19,7 @@ function ProductCart(item) {
       <div className="relative py-2">
         <div className=" lg:h-[24vh] sm:h-[16vh] md:h-[18vh]  flex justify-center">
           <img
-            src={item?.item.images[0].url}
+            src={item?.item?.images[0].url}
             alt=""
             className=" h-[140px] md:w-full object-contain w-[100px]"
           />

@@ -218,12 +218,30 @@ function AdminUser() {
       title: "Vai trò",
       dataIndex: "role",
       render: handleRenderRole,
+      filters: [
+        {
+          text: "admin",
+          value: "admin",
+        },
+        {
+          text: "user",
+          value: "user",
+        },
+        {
+          text: "Thành viên",
+          value: "member",
+        },
+        {
+          text: "Doanh nghiệp",
+          value: "business",
+        },
+      ],
+      onFilter: (value, record) => record.role.indexOf(value) === 0,
     },
     {
       title: "Tổng tiền",
       dataIndex: "price",
       sorter: (a, b) => a.price - b.price,
-      ...getColumnSearchProps("price"),
     },
     {
       title: "Xem thêm",

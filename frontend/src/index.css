@@ -120,3 +120,8 @@
 .ant-spin-dot-item {
   background: #0e9c49 !important;
 }
+
+.ant-btn {
+  color: black !important;
+  border: 1px #ccc solid !important;
+}

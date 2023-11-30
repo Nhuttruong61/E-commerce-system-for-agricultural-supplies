@@ -192,6 +192,7 @@ function ForumInfomation() {
       setNewComment("");
       return res;
     }
+    localStorage.setItem("redirectPath", window.location.pathname);
     navigate("/login");
   };
   const handlleOnchangeImage = (e) => {
@@ -203,8 +204,12 @@ function ForumInfomation() {
     reader.readAsDataURL(files);
   };
   const showModleReport = (id) => {
-    setIsModalReport(true);
-    setIdComment(id);
+    if (user && user.isAuthenticated) {
+      setIsModalReport(true);
+      setIdComment(id);
+    }
+    localStorage.setItem("redirectPath", window.location.pathname);
+    navigate("/login");
   };
 
   const handleReport = async () => {

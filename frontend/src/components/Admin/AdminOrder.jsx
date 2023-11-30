@@ -92,7 +92,7 @@ function AdminOrder() {
     }
   };
   const vietnameseStatus = {
-    Processing: "Đang xử lý",
+    Processing: "Chờ xử lý",
     Transferred: "Đã chuyển hàng",
     Delivered: "Đã giao hàng",
     Cancel: "Đã hủy",
@@ -122,7 +122,6 @@ function AdminOrder() {
       );
     }
   };
-
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchedColumn(dataIndex);
@@ -261,6 +260,25 @@ function AdminOrder() {
     {
       title: "Trạng thái",
       dataIndex: "status",
+      filters: [
+        {
+          text: "Chờ xử lý",
+          value: "Processing",
+        },
+        {
+          text: "Đã chuyển hàng",
+          value: "Transferred",
+        },
+        {
+          text: "Đã giao hàng",
+          value: "Delivered",
+        },
+        {
+          text: "Đã hủy",
+          value: "Cancel",
+        },
+      ],
+      onFilter: (value, record) => record.status.indexOf(value) === 0,
       render: handleRenderStatus,
     },
     {

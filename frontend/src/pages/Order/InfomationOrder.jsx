@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import * as ProductService from "../../service/productService";
 import { useDispatch } from "react-redux";
 import { getAllProductRd } from "../../redux/action/productAction";
+import { FaArrowLeftLong } from "react-icons/fa6";
 function InfomationOrder() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -110,10 +111,22 @@ function InfomationOrder() {
 
     setPriceProduct(total);
   }, [orders]);
+  const handleNavigateOrder = () => {
+    navigate(`/profile?${2}`);
+  };
   return (
     <Loading isLoading={isLoading}>
       <div className="bg-[#f4f1f4]">
         <div className="w-full p-5 px-[10%]">
+          <div
+            className=" flex  items-center pb-2 cursor-pointer hover:text-[#009b49] w-[10%]"
+            onClick={handleNavigateOrder}
+          >
+            <FaArrowLeftLong className="text-[18px]" />
+            <p className="px-1 font-[500] text-[18px] md:block hidden">
+              Trở lại
+            </p>
+          </div>
           {orderCart?.length > 0 ? (
             <div>
               {orderCart.map((item) => {

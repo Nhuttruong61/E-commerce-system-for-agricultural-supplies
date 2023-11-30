@@ -26,7 +26,6 @@ export default function Forum() {
   const [images, setImages] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getAllQuestionRd());
   }, []);
@@ -54,6 +53,7 @@ export default function Forum() {
     if (isAuthenticated === true) {
       setIsModalAdd(true);
     } else {
+      localStorage.setItem("redirectPath", window.location.pathname);
       navigate("/login");
     }
   };
@@ -120,30 +120,34 @@ export default function Forum() {
     reader.readAsDataURL(files);
   };
   useEffect(() => {
+    const dataCopy = data && [...data];
+
+    let sortedData;
+
     switch (optionSort) {
       case "all":
-        setDataSort(currentItems);
+        sortedData = currentItems;
         break;
       case "new":
-        const newest = data?.sort((a, b) => {
-          return new Date(b.createdAt) - new Date(a.createdAt);
-        });
-        setDataSort(newest);
+        sortedData = dataCopy.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
         break;
       case "old":
-        const oldest = data?.sort((a, b) => {
-          return new Date(a.createdAt) - new Date(b.createdAt);
-        });
-        setDataSort(oldest);
+        sortedData = dataCopy.sort(
+          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+        );
         break;
       case "view-many":
-        const view = data?.sort((a, b) => b.view - a.view);
-        setDataSort(view);
+        sortedData = dataCopy.sort((a, b) => b.view - a.view);
         break;
       default:
-        setDataSort(data);
+        sortedData = dataCopy;
     }
-  }, [optionSort]);
+
+    setDataSort(sortedData);
+  }, [optionSort, data]);
+
   return (
     <Loading isLoading={isLoading}>
       <div className="grid-cols-1 min-h-[100vh] bg-[#f4f1f4f4]">

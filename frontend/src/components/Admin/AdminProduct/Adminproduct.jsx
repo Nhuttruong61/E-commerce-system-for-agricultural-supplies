@@ -222,6 +222,7 @@ function Adminproduct() {
     {
       title: "Loại sản phẩm",
       dataIndex: "categoryName",
+      ...getColumnSearchProps("categoryName"),
     },
     {
       title: "Ảnh",
@@ -468,7 +469,6 @@ function Adminproduct() {
       return { ...pre, gifts: updatedGifts };
     });
   };
-
   return (
     <div className="w-full flex flex-col">
       <div className="flex  m-2 md:justify-between">
@@ -825,18 +825,20 @@ function Adminproduct() {
           <label className="flex justify-between items-center">
             <p className="w-[20%] font-[500]">Quà tặng</p>
             <div className="w-[80%] md:px-4  h-[12vh] overflow-y-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]">
-              {product?.data?.map((item) => {
-                return (
-                  <div key={item._id} className="flex ">
-                    <input
-                      type="checkbox"
-                      checked={editProduct?.gifts?.includes(item._id)}
-                      onChange={handleOnchangeEditCheckbox(item)}
-                    />
-                    <p className="px-2">{item?.name}</p>
-                  </div>
-                );
-              })}
+              {product?.data
+                ?.filter((el) => el._id !== idProduct)
+                .map((item) => {
+                  return (
+                    <div key={item._id} className="flex ">
+                      <input
+                        type="checkbox"
+                        checked={editProduct?.gifts?.includes(item._id)}
+                        onChange={handleOnchangeEditCheckbox(item)}
+                      />
+                      <p className="px-2">{item?.name}</p>
+                    </div>
+                  );
+                })}
             </div>
           </label>
         )}
