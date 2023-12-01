@@ -226,6 +226,7 @@ function ProductAboutToExpire() {
           <h2 className="font-[600] px-1">Xuất File</h2>
         </CSVLink>
       </div>
+      <p className="text-[#b3b1b1]">Sản phấm còn hạn sử dụng dưới 5 tháng</p>
 
       <TableComponent
         columns={columns}

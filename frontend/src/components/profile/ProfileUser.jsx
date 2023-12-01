@@ -92,7 +92,7 @@ function Profile() {
                 name="email"
                 required
                 value={email}
-                className="w-[70%] md:px-4 xl:w-[85%] h-auto py-2 border-[2px] sm:px-0 rounded-[4px]"
+                className="w-[70%] md:px-4 xl:w-[85%] h-auto py-2 border-[2px] sm:px-0 rounded-[4px] outline-none cursor-not-allowed"
                 readOnly
               />
             </label>

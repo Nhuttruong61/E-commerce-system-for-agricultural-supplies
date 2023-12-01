@@ -157,7 +157,7 @@ function ForumInfomation() {
       toast.error("Có lỗi xãy ra");
     }
     setIsModalDeleteQuetion(false);
-    navigate("/m");
+    navigate("/forum");
     return res;
   };
 
@@ -207,9 +207,10 @@ function ForumInfomation() {
     if (user && user.isAuthenticated) {
       setIsModalReport(true);
       setIdComment(id);
+    } else {
+      localStorage.setItem("redirectPath", window.location.pathname);
+      navigate("/login");
     }
-    localStorage.setItem("redirectPath", window.location.pathname);
-    navigate("/login");
   };
 
   const handleReport = async () => {
@@ -425,11 +426,11 @@ function ForumInfomation() {
                       </div>
                     )}
                   </div>
-                  <p className=" font-[600] cursor-pointer p-2">Bình luận</p>
+                  <p className=" font-[600]  p-2">Bình luận</p>
                 </div>
               ) : (
                 <div className="flex flex-row-reverse w-full ">
-                  <p className=" font-[600] cursor-pointer p-2">Bình luận</p>
+                  <p className=" font-[600]  p-2">Bình luận</p>
                 </div>
               )}
             </div>

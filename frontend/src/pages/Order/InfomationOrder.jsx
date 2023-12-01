@@ -63,7 +63,7 @@ function InfomationOrder() {
     const res = await OrderService.cancelOrder(id, status);
     if (res.success) {
       dispatch(getAllProductRd());
-      navigate("/profile");
+      navigate(`/profile?${2}`);
     }
   };
   const handleCancel = () => {

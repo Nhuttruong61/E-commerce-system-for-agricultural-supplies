@@ -14,7 +14,7 @@ function EventPage() {
       <div className="min-h-[50vh] md:px-[4%] p-2  bg-[#F4F1F4]">
         {data && data.length > 0 ? (
           data.map((item, index) => (
-            <div className="mb-2">
+            <div key={index} className="mb-2">
               <EventCard data={item} key={index} />
             </div>
           ))
