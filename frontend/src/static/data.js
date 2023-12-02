@@ -38,6 +38,7 @@ export const footerProductLinks = [
   },
   {
     name: "Địa chỉ",
+    link: "/",
   },
 ];
 
