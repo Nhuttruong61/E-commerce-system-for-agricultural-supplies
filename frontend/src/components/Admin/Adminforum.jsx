@@ -244,7 +244,6 @@ function AdminForum() {
       border: "1px solid #ccc",
     },
   };
-  console.log(dataInforQuestion);
   return (
     <div className="w-full flex flex-col">
       <TableComponent

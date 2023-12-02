@@ -10,6 +10,7 @@ import * as ProductService from "../../service/productService";
 import { useDispatch } from "react-redux";
 import { getAllProductRd } from "../../redux/action/productAction";
 import { FaArrowLeftLong } from "react-icons/fa6";
+
 function InfomationOrder() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -24,13 +25,14 @@ function InfomationOrder() {
 
   const [priceProduct, setPriceProduct] = useState(0);
   const getOrder = async () => {
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       const res = await OrderService.getAOrder(id);
+      setIsLoading(false);
+
       setOrders(res.order);
     } catch (err) {
       console.error("Error fetching order:", err);
-    } finally {
       setIsLoading(false);
     }
   };
@@ -194,14 +196,22 @@ function InfomationOrder() {
         </div>
         {orders?.status === "Delivered" && (
           <div className="w-auto items-center bg-white px-[10%] my-1 md:flex md:justify-between">
-            <div className="bg-[#0e9c49] text-white rounded flex justify-center items-center my-2">
-              <button
-                className=" text-[100%] font-[600] px-2 py-1 "
-                onClick={() => setShowModalReview(true)}
-              >
-                Đánh giá
-              </button>
-            </div>
+            {orders?.status === "Delivered" && !orders?.iscomment ? (
+              <div className="bg-[#0e9c49] text-white rounded flex justify-center items-center my-2">
+                <button
+                  className=" text-[100%] font-[600] px-2 py-1 "
+                  onClick={() => setShowModalReview(true)}
+                >
+                  Đánh giá
+                </button>
+              </div>
+            ) : (
+              <div className="bg-[#0e9c49] text-white rounded flex justify-center items-center my-2">
+                <p className=" text-[100%] font-[600] px-2 py-1 ">
+                  Đã đánh giá
+                </p>
+              </div>
+            )}
           </div>
         )}{" "}
         {orders?.status === "Processing" &&

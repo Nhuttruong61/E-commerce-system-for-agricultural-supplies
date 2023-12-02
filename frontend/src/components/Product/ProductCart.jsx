@@ -10,7 +10,6 @@ function ProductCart(item) {
       behavior: "smooth",
     });
   };
-  console.log(item);
   const productPrice = item?.item?.price * (1 - item?.item?.distCount / 100);
   return (
     <div

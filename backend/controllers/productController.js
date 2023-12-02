@@ -234,6 +234,8 @@ const reviewProduct = catchAsyncErrors(async (req, res, next) => {
       product.ratings = totalRating / product.reviews.length;
       await product.save();
     }
+    order.iscomment = true;
+    order.save();
     res.status(200).json({
       success: true,
       message: "Review created successfully!",

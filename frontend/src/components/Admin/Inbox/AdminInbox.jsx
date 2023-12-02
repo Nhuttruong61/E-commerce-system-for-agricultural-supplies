@@ -43,7 +43,6 @@ function AdminInbox() {
 
   useEffect(() => {
     socketId.on("getMessage", (data) => {
-      console.log(data);
       setArrivalMessage({
         sender: data.senderId,
         text: data.text,

@@ -418,7 +418,7 @@ function ProductDetail(id) {
                 <div
                   className={`
              ${
-               activeReview && dataReviews?.length > 2 ? "h-auto" : "h-[25vh]"
+               activeReview && dataReviews?.length > 2 ? "h-auto" : "h-[27vh]"
              } overflow-hidden
              `}
                 >
