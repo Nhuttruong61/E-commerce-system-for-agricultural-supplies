@@ -8,27 +8,21 @@ function Rating({ rating }) {
       starts.push(
         <BsStarFill
           key={i}
-          size={16}
-          color="#f6ba00"
-          className="mr-2 cursor-pointer"
+          className="mr-2 cursor-pointer text-[10px] md:text-[16px] text-[#f6b100]"
         />
       );
     } else if (i === Math.ceil(rating) && !Number.isInteger(rating)) {
       starts.push(
         <BsStarHalf
           key={i}
-          size={16}
-          color="#f6ba00"
-          className="mr-2 cursor-pointer"
+          className="mr-2 cursor-pointer text-[10px] md:text-[16px] text-[#f6b100]"
         />
       );
     } else {
       starts.push(
         <FaRegStar
           key={i}
-          size={16}
-          style={{ color: "#f6b100", fontSize: "10" }}
-          className="mr-2 cursor-pointer"
+          className="mr-2 cursor-pointer text-[10px] md:text-[16px] text-[#f6b100]"
         />
       );
     }

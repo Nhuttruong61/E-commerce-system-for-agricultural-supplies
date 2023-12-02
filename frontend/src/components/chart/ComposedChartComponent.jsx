@@ -32,8 +32,13 @@ function ComposedChartComponent({ orders }) {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar name="Danh thu" dataKey="uv" barSize={20} fill="#413ea0" />
-        <Line name="Danh thu" type="monotone" dataKey="uv" stroke="#ff7300" />
+        <Bar name="Doanh thu (VNĐ)" dataKey="uv" barSize={20} fill="#413ea0" />
+        <Line
+          name="Doanh thu (VNĐ)"
+          type="monotone"
+          dataKey="uv"
+          stroke="#ff7300"
+        />
       </ComposedChart>
     </ResponsiveContainer>
   );

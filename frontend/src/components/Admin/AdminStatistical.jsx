@@ -53,14 +53,14 @@ function AdminStatistical() {
     <div className="w-full">
       <div className=" grid xl:grid-cols-4 md:grid-cols-2 w-full py-2 gap-2 grid-cols-1">
         <div className="px-4 py-2 flex shadow">
-          <p className="font-[600] text-[20px] pr-2">Tổng danh thu:</p>
+          <p className="font-[600] text-[20px] pr-2">Tổng doanh thu:</p>
           <p className="text-[20px]"> {totalPrice.toLocaleString()} đ</p>
         </div>
         <div className="px-4 py-2 flex shadow bg-[#328073] text-white">
           <p className="font-[600] text-[20px] pr-2">Tổng giá nhập:</p>
           <p className="text-[20px]"> {totalCostPrice.toLocaleString()} đ</p>
         </div>
-        <div className="px-4 py-2 flex shadow">
+        <div className="px-4 py-2 flex shadow bg-[#F7B48B] text-white">
           <p className="font-[600] text-[20px] pr-2">Chi phí quà tặng:</p>
           <p className="text-[20px]">
             {" "}
@@ -77,7 +77,7 @@ function AdminStatistical() {
           <ComposedChartComponent orders={dataOrder} />
           <div className="flex justify-center">
             <p className="font-[600]">
-              Biểu đồ thể hiện danh thu theo từng tháng{" "}
+              Biểu đồ thể hiện doanh thu theo từng tháng{" "}
             </p>
           </div>
         </div>
@@ -85,7 +85,7 @@ function AdminStatistical() {
           <BarChartComponent orders={dataOrder} />
           <div className="w-full flex justify-center">
             <p className="font-[600]">
-              Biểu đồ thể hiện danh thu các tuần trong tháng
+              Biểu đồ thể hiện doanh thu các tuần trong tháng
             </p>
           </div>
         </div>
@@ -95,7 +95,7 @@ function AdminStatistical() {
           <CustomizedLabelLineChart orders={dataOrder} />
           <div className="w-full flex justify-center">
             <p className="font-[600]">
-              Biểu đồ thể hiện danh thu các ngày trong tuần
+              Biểu đồ thể hiện doanh thu các ngày trong tuần
             </p>
           </div>
         </div>

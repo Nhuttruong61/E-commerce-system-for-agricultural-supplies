@@ -24,7 +24,7 @@ function Footer() {
   return (
     <div className=" flex flex-col ">
       <div className=" md:flex md:justify-between md:items-center bg-[#009b49] p-2">
-        <h1 className=" md:mb-0 mb-6 md:w-2/5 lg:text-3xl text-2xl font-[700]">
+        <h1 className=" md:mb-0 mb-6 md:w-3/5 lg:text-3xl text-2xl font-[700] md:px-[4%]">
           <span className="text-red-500">Đăng ký </span>
           <span className="text-white">nhận tin khi có sự kiện mới</span>
         </h1>
@@ -40,7 +40,7 @@ function Footer() {
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3  grap-6 sm:px-8 px-5 py-8 sm:text-center bg-white">
-        <ul className="px-5 text-center sm:text-start flex sm:block flex-col items-center">
+        <ul className="px-[4%] p-2 text-center sm:text-start flex sm:block flex-col items-center">
           <div className="md:flex items-center">
             <div className="flex justify-center">
               <img src={logo} alt="" className="w-[60px]" />

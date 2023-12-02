@@ -35,7 +35,7 @@ function BarChartComponent({ orders }) {
         <Legend />
         <Bar
           dataKey="revenue"
-          name="Danh thu"
+          name="Doanh thu (VNĐ)"
           fill="#82ca9d"
           activeBar={<Rectangle fill="gold" stroke="purple" />}
         />

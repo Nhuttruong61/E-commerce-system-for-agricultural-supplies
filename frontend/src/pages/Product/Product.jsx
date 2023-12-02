@@ -194,7 +194,7 @@ function Product() {
   }, [priceRanges, dataProductFillter]);
   return (
     <Loading isLoading={isLoading}>
-      <div className="bg-[#f4f1f4] h-screen]">
+      <div className="bg-[#f4f1f4] px-2">
         {dataProductEvent?.length > 0 && (
           <div className="w-full justify-between flex md:px-10 py-2 items-center">
             <span className=" font-[600] hidden md:flex">
@@ -284,7 +284,7 @@ function Product() {
             </div>
           </div>
           <div className="md:w-[85%] w-full bg-[#f4f1f4]">
-            <div className="grid grid-cols-2 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-4 lg:gap-[25px] xl:grid-cols-5 xl:gap-[30px] mb-12 md:p-6">
+            <div className="grid grid-cols-2 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-4 lg:gap-[25px] xl:grid-cols-5 xl:gap-[30px] md:p-6">
               {currentItems.length !== 0 ? (
                 currentItems.map((item, index) => (
                   <ProductCart key={index} item={item} />
@@ -298,7 +298,7 @@ function Product() {
           </div>
         </div>
         {currentItems.length !== 0 && (
-          <div className="grid grid-cols-1 justify-center items-center text-center py-4">
+          <div className="grid grid-cols-1 justify-center items-center text-center pb-4">
             <Pagination
               current={currentPage}
               total={dataProduct.length}

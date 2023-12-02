@@ -3,6 +3,7 @@ import EventCard from "../components/Events/EventCard";
 import Footer from "../components/Layout/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllEvents } from "../redux/action/eventAction";
+import Inbox from "../components/Inbox/Inbox";
 function EventPage() {
   useEffect(() => {
     dispatch(getAllEvents());
@@ -11,7 +12,7 @@ function EventPage() {
   const { data } = useSelector((state) => state.event);
   return (
     <div>
-      <div className="min-h-[50vh] md:px-[4%] p-2  bg-[#F4F1F4]">
+      <div className="min-h-[50vh] md:px-[10%] p-2  bg-[#F4F1F4]">
         {data && data.length > 0 ? (
           data.map((item, index) => (
             <div key={index} className="mb-2">
@@ -24,6 +25,7 @@ function EventPage() {
           </p>
         )}
       </div>
+      <Inbox />
       <Footer />
     </div>
   );

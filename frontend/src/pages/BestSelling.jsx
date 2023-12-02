@@ -61,9 +61,9 @@ function BestSelling() {
 
   return (
     <Loading isLoading={isLoading}>
-      <div className="bg-[#f4f1f4] min-h-[100vh]">
+      <div className="bg-[#f4f1f4] min-h-[100vh] ">
         {dataProductFillter?.length > 0 && (
-          <div className="w-full justify-between flex md:px-10 py-2 items-center">
+          <div className="w-full justify-between flex  py-2 items-center  md:px-[10%]">
             <span className="md:flex font-[600] hidden">
               Có tất cả <p className="text-red-600 px-1">{data.length} </p>sản
               phẩm
@@ -84,7 +84,7 @@ function BestSelling() {
             </div>
           </div>
         )}
-        <div className="grid grid-cols-2 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-4 lg:gap-[25px] xl:grid-cols-5 xl:gap-[30px] mb-12 md:p-6">
+        <div className="grid grid-cols-2 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-4 lg:gap-[25px] xl:grid-cols-5 xl:gap-[30px] mb-12 md:p-6 md:px-[10%]">
           {dataProductFillter.map((item, index) => (
             <ProductCart key={index} item={item} />
           ))}

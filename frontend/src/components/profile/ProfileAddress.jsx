@@ -57,7 +57,7 @@ function Address() {
             Tài khoản
           </p>
         </div>
-        <div className="flex px-5 md:px-20 py-5 md:py-10 shadow-2xl">
+        <div className="flex px-5 md:px-20 py-5 ">
           <form
             className="w-full text-[80%] md:text-[100%]"
             onSubmit={handleSubmit}

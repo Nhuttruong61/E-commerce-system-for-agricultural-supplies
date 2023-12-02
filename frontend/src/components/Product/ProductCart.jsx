@@ -10,6 +10,7 @@ function ProductCart(item) {
       behavior: "smooth",
     });
   };
+  console.log(item);
   const productPrice = item?.item?.price * (1 - item?.item?.distCount / 100);
   return (
     <div
@@ -37,6 +38,11 @@ function ProductCart(item) {
             />
           </div>
         ) : null}
+        {item?.item?.quantity === 0 && (
+          <div className="text-red-500 font-[500] flex justify-center items-center absolute w-full">
+            Tạm hết hàng
+          </div>
+        )}
         {item?.item?.distCount ? (
           <div className="bg-yellow-500 z-1 w-[20%] absolute h-[22%] right-0 text-white top-0 flex flex-col justify-center text-center font-[600] ">
             <span className="md:text-[80%] text-[60%]">Giảm</span>

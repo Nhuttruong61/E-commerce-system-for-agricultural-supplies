@@ -18,7 +18,7 @@ function Profile() {
   }, []);
   return (
     <div className="flex flex-col bg-[#f4f1f4] w-full">
-      <div className=" flex  py-10 md:min-h-[80vh] w-full">
+      <div className=" flex  py-10  w-full">
         <div className="w-[50px] 800px:w-[335px] ">
           <ProfileSideBar active={active} setActive={setActive} />
         </div>

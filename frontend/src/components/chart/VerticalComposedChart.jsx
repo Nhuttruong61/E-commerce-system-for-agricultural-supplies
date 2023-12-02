@@ -36,7 +36,7 @@ function VerticalComposedChart({ user }) {
         <Tooltip />
         <Legend />
 
-        <Bar dataKey="pv" name="Số tiền" barSize={20} fill="#92d14c" />
+        <Bar dataKey="pv" name="Số tiền (VNĐ)" barSize={20} fill="#92d14c" />
       </ComposedChart>
     </ResponsiveContainer>
   );

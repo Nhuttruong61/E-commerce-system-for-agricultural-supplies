@@ -36,7 +36,7 @@ function Dashboard() {
     <div className="w-full overflow-x-auto">
       <div className="md:flex py-2 w-full px-2">
         <div className=" h-auto grid md:grid-cols-5 grid-cols-1 w-full gap-2">
-          <div className="h-full px-8 py-2 shadow rounded  flex flex-col justify-center text-white bg-[#c795ff]">
+          <div className="h-full px-8 py-2 shadow rounded  flex flex-col justify-center ">
             <p className="md:text-[18px] text-[12px] font-[600] text-center">
               Tài khoản
             </p>
@@ -47,7 +47,7 @@ function Dashboard() {
               {dataUser?.length}
             </p>
           </div>
-          <div className="h-full px-8 py-2 shadow rounded  flex flex-col justify-center">
+          <div className="h-full px-8 py-2 shadow rounded  flex flex-col justify-center text-white bg-[#c795ff]">
             <p className="md:text-[18px] text-[12px] font-[600] text-center">
               Tài khoản
             </p>
@@ -69,7 +69,7 @@ function Dashboard() {
               {dataUser?.filter((admin) => admin.role === "admin").length}
             </p>
           </div>
-          <div className="h-full px-8 py-2 shadow rounded  flex flex-col justify-center ">
+          <div className="h-full px-8 py-2 shadow rounded  flex flex-col justify-center bg-[#F7B48B]  text-white">
             <p className="md:text-[18px] text-[12px] font-[600] text-center">
               Tài khoản
             </p>
@@ -116,7 +116,7 @@ function Dashboard() {
           <ComposedChartComponent orders={dataOrder} />
           <div className="flex justify-center">
             <p className="font-[600]">
-              Biểu đồ thể hiện danh thu theo từng tháng{" "}
+              Biểu đồ thể hiện doanh thu theo từng tháng{" "}
             </p>
           </div>
         </div>
@@ -124,7 +124,7 @@ function Dashboard() {
           <BarChartComponent orders={dataOrder} />
           <div className="w-full flex justify-center">
             <p className="font-[600]">
-              Biểu đồ thể hiện danh thu các tuần trong tháng
+              Biểu đồ thể hiện doanh thu các tuần trong tháng
             </p>
           </div>
         </div>

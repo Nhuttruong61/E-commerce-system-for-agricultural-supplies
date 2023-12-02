@@ -54,7 +54,7 @@ function CountDown({ item }) {
     }
 
     return (
-      <span className="text-[25px] text-[#475ad2]" key={index}>
+      <span className="text-[25px] text-[#009b49]" key={index}>
         {timeLeft[interval]} {interval}{" "}
       </span>
     );
