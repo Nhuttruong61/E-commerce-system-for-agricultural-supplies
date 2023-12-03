@@ -36,7 +36,6 @@ const conversationRouter = require("./router/convertion");
 const messageRouter = require("./router/message");
 const blogRouter = require("./router/blog");
 const couponsRouter = require("./router/coupon");
-const receiptsRouter = require("./router/receipt");
 
 app.use("/api/v2/user", userRouter);
 app.use("/api/v2/category", categoriesRouter);
@@ -51,6 +50,5 @@ app.use("/api/v2/convertion", conversationRouter);
 app.use("/api/v2/message", messageRouter);
 app.use("/api/v2/blog", blogRouter);
 app.use("/api/v2/coupon", couponsRouter);
-app.use("/api/v2/receipt", receiptsRouter);
 app.use(ErrorHandler);
 module.exports = app;
