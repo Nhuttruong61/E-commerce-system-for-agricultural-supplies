@@ -15,20 +15,12 @@ const createMessage = catchAsyncErrors(async (req, res, next) => {
         url: myCloud.url,
       };
     }
-
-    messageData.conversationId = req.body.conversationId;
-    messageData.sender = req.body.sender;
-    messageData.text = req.body.text;
-
-    const message = new Messages({
+    const message = await Messages.create({
       conversationId: messageData.conversationId,
       text: messageData.text,
       sender: messageData.sender,
       images: messageData.images ? messageData.images : undefined,
     });
-
-    await message.save();
-
     res.status(201).json({
       success: true,
       message,

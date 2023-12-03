@@ -4,6 +4,7 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const Product = require("../model/product");
 const User = require("../model/user");
 const sendMail = require("../utils/sendMail");
+const message = require("../model/message");
 // Create order
 const createOrder = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -42,7 +43,7 @@ const getOrderUser = catchAsyncErrors(async (req, res, next) => {
     const orders = await Order.find({ "user._id": req.params.id }).sort({
       createdAt: -1,
     });
-
+    if (!orders) return next(new ErrorHandler("orders is not found", 400));
     res.status(201).json({
       success: true,
       order: orders,

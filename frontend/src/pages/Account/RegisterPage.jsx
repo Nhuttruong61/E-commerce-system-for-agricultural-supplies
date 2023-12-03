@@ -87,7 +87,7 @@ function RegisterPage() {
             <div className="relative">
               <span
                 onClick={() => setIsShowPassword(!isShowPassword)}
-                className="z-10 absolute right-2 top-[29.5px]"
+                className="z-10 absolute right-2 top-[29.5px] cursor-pointer"
               >
                 {isShowPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
               </span>
@@ -104,7 +104,7 @@ function RegisterPage() {
               <div className="relative">
                 <span
                   onClick={() => setIsShowForGotPassword(!isShowForGotPassword)}
-                  className="z-10 absolute right-2 top-[29.5px]"
+                  className="z-10 absolute right-2 top-[29.5px] cursor-pointer"
                 >
                   {isShowPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
                 </span>
