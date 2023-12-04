@@ -5,6 +5,9 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter your product name"],
   },
+  receipt: {
+    type: String,
+  },
   description: {
     type: Array,
     required: [true, "Please enter your product description"],
@@ -21,15 +24,18 @@ const productSchema = new mongoose.Schema({
   },
   originPrice: {
     type: Number,
-    required: true,
+    default: 0,
+    // required: true,
   },
   price: {
     type: Number,
-    required: true,
+    default: 0,
+    // required: true,
   },
   wholesalePrice: {
     type: Number,
-    required: true,
+    default: 0,
+    // required: true,
   },
   distCount: {
     type: Number,
@@ -40,8 +46,10 @@ const productSchema = new mongoose.Schema({
   },
   quantity: {
     type: Number,
-    required: [true, "Please enter quantity "],
+    default: 0,
+    // required: [true, "Please enter quantity "],
   },
+
   images: [
     {
       public_id: {
@@ -56,11 +64,11 @@ const productSchema = new mongoose.Schema({
   ],
   origin: {
     type: String,
-    required: [true, "Please enter origin"],
+    // required: [true, "Please enter origin"],
   },
   expirationDate: {
     type: Date,
-    required: [true, "Please enter expiration date"],
+    // required: [true, "Please enter expiration date"],
   },
   reviews: [
     {

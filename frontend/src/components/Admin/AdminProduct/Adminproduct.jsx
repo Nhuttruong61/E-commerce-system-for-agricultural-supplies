@@ -17,6 +17,7 @@ import { CiExport } from "react-icons/ci";
 import Editor from "../../Editor";
 import { handleOnchangeImage } from "../../../until";
 import moment from "moment";
+import { getAReceipt, getAllReceipt } from "../../../service/receiptService";
 function Adminproduct() {
   const { data } = useSelector((state) => state.category);
   const product = useSelector((state) => state.product);
@@ -29,15 +30,6 @@ function Adminproduct() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState([]);
   const [category, setCategory] = useState(data.categories[0]._id);
-  const [price, setPrice] = useState("");
-  const [wholesalePrice, setWholesalePrice] = useState("");
-  const [originPrice, setOriginPrice] = useState("");
-  const [weight, setWeight] = useState("");
-  const [capacity, setCapacity] = useState("");
-  const [origin, setOrigin] = useState("");
-  const [expirationDate, setExpirationDate] = useState(null);
-  const [distCount, setdistCount] = useState(0);
-  const [quantity, setQuantity] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [editProduct, setEditProduct] = useState({
     _id: "",
@@ -45,6 +37,7 @@ function Adminproduct() {
     description: [],
     category,
     weight: "",
+    receipt: "",
     capacity: "",
     originPrice: "",
     price: "",
@@ -54,14 +47,14 @@ function Adminproduct() {
     quantity: "",
     origin: "",
     expirationDate: null,
-    newImage: "",
+    images: "",
   });
   const [idProduct, setIdProduct] = useState();
   const [dataExport, setDataExport] = useState([]);
   const [showModalInfo, setShowModalInfor] = useState(false);
   const [inforProduct, setInfoUProduct] = useState(null);
   const [isShowGift, setIsShowGift] = useState(false);
-  const [gifts, setGifts] = useState([]);
+  const [dataReceipt, setDataReceipt] = useState(null);
   const dispatch = useDispatch();
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -177,13 +170,14 @@ function Adminproduct() {
               capacity: item.capacity,
               originPrice: item.originPrice,
               price: item.price,
+              receipt: item.receipt ? item.receipt : "",
               wholesalePrice: item.wholesalePrice,
               distCount: item.distCount,
               gifts: item.gifts,
               quantity: item.quantity,
               origin: item.origin,
               expirationDate: item.expirationDate,
-              newImage: item.images[0].url,
+              images: item.images[0].url,
             });
           }}
         >
@@ -292,14 +286,7 @@ function Adminproduct() {
   };
   const handleAddProduct = async () => {
     try {
-      if (
-        !name ||
-        !description ||
-        !category ||
-        !originPrice ||
-        !quantity ||
-        !wholesalePrice
-      ) {
+      if (!name || !description || !category) {
         toast.warning("Xin nhập đầy đủ thông tin");
       } else {
         setShowModalAdd(false);
@@ -310,16 +297,6 @@ function Adminproduct() {
           category: {
             _id: category,
           },
-          weight,
-          capacity: capacity !== "" ? capacity : null,
-          originPrice,
-          price,
-          wholesalePrice,
-          distCount,
-          gifts: isShowGift ? gifts : null,
-          quantity,
-          origin,
-          expirationDate,
           images: selectedImage,
         };
         const res = await ProductService.createProduct(product);
@@ -327,15 +304,7 @@ function Adminproduct() {
           toast.success("Thêm sản phẩm thành công");
           dispatch(getAllProductRd());
           setName("");
-          setWeight("");
-          setCapacity("");
-          setOrigin("");
-          setExpirationDate("");
           setDescription([]);
-          setOriginPrice("");
-          setPrice("");
-          setWholesalePrice("");
-          setQuantity("");
           setSelectedImage(null);
         } else {
           toast.error("Đã xảy ra lỗi");
@@ -344,6 +313,7 @@ function Adminproduct() {
       }
     } catch (e) {
       console.log(e);
+      setIsLoading(false);
       toast.error("Đã xảy ra lỗi");
     }
   };
@@ -374,14 +344,14 @@ function Adminproduct() {
     setSelectedImage(null);
   };
   useEffect(() => {
-    if (selectedImage) {
+    if (selectedImage && !selectedImage.includes("cloudinary")) {
       setEditProduct({
         ...editProduct,
-        newImage: selectedImage,
+        images: selectedImage,
       });
     }
   }, [selectedImage]);
-
+  console.log(selectedImage);
   const handleEditProduct = async () => {
     setShowModalEdit(false);
     try {
@@ -391,6 +361,24 @@ function Adminproduct() {
       if (res.success) {
         dispatch(getAllProductRd());
         toast.success("Cập nhật sản phẩm thành công");
+        setEditProduct({
+          _id: "",
+          name: "",
+          description: [],
+          category,
+          weight: "",
+          receipt: "",
+          capacity: "",
+          originPrice: "",
+          price: "",
+          wholesalePrice: "",
+          distCount: "",
+          gifts: [],
+          quantity: "",
+          origin: "",
+          expirationDate: null,
+          images: "",
+        });
       }
     } catch (e) {
       toast.error("Đã xảy ra lỗi");
@@ -445,21 +433,42 @@ function Adminproduct() {
   }
   useEffect(() => {
     if (isShowGift === false) {
-      setGifts([]);
       setEditProduct({
         ...editProduct,
         gifts: [],
       });
     }
   }, [isShowGift]);
-  const handleOnchangeCheckbox = (item) => (e) => {
-    const productId = item._id;
-    if (e.target.checked) {
-      setGifts((prev) => [...prev, productId]);
-    } else {
-      setGifts((prev) => prev.filter((id) => id !== productId));
+  const fetchDataReceipt = async () => {
+    try {
+      const res = await getAllReceipt();
+      if (res.success) {
+        setDataReceipt(res.receipt);
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
+  useEffect(() => {
+    fetchDataReceipt();
+  }, []);
+  const findReceipt = async () => {
+    const id = editProduct?.receipt;
+    const res = await getAReceipt(id);
+    if (res.success) {
+      setEditProduct({
+        ...editProduct,
+        originPrice: res.receipt.originPrice,
+        quantity: res.receipt.quantity,
+      });
+    }
+  };
+  useEffect(() => {
+    if (editProduct.receipt !== "" && editProduct.receipt !== undefined) {
+      findReceipt();
+    }
+  }, [editProduct.receipt]);
+
   const handleOnchangeEditCheckbox = (item) => (e) => {
     const isChecked = e.target.checked;
     setEditProduct((pre) => {
@@ -469,6 +478,7 @@ function Adminproduct() {
       return { ...pre, gifts: updatedGifts };
     });
   };
+  console.log(editProduct);
   return (
     <div className="w-full flex flex-col">
       <div className="flex  m-2 md:justify-between">
@@ -537,115 +547,7 @@ function Adminproduct() {
               : null}
           </select>
         </label>
-        <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Trọng lượng</p>
-          <input
-            value={weight}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) => setWeight(e.target.value)}
-            placeholder="Nhập trọng lượng đơn vị kg"
-          />
-        </label>
-        <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Dung tích</p>
-          <input
-            value={capacity}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) => setCapacity(e.target.value)}
-            placeholder="Nhập dung tích đơn vị lít"
-          />
-        </label>
-        <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Giá nhập</p>
-          <input
-            value={originPrice}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) => setOriginPrice(e.target.value)}
-            placeholder="Nhập số giá nhập trên món"
-          />
-        </label>
-        <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Giá bán</p>
-          <input
-            value={price}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) => setPrice(e.target.value)}
-            placeholder="Nhâp giá bán trên món"
-          />
-        </label>
-        <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Giá bán sỉ</p>
-          <input
-            value={wholesalePrice}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) => setWholesalePrice(e.target.value)}
-            placeholder="Nhâp giá bán sỉ trên món"
-          />
-        </label>
 
-        <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Giảm giá</p>
-          <input
-            value={distCount}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) => setdistCount(e.target.value)}
-            placeholder="Phầm trăm giảm giá"
-          />
-        </label>
-        <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Số lượng</p>
-          <input
-            value={quantity}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) => setQuantity(e.target.value)}
-            placeholder="Số lượng sản phẩm"
-          />
-        </label>
-        <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Xuất xứ</p>
-          <input
-            value={origin}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) => setOrigin(e.target.value)}
-            placeholder="Xuất xứ sản phẩm"
-          />
-        </label>
-        <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Ngày hết hạn</p>
-          <input
-            type="date"
-            value={expirationDate}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) => setExpirationDate(e.target.value)}
-          />
-        </label>
-        <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Tặng kèm</p>
-          <input
-            type="checkbox"
-            checked={isShowGift}
-            onClick={() => setIsShowGift(!isShowGift)}
-          />
-        </label>
-        {isShowGift && (
-          <label className="flex justify-between items-center">
-            <p className="w-[20%] font-[500]">Quà tặng</p>
-            <div className="w-[80%] md:px-4  h-[12vh] overflow-y-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]">
-              {product?.data?.map((item) => {
-                return (
-                  <div key={item._id} className="flex ">
-                    <input
-                      type="checkbox"
-                      checked={gifts?.includes(item._id)}
-                      onChange={handleOnchangeCheckbox(item)}
-                    />
-                    <p className="px-2">{item?.name}</p>
-                  </div>
-                );
-              })}
-            </div>
-          </label>
-        )}
         <label className="flex items-center my-8 w-[30%] ">
           <label
             htmlFor="inport"
@@ -688,6 +590,30 @@ function Adminproduct() {
             }
           />
         </label>
+        <label className="flex justify-between items-center">
+          <p className="w-[20%] font-[500]">Phiếu nhập</p>
+          <select
+            className="w-[80%] md:px-4 h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            value={editProduct.receipt || ""}
+            onChange={(e) =>
+              setEditProduct({ ...editProduct, receipt: e.target.value })
+            }
+          >
+            {!editProduct.receipt && (
+              <option value="" disabled>
+                Lựa phiếu nhập
+              </option>
+            )}
+            {dataReceipt
+              ?.filter((el) => el.product._id === idProduct)
+              .map((el) => (
+                <option value={el._id} key={el._id}>
+                  {el._id}
+                </option>
+              ))}
+          </select>
+        </label>
+
         <label className="flex justify-center items-center ">
           <p className="w-[20%] font-[500]">Mô tả</p>
           <div className="w-[80%]  h-auto my-1  sm:px-0 ">
@@ -745,8 +671,9 @@ function Adminproduct() {
         <label className="flex justify-between items-center">
           <p className="w-[20%] font-[500]">Giá nhập</p>
           <input
+            readOnly
             value={editProduct.originPrice}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px] outline-none"
             onChange={(e) =>
               setEditProduct({ ...editProduct, originPrice: e.target.value })
             }
@@ -785,8 +712,9 @@ function Adminproduct() {
         <label className="flex justify-between items-center">
           <p className="w-[20%] font-[500]">Số lượng</p>
           <input
+            readOnly
             value={editProduct.quantity}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px] outline-none"
             onChange={(e) =>
               setEditProduct({ ...editProduct, quantity: e.target.value })
             }
@@ -864,7 +792,7 @@ function Adminproduct() {
           ) : (
             <img
               className="w-[50px] h-[50px]"
-              src={editProduct.newImage}
+              src={editProduct.images}
               alt=""
             />
           )}

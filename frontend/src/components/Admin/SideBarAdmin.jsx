@@ -11,6 +11,7 @@ import {
   AiOutlineBarChart,
   AiOutlineLineChart,
 } from "react-icons/ai";
+import { MdOutlineReceipt } from "react-icons/md";
 import { LuTimerOff } from "react-icons/lu";
 import { IoTimeOutline } from "react-icons/io5";
 import { LiaShippingFastSolid } from "react-icons/lia";
@@ -90,6 +91,25 @@ function SideBarAdmin({ active, setActive }) {
             }`}
           >
             Quản lý sản phẩm
+          </p>
+        </div>
+      </div>
+      <div
+        className="flex w-full items-center px-4 py-2"
+        onClick={() => setActive(18)}
+      >
+        <div className="flex w-full items-center">
+          <MdOutlineReceipt
+            className={` text-[20px]  ${
+              active === 18 ? "text-[#0e9c49]" : "text-black"
+            }`}
+          />
+          <p
+            className={`800px:block hidden pl-2 text-[18px] font-[500] ${
+              active === 18 ? "text-[#0e9c49]" : "text-black"
+            }`}
+          >
+            Phiếu nhập hàng
           </p>
         </div>
       </div>

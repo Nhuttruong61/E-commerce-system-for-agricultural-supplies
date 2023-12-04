@@ -8,22 +8,7 @@ const Category = require("../model/categories");
 //create product
 const createProduct = catchAsyncErrors(async (req, res, next) => {
   try {
-    const {
-      name,
-      description,
-      category,
-      weight,
-      capacity,
-      originPrice,
-      price,
-      wholesalePrice,
-      expirationDate,
-      origin,
-      distCount,
-      gifts,
-      quantity,
-      images,
-    } = req.body;
+    const { name, description, category, images } = req.body;
 
     const categoryid = await Category.findById(category);
     if (!categoryid) {
@@ -40,16 +25,7 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
         categoryid,
         name: categoryid.name,
       },
-      weight,
-      capacity,
-      originPrice,
-      price,
-      wholesalePrice,
-      expirationDate,
-      origin,
-      distCount,
-      gifts,
-      quantity,
+
       images: {
         public_id: myCloud.public_id,
         url: myCloud.secure_url,
@@ -116,7 +92,7 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
     const {
       name,
       description,
-
+      receipt,
       category,
       weight,
       capacity,
@@ -128,7 +104,7 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
       distCount,
       gifts,
       quantity,
-      newImage,
+      images,
     } = req.body;
     if (!productId) {
       return next(new ErrorHandler("Product does not exists", 400));
@@ -137,12 +113,12 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
     if (!categoryid) {
       return next(new ErrorHandler("category not found", 404));
     }
-    const isCloudinaryImage = newImage && newImage.includes("cloudinary");
-    if (newImage && !isCloudinaryImage) {
+    const isCloudinaryImage = images && images.includes("cloudinary");
+    if (images && !isCloudinaryImage) {
       if (product?.images[0]?.public_id) {
         await cloudinary.v2.uploader.destroy(product.images[0].public_id);
       }
-      const myCloud = await cloudinary.v2.uploader.upload(newImage, {
+      const myCloud = await cloudinary.v2.uploader.upload(images, {
         folder: "imgProducts",
       });
       product.images = {
@@ -153,7 +129,7 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
 
     product.name = name;
     product.description = description;
-
+    product.receipt = receipt;
     product.category = {
       categoryid,
       name: categoryid.name,

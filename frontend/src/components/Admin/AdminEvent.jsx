@@ -7,6 +7,7 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import { toast } from "react-toastify";
 import * as EventService from "../../service/eventService";
 import { getAllEvents } from "../../redux/action/eventAction";
+import { isNotExpired } from "../../until";
 function AdminEvent() {
   const { data } = useSelector((state) => state.event);
   const products = useSelector((state) => state.product);
@@ -34,6 +35,7 @@ function AdminEvent() {
     return `${year}-${month}-${day}`;
   });
   const [idEvent, setIdEvent] = useState("");
+  const [dataProduct, setDataProduct] = useState(null);
   const searchInput = useRef(null);
 
   useEffect(() => {
@@ -230,29 +232,11 @@ function AdminEvent() {
     },
   };
   useEffect(() => {
-    const productIds = products.data.map((item) => item._id);
-    const eventProductIds = dataTable.map((item) => {
-      return {
-        idProduct: item.product[0]._id,
-        idEvent: item._id,
-      };
-    });
-    const uniqueEvents = eventProductIds.filter((event) => {
-      return !productIds.includes(event.idProduct);
-    });
-
-    if (uniqueEvents.length > 0) {
-      setIsLoading(true);
-      uniqueEvents.forEach(async (item) => {
-        const res = await EventService.deleteEvent(item.idEvent);
-        if (res.success) {
-          dispatch(getAllEvents());
-        }
-      });
-      setIsLoading(false);
-    }
-  }, [products, dataTable]);
-
+    const res = products.data.filter((el) =>
+      isNotExpired(new Date(el.expirationDate))
+    );
+    setDataProduct(res);
+  }, []);
   return (
     <div className="w-full">
       <div
@@ -305,8 +289,8 @@ function AdminEvent() {
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
             onChange={(e) => setProduct(e.target.value)}
           >
-            {products && products.data.length > 0
-              ? products.data.map((item) => {
+            {dataProduct && dataProduct.length > 0
+              ? dataProduct.map((item) => {
                   return (
                     <option value={item._id} key={item._id}>
                       {item.name}

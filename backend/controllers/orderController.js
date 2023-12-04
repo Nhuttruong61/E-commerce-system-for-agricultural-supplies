@@ -4,7 +4,7 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const Product = require("../model/product");
 const User = require("../model/user");
 const sendMail = require("../utils/sendMail");
-const message = require("../model/message");
+const Receipt = require("../model/receipt");
 // Create order
 const createOrder = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -113,6 +113,7 @@ const updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
     if (req.body.status === "Transferred") {
       for (const item of order.cart) {
         await updateProductQuantity(item._id, item.quantity);
+        await updateReceiptQuantity(item.receipt, item.quantity);
       }
     }
     order.status = req.body.status;
@@ -135,6 +136,12 @@ const updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
       product.quantity -= qty;
       product.sold_out += qty;
       await product.save({ validateBeforeSave: false });
+    }
+    async function updateReceiptQuantity(id, qty) {
+      const receipt = await Receipt.findById(id);
+      receipt.quantity -= qty;
+      receipt.sold_out += qty;
+      await receipt.save({ validateBeforeSave: false });
     }
     async function updateGiftPoint(point, price) {
       const user = await User.findById(order.user._id);

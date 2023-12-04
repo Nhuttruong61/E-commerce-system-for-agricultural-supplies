@@ -101,6 +101,7 @@ function ProductDetail(id) {
               weight: productData?.weight,
               image: productData?.images[0].url,
               quantityProduct: productData?.quantity,
+              receipt: productData?.receipt,
               quantity,
             })
           );
@@ -135,7 +136,7 @@ function ProductDetail(id) {
     });
     setDataSuggest(unExpiredProducts);
   }, [data]);
-
+  console.log(productData);
   const getGiftData = async () => {
     if (productData && productData.gifts && Array.isArray(productData.gifts)) {
       const promises = productData.gifts.map(async (id) => {

@@ -15,6 +15,7 @@ import SliderAdmin from "./SliderAdmin";
 import AdminStatistical from "./AdminStatistical";
 import AdminCoupon from "./AdminCoupon";
 import AdminForum from "./Adminforum";
+import AdminReceipt from "./AdminReceipt";
 function AdminContent({ active }) {
   let content = null;
   if (active === 1) {
@@ -49,6 +50,8 @@ function AdminContent({ active }) {
     content = <AdminCoupon />;
   } else if (active === 17) {
     content = <SliderAdmin />;
+  } else if (active === 18) {
+    content = <AdminReceipt />;
   }
   return (
     <div className="flex w-full h-[90vh] overflow-y-auto overflow-x-auto">
