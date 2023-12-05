@@ -33,7 +33,7 @@ function SliderAdmin() {
     return (
       <div className="flex">
         <div
-          className="mx-1"
+          className="mx-1 cursor-pointer"
           onClick={() => {
             setShowModalEdit(true);
             setIdSlider(item._id);
@@ -45,7 +45,7 @@ function SliderAdmin() {
           <EditOutlined className="text-green-600 border border-[green] py-2 px-1 rounded-[4px]" />
         </div>
         <div
-          className="mx-1"
+          className="mx-1 cursor-pointer"
           onClick={() => {
             setShowModalDelete(true);
             setIdSlider(item._id);

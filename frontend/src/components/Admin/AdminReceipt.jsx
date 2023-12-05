@@ -6,6 +6,7 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import * as ReceiptService from "../../service/receiptService";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import Loading from "../Loading";
 function AdminReceipt() {
   const [dataReceipt, setDataReceipt] = useState(null);
   const [showModalAdd, setShowModalAdd] = useState(false);
@@ -25,9 +26,17 @@ function AdminReceipt() {
   const [isLoading, setIsLoading] = useState(false);
   const { data } = useSelector((state) => state.product);
   const fetchDataReceipt = async () => {
-    const res = await ReceiptService.getAllReceipt();
-    if (res.success) {
-      setDataReceipt(res.receipt);
+    try {
+      setIsLoading(true);
+      const res = await ReceiptService.getAllReceipt();
+      setIsLoading(false);
+      if (res.success) {
+        setDataReceipt(res.receipt);
+      }
+    } catch (e) {
+      setIsLoading(false);
+
+      console.log(e);
     }
   };
   useEffect(() => {
@@ -37,7 +46,7 @@ function AdminReceipt() {
     return (
       <div className="flex">
         <div
-          className="mx-1"
+          className="mx-1 cursor-pointer"
           onClick={() => {
             setIdReceipt(item.id);
             setShowModalEdit(true);
@@ -51,7 +60,7 @@ function AdminReceipt() {
           <EditOutlined className="text-green-600 border border-[green] py-2 px-1 rounded-[4px]" />
         </div>
         <div
-          className="mx-1"
+          className="mx-1 cursor-pointer"
           onClick={() => {
             setIdReceipt(item.id);
             setShowModalDelete(true);
@@ -131,7 +140,9 @@ function AdminReceipt() {
 
   const handleDeleteReceipt = async () => {
     try {
+      setIsLoading(true);
       const res = await ReceiptService.deleteReceipt(idReceipt);
+      setIsLoading(false);
       setShowModalDelete(false);
       if (res.success) {
         fetchDataReceipt();
@@ -141,6 +152,7 @@ function AdminReceipt() {
     } catch (e) {
       console.log(e);
       setShowModalDelete(false);
+      setIsLoading(false);
     }
   };
   const handleCancel = () => {
@@ -149,31 +161,42 @@ function AdminReceipt() {
     setShowModalDelete(false);
   };
   const handleAddReceipt = async () => {
-    try {
-      setIsLoading(true);
-      const res = await ReceiptService.creatReceipt(addReceipt);
-      if (res.success) {
-        toast.success("Tạo phiếu nhập kho thành công");
-        fetchDataReceipt();
+    if (
+      !addReceipt.productId ||
+      !addReceipt.originPrice ||
+      !addReceipt.quantity
+    ) {
+      toast.warning("Vui lòng điền đầy đủ thông tin");
+    } else {
+      try {
+        setShowModalAdd(false);
+        setIsLoading(true);
+        const res = await ReceiptService.creatReceipt(addReceipt);
+        setIsLoading(false);
+        if (res.success) {
+          toast.success("Tạo phiếu nhập kho thành công");
+          fetchDataReceipt();
+        }
+      } catch (e) {
+        setIsLoading(false);
+
+        console.log(e);
       }
-      setIsLoading(false);
-    } catch (e) {
-      setIsLoading(false);
-
-      console.log(e);
     }
-
-    setShowModalAdd(false);
   };
   const handleEditReceipt = async () => {
     try {
+      setShowModalEdit(false);
+      setIsLoading(true);
       const res = await ReceiptService.updateReceipt(idReceipt, editReceipt);
+      setIsLoading(false);
       if (res.success) {
         fetchDataReceipt();
         toast.success("Cập nhật kho thành công");
         setShowModalEdit(false);
       }
     } catch (e) {
+      setIsLoading(false);
       console.log(e);
       setShowModalEdit(false);
     }
@@ -189,7 +212,11 @@ function AdminReceipt() {
           <h2 className="font-[600] px-1 ">Tạo mới</h2>
         </span>
       </div>
-      <TableComponent columns={columns} data={dataTable} />
+      <TableComponent
+        columns={columns}
+        data={dataTable}
+        isLoading={isLoading}
+      />
       <Modal
         title="Thêm phiếu nhập kho"
         open={showModalAdd}

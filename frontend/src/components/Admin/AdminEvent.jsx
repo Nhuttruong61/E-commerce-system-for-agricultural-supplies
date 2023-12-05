@@ -27,13 +27,7 @@ function AdminEvent() {
     const day = String(today.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   });
-  const [finishDay, setFinishDay] = useState(() => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate() + 1).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  });
+  const [finishDay, setFinishDay] = useState(null);
   const [idEvent, setIdEvent] = useState("");
   const [dataProduct, setDataProduct] = useState(null);
   const searchInput = useRef(null);
@@ -130,7 +124,7 @@ function AdminEvent() {
     return (
       <div className="flex">
         <div
-          className="mx-1"
+          className="mx-1 cursor-pointer"
           onClick={() => {
             setIdEvent(item._id);
             setShowModalDelete(true);
@@ -184,6 +178,8 @@ function AdminEvent() {
       toast.warning("Xin hãy nhập đầy đủ thông tin");
     } else if (discount <= 0) {
       toast.warning("Mức giảm giá không hợp lệ");
+    } else if (finishDay < startDay) {
+      toast.warning("Ngày kết thức phải lớn hơn ngày bắt đầu");
     } else {
       setShowModalAdd(false);
       setIsLoading(true);
@@ -277,7 +273,7 @@ function AdminEvent() {
             cols={12}
             rows={4}
             value={description}
-            placeholder="hãy miêu tả thông tin sự kiện"
+            placeholder="Hãy miêu tả thông tin sự kiện"
             className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
             onChange={(e) => setDescription(e.target.value)}
           />
@@ -315,8 +311,9 @@ function AdminEvent() {
           <input
             type="date"
             value={startDay}
+            readOnly
             placeholder="Enter discount event"
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
+            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px] outline-none "
             onChange={(e) => setStartDay(e.target.value)}
           />
         </label>

@@ -13,6 +13,12 @@ export const decreaseQuantity = (data) => async (dispatch) => {
     data: data,
   });
 };
+export const deteteProductCart = (data) => async (dispatch) => {
+  dispatch({
+    type: Type.DELETE_PRODUCT_CART,
+    data: data,
+  });
+};
 
 export const clearQuantity = () => async (dispatch) => {
   dispatch({

@@ -35,7 +35,7 @@ function AdminFeeTransport() {
     return (
       <div className="flex">
         <div
-          className="mx-1"
+          className="mx-1 cursor-pointer"
           onClick={() => {
             setIdFee(item._id);
             setShowModalDelete(true);
@@ -44,7 +44,7 @@ function AdminFeeTransport() {
           <DeleteOutlined className="text-red-600 border border-[red] py-2 px-1 rounded-[4px]" />
         </div>
         <div
-          className="mx-1"
+          className="mx-1 cursor-pointer"
           onClick={() => {
             setShowModalEdit(true);
             setIdFeeStransport(item._id);

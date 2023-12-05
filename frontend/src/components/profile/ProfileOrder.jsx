@@ -69,7 +69,7 @@ function ProfileOrder() {
           return {
             ...order,
             sst: index + 1,
-            name: order?.cart[0].name,
+            name: order?.cart[0]?.name,
             quality: order?.cart?.length,
             status: statusText,
             createdAt: moment(order?.paymentInfo.createdAt).format(

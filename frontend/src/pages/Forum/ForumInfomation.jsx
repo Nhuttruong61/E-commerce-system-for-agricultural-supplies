@@ -516,6 +516,7 @@ function ForumInfomation() {
                             </div>
                           )}
                           {idUser !== item.author._id &&
+                            user.isAuthenticated &&
                             !item.userReport.includes(idUser) && (
                               <div onClick={(e) => e.stopPropagation()}>
                                 <div

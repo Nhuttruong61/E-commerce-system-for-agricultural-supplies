@@ -26,7 +26,7 @@ function AdminForum() {
     return (
       <div className="flex">
         <div
-          className="mx-1"
+          className="mx-1 cursor-pointer"
           onClick={() => {
             setIdDelete(item._id);
             setShowModalDelete(true);
@@ -41,7 +41,7 @@ function AdminForum() {
     return (
       <div className="cursor-pointer ">
         <div
-          className="mx-1"
+          className="mx-1 cursor-pointer"
           onClick={() => {
             setIsShowModalInfor(true);
             setdataInforQuestion({

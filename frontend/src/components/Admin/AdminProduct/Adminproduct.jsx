@@ -145,7 +145,7 @@ function Adminproduct() {
     return (
       <div className="flex">
         <div
-          className="mx-1"
+          className="mx-1 cursor-pointer"
           onClick={() => {
             setShowModalDelete(true);
             setIdProduct(item._id);
@@ -154,7 +154,7 @@ function Adminproduct() {
           <DeleteOutlined className="text-red-600 border border-[red] py-2 px-1 rounded-[4px]" />
         </div>
         <div
-          className="mx-1"
+          className="mx-1 cursor-pointer"
           onClick={() => {
             setIdProduct(item._id);
             item?.gifts?.length > 0
@@ -204,10 +204,6 @@ function Adminproduct() {
       title: "STT",
       dataIndex: "stt",
     },
-    // {
-    //   title: "Mã sản phẩm",
-    //   dataIndex: "id",
-    // },
     {
       title: "Tên sản phẩm",
       dataIndex: "name",
@@ -351,38 +347,27 @@ function Adminproduct() {
       });
     }
   }, [selectedImage]);
-  console.log(selectedImage);
   const handleEditProduct = async () => {
-    setShowModalEdit(false);
-    try {
-      setIsLoading(true);
-      const res = await ProductService.updateProduct(editProduct, idProduct);
-      setIsLoading(false);
-      if (res.success) {
-        dispatch(getAllProductRd());
-        toast.success("Cập nhật sản phẩm thành công");
-        setEditProduct({
-          _id: "",
-          name: "",
-          description: [],
-          category,
-          weight: "",
-          receipt: "",
-          capacity: "",
-          originPrice: "",
-          price: "",
-          wholesalePrice: "",
-          distCount: "",
-          gifts: [],
-          quantity: "",
-          origin: "",
-          expirationDate: null,
-          images: "",
-        });
+    if (
+      !editProduct.receipt ||
+      !editProduct.weight ||
+      !editProduct.expirationDate
+    ) {
+      toast.warning("Vui lòng điền đầy đủ thông tin");
+    } else {
+      try {
+        setShowModalEdit(false);
+        setIsLoading(true);
+        const res = await ProductService.updateProduct(editProduct, idProduct);
+        setIsLoading(false);
+        if (res.success) {
+          dispatch(getAllProductRd());
+          toast.success("Cập nhật sản phẩm thành công");
+        }
+      } catch (e) {
+        toast.error("Đã xảy ra lỗi");
+        console.log(e);
       }
-    } catch (e) {
-      toast.error("Đã xảy ra lỗi");
-      console.log(e);
     }
   };
   const handleDelete = async () => {
@@ -478,7 +463,6 @@ function Adminproduct() {
       return { ...pre, gifts: updatedGifts };
     });
   };
-  console.log(editProduct);
   return (
     <div className="w-full flex flex-col">
       <div className="flex  m-2 md:justify-between">
@@ -595,6 +579,7 @@ function Adminproduct() {
           <select
             className="w-[80%] md:px-4 h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
             value={editProduct.receipt || ""}
+            required={editProduct.receipt === ""}
             onChange={(e) =>
               setEditProduct({ ...editProduct, receipt: e.target.value })
             }
@@ -754,7 +739,10 @@ function Adminproduct() {
             <p className="w-[20%] font-[500]">Quà tặng</p>
             <div className="w-[80%] md:px-4  h-[12vh] overflow-y-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]">
               {product?.data
-                ?.filter((el) => el._id !== idProduct)
+                ?.filter(
+                  (el) =>
+                    el._id !== idProduct && el.quantity >= editProduct.quantity
+                )
                 .map((item) => {
                   return (
                     <div key={item._id} className="flex ">

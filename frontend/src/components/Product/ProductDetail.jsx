@@ -35,6 +35,7 @@ function ProductDetail(id) {
   };
   useEffect(() => {
     getProduct();
+    setQuantity(1);
   }, [id]);
   useEffect(() => {
     const eventId = dataEvent.data.map((item) => {
@@ -108,15 +109,17 @@ function ProductDetail(id) {
           if (
             checkQuantity &&
             checkQuantity.length > 0 &&
-            checkQuantity[0].quantity < checkQuantity[0].quantityProduct
+            checkQuantity[0].quantity + quantity >
+              checkQuantity[0].quantityProduct
           ) {
-            toast.success("Thêm sản phẩm thành công");
-          } else if (
-            checkQuantity &&
-            checkQuantity.length > 0 &&
-            checkQuantity[0].quantity === checkQuantity[0].quantityProduct
-          ) {
-            toast.error("Đã đạt số lượng tối đa");
+            const quantity =
+              checkQuantity[0].quantityProduct - checkQuantity[0].quantity;
+            if (quantity > 0) {
+              toast.warning(`Bạn chỉ có thể thêm tối đa ${quantity} sản phẩm`);
+              setQuantity(quantity);
+            } else {
+              toast.warning("Đã đạt số lượng tối đa");
+            }
           } else {
             toast.success("Thêm sản phẩm thành công");
           }
@@ -136,7 +139,6 @@ function ProductDetail(id) {
     });
     setDataSuggest(unExpiredProducts);
   }, [data]);
-  console.log(productData);
   const getGiftData = async () => {
     if (productData && productData.gifts && Array.isArray(productData.gifts)) {
       const promises = productData.gifts.map(async (id) => {

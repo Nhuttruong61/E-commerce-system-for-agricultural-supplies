@@ -107,10 +107,19 @@ const updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
   try {
     let totalPoints = 0;
     const order = await Order.findById(req.params.id);
+
     if (!order) {
       return next(new ErrorHandler("Order not found with this id", 400));
     }
+
     if (req.body.status === "Transferred") {
+      const listProduct = await order.cart.map((item) => item);
+      for (let i = 0; i < listProduct.length; i++) {
+        const product = await Product.findById(listProduct[i]);
+        if (!product) {
+          return next(new ErrorHandler("Product is not found", 401));
+        }
+      }
       for (const item of order.cart) {
         await updateProductQuantity(item._id, item.quantity);
         await updateReceiptQuantity(item.receipt, item.quantity);

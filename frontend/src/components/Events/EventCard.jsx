@@ -19,14 +19,14 @@ function EventCard(item) {
       className="w-full rounded-lg md:flex  shadow-sm cursor-pointer bg-white hover:shadow-[#009b49]"
       onClick={() => handleNavigate(item)}
     >
-      <div className="w-full md:w-[50%] md:h-[400px] m-auto justify-center items-center flex">
+      <div className="w-full md:w-[50%] md:h-[300px] m-auto justify-center items-center flex">
         <img
-          className="w-[120px] md:w-[280px]"
+          className="object-contain max-h-[180px]"
           src={item?.data?.product[0].images[0].url}
           alt=""
         />
       </div>
-      <div className="w-full md:[w-50%] flex flex-col justify-center pl-[4%]">
+      <div className="w-full md:[w-50%] flex flex-col justify-center px-[4%]">
         <h1 className="font-[700] text-[140%] md:text-[180%] py-2">
           {item?.data.name}
         </h1>

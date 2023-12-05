@@ -25,7 +25,7 @@ function AdminBlog() {
     return (
       <div className="flex">
         <div
-          className="mx-1"
+          className="mx-1 cursor-pointer"
           onClick={() => {
             setIdBlog(item._id);
             setShowModalDelete(true);
@@ -40,7 +40,7 @@ function AdminBlog() {
     return (
       <div className="flex">
         <div
-          className="mx-1"
+          className="mx-1 cursor-pointer"
           onClick={() => {
             setDataSeeMore(item);
             setShowModalSeeMoreBlog(true);

@@ -242,10 +242,9 @@ function CheckOutContent() {
     const giftIds = cart.flatMap((item) => item.gifts);
     setIdGifts(giftIds);
   };
-
   useEffect(() => {
     getGiftData();
-  }, []);
+  }, [cart]);
   const getGiftProduct = async () => {
     if (idGifts) {
       try {
@@ -344,6 +343,7 @@ function CheckOutContent() {
                     <div className="flex items-center justify-center  rounded ml-2">
                       <button
                         className="flex items-center p-1 bg-[#0e9c49] h-full rounded"
+                        disabled={item.quantity <= 1}
                         onClick={() => {
                           handleDecrease(item);
                         }}
@@ -375,34 +375,36 @@ function CheckOutContent() {
           {dataGift?.length > 0 && (
             <div className="w-full">
               {dataGift?.map((item) => {
-                return (
-                  <div
-                    key={item._id}
-                    className="flex border-t border-black py-2 "
-                  >
-                    <div className="md:w-[10%] w-[30%]">
-                      <img
-                        src={item.image}
-                        alt=""
-                        className="md:w-[80px] md:h-[80px] w-[60px] h-[60px] "
-                      />
-                    </div>
-                    <div className="md:w-[90%] w-[70%] flex md:items-center md:justify-between  flex-col md:flex-row ">
-                      <p className="text-[100%] px-4 md:w-[30%] ">
-                        {item.name}
-                      </p>
-                      <div className="flex items-center md:justify-center  ml-2 md:w-[50%]  ">
-                        <p className="text-[100%] px-2 hidden sm:block">
-                          Số lượng: {item.quantity}
+                if (item.quantity > 0) {
+                  return (
+                    <div
+                      key={item._id}
+                      className="flex border-t border-black py-2 "
+                    >
+                      <div className="md:w-[10%] w-[30%]">
+                        <img
+                          src={item.image}
+                          alt=""
+                          className="md:w-[80px] md:h-[80px] w-[60px] h-[60px] "
+                        />
+                      </div>
+                      <div className="md:w-[90%] w-[70%] flex md:items-center md:justify-between  flex-col md:flex-row ">
+                        <p className="text-[100%] px-4 md:w-[30%] ">
+                          {item.name}
                         </p>
-                      </div>
-                      <div className="flex md:items-center md:justify-center  ml-2 md:w-[30%] ">
-                        <p className="text-[100%] px-2">Giá tiền:</p>
-                        <p className="text-[100%]">0đ</p>
+                        <div className="flex items-center md:justify-center  ml-2 md:w-[50%]  ">
+                          <p className="text-[100%] px-2 hidden sm:block">
+                            Số lượng: {item.quantity}
+                          </p>
+                        </div>
+                        <div className="flex md:items-center md:justify-center  ml-2 md:w-[30%] ">
+                          <p className="text-[100%] px-2">Giá tiền:</p>
+                          <p className="text-[100%]">0đ</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
+                  );
+                }
               })}
             </div>
           )}
@@ -512,6 +514,7 @@ function CheckOutContent() {
         {Paymentethods === "paymentDelivery" && (
           <div className="flex md:flex-row-reverse md:px-8 w-full shadow shadow-black bottom-[41%] py-2 bg-white items-center px-[10%]">
             <button
+              disabled={cart.length === 0}
               className="bg-[#0e9c49] text-white px-2 font-[600] py-1 rounded"
               onClick={handleOrder}
             >

@@ -49,6 +49,13 @@ export const cartReducer = (state = initialState, action) => {
         return state;
       }
     }
+    case Type.DELETE_PRODUCT_CART: {
+      const { data } = action;
+      return {
+        ...state,
+        cart: state.cart.filter((el) => el._id !== data._id),
+      };
+    }
     case Type.CLEAR_QUALTTY_CART: {
       return {
         ...state,

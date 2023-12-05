@@ -21,8 +21,6 @@ function CountDown({ item }) {
           const res = await EventService.deleteEvent(item.data._id);
           if (res.success) {
             dispatch(getAllEvents());
-          } else {
-            console.success("Xóa sự kiện không thành công");
           }
         } catch (error) {
           console.error("Lỗi khi xóa sự kiện:", error);
@@ -35,7 +33,12 @@ function CountDown({ item }) {
     return () => clearTimeout(timer);
   });
   function calculateTimeLeft() {
-    const difference = +new Date(item.data.finish) - +new Date();
+    const finishDate = new Date(item.data.finish);
+
+    finishDate.setHours(finishDate.getHours() - 7);
+
+    const difference = finishDate - new Date();
+
     let timeLeft = {};
     if (difference > 0) {
       timeLeft = {
@@ -48,6 +51,7 @@ function CountDown({ item }) {
 
     return timeLeft;
   }
+
   const timerComponents = Object.keys(timeLeft).map((interval, index) => {
     if (!timeLeft[interval]) {
       return null;
@@ -55,14 +59,13 @@ function CountDown({ item }) {
 
     return (
       <span className="text-[25px] text-[#009b49]" key={index}>
-        {timeLeft[interval]} {interval}{" "}
+        {timeLeft[interval]} {interval}
       </span>
     );
   });
 
   return (
     <div>
-      {" "}
       {timerComponents.length ? (
         timerComponents
       ) : (

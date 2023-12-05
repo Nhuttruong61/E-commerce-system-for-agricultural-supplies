@@ -14,6 +14,7 @@ import {
 import { toast } from "react-toastify";
 import PieChartComponent from "../chart/PieChartComponet";
 import moment from "moment";
+import Loading from "../Loading";
 
 function AdminOrder() {
   const [isLoading, setIsLoading] = useState(false);
@@ -83,12 +84,18 @@ function AdminOrder() {
       const res = await OrderSerVice.updateOrderStatus(id, status);
       setIsLoading(false);
       if (res.success) {
+        setIsLoading(false);
         toast.success("Cập nhật trạng thái thành công");
         getAllOrders();
       }
     } catch (e) {
       setIsLoading(false);
-      console.log(e);
+      switch (e.response.status) {
+        case 401:
+          toast.error("Sản phẩm này không còn bán nữa");
+          break;
+        default:
+      }
     }
   };
   const vietnameseStatus = {
