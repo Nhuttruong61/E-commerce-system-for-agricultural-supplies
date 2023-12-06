@@ -257,6 +257,7 @@ function CheckOutContent() {
             name: res.product.name,
             image: res.product.images[0].url,
             weight: res.product.weight,
+            receipt: res.product.receipt,
             quantity: quantityProduct > 3 ? 3 : quantityProduct,
           });
         });
@@ -313,12 +314,13 @@ function CheckOutContent() {
     const activeVoucher = localStorage.getItem("activeVouchers");
     const voucher = JSON.parse(localStorage.getItem("voucher"));
     if (activeVoucher) {
-      setActiveVouchers(activeVoucher);
+      setActiveVouchers([activeVoucher]);
     }
     if (voucher) {
       setCoupon(voucher);
     }
   }, []);
+  console.log(activeVouchers);
   return (
     <Loading isLoading={isLoading}>
       <div>

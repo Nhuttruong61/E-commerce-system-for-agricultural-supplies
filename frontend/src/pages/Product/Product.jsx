@@ -177,20 +177,43 @@ function Product() {
   };
   useEffect(() => {
     const res = dataProductFillter?.filter((item) => {
-      if (priceRanges.under100 && item.price <= 100000) {
-        return item.price <= 100000;
+      if (item?.distCount === 0) {
+        if (priceRanges.under100 && item.price <= 100000) {
+          return item.price <= 100000;
+        }
+        if (
+          priceRanges.from100to500 &&
+          item.price > 100000 &&
+          item.price <= 500000
+        ) {
+          return true;
+        }
+        if (priceRanges.over500 && item.price > 500000) {
+          return true;
+        }
+        return false;
+      } else {
+        if (
+          priceRanges.under100 &&
+          (item.price * item.distCount) / 100 <= 100000
+        ) {
+          return (item.price * item.distCount) / 100 <= 100000;
+        }
+        if (
+          priceRanges.from100to500 &&
+          (item.price * item.distCount) / 100 > 100000 &&
+          (item.price * item.distCount) / 100 <= 500000
+        ) {
+          return true;
+        }
+        if (
+          priceRanges.over500 &&
+          (item.price * item.distCount) / 100 > 500000
+        ) {
+          return true;
+        }
+        return false;
       }
-      if (
-        priceRanges.from100to500 &&
-        item.price > 100000 &&
-        item.price <= 500000
-      ) {
-        return true;
-      }
-      if (priceRanges.over500 && item.price > 500000) {
-        return true;
-      }
-      return false;
     });
     setDataProductFillterPrice(res);
   }, [priceRanges, dataProductFillter]);
