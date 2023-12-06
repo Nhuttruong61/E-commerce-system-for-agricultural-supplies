@@ -167,13 +167,19 @@ const updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
 const deleteOrder = catchAsyncErrors(async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.id);
+    if (
+      order.status === "Processing" &&
+      order.paymentInfo.status === "Đã thanh toán"
+    ) {
+      return next(new ErrorHandler("You not can delete order", 402));
+    }
     if (!order) {
       return next(new ErrorHandler("Order not found with this id", 400));
     }
     if (order.status === "Transferred") {
-      return next(new ErrorHandler("This order cannot be deleted"));
+      return next(new ErrorHandler("This order cannot be deleted", 401));
     }
-    await Order.findByIdAndDelete(req.params.id);
+    // await Order.findByIdAndDelete(req.params.id);
     res.status(201).json({
       success: true,
       message: "Order deleted successfully!",

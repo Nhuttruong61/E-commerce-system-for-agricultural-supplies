@@ -32,7 +32,9 @@ function Newproduct() {
         const sortedProduct = clonedProductData.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
-        const res = sortedProduct?.slice(0, 6);
+        const res =
+          sortedProduct &&
+          sortedProduct.filter((el) => el?.receipt !== "").slice(0, 6);
         setDataSort(res);
       }
     };

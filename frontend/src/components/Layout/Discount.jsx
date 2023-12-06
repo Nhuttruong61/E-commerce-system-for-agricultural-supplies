@@ -14,12 +14,15 @@ function Discount() {
       let res = products?.data?.filter((item) => {
         return isNotExpired(new Date(item.expirationDate));
       });
-      const filterProductgift = res
-        ?.map((item) =>
-          item?.gifts?.length > 0 ? item.gifts.map((gift) => gift) : null
-        )
-        .filter((item) => item !== null)
-        .flat();
+      const filterProductgift =
+        res &&
+        res
+          .filter((el) => el?.receipt !== "")
+          .map((item) =>
+            item?.gifts?.length > 0 ? item.gifts.map((gift) => gift) : null
+          )
+          .filter((item) => item !== null)
+          .flat();
       const dataProductgift = res?.filter((item) => {
         return !filterProductgift.includes(item._id);
       });

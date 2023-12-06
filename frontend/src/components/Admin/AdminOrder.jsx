@@ -340,7 +340,14 @@ function AdminOrder() {
         getAllOrders();
       }
     } catch (e) {
-      toast.error("Bạn không thể xóa đơn hàng khi đang vận chuyển");
+      if (e.response.status === 401) {
+        toast.error("Bạn không thể xóa đơn hàng khi đang vận chuyển");
+      }
+      if (e.response.status === 402) {
+        toast.error(
+          "Bạn không thể xóa đơn hàng chờ xử lý khi thanh toán online"
+        );
+      }
       setIsLoading(false);
       console.log(e);
     }

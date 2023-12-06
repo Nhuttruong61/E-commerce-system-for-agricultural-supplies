@@ -18,6 +18,7 @@ import logo from "../../assets/logo/logo.png";
 import Cart from "../Cart/Cart";
 import { HiOutlineMenu } from "react-icons/hi";
 import { RiCoupon2Line } from "react-icons/ri";
+import { isNotExpired } from "../../until";
 function Header() {
   const user = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
@@ -61,7 +62,11 @@ function Header() {
         productData.filter((product) => {
           return product.name.toLowerCase().includes(searchItem.toLowerCase());
         });
-      setSearchData(filterSearch);
+
+      const filterDate = filterSearch?.filter((el) =>
+        isNotExpired(new Date(el.expirationDate))
+      );
+      setSearchData(filterDate);
     }
   };
   const handleSubmitSearch = () => {

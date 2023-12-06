@@ -257,7 +257,7 @@ function CheckOutContent() {
             name: res.product.name,
             image: res.product.images[0].url,
             weight: res.product.weight,
-            quantity: quantityProduct,
+            quantity: quantityProduct > 3 ? 3 : quantityProduct,
           });
         });
         const products = await Promise.all(productPromises);

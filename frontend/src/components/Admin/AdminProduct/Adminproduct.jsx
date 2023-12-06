@@ -439,12 +439,22 @@ function Adminproduct() {
   }, []);
   const findReceipt = async () => {
     const id = editProduct?.receipt;
-    const res = await getAReceipt(id);
-    if (res.success) {
+    try {
+      const res = await getAReceipt(id);
+      if (res.success) {
+        setEditProduct({
+          ...editProduct,
+          originPrice: res.receipt.originPrice,
+          quantity: res.receipt.quantity,
+        });
+      }
+    } catch (e) {
+      console.log(e);
       setEditProduct({
         ...editProduct,
-        originPrice: res.receipt.originPrice,
-        quantity: res.receipt.quantity,
+        receipt: "",
+        originPrice: 0,
+        quantity: 0,
       });
     }
   };
@@ -547,7 +557,7 @@ function Adminproduct() {
           />
           {selectedImage ? (
             <img
-              className="w-[40px] h-[40px] object-cover rounded-full"
+              className="w-[100px] h-[100px] object-contain "
               src={selectedImage}
               alt=""
               value={selectedImage}
@@ -589,13 +599,14 @@ function Adminproduct() {
                 Lựa phiếu nhập
               </option>
             )}
-            {dataReceipt
-              ?.filter((el) => el.product._id === idProduct)
-              .map((el) => (
-                <option value={el._id} key={el._id}>
-                  {el._id}
-                </option>
-              ))}
+            {dataReceipt &&
+              dataReceipt
+                ?.filter((el) => el.product._id === idProduct)
+                .map((el) => (
+                  <option value={el._id} key={el._id}>
+                    {el._id}
+                  </option>
+                ))}
           </select>
         </label>
 
@@ -773,13 +784,13 @@ function Adminproduct() {
           />
           {selectedImage ? (
             <img
-              className="w-[40px] h-[40px] object-cover "
+              className="w-[100px] h-[100px] object-contain "
               src={selectedImage}
               alt=""
             />
           ) : (
             <img
-              className="w-[50px] h-[50px]"
+              className="w-[100px] h-[100px] object-contain"
               src={editProduct.images}
               alt=""
             />

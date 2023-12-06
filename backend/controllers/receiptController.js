@@ -74,10 +74,17 @@ const updateReceipt = catchAsyncErrors(async (req, res, next) => {
 
 const deleteReceipt = catchAsyncErrors(async (req, res, next) => {
   try {
-    const receipt = await Receipt.findByIdAndDelete(req.params.id);
+    const receipt = await Receipt.findById(req.params.id);
     if (!receipt) {
       return next(new ErrorHandler("receipt not found ", 400));
     }
+    const product = await Product.findById(receipt.product._id);
+    if (!product) {
+      return next(new ErrorHandler("receipt not found ", 400));
+    }
+    await Receipt.findByIdAndDelete(req.params.id);
+    product.receipt = "";
+    await product.save();
 
     res.status(201).json({
       success: true,

@@ -56,8 +56,10 @@ function Product() {
         const dataProductgift = unExpiredProducts?.filter((item) => {
           return !filterProductgift.includes(item._id);
         });
-
-        setProductData(dataProductgift);
+        const dataProductIsRecent = dataProductgift?.filter(
+          (el) => el?.receipt !== ""
+        );
+        setProductData(dataProductIsRecent);
       }
     }, 300);
   }, [products]);

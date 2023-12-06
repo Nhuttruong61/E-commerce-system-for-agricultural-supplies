@@ -28,7 +28,7 @@ function BestSelling() {
           return !filterProductgift.includes(item._id);
         });
         const sortedData = dataProductgift
-          .slice()
+          .filter((el) => el?.receipt !== "")
           .sort((a, b) => b.sold_out - a.sold_out)
           .slice(0, 10);
 

@@ -29,7 +29,9 @@ function Popular() {
     const dataProductgift = unExpiredProducts?.filter((item) => {
       return !filterProductgift.includes(item._id);
     });
-    const data = dataProductgift?.slice(0, 5);
+    const data =
+      dataProductgift &&
+      dataProductgift.filter((el) => el?.receipt !== "").slice(0, 5);
     setDataSort(data);
   }, []);
   useEffect(() => {
