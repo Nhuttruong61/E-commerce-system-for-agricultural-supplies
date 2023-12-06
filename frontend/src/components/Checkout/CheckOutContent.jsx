@@ -293,13 +293,12 @@ function CheckOutContent() {
     }
   }, [dataGift, cart]);
   const handleAddCoupon = (item) => {
-    const isVoucherActive = activeVouchers.includes(item._id);
-
+    const isVoucherActive = activeVouchers?.includes(item._id);
     if (isVoucherActive) {
-      setActiveVouchers(activeVouchers.filter((Id) => Id !== item._id));
+      setActiveVouchers(activeVouchers?.filter((Id) => Id !== item._id));
       localStorage.setItem(
         "activeVouchers",
-        setActiveVouchers(activeVouchers.filter((Id) => Id !== item._id))
+        setActiveVouchers(activeVouchers?.filter((Id) => Id !== item._id))
       );
       setCoupon(null);
       localStorage.setItem("voucher", null);
@@ -431,7 +430,7 @@ function CheckOutContent() {
             <RightOutlined className="md:text-[24px]" />
           </div>
         </div>
-        {account?.voucher.length > 0 && (
+        {account?.voucher.length && cart.length > 0 > 0 && (
           <div className="w-auto  items-center bg-white px-[10%] my-1">
             <p className="text-[100%]  font-[600] pt-2 text-red-600">
               Mã giảm giá
