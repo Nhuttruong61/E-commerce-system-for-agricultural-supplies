@@ -320,7 +320,6 @@ function CheckOutContent() {
       setCoupon(voucher);
     }
   }, []);
-  console.log(activeVouchers);
   return (
     <Loading isLoading={isLoading}>
       <div>
@@ -363,6 +362,9 @@ function CheckOutContent() {
                       </button>
                     </div>
                   </div>
+                  <span className="flex items-center md:w-[20%]">
+                    Cân nặng:{item.weight * item.quantity} kg
+                  </span>
                   <div className="flex md:items-center md:justify-center  ml-2 md:w-[30%] ">
                     <p className="text-[100%] px-2">Giá tiền:</p>
                     <p className="text-[100%]">

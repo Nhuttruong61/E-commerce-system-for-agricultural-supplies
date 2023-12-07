@@ -35,6 +35,15 @@ function ProfileOrder() {
       sorter: (a, b) => a.quality - b.quality,
     },
     {
+      title: "Phương thức thanh toán",
+      dataIndex: "payment",
+      render: (payment) => {
+        return payment === "paymentDelivery"
+          ? "Thanh toán trực tiếp"
+          : "Thanh toán online";
+      },
+    },
+    {
       title: "Ngày đặt",
       dataIndex: "createdAt",
       sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
@@ -70,6 +79,7 @@ function ProfileOrder() {
           sst: index + 1,
           name: order?.cart[0]?.name,
           quality: order?.cart?.length,
+          payment: order?.paymentInfo?.type,
           status: statusText,
           createdAt: moment(order?.paymentInfo.createdAt).format(
             "YYYY-MM-DD HH:mm:ss"

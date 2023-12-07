@@ -281,24 +281,6 @@ function AdminReceipt() {
         width={800}
       >
         <label className="flex justify-between items-center">
-          <p className="w-[20%] font-[500]">Sản phẩm</p>
-          <select
-            value={editReceipt.productId}
-            className="w-[80%] md:px-4  h-auto my-1 py-2 border-[2px] sm:px-0 rounded-[4px]"
-            onChange={(e) =>
-              setEditReceipt({ ...editReceipt, productId: e.target.value })
-            }
-          >
-            {data && data.length > 0
-              ? data.map((item) => (
-                  <option value={item._id} key={item._id}>
-                    {item.name}
-                  </option>
-                ))
-              : null}
-          </select>
-        </label>
-        <label className="flex justify-between items-center">
           <p className="w-[20%] font-[500]">Giá nhập</p>
           <input
             type="text"

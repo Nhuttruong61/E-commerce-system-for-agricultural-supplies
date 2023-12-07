@@ -79,9 +79,6 @@ const deleteReceipt = catchAsyncErrors(async (req, res, next) => {
       return next(new ErrorHandler("receipt not found ", 400));
     }
     const product = await Product.findById(receipt.product._id);
-    if (!product) {
-      return next(new ErrorHandler("receipt not found ", 400));
-    }
     await Receipt.findByIdAndDelete(req.params.id);
     product.receipt = "";
     await product.save();

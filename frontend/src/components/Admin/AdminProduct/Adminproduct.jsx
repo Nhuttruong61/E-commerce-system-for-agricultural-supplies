@@ -331,7 +331,6 @@ function Adminproduct() {
       border: "1px solid #ccc",
     },
   };
-
   const handleCancel = () => {
     setShowModalAdd(false);
     setShowModalEdit(false);
@@ -354,6 +353,10 @@ function Adminproduct() {
       !editProduct.expirationDate
     ) {
       toast.warning("Vui lòng điền đầy đủ thông tin");
+    } else if (
+      editProduct.expirationDate < moment(new Date()).format("YYYY-MM-DD")
+    ) {
+      toast.warning("Ngày hết hạn không hợp lệ");
     } else {
       try {
         setShowModalEdit(false);
