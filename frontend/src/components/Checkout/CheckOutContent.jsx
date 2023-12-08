@@ -77,6 +77,9 @@ function CheckOutContent() {
         return acc + item.price * item.quantity;
       }
     }, 0);
+    if (cart.length === 0) {
+      navigate("/products");
+    }
     if (coupon) {
       let couponPrice = total - coupon.discountAmount;
       if (couponPrice < 0) {

@@ -6,7 +6,6 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import * as ReceiptService from "../../service/receiptService";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import Loading from "../Loading";
 function AdminReceipt() {
   const [dataReceipt, setDataReceipt] = useState(null);
   const [showModalAdd, setShowModalAdd] = useState(false);
@@ -140,10 +139,10 @@ function AdminReceipt() {
 
   const handleDeleteReceipt = async () => {
     try {
+      setShowModalDelete(false);
       setIsLoading(true);
       const res = await ReceiptService.deleteReceipt(idReceipt);
       setIsLoading(false);
-      setShowModalDelete(false);
       if (res.success) {
         fetchDataReceipt();
         toast.success("Xóa phiếu nhập kho thành công");

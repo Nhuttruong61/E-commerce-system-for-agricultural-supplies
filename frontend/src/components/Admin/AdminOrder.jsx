@@ -94,6 +94,9 @@ function AdminOrder() {
         case 401:
           toast.error("Sản phẩm này không còn bán nữa");
           break;
+        case 405:
+          toast.warning("Sản phẩm trong kho không đủ số lượng");
+          break;
         default:
       }
     }

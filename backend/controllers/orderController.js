@@ -107,7 +107,6 @@ const updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
   try {
     let totalPoints = 0;
     const order = await Order.findById(req.params.id);
-
     if (!order) {
       return next(new ErrorHandler("Order not found with this id", 400));
     }
@@ -115,9 +114,11 @@ const updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
     if (req.body.status === "Transferred") {
       const listProduct = await order.cart.map((item) => item);
       for (let i = 0; i < listProduct.length; i++) {
-        const product = await Product.findById(listProduct[i]);
+        const product = await Product.findById(listProduct[i]._id);
         if (!product) {
           return next(new ErrorHandler("Product is not found", 401));
+        } else if (listProduct[i].quantityProduct > product.quantity) {
+          return next(new ErrorHandler("Not is quantity product", 405));
         }
       }
       for (const item of order.cart) {
@@ -179,7 +180,7 @@ const deleteOrder = catchAsyncErrors(async (req, res, next) => {
     if (order.status === "Transferred") {
       return next(new ErrorHandler("This order cannot be deleted", 401));
     }
-    // await Order.findByIdAndDelete(req.params.id);
+    await Order.findByIdAndDelete(req.params.id);
     res.status(201).json({
       success: true,
       message: "Order deleted successfully!",
