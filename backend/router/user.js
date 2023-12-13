@@ -50,4 +50,10 @@ router.put(
   isAuthenticated,
   userControler.updateCouponsUser
 );
+router.put("/add-product/:id", isAuthenticated, userControler.addProductCart);
+router.put(
+  "/delete-product-cart/:id",
+  isAuthenticated,
+  userControler.deleteProductCart
+);
 module.exports = router;

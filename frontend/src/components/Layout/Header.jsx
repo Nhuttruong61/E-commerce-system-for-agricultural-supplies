@@ -19,6 +19,7 @@ import Cart from "../Cart/Cart";
 import { HiOutlineMenu } from "react-icons/hi";
 import { RiCoupon2Line } from "react-icons/ri";
 import { isNotExpired } from "../../until";
+import { getDataCart } from "../../redux/action/cartAction";
 function Header() {
   const user = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
@@ -117,6 +118,9 @@ function Header() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+  useEffect(() => {
+    dispatch(getDataCart());
+  }, []);
   return (
     <div>
       {user?.account?.role === "business" && (
@@ -197,7 +201,7 @@ function Header() {
               <ShoppingCartOutlined className="text-[24px] mx-2 " />
               <div className="absolute border border-[#ccc] rounded-[50%] right-[-4px] top-0 bg-[#009b49]">
                 <p className="text-[12px] px-[5px] text-white font-[800]">
-                  {cart.length ? cart.length : "0"}
+                  {cart?.length ? cart?.length : "0"}
                 </p>
               </div>
             </div>
@@ -467,7 +471,7 @@ function Header() {
                   <ShoppingCartOutlined className="text-[30px] absolute right-[16px] " />
                   <div className="absolute border border-[#ccc] rounded-[50%] right-[8px] top-[-4px] bg-[#009b49]">
                     <p className="text-[12px] px-[5px] text-white font-[800]">
-                      {cart.length ? cart.length : "0"}
+                      {cart?.length ? cart?.length : "0"}
                     </p>
                   </div>
                 </div>

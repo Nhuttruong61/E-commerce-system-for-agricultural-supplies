@@ -74,33 +74,6 @@ const activation = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-// const createUser = catchAsyncErrors(async (req, res, next) => {
-//   try {
-//     const { name, email, password, phoneNumber } = req.body;
-//     if (!name || !email || !password || !phoneNumber) {
-//       return next(new ErrorHandler("Please provide all fields!", 400));
-//     }
-
-//     let user = await User.findOne({ email });
-//     if (user) {
-//       return next(new ErrorHandler("User already exists", 400));
-//     }
-
-//     const newUser = await User.create({
-//       name,
-//       email,
-//       password,
-//       phoneNumber,
-//     });
-
-//     res.status(201).json({
-//       success: true,
-//       user: newUser,
-//     });
-//   } catch (err) {
-//     return next(new ErrorHandler(err.message, 500));
-//   }
-// });
 //create create account for business
 const createAccountBussenes = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -525,7 +498,61 @@ const updateCouponsUser = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(error.message, 500));
   }
 });
+// add product to cart
+const addProductCart = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { data } = req.body;
+    const user = await User.findOne({ _id: req.params.id });
 
+    if (!user) {
+      return next(new ErrorHandler("User not found", 400));
+    }
+
+    const itemIndex = user.cart.findIndex((item) => item._id === data._id);
+
+    if (itemIndex !== -1) {
+      const newQuantity = user.cart[itemIndex].quantity + data.quantity;
+      const updatedCart = user.cart.map((item, index) => {
+        return index === itemIndex && newQuantity <= item.quantityProduct
+          ? { ...item, quantity: newQuantity }
+          : item;
+      });
+
+      user.cart = updatedCart;
+      await user.save();
+    } else {
+      user.cart.push(data);
+      await user.save();
+    }
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
+// delete Product to cart
+const deleteProductCart = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { data } = req.body;
+    const user = await User.findOne({ _id: req.params.id });
+    if (!user) {
+      return next(new ErrorHandler("User not found", 400));
+    }
+    const updateCart = user.cart.filter((el) => el._id !== data._id);
+    user.cart = updateCart;
+    await user.save();
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
 module.exports = {
   createUser,
   activation,
@@ -546,4 +573,6 @@ module.exports = {
   updateUserId,
   updateAddressId,
   updateCouponsUser,
+  addProductCart,
+  deleteProductCart,
 };

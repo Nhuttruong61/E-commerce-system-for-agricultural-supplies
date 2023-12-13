@@ -98,3 +98,15 @@ export const chagePassword = async (data) => {
   });
   return res;
 };
+export const addProductToCart = async (id, data) => {
+  const res = axios.put(`/user/add-product/${id}`, data, {
+    withCredentials: true,
+  });
+  return res;
+};
+export const deleteProductToCart = async (id, data) => {
+  const res = axios.put(`/user/delete-product-cart/${id}`, data, {
+    withCredentials: true,
+  });
+  return res;
+};

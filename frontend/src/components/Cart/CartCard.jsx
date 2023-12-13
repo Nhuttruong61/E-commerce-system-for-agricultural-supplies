@@ -3,10 +3,11 @@ import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
   decreaseQuantity,
-  deteteProductCart,
+  getDataCart,
   increaseQuantity,
 } from "../../redux/action/cartAction";
 import { AiOutlineDelete } from "react-icons/ai";
+import { deleteProductToCart } from "../../service/userService";
 function CartCard({ item }) {
   const { account } = useSelector((state) => state.user);
   const [value, setValue] = useState(item.quantity);
@@ -40,6 +41,16 @@ function CartCard({ item }) {
       setTotalPrice(res);
     }
   }, [value]);
+  const deteteProductCart = async (item) => {
+    try {
+      const res = await deleteProductToCart(account._id, { data: item });
+      if (res.success) {
+        dispatch(getDataCart());
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <div className="border-b p-4 w-full ">
       <div className="w-full">
@@ -78,7 +89,7 @@ function CartCard({ item }) {
             <div
               className="w-[10%]flex justify-end hover:text-red-300 cursor-pointer"
               onClick={() => {
-                dispatch(deteteProductCart(item));
+                deteteProductCart(item);
               }}
             >
               {" "}

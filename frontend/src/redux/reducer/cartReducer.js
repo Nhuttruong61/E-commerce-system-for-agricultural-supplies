@@ -6,6 +6,12 @@ const initialState = {
 
 export const cartReducer = (state = initialState, action) => {
   switch (action.type) {
+    case Type.GET_DATA_CART: {
+      return {
+        ...state,
+        cart: action.data,
+      };
+    }
     case Type.INCREASE_QUALTTY_CART: {
       const { data } = action;
 

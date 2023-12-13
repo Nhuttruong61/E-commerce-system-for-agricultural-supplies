@@ -1,4 +1,19 @@
+import { getUser } from "../../service/userService";
 import * as Type from "../Type/Cart";
+
+export const getDataCart = () => async (dispatch) => {
+  try {
+    const res = await getUser();
+    dispatch({
+      type: Type.GET_DATA_CART,
+      data: res.user.cart,
+    });
+  } catch (e) {
+    dispatch({
+      data: null,
+    });
+  }
+};
 
 export const increaseQuantity = (data) => async (dispatch) => {
   dispatch({

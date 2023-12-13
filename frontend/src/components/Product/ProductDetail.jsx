@@ -6,11 +6,12 @@ import { UserOutlined } from "@ant-design/icons";
 import { format } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 import ProductCart from "./ProductCart";
-import { increaseQuantity } from "../../redux/action/cartAction";
+import { getDataCart, increaseQuantity } from "../../redux/action/cartAction";
 import { toast } from "react-toastify";
 import Zoom from "../Zoom";
 import { isNotExpired } from "../../until";
 import { useNavigate } from "react-router-dom";
+import * as userService from "../../service/userService";
 function ProductDetail(id) {
   const { data } = useSelector((state) => state.product);
   const dataEvent = useSelector((state) => state.event);
@@ -81,7 +82,53 @@ function ProductDetail(id) {
     const filteredItems = cart?.filter((item) => item._id === _id);
     setCheckQuantity(filteredItems);
   }, [cart, _id]);
-  const handleAddToCart = () => {
+  // const handleAddToCart = () => {
+  //   if (!isAuthenticated) {
+  //     localStorage.setItem("redirectPath", window.location.pathname);
+  //     navigate("/login");
+  //   } else {
+  //     if (productData?.quantity < 1) {
+  //       toast.warning("Sản phẩm tạm hết hàng");
+  //     } else {
+  //       if (quantity > 0) {
+  //         dispatch(
+  //           increaseQuantity({
+  //             _id: productData?._id,
+  //             name: productData?.name,
+  //             description: productData?.description,
+  //             price: productPrice,
+  //             wholesalePrice: productPriceWholesalePrice,
+  //             disCount: productData?.distCount,
+  //             gifts: productData?.gifts,
+  //             weight: productData?.weight,
+  //             image: productData?.images[0].url,
+  //             quantityProduct: productData?.quantity,
+  //             receipt: productData?.receipt,
+  //             quantity,
+  //           })
+  //         );
+  //         if (
+  //           checkQuantity &&
+  //           checkQuantity.length > 0 &&
+  //           checkQuantity[0].quantity + quantity >
+  //             checkQuantity[0].quantityProduct
+  //         ) {
+  //           const quantity =
+  //             checkQuantity[0].quantityProduct - checkQuantity[0].quantity;
+  //           if (quantity > 0) {
+  //             toast.warning(`Bạn chỉ có thể thêm tối đa ${quantity} sản phẩm`);
+  //             setQuantity(quantity);
+  //           } else {
+  //             toast.warning("Đã đạt số lượng tối đa");
+  //           }
+  //         } else {
+  //           toast.success("Thêm sản phẩm thành công");
+  //         }
+  //       }
+  //     }
+  //   }
+  // };
+  const handleAddToCart = async () => {
     if (!isAuthenticated) {
       localStorage.setItem("redirectPath", window.location.pathname);
       navigate("/login");
@@ -90,22 +137,25 @@ function ProductDetail(id) {
         toast.warning("Sản phẩm tạm hết hàng");
       } else {
         if (quantity > 0) {
-          dispatch(
-            increaseQuantity({
-              _id: productData?._id,
-              name: productData?.name,
-              description: productData?.description,
-              price: productPrice,
-              wholesalePrice: productPriceWholesalePrice,
-              disCount: productData?.distCount,
-              gifts: productData?.gifts,
-              weight: productData?.weight,
-              image: productData?.images[0].url,
-              quantityProduct: productData?.quantity,
-              receipt: productData?.receipt,
-              quantity,
-            })
-          );
+          const data = {
+            _id: productData?._id,
+            name: productData?.name,
+            description: productData?.description,
+            price: productPrice,
+            wholesalePrice: productPriceWholesalePrice,
+            disCount: productData?.distCount,
+            gifts: productData?.gifts,
+            weight: productData?.weight,
+            image: productData?.images[0].url,
+            quantityProduct: productData?.quantity,
+            receipt: productData?.receipt,
+            quantity,
+          };
+          const res = await userService.addProductToCart(account._id, { data });
+          if (res.success) {
+            toast.success("Thêm sản phẩm thành công");
+            dispatch(getDataCart());
+          }
           if (
             checkQuantity &&
             checkQuantity.length > 0 &&
@@ -120,8 +170,6 @@ function ProductDetail(id) {
             } else {
               toast.warning("Đã đạt số lượng tối đa");
             }
-          } else {
-            toast.success("Thêm sản phẩm thành công");
           }
         }
       }

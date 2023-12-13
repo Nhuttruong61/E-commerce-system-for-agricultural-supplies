@@ -42,7 +42,7 @@ function LoginPage() {
           dispatch(getUser());
         }
       } catch (err) {
-        if (err.response.status === 400) {
+        if (err?.response?.status === 400) {
           toast.error("Tài khoản hoặc mật khẩu không chính xác!");
         }
       } finally {

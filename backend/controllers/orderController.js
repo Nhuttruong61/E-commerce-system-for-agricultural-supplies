@@ -16,7 +16,7 @@ const createOrder = catchAsyncErrors(async (req, res, next) => {
       userData.voucher = userData.voucher.filter(
         (item) => item._id !== coupons._id
       );
-
+      userData.cart = [];
       await userData.save();
     }
     const order = await Order.create({
