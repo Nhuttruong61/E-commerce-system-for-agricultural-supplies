@@ -7,7 +7,7 @@ import socketIO from "socket.io-client";
 import * as MessageService from "../../service/messageService";
 import imageCompression from "browser-image-compression";
 import InboxForm from "./InboxForm";
-const ENDPOINT = "http://localhost:8000/";
+const ENDPOINT = "https://server-chat-nhuttruong61.vercel.app";
 const socketId = socketIO(ENDPOINT, {
   transport: ["websocket"],
   withCredentials: true,

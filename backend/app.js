@@ -5,11 +5,15 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: [
+    "https://e-commerce-system-for-agricultural-supplies.vercel.app",
+    "http://localhost:3000",
+  ],
   credentials: true,
   preflightContinue: false,
   optionsSuccessStatus: 204,
 };
+
 app.use(cors(corsOptions));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
