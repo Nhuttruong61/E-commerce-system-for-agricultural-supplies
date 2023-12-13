@@ -4,9 +4,6 @@
     "routes": [
       { "src": "/api/v2/(.*)", "dest": "backend/server.js" },
       { "src": "/(.*)", "dest": "backend/server.js" }
-    ],
-    "env": {
-      "NODE_ENV": "production"
-    }
+    ]
   }
   
