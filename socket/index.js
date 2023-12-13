@@ -4,12 +4,12 @@ const express = require("express");
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server, {
-  origin: [
-    "https://e-commerce-system-for-agricultural-supplies.vercel.app",
-    "http://localhost:3000",
-  ],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
+  cors: {
+    origin:
+      "https://e-commerce-system-for-agricultural-supp-git-7f5d5f-nhuttruong61.vercel.app",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
 });
 
 require("dotenv").config({

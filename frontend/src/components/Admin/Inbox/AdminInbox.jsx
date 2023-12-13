@@ -11,7 +11,6 @@ const socketId = socketIO(ENDPOINT, {
   transport: ["websocket"],
   withCredentials: true,
 });
-
 function AdminInbox() {
   const { account } = useSelector((state) => state.user);
   const [convertion, setConvertion] = useState([]);
