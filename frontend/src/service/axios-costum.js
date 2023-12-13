@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8080/api/v2",
+  baseURL: "https://server-ecommerce-p2qi.onrender.com/api/v2",
 });
 
 // Add a response interceptor
