@@ -43,7 +43,9 @@ function LoginPage() {
         }
       } catch (err) {
         if (err?.response?.status === 400) {
-          toast.error("Tài khoản hoặc mật khẩu không chính xác!");
+          toast.error("Tài khoản  không chính xác!");
+        } else if (err?.response?.status === 401) {
+          toast.error("Mật khẩu không chính xác!");
         }
       } finally {
         setIsLoading(false);

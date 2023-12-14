@@ -21,7 +21,7 @@ const createUser = catchAsyncErrors(async (req, res, next) => {
       phoneNumber: phoneNumber,
     };
     const activationToken = createActivationToken(user);
-    const activationUrl = `http://localhost:3000/activation/${activationToken}`;
+    const activationUrl = `https://e-commerce-system-for-agricultural-supplies.vercel.app/activation/${activationToken}`;
     try {
       await sendMail.sendMail({
         email: user.email,
@@ -90,7 +90,7 @@ const createAccountBussenes = catchAsyncErrors(async (req, res, next) => {
       tax: tax,
     };
     const activationToken = createActivationToken(user);
-    const activationUrl = `http://localhost:3000/activation/${activationToken}`;
+    const activationUrl = `https://e-commerce-system-for-agricultural-supplies.vercel.app/activation/${activationToken}`;
     try {
       await sendMail({
         email: user.email,
@@ -119,6 +119,10 @@ const loginUser = catchAsyncErrors(async (req, res, next) => {
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
       return next(new ErrorHandler("User doesn't exists!", 400));
+    }
+    const isPasswordValid = bcrypt.compareSync(password, user.password);
+    if (!isPasswordValid) {
+      return next(new ErrorHandler("Password doesn't exists!", 401));
     }
     sendToken(user, 201, res);
   } catch (err) {
@@ -391,7 +395,7 @@ const deleteAddress = catchAsyncErrors(async (req, res, next) => {
 
 const sendResetEmail = async (user) => {
   const resetToken = createResetToken(user);
-  const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+  const resetUrl = `https://e-commerce-system-for-agricultural-supplies.vercel.app/reset-password/${resetToken}`;
 
   try {
     await sendMail.sendMail({
