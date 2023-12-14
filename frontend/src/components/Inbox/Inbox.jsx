@@ -7,7 +7,7 @@ import socketIO from "socket.io-client";
 import * as MessageService from "../../service/messageService";
 import imageCompression from "browser-image-compression";
 import InboxForm from "./InboxForm";
-const ENDPOINT = "https://server-chat-4n8od2dmt-nhuttruong61.vercel.app/";
+const ENDPOINT = "https://server-chat-j4djwbs4h-nhuttruong61.vercel.app";
 const socketId = socketIO(ENDPOINT, {
   transport: ["websocket"],
   withCredentials: true,
