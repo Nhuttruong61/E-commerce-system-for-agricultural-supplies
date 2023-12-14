@@ -10,6 +10,7 @@ const io = socketIO(server, {
       "http://localhost:3000",
     ],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
     preflightContinue: false,
     optionsSuccessStatus: 204,
     allowedHeaders: ["Content-Type", "Authorization"],
