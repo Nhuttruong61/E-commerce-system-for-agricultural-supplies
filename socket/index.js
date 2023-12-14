@@ -6,7 +6,7 @@ const server = http.createServer(app);
 const io = socketIO(server, {
   cors: {
     origin: [
-      "https://e-commerce-system-for-agricultural-supp-git-7f5d5f-nhuttruong61.vercel.app",
+      "https://e-commerce-system-for-agricultural-supplies.vercel.app",
       "http://localhost:3000",
     ],
     credentials: true,
