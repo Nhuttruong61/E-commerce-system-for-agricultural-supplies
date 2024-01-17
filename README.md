@@ -61,3 +61,7 @@ VNP_API_URL=
 ## Demo
 
 https://e-commerce-system-for-agricultural-supplies.vercel.app/
+
+## Aucount test
+email: user@gmail.com
+password: 123456
