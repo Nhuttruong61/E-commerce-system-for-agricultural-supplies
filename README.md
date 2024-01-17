@@ -62,6 +62,6 @@ VNP_API_URL=
 
 https://e-commerce-system-for-agricultural-supplies.vercel.app/
 
-## Aucount test
+## Account test
 email: user@gmail.com
 password: 123456
