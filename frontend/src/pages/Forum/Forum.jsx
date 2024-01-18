@@ -7,11 +7,9 @@ import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { Button, Modal, Pagination } from "antd";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllQuestionRd } from "../../redux/action/questionAction";
+import { useSelector } from "react-redux";
 
 export default function Forum() {
-  const questionData = useSelector((state) => state.question);
   const { isAuthenticated } = useSelector((state) => state.user);
   const [dataQuetion, setDataQuetion] = useState(null);
   const [data, setData] = useState(null);
@@ -24,19 +22,27 @@ export default function Forum() {
   const [dataSort, setDataSort] = useState(null);
   const itemsPerPage = 10;
   const [images, setImages] = useState([]);
+  const [questions, setQuestions] = useState([]);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const fetchAllQuestion = async () => {
+    try {
+      setIsLoading(true);
+      const res = await questionService.getAllQuestion();
+      setIsLoading(false);
+      setQuestions(res.question);
+    } catch (err) {
+      setIsLoading(false);
+    }
+  };
   useEffect(() => {
-    dispatch(getAllQuestionRd());
+    fetchAllQuestion();
   }, []);
   useEffect(() => {
-    setIsLoading(true);
-    if (questionData && questionData?.data?.length > 0) {
-      const res = questionData.data;
+    if (questions && questions?.length > 0) {
+      const res = questions;
       setDataQuetion(res);
     }
-    setIsLoading(false);
-  }, [questionData]);
+  }, [questions]);
   useEffect(() => {
     if (dataQuetion && dataQuetion.length > 0) {
       const data = dataQuetion?.sort((a, b) => {
@@ -74,7 +80,7 @@ export default function Forum() {
       const res = await questionService.createQuestion(data);
       setIsLoading(false);
       if (res?.success) {
-        dispatch(getAllQuestionRd());
+        fetchAllQuestion();
         toast.success("Xin chờ admin kiểm duyệt");
         setQuestionTitle("");
         setQuestionContent("");

@@ -6,12 +6,10 @@ import storage from "redux-persist/lib/storage";
 import { userReducer } from "./reducer/userReducer";
 import { categoryReducer } from "./reducer/categoryReducer";
 import { productReducer } from "./reducer/productReducer";
-import { questionReducer } from "./reducer/questionsReducer";
 import { eventReducer } from "./reducer/eventReducer";
 import { orderReducer } from "./reducer/orderReducer";
 import { cartReducer } from "./reducer/cartReducer";
 import { feeReducer } from "./reducer/feeReducer";
-import { blogReducer } from "./reducer/blogReducer";
 
 const persistConfig = {
   key: "root",
@@ -23,12 +21,10 @@ const rootReducer = combineReducers({
   user: userReducer,
   category: categoryReducer,
   product: productReducer,
-  question: questionReducer,
   event: eventReducer,
   cart: cartReducer,
   order: orderReducer,
   fee: feeReducer,
-  blog: blogReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

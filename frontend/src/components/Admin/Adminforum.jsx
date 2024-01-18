@@ -2,14 +2,11 @@ import React, { memo, useEffect, useRef, useState } from "react";
 import TableComponent from "../Table";
 import { Button, Modal, Select, Space } from "antd";
 import { SearchOutlined, DeleteOutlined } from "@ant-design/icons";
-import { useDispatch, useSelector } from "react-redux";
 import * as QuestionService from "../../service/questionService";
 import { toast } from "react-toastify";
-import { getAllQuestionRd } from "../../redux/action/questionAction";
+
 import { EyeOutlined } from "@ant-design/icons";
 function AdminForum() {
-  const questions = useSelector((state) => state.question);
-  const dispatch = useDispatch();
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,9 +14,15 @@ function AdminForum() {
   const [idDelete, setIdDelete] = useState("");
   const [isShowModalInfor, setIsShowModalInfor] = useState(false);
   const [dataInforQuestion, setdataInforQuestion] = useState({});
+  const [questions, setQuestions] = useState([]);
+  const fetchAllQuestion = async () => {
+    const res = await QuestionService.getAllQuestion();
+    setQuestions(res.question);
+  };
+
   useEffect(() => {
     setIsLoading(true);
-    dispatch(getAllQuestionRd());
+    fetchAllQuestion();
     setIsLoading(false);
   }, []);
   const renderAction = (text, item) => {
@@ -61,7 +64,7 @@ function AdminForum() {
     };
     const res = await QuestionService.confirmQuestion(id, data);
     if (res.success) {
-      dispatch(getAllQuestionRd());
+      fetchAllQuestion();
     }
     setIsLoading(false);
   };
@@ -212,8 +215,8 @@ function AdminForum() {
     },
   ];
   let dataTable = [];
-  if (questions && questions.data?.length > 0) {
-    dataTable = questions.data.map((question, index) => {
+  if (questions && questions.length > 0) {
+    dataTable = questions.map((question, index) => {
       return {
         ...question,
         key: question._id,
@@ -231,7 +234,7 @@ function AdminForum() {
     setIsLoading(true);
     const res = await QuestionService.deleteQuestionAdmin(idDelete);
     if (res.success) {
-      dispatch(getAllQuestionRd());
+      fetchAllQuestion();
       toast.success("Xóa bài đăng thành công");
     } else {
       toast.error("Đã có lỗi xảy ra");

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as questionService from "../../service/questionService";
 import { format } from "date-fns";
@@ -7,7 +7,6 @@ import { Button, Modal } from "antd";
 import Loading from "../../components/Loading";
 import { UserOutlined } from "@ant-design/icons";
 import { BsThreeDots } from "react-icons/bs";
-import { getAllQuestionRd } from "../../redux/action/questionAction";
 import { toast } from "react-toastify";
 import { AiOutlineSend } from "react-icons/ai";
 import moment from "moment/moment";
@@ -151,7 +150,6 @@ function ForumInfomation() {
     setIsLoading(true);
     const res = await questionService.deleteQuestion(idQuestion);
     if (res.success) {
-      dispatch(getAllQuestionRd());
       toast.success("Xóa bài đăng thành công");
     } else {
       toast.error("Có lỗi xãy ra");

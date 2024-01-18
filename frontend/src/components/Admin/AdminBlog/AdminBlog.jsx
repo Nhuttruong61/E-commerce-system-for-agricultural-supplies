@@ -1,14 +1,10 @@
 import React, { memo, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllBlog } from "../../../redux/action/blog";
 import { SearchOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { Button, Modal, Space } from "antd";
 import TableComponent from "../../Table";
 import * as BlogService from "../../../service/blogService.js";
 import { toast } from "react-toastify";
 function AdminBlog() {
-  const blogs = useSelector((state) => state.blog);
-  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [idBlog, setIdBlog] = useState("");
@@ -16,9 +12,21 @@ function AdminBlog() {
   const [searchedColumn, setSearchedColumn] = useState("");
   const [showModalSeeMoreBlog, setShowModalSeeMoreBlog] = useState(false);
   const [dataSeeMore, setDataSeeMore] = useState(null);
+  const [blogs, setBlogs] = useState([]);
+
+  const fetchBlog = async () => {
+    try {
+      setIsLoading(true);
+      const res = await BlogService.getAllBlog();
+      setBlogs(res.blog);
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+    }
+  };
   useEffect(() => {
     setIsLoading(true);
-    dispatch(getAllBlog());
+    fetchBlog();
     setIsLoading(false);
   }, []);
   const renderAction = (text, item) => {
@@ -160,8 +168,8 @@ function AdminBlog() {
     },
   ];
   let dataTable = [];
-  if (blogs && blogs.data?.length > 0) {
-    dataTable = blogs.data.map((blog, index) => {
+  if (blogs && blogs.length > 0) {
+    dataTable = blogs.map((blog, index) => {
       return {
         ...blog,
         key: index,
@@ -191,7 +199,7 @@ function AdminBlog() {
       setIsLoading(false);
       if (res.status === "success") {
         toast.success("Xóa bài đăng thành công");
-        dispatch(getAllBlog());
+        fetchBlog();
       }
     } catch (error) {
       setIsLoading(false);

@@ -1,28 +1,34 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../../components/Layout/Footer";
 import Loading from "../../components/Loading";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllBlog } from "../../redux/action/blog";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { getAllBlog } from "../../service/blogService";
 function BlogPage() {
-  const blogs = useSelector((state) => state.blog);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [dataBlogs, setDataBlogs] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [blogs, setBlogs] = useState([]);
+  const fetchBlog = async () => {
+    try {
+      setIsLoading(true);
+      const res = await getAllBlog();
+      setBlogs(res.blog);
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+    }
+  };
   useEffect(() => {
-    setIsLoading(true);
-    dispatch(getAllBlog());
-    setIsLoading(false);
+    fetchBlog();
   }, []);
 
   const handleNavigate = (id) => {
     navigate(`/blog/${id}`);
   };
   useEffect(() => {
-    if (blogs?.data?.length > 0) {
-      const res = blogs?.data.sort((a, b) => {
+    if (blogs?.length > 0) {
+      const res = blogs?.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);
       });
       setDataBlogs(res);

@@ -1,14 +1,23 @@
 import React, { memo, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllBlog } from "../../redux/action/blog";
+
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { getAllBlog } from "../../service/blogService";
 
 function News() {
-  const { data } = useSelector((state) => state.blog);
+  const [isLoading, setIsLoading] = useState(false);
   const [dataBog, setDataBlog] = useState([]);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [data, setData] = useState([]);
+
+  const fetchBlog = async () => {
+    try {
+      setIsLoading(true);
+      const res = await getAllBlog();
+      setData(res.blog);
+      setIsLoading(false);
+    } catch (err) {}
+  };
   useEffect(() => {
     const res = data?.sort((a, b) => {
       return new Date(b.createdAt) - new Date(a.createdAt);
@@ -17,7 +26,7 @@ function News() {
     setDataBlog(fillters);
   }, [data]);
   useEffect(() => {
-    dispatch(getAllBlog());
+    fetchBlog();
   }, []);
   return (
     <div className=" flex justify-center text-center items-center flex-col md:px-[10%] py-2">

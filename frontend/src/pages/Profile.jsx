@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import ProfileSideBar from "../components/profile/ProfileSideBar";
 import ProfileContent from "../components/profile/ProfileContent";
 import Footer from "../components/Layout/Footer";
@@ -11,7 +11,7 @@ function Profile() {
   const [active, setActive] = useState(numberValue ? numberValue : 1);
   const { isAuthenticated } = useSelector((state) => state.user);
   const navigate = useNavigate();
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isAuthenticated) {
       navigate("/login");
     }

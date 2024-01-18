@@ -229,7 +229,7 @@ function Header() {
                     className="cursor-pointer "
                     onClick={() => setIsShownInUser(!ishownInUser)}
                   >
-                    <p>{user.account.name}</p>
+                    <p>{user?.account?.name}</p>
                   </div>
                 ) : (
                   <div className="md:text-[0.8rem]  ">
