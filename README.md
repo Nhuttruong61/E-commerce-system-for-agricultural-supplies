@@ -4,7 +4,7 @@
 
 ## Authors
 
-- [@nhutruong61]([https://www.github.com/thuanphatt](https://github.com/Nhuttruong61))
+- [@nhutruong61]((https://github.com/Nhuttruong61))
 
 
 ## Tech Stack
