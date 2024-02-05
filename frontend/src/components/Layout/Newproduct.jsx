@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import Slick from "../Slick";
+import Slick from "../Effect/Slick";
 import { isNotExpired } from "../../until";
 import ProductCart from "../Product/ProductCart";
 function Newproduct() {

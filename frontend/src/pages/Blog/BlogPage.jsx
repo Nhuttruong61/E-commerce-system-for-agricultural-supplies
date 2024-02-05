@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../../components/Layout/Footer";
-import Loading from "../../components/Loading";
+import Loading from "../../components/common/Loading";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { getAllBlog } from "../../service/blogService";

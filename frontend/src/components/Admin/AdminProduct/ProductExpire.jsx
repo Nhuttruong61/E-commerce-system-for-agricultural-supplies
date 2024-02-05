@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useRef, useState } from "react";
-import TableComponent from "../../Table";
+import TableComponent from "../../common/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Modal, Space } from "antd";
 import { SearchOutlined, EyeOutlined } from "@ant-design/icons";

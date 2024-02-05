@@ -1,11 +1,11 @@
 import { memo, useState } from "react";
 import FormAccount from "../../components/FormAccount";
-import Input from "../../components/Input";
+import Input from "../../components/Input/Input";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Userservice from "../../service/userService";
-import Loading from "../../components/Loading";
+import Loading from "../../components/common/Loading";
 import { BsArrowLeft } from "react-icons/bs";
 
 function RegisterBussiness() {

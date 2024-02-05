@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserOutlined } from "@ant-design/icons";
 import { updateAUser } from "../../service/userService";
 import { getUser, updateUser } from "../../redux/action/userAction";
-import Loading from "../Loading";
+import Loading from "../common/Loading";
 import { toast } from "react-toastify";
 import { handleOnchangeImage } from "../../until";
 function Profile() {

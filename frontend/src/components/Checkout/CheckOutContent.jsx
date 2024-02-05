@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { updateAddress } from "../../service/userService";
 import { getUser } from "../../redux/action/userAction";
 import { getAllFee } from "../../redux/action/feeAction";
-import Loading from "../Loading";
+import Loading from "../common/Loading";
 import * as OrderService from "../../service/orderService";
 import * as PaymentService from "../../service/payment";
 import { useNavigate } from "react-router-dom";

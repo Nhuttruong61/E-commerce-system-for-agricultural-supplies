@@ -10,7 +10,7 @@ export const getDataCart = () => async (dispatch) => {
     });
   } catch (e) {
     dispatch({
-      data: null,
+      data: [],
     });
   }
 };

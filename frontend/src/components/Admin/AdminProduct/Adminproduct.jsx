@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useRef, useState } from "react";
-import TableComponent from "../../Table";
+import TableComponent from "../../common/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Modal, Space } from "antd";
 import {
@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import { getAllProductRd } from "../../../redux/action/productAction";
 import { CSVLink } from "react-csv";
 import { CiExport } from "react-icons/ci";
-import Editor from "../../Editor";
+import Editor from "../../Input/Editor";
 import { handleOnchangeImage } from "../../../until";
 import moment from "moment";
 import { getAReceipt, getAllReceipt } from "../../../service/receiptService";

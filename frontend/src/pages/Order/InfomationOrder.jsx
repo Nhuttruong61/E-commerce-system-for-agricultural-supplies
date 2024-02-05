@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as OrderService from "../../service/orderService";
-import Loading from "../../components/Loading";
+import Loading from "../../components/common/Loading";
 import Footer from "../../components/Layout/Footer";
 import { Button, Modal, Rate } from "antd";
 import TextArea from "antd/es/input/TextArea";

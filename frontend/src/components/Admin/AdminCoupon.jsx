@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as CouponService from "../../service/couponService";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import TableComponent from "../Table";
+import TableComponent from "../common/Table";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
 import { toast } from "react-toastify";

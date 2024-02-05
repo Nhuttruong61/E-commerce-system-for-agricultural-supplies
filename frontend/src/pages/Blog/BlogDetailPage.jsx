@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as BlogService from "../../service/blogService";
-import Loading from "../../components/Loading";
+import Loading from "../../components/common/Loading";
 import Footer from "../../components/Layout/Footer";
 function BlogDetailPage() {
   const { id } = useParams();

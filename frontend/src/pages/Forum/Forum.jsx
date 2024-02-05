@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as questionService from "../../service/questionService";
-import Loading from "../../components/Loading";
+import Loading from "../../components/common/Loading";
 import Footer from "../../components/Layout/Footer";
 import { MessageFilled } from "@ant-design/icons";
 import { format } from "date-fns";

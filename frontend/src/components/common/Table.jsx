@@ -1,6 +1,6 @@
 import { Table } from "antd";
 import React, { memo } from "react";
-import Loading from "../components/Loading";
+import Loading from "../common/Loading";
 
 const TableComponent = (props) => {
   const { data = [], isLoading = false, columns = [] } = props;

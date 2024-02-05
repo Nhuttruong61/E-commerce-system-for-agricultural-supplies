@@ -1,11 +1,11 @@
 import { memo, useEffect, useState } from "react";
 import FormAccount from "../../components/FormAccount";
-import Input from "../../components/Input";
+import Input from "../../components/Input/Input";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import * as Userservice from "../../service/userService";
 import { toast } from "react-toastify";
-import Loading from "../../components/Loading";
+import Loading from "../../components/common/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../redux/action/userAction";
 import { BsArrowLeft } from "react-icons/bs";

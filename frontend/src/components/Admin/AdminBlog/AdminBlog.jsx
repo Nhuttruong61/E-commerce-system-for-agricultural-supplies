@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useRef, useState } from "react";
 import { SearchOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { Button, Modal, Space } from "antd";
-import TableComponent from "../../Table";
+import TableComponent from "../../common/Table.jsx";
 import * as BlogService from "../../../service/blogService.js";
 import { toast } from "react-toastify";
 function AdminBlog() {

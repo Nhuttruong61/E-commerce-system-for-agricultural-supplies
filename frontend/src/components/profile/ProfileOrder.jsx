@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUserOrder } from "../../redux/action/orderAction";
 import { ArrowRightOutlined } from "@ant-design/icons";
-import TableComponent from "../Table";
+import TableComponent from "../common/Table";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 function ProfileOrder() {

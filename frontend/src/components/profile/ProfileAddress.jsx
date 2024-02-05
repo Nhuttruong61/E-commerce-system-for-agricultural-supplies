@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateAddress } from "../../service/userService";
 import { getUser } from "../../redux/action/userAction";
-import Loading from "../Loading";
+import Loading from "../common/Loading";
 import { toast } from "react-toastify";
 
 function Address() {

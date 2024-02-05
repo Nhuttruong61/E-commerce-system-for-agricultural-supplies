@@ -1,11 +1,11 @@
 import { useState } from "react";
 import FormAccount from "../../components/FormAccount";
-import Input from "../../components/Input";
+import Input from "../../components/Input/Input";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Userservice from "../../service/userService";
 import { toast } from "react-toastify";
-import Loading from "../../components/Loading";
+import Loading from "../../components/common/Loading";
 
 function ResetPassword() {
   const { resetToken } = useParams();

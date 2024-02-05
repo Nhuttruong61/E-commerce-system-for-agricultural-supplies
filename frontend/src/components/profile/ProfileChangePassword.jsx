@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Loading from "../Loading";
+import Loading from "../common/Loading";
 import { chagePassword } from "../../service/userService";
 import { toast } from "react-toastify";
 function ProfileChangePassword() {

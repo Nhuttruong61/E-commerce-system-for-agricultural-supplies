@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useRef, useState } from "react";
 import * as OrderSerVice from "../../service/orderService";
-import TableComponent from "../Table";
+import TableComponent from "../common/Table";
 import { Button, Modal, Select, Space } from "antd";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -14,7 +14,7 @@ import {
 import { toast } from "react-toastify";
 import PieChartComponent from "../chart/PieChartComponet";
 import moment from "moment";
-import Loading from "../Loading";
+import Loading from "../common/Loading";
 
 function AdminOrder() {
   const [isLoading, setIsLoading] = useState(false);

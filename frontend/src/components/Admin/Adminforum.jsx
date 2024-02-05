@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useRef, useState } from "react";
-import TableComponent from "../Table";
+import TableComponent from "../common/Table";
 import { Button, Modal, Select, Space } from "antd";
 import { SearchOutlined, DeleteOutlined } from "@ant-design/icons";
 import * as QuestionService from "../../service/questionService";

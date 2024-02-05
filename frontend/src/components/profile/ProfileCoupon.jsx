@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from "react";
-import Loading from "../Loading";
+import Loading from "../common/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { getCoupouns } from "../../service/couponService";
 import voucher from "../.././assets/image/mgg.png";

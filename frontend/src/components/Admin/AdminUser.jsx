@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useRef, useState } from "react";
 import * as UserSerVice from "../../service/userService";
-import TableComponent from "../Table";
+import TableComponent from "../common/Table";
 import { Button, Modal, Space } from "antd";
 import {
   SearchOutlined,

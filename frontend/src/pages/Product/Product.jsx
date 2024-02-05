@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import ProductCart from "../../components/Product/ProductCart";
-import Loading from "../../components/Loading";
+import Loading from "../../components/common/Loading";
 import Footer from "../../components/Layout/Footer";
 import { Pagination } from "antd";
 import Inbox from "../../components/Inbox/Inbox";

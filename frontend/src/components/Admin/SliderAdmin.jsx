@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from "react";
-import TableComponent from "../Table";
+import TableComponent from "../common/Table";
 import { Modal } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { AiOutlineCloudUpload } from "react-icons/ai";
