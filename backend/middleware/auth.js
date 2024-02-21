@@ -1,23 +1,27 @@
 const ErrorHandler = require("../utils/ErrorHandler");
 const catchAsyncErrors = require("./catchAsyncErrors");
 const jwt = require("jsonwebtoken");
-const User = require("../model/user");
 
-exports.isAuthenticated = catchAsyncErrors(async (req, res, next) => {
-  const { token } = req.cookies;
-  if (!token) {
+exports.isAuthenticated = catchAsyncErrors((req, res, next) => {
+  const token = req.headers.authorization;
+  const rawToken = token.split(" ")[1];
+  if (!rawToken) {
     return next(ErrorHandler("Please login to coutinue"), 401);
   }
-  const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-  req.user = await User.findById(decoded.id);
+  jwt.verify(rawToken, process.env.JWT_SECRET_KEY, (err, decoded) => {
+    if (err) {
+      return next(ErrorHandler("Token is invalid"), 401);
+    }
+    req.user = decoded;
+  });
   next();
 });
 
-exports.isAdmin = (...roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return next(new ErrorHandler("You are not an admin", 403));
-    }
-    next(); 
-  };
-};
+exports.isAdmin = catchAsyncErrors((req, res, next) => {
+  const { role } = req.user;
+  if (role !== "admin") {
+    return next(ErrorHandler("Please login to coutinue"), 401);
+  }
+
+  next();
+});

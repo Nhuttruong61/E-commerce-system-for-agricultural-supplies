@@ -145,23 +145,6 @@ const getUser = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(err.message, 500));
   }
 });
-//logout user
-const logOut = catchAsyncErrors(async (req, res, next) => {
-  try {
-    res.cookie("token", null, {
-      express: new Date(Date.now()),
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
-    });
-    res.status(201).json({
-      success: true,
-      message: "Logout successfully",
-    });
-  } catch (err) {
-    return next(new ErrorHandler(err.message, 500));
-  }
-});
 
 //update user
 const updateUser = catchAsyncErrors(async (req, res, next) => {
@@ -562,7 +545,6 @@ module.exports = {
   activation,
   loginUser,
   getUser,
-  logOut,
   updateUser,
   changePassword,
   getAllUsers,

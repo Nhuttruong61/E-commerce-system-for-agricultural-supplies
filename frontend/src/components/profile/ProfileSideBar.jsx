@@ -2,13 +2,16 @@ import React, { memo } from "react";
 import { UserOutlined, HomeOutlined, CloseOutlined } from "@ant-design/icons";
 import { BsBox } from "react-icons/bs";
 import { useDispatch } from "react-redux";
-import { LogoutUser } from "../../redux/action/userAction";
 import { useNavigate } from "react-router-dom";
 import { RiCoupon2Line, RiLockPasswordLine } from "react-icons/ri";
+import Cookies from "js-cookie";
+import { LogoutUser } from "../../redux/action/userAction";
+
 function ProfileSideBar({ setActive, active }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = async () => {
+    await Cookies.remove("accesstoken");
     await dispatch(LogoutUser());
     navigate("/login");
   };

@@ -7,7 +7,7 @@ router.post("/create-new-convention", convertionController.createConversation);
 router.get(
   "/get-all-convention/:id",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   convertionController.getAllConversations
 );
 module.exports = router;

@@ -9,30 +9,20 @@ import Outstanding from "../components/Layout/Discount";
 import Inbox from "../components/Inbox/Inbox";
 import Slick from "../components/Effect/Slick";
 import News from "../components/Layout/News";
-import Loading from "../components/common/Loading";
-import { useSelector } from "react-redux";
-function HomePage() {
-  const [checkData, setCheckData] = useState(false);
-  const { data } = useSelector((state) => state.product);
-  useEffect(() => {
-    if (data?.length === 0 || data === undefined) {
-      setCheckData(true);
-    }
-  }, [data]);
 
+function HomePage() {
   return (
     <div className="bg-[#f4f1f4]">
-      <Loading isLoading={checkData}>
-        <SliderComponet />
-        <Slick />
-        <Categories />
-        <Popular />
-        <Newproduct />
-        <Event />
-        <Outstanding />
-        <News />
-        <Inbox />
-      </Loading>
+      <SliderComponet />
+      <Slick />
+      <Categories />
+      <Popular />
+      <Newproduct />
+      <Event />
+      <Outstanding />
+      <News />
+      <Inbox />
+
       <Footer />
     </div>
   );

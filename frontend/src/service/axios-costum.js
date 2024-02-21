@@ -1,20 +1,29 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const instance = axios.create({
   baseURL: "https://server-ecommerce-p2qi.onrender.com/api/v2",
+  // baseURL: "http://localhost:8080/api/v2",
 });
 
-// Add a response interceptor
-instance.interceptors.response.use(
-  function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
-    return response.data ? response.data : { statusCode: response.status };
+// Add a request interceptor
+instance.interceptors.request.use(
+  function (config) {
+    // Lấy token từ cookie
+    let accessToken = Cookies.get("accesstoken");
+
+    // Nếu token tồn tại, thêm nó vào header Authorization
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${JSON.parse(accessToken)}`;
+    }
+
+    return config;
   },
+
   function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
+    // Xử lý lỗi nếu cần
     return Promise.reject(error);
   }
 );
+
 export default instance;

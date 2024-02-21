@@ -1,16 +1,12 @@
 import axios from "./axios-costum";
 
 export const createQuestion = async (data) => {
-  const res = await axios.post("/question/create-question", data, {
-    withCredentials: true,
-  });
-  return res;
+  const res = await axios.post("/question/create-question", data);
+  return res.data;
 };
 export const editQuestion = async (questionId, data) => {
-  const res = await axios.put(`/question/edit-question/${questionId}`, data, {
-    withCredentials: true,
-  });
-  return res;
+  const res = await axios.put(`/question/edit-question/${questionId}`, data);
+  return res.data;
 };
 export const deleteQuestion = async (questionId) => {
   const res = await axios.delete(
@@ -20,15 +16,15 @@ export const deleteQuestion = async (questionId) => {
       withCredentials: true,
     }
   );
-  return res;
+  return res.data;
 };
 export const getAllQuestion = async () => {
   const res = await axios.get("/question/get-all-questions");
-  return res;
+  return res.data;
 };
 export const getAQuestion = async (id) => {
   const res = await axios.get(`/question/get-question/${id}`);
-  return res;
+  return res.data;
 };
 
 export const getComment = async (questionid, commentId) => {
@@ -38,13 +34,11 @@ export const getComment = async (questionid, commentId) => {
       withCredentials: true,
     }
   );
-  return res;
+  return res.data;
 };
 export const createComment = async (questionid, data) => {
-  const res = await axios.post(`/question/create-comment/${questionid}`, data, {
-    withCredentials: true,
-  });
-  return res;
+  const res = await axios.post(`/question/create-comment/${questionid}`, data);
+  return res.data;
 };
 
 export const deleteComment = async (questionid, commentId) => {
@@ -54,7 +48,7 @@ export const deleteComment = async (questionid, commentId) => {
       withCredentials: true,
     }
   );
-  return res;
+  return res.data;
 };
 export const editComment = async (questionid, commentId, data) => {
   const res = await axios.put(
@@ -64,7 +58,7 @@ export const editComment = async (questionid, commentId, data) => {
       withCredentials: true,
     }
   );
-  return res;
+  return res.data;
 };
 export const reportComment = async (questionid, commentId, userid) => {
   const res = await axios.put(
@@ -74,21 +68,17 @@ export const reportComment = async (questionid, commentId, userid) => {
       withCredentials: true,
     }
   );
-  return res;
+  return res.data;
 };
 export const confirmQuestion = async (id, data) => {
-  const res = await axios.put(`/question/confirm-question/${id}`, data, {
-    withCredentials: true,
-  });
-  return res;
+  const res = await axios.put(`/question/confirm-question/${id}`, data);
+  return res.data;
 };
 export const deleteQuestionAdmin = async (id) => {
-  const res = await axios.delete(`/question/delete-question-admin/${id}`, {
-    withCredentials: true,
-  });
-  return res;
+  const res = await axios.delete(`/question/delete-question-admin/${id}`);
+  return res.data;
 };
 export const updateView = async (id) => {
   const res = await axios.put(`/question/updateView/${id}`);
-  return res;
+  return res.data;
 };

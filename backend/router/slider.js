@@ -6,20 +6,20 @@ const { isAuthenticated, isAdmin } = require("../middleware/auth");
 router.post(
   "/create-slider",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   sliderControler.createSlider
 );
 router.put(
   "/update-slider/:id",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   sliderControler.updateSlider
 );
 router.get("/get-all-slider", sliderControler.getAllSlider);
 router.delete(
   "/delete-slider/:id",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   sliderControler.deleteSlider
 );
 

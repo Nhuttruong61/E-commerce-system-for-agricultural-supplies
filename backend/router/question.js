@@ -13,7 +13,7 @@ router.get("/get-question/:id", questionControler.getaQuestion);
 router.put(
   "/confirm-question/:id",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   questionControler.confirmQuestionAdmin
 );
 router.put(
@@ -29,7 +29,7 @@ router.delete(
 router.delete(
   "/delete-question-admin/:id",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   questionControler.deleteQuestionAdmin
 );
 

@@ -8,32 +8,31 @@ router.post("/create-account-bussiness", userControler.createAccountBussenes);
 router.post("/activation", userControler.activation);
 router.post("/login-user", userControler.loginUser);
 router.get("/get-user", isAuthenticated, userControler.getUser);
-router.get("/logout", userControler.logOut);
 router.put("/update-user", isAuthenticated, userControler.updateUser);
 router.put(
   "/update-userId/:id",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   userControler.updateUserId
 );
 router.put(
   "/update-addressId/:id",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   userControler.updateAddressId
 );
 router.put("/change-password", isAuthenticated, userControler.changePassword);
 router.get(
   "/get-all-users",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   userControler.getAllUsers
 );
 router.get("/get-user/:id", isAuthenticated, userControler.getaUser);
 router.delete(
   "/delete/:id",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   userControler.deleteUser
 );
 router.put("/update-address", isAuthenticated, userControler.updateAddress);

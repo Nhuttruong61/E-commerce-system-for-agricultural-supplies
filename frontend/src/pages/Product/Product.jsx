@@ -31,6 +31,7 @@ function Product() {
     from100to500: false,
     over500: false,
   });
+  console.log(products);
   const [initialCheckboxState, setInitialCheckboxState] = useState({
     under100: false,
     from100to500: false,
@@ -44,7 +45,7 @@ function Product() {
       if (products) {
         const res = products.data;
         setIsLoading(false);
-        const unExpiredProducts = res.filter((item) => {
+        const unExpiredProducts = res?.filter((item) => {
           return isNotExpired(new Date(item.expirationDate));
         });
         const filterProductgift = unExpiredProducts
@@ -250,7 +251,7 @@ function Product() {
             </div>
             <div className="w-full py-1">
               <p className="px-2 font-[500]">Loại sản phẩm</p>
-              {category?.data?.categories.map((item) => (
+              {category?.data?.categories?.map((item) => (
                 <div key={item._id} className="flex px-2 py-1">
                   <input
                     type="checkbox"

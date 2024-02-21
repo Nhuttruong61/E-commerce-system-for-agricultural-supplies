@@ -5,7 +5,7 @@ const { isAuthenticated, isAdmin } = require("../middleware/auth");
 router.post(
   "/create-event",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   eventControler.createEvent
 );
 router.get("/get-all-events", eventControler.getAllEvent);

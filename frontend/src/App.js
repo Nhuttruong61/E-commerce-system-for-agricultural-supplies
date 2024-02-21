@@ -11,6 +11,7 @@ import { getUser } from "./redux/action/userAction";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
+    // if()
     dispatch(getUser());
   }, []);
   return (

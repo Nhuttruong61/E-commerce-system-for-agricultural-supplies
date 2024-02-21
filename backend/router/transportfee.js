@@ -11,20 +11,20 @@ const {
 router.post(
   "/create-transport-fee",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   ceatetransportFree
 );
 router.get("/get-transport-fee", getAllTransportFees);
 router.put(
   "/edit-transport-fee/:id",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   editTransportFee
 );
 router.delete(
   "/delete-transport-fee/:id",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   deleteTransportFee
 );
 

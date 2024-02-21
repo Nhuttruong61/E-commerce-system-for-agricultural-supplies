@@ -11,7 +11,6 @@ import {
 import { BsBox } from "react-icons/bs";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { LogoutUser } from "../../redux/action/userAction";
 import DropdownComponet from "../Dropdown";
 import Navbar from "../Navbar";
 import logo from "../../assets/logo/logo.png";
@@ -20,6 +19,9 @@ import { HiOutlineMenu } from "react-icons/hi";
 import { RiCoupon2Line } from "react-icons/ri";
 import { isNotExpired } from "../../until";
 import { getDataCart } from "../../redux/action/cartAction";
+import { getUser } from "../../service/userService";
+import Cookies from "js-cookie";
+import { LogoutUser } from "../../redux/action/userAction";
 function Header() {
   const user = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
@@ -75,6 +77,7 @@ function Header() {
     setSearch("");
   };
   const handleLogout = async () => {
+    await Cookies.remove("accesstoken");
     await dispatch(LogoutUser());
     await setIsShownInUser(false);
     navigate("/login");

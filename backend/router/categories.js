@@ -6,20 +6,20 @@ const { isAuthenticated, isAdmin } = require("../middleware/auth");
 router.post(
   "/create-category",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   categoryControler.createCategory
 );
 router.get("/get-all-categories", categoryControler.getallCategories);
 router.put(
   "/update-category/:id",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   categoryControler.updateCategory
 );
 router.delete(
   "/delete-category/:id",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   categoryControler.deleteCategory
 );
 

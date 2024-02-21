@@ -6,7 +6,7 @@ const { isAuthenticated, isAdmin } = require("../middleware/auth");
 router.post(
   "/create-coupon",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   CouponsController.createCoupons
 );
 

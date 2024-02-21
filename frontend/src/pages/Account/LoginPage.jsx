@@ -9,6 +9,7 @@ import Loading from "../../components/common/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../redux/action/userAction";
 import { BsArrowLeft } from "react-icons/bs";
+import Cookies from "js-cookie";
 function LoginPage() {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.user);
@@ -35,6 +36,9 @@ function LoginPage() {
       try {
         setIsLoading(true);
         const response = await Userservice.LoginService(user);
+        Cookies.set("accesstoken", JSON.stringify(response.token), {
+          expires: null,
+        });
         if (response.success === true) {
           const redirectPath = localStorage.getItem("redirectPath") || "/";
           navigate(redirectPath);

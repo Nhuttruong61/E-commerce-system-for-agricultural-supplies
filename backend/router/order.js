@@ -8,20 +8,20 @@ router.get("/get-order/:id", isAuthenticated, orderControler.getOrder);
 router.get(
   "/get-all-orders",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   orderControler.getAllOrder
 );
 router.put("/cancel-order/:id", isAuthenticated, orderControler.cancelOrder);
 router.put(
   "/update-order-status/:id",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   orderControler.updateOrderStatus
 );
 router.delete(
   "/delete-order/:id",
   isAuthenticated,
-  isAdmin("admin"),
+  isAdmin,
   orderControler.deleteOrder
 );
 module.exports = router;
