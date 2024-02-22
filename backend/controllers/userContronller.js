@@ -61,11 +61,12 @@ const activation = catchAsyncErrors(async (req, res, next) => {
     if (user) {
       return next(new ErrorHandler("User already exists", 400));
     }
+    const hashPassword = bcrypt.hashSync(password, 10);
     user = await User.create({
       name,
       email,
       phoneNumber,
-      password,
+      password: hashPassword,
       tax,
     });
     sendToken(user, 201, res);
@@ -92,7 +93,7 @@ const createAccountBussenes = catchAsyncErrors(async (req, res, next) => {
     const activationToken = createActivationToken(user);
     const activationUrl = `https://e-commerce-system-for-agricultural-supplies.vercel.app/activation/${activationToken}`;
     try {
-      await sendMail({
+      await sendMail.sendMail({
         email: user.email,
         subject: "Active your account",
         message: `Chào bạn ${user.name}, vui lòng nhấn vào link để xác nhận kích hoạt tài khoản: ${activationUrl}`,
