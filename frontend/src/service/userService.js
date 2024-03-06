@@ -22,6 +22,7 @@ export const getUser = async () => {
 
 export const updateAUser = async (user) => {
   const res = await axios.put("/user/update-user", user);
+  console.log(res.data);
   return res.data;
 };
 export const updateUserId = async (id, user) => {
