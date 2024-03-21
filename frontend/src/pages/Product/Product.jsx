@@ -31,7 +31,6 @@ function Product() {
     from100to500: false,
     over500: false,
   });
-  console.log(products);
   const [initialCheckboxState, setInitialCheckboxState] = useState({
     under100: false,
     from100to500: false,

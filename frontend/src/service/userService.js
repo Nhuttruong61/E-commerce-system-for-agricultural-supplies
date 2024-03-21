@@ -22,7 +22,6 @@ export const getUser = async () => {
 
 export const updateAUser = async (user) => {
   const res = await axios.put("/user/update-user", user);
-  console.log(res.data);
   return res.data;
 };
 export const updateUserId = async (id, user) => {
@@ -71,7 +70,7 @@ export const chagePassword = async (data) => {
   return res.data;
 };
 export const addProductToCart = async (id, data) => {
-  const res = axios.put(`/user/add-product/${id}`, data);
+  const res = await axios.put(`/user/add-product/${id}`, data);
   return res.data;
 };
 export const deleteProductToCart = async (id, data) => {

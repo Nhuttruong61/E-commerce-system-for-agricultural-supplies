@@ -36,7 +36,6 @@ function InfomationOrder() {
       setIsLoading(false);
     }
   };
-  console.log(orders);
   useEffect(() => {
     if (id) {
       getOrder();
