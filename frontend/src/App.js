@@ -8,11 +8,12 @@ import routers from "./router";
 import Default from "./components/Default";
 import { useDispatch } from "react-redux";
 import { getUser } from "./redux/action/userAction";
+import { getAllProductRd } from "./redux/action/productAction";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    // if()
     dispatch(getUser());
+    dispatch(getAllProductRd());
   }, []);
   return (
     <div className="App">

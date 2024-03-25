@@ -1,18 +1,13 @@
 import React, { memo, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllProductRd } from "../../redux/action/productAction";
+import { useSelector } from "react-redux";
+
 import ProductCart from "../Product/ProductCart";
 import { isNotExpired } from "../../until";
 function Popular() {
-  const dispatch = useDispatch();
   const productData = useSelector((state) => state.product);
   const { data } = useSelector((state) => state.event);
   const [dataSort, setDataSort] = useState([]);
   const [dataPopular, setDataPopular] = useState([]);
-
-  useEffect(() => {
-    dispatch(getAllProductRd());
-  }, []);
 
   useEffect(() => {
     const allProduct = productData?.data ? [...productData?.data] : [];
