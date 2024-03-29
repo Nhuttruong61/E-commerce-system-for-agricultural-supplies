@@ -7,6 +7,7 @@ import socketIO from "socket.io-client";
 import * as MessageService from "../../service/messageService";
 import imageCompression from "browser-image-compression";
 import InboxForm from "./InboxForm";
+import Swal from "sweetalert2";
 const ENDPOINT = "https://server-chat-ecommerce.onrender.com/";
 const socketId = socketIO(ENDPOINT, {
   transport: ["websocket"],
@@ -126,7 +127,16 @@ function Inbox() {
   };
   const handleMessageSubmit = async () => {
     if (!isAuthenticated) {
-      navigate("/login");
+      Swal.fire({
+        title: "Bạn phải đăng nhập trước khi nhắn tin?",
+        showCancelButton: true,
+        confirmButtonText: "Đăng nhập",
+        cancelButtonText: "Hủy",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
     } else {
       const message = {
         groupTitle: account._id + "64ed97e2a41b317df2d04bbf",
