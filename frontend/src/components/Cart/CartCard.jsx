@@ -44,6 +44,7 @@ function CartCard({ item }) {
   const deteteProductCart = async (item) => {
     try {
       const res = await deleteProductToCart(account._id, { data: item });
+      console.log(res);
       if (res.success) {
         dispatch(getDataCart());
       }

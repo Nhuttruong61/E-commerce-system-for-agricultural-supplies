@@ -125,3 +125,6 @@
   color: black !important;
   border: 1px #ccc solid !important;
 }
+.swal2-styled {
+  background-color: #0e9c49 !important;
+}

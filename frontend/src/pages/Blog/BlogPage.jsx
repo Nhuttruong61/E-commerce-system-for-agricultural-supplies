@@ -45,8 +45,12 @@ function BlogPage() {
                 key={item._id}
                 onClick={() => handleNavigate(item._id)}
               >
-                <div className="md:w-[20%]">
-                  <img src={item?.content[0]?.images.url} alt="" />
+                <div className="md:w-[20%] rounded-sm">
+                  <img
+                    className="rounded-sm"
+                    src={item?.content[0]?.images.url}
+                    alt=""
+                  />
                 </div>
                 <div className="md:w-[80%]  px-2">
                   <p className="font-[600] md:text-[1.8rem] hover:text-[#4D8208]">

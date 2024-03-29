@@ -11,6 +11,7 @@ function Cart({ setOpenCart }) {
     navigate("/checkout");
     setOpenCart(false);
   };
+  console.log(cart);
   return (
     <div
       className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-20"

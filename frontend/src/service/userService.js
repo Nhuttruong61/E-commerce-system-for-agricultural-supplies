@@ -74,6 +74,6 @@ export const addProductToCart = async (id, data) => {
   return res.data;
 };
 export const deleteProductToCart = async (id, data) => {
-  const res = axios.put(`/user/delete-product-cart/${id}`, data);
+  const res = await axios.put(`/user/delete-product-cart/${id}`, data);
   return res.data;
 };

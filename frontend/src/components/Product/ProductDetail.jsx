@@ -12,6 +12,7 @@ import Zoom from "../Effect/Zoom";
 import { isNotExpired } from "../../until";
 import { useNavigate } from "react-router-dom";
 import * as userService from "../../service/userService";
+import Swal from "sweetalert2";
 function ProductDetail(id) {
   const { data } = useSelector((state) => state.product);
   const dataEvent = useSelector((state) => state.event);
@@ -130,8 +131,17 @@ function ProductDetail(id) {
   // };
   const handleAddToCart = async () => {
     if (!isAuthenticated) {
-      localStorage.setItem("redirectPath", window.location.pathname);
-      navigate("/login");
+      Swal.fire({
+        title: "Bạn phải đăng nhập trước khi thêm sản phẩm vào giỏ hàng?",
+        showCancelButton: true,
+        confirmButtonText: "Đăng nhập",
+        cancelButtonText: "Hủy",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          localStorage.setItem("redirectPath", window.location.pathname);
+          navigate("/login");
+        }
+      });
     } else {
       if (productData?.quantity < 1) {
         toast.warning("Sản phẩm tạm hết hàng");

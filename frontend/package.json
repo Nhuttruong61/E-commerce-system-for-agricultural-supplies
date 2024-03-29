@@ -37,6 +37,7 @@
     "redux-thunk": "^2.4.2",
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^4.7.2",
+    "sweetalert2": "^11.10.7",
     "unidecode": "^0.1.8",
     "web-vitals": "^2.1.4"
   },
