@@ -46,17 +46,17 @@ function BlogPage() {
                 onClick={() => handleNavigate(item._id)}
               >
                 <div className="md:w-[20%] rounded-sm">
-                  <img
-                    className="rounded-sm"
-                    src={item?.content[0]?.images.url}
-                    alt=""
-                  />
+                  <img className="rounded-sm" src={item?.images.url} alt="" />
                 </div>
                 <div className="md:w-[80%]  px-2">
                   <p className="font-[600] md:text-[1.8rem] hover:text-[#4D8208]">
                     {item?.title}
                   </p>
-                  <p>{item.content[0].description[0].substring(0, 200)}...</p>
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: item.content.slice(0, 200),
+                    }}
+                  ></p>
                   <p className=" w-full py-2 text-[#cabebe]">
                     {moment(item.createdAt).fromNow()}
                   </p>

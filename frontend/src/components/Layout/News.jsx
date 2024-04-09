@@ -28,6 +28,7 @@ function News() {
   useEffect(() => {
     fetchBlog();
   }, []);
+  console.log(dataBog);
   return (
     <div className=" flex justify-center text-center items-center flex-col md:px-[10%] py-2">
       <p className="   mt-4 mb-8 font-[700] md:text-[32px] text-[20px]  px-6 text-[#555555] ">
@@ -49,7 +50,7 @@ function News() {
             >
               <div className="w-full flex justify-center md:h-[40vh]">
                 <img
-                  src={item?.content[0].images.url}
+                  src={item?.images.url}
                   alt=""
                   className=" object-cover max-h-[44vh]"
                 />
@@ -59,9 +60,12 @@ function News() {
                   ? item?.title.slice(0, 50) + "..."
                   : item?.title}
               </p>
-              <p className="text-[#aba8a8] py-2">
-                {item?.content[0]?.description[0]?.slice(0, 200) + "..."}
-              </p>
+              <p
+                className="text-[#aba8a8] py-2"
+                dangerouslySetInnerHTML={{
+                  __html: item.content.slice(0, 200) + "...",
+                }}
+              ></p>
               <p className=" bottom-0 py-2 right-0 text-[#ccc] px-2 flex justify-end ">
                 {moment(item?.createdAt).fromNow()}
               </p>

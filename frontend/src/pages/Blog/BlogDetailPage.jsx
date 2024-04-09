@@ -28,33 +28,13 @@ function BlogDetailPage() {
       <div className="w-full min-h-[100vh] bg-[#f4f1f4f4]">
         <div className="md:px-[10%] py-5 px-2">
           <p className="font-[600] md:text-[1.8rem]">{dataBlog?.title}</p>
-          {dataBlog?.content?.map((item) => {
-            return (
-              <div key={item._id}>
-                <p className="font-[600] md:text-[1.2rem] py-2">
-                  {item.heading}
-                </p>
-                <div className=" flex w-full justify-center ">
-                  <img
-                    src={item?.images.url}
-                    alt=""
-                    className="md:w-[420px] md:h-[320px] w-[280px] h-[280px]"
-                  />
-                </div>
-                {item?.description?.map((item) => {
-                  return (
-                    <p
-                      key={item._id}
-                      className="py-1 text-justify md:text-[1rem]"
-                    >
-                      {item}
-                    </p>
-                  );
-                })}
-              </div>
-            );
-          })}
         </div>
+        <div
+          className="px-[10%] text-justify md:text-[1rem] max-w-full imgrender"
+          dangerouslySetInnerHTML={{
+            __html: dataBlog?.content,
+          }}
+        ></div>
       </div>
       <Footer />
     </Loading>

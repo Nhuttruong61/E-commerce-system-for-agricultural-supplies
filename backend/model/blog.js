@@ -1,14 +1,11 @@
 const mongoose = require("mongoose");
 
-const contentSchema = new mongoose.Schema({
-  heading: {
+const blogSchema = new mongoose.Schema({
+  title: {
     type: String,
-    required: [true, "Please enter heading description"],
+    required: [true, "Please enter title name"],
   },
-  description: {
-    type: Array,
-    required: [true, "Please enter description"],
-  },
+  content: { type: Buffer, required: [true, "Please enter title name"] },
   images: {
     public_id: {
       type: String,
@@ -19,14 +16,7 @@ const contentSchema = new mongoose.Schema({
       required: true,
     },
   },
-});
 
-const blogSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: [true, "Please enter title name"],
-  },
-  content: [contentSchema],
   createdAt: {
     type: Date,
     default: Date.now(),

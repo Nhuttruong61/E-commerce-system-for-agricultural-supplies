@@ -2,8 +2,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const instance = axios.create({
-  baseURL: "https://server-ecommerce-p2qi.onrender.com/api/v2",
-  // baseURL: "http://localhost:8080/api/v2",
+  // baseURL: "https://server-ecommerce-p2qi.onrender.com/api/v2",
+  baseURL: "http://localhost:8080/api/v2",
 });
 
 // Add a request interceptor
